@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./assets/material-icons.css">
+    <link rel="stylesheet" type="text/css" href="./assets/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/starbeat.css">
+    <title>STAR BEAT!</title>
+</head>
+
+<body>
+    <nav class="nav-extended blue lighten-1">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo app-title">STAR BEAT! <p class="app-description">同方控制中心</p></a>
+            <!----<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="sass.html">Sass</a></li>
+                <li><a href="badges.html">Components</a></li>
+                <li><a href="collapsible.html">JavaScript</a></li>
+                </ul>-->
+        </div>
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a class="active" href="#keyboard-light">键盘灯控制</a></li>
+                <li class="tab"><a href="#supported-devices">支持设备</a></li>
+                <li class="tab"><a href="#about-app">关于</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- <ul class="sidenav" id="mobile-demo">
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">JavaScript</a></li>
+    </ul> -->
+
+    <div id="keyboard-light" class="tab-body col s12">
+        <div class="input-field">
+            <select id="color-mode">
+                <option value="0" disabled selected>选择颜色模式</option>
+                <option value="1">固定颜色 (monoColor)</option>
+                <option value="2">呼吸 (breathing)</option>
+                <option value="3">波浪 (wave)</option>
+                <option value="4">彩虹 (rainbow)</option>
+                <option value="5">闪烁 (flash)</option>
+                <option value="6">渐变 (mix)</option>
+            </select>
+            <label>键盘灯颜色模式</label>
+        </div>
+        <div class="color-operation row">
+            <div class="monoColor-preview col s6">
+                <input type="color" num="1" id="colorblock-1" value="#00b4ff" />
+                <input type="color" num="2" id="colorblock-2" value="#00b4ff" />
+                <input type="color" num="3" id="colorblock-3" value="#00b4ff" />
+                <input type="color" num="4" id="colorblock-4" value="#00b4ff" />
+            </div>
+            <div class="color-settings col s6">
+                <div class="switch inline-block">
+                    <label class="color-menu-title">键盘灯开关</label>
+                    <label>
+                        关闭
+                        <input id="keyboard-light-switch" type="checkbox" checked>
+                        <span class="lever"></span>
+                        打开
+                    </label>
+                </div>
+
+                <div class="switch inline-block">
+                    <label class="color-menu-title">运行方向</label>
+                    <label>
+                        向左
+                        <input id="keyboard-light-direction" type="checkbox" checked>
+                        <span class="lever"></span>
+                        向右
+                    </label>
+                </div>
+
+            </div>
+            <div class="color-sliders row">
+                <div class="range-field col s6">
+                    键盘灯亮度
+                    <input type="range" id="keyboard-light-brightness" min="0" max="100" value="80" />
+                </div>
+                <div class="range-field col s6">
+                    变换速度
+                    <input type="range" id="keyboard-light-speed" min="0" max="100" value="60" />
+                </div>
+            </div>
+            <a class="waves-effect waves-light btn apply">应用设置</a>
+        </div>
+    </div>
+    <div id="supported-devices" class="tab-body col s12">
+        为神舟同方机型适配；理论支持所有搭载 ITE 控制芯片 (0x048d, 0xce00)、版本为 0.02 的键盘。以下是部分测试通过的机型：
+        <div class="supported-devices-list">
+            <figure>
+                <img src="./assets/images/gz.jpeg" height="100px" />
+                <figcaption>战神 Z7(m)-KP7/5(G)Z</figcaption>
+            </figure>
+            <figure>
+                <img src="./assets/images/ec.png" height="100px" />
+                <figcaption>战神 Z7(m)-KP7/5EC</figcaption>
+            </figure>
+        </div>
+    </div>
+    <div id="about-app" class="tab-body row">
+        <div class="col s4">
+            <img src="./assets/images/logo2.png" width="100%">
+        </div>
+        <div class="col s8">
+        <h4 class="about-title">Project: STAR BEAT!</h4>
+        <p class="about-version">(ver 1.0)</p>
+
+        <p class="about-descrption">为同方模具的神舟笔记本设计的 macOS 版非官方控制中心</p>
+        <p class="about-copyright">Copyrigt &copy;2019 <a href="https://kirainmoe.com">Yume Maruyama</a>, some right
+            reserved.</p>
+        </div>
+    </div>
+
+    <script src="./assets/materialize.min.js"></script>
+    <script src="./assets/index.js"></script>
+</body>
+
+</html>
