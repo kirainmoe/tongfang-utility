@@ -18,9 +18,18 @@ const initColorUtils = () => {
         [0xff, 0x00, 0xff]
     ];
     
-    const device = new hid.HID(vendorId, productId);
+    console.log(hid.devices());
     
-    if (!device) {
+    let device;
+    
+    try {
+        device = new hid.HID(vendorId, productId);
+    } catch (e) {
+        console.error(e);
+        device = null;
+    }
+    
+    if (device == null) {
         console.error("No compatible device found!");
         return false;
     }

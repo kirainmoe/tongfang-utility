@@ -12,6 +12,7 @@ if (!utils) {
     alert("无法在该设备上检测到兼容的设备。请确认您的系统能识别出 ITE 设备后重试。");
     document.getElementById('keyboard-light').innerHTML = `
     <p>不支持您的设备。请确认你的系统能识别到 制造商 ID 为0x048d，产品 ID 为 0xce00 的 ITE Devices(8291)，且版本为 0.02.</p>
+    <p>如果你在 Linux 下运行本程序，请尝试使用 root 身份运行。</p>
     <p>如果你有任何问题，请与开发者联系：<a href="mailto:i@kirainmoe.com">i@kirainmoe.com</a></p>
     `;
 

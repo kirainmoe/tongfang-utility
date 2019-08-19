@@ -14,7 +14,8 @@
   },
   "scripts": {
     "postinstall": "electron-rebuild --force",
-    "start": "electron .",
-    "pack": "electron-packager . 'STAR BEAT!' --overwrite --platform=darwin --arch=x64 --icon=app.icns --out=./dist --asar --app-version=1.0.3"
+    "start": "electron . --no-sandbox",
+    "pack": "electron-packager . 'STAR BEAT!' --overwrite --platform=darwin --arch=x64 --icon=app.icns --out=./dist --asar --app-version=1.0.3",
+    "pack:linux": "electron-packager . 'STAR BEAT!' --overwrite --platform=linux --arch=x64 --icon=app.ico --out=./dist --asar --app-version=1.0.3"
   }
 }
