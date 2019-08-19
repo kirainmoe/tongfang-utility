@@ -38,6 +38,11 @@ This program is designed for Hasee God-of-War models, but will theoretically wor
 - Z7(m)-KP7/5(G)Z
 - Z7(m)-kP7/5EC
 
+# Not Support My Device?
+
+该程序仅支持 ITE 控制器版本为 0.02 的键盘。如果你的 ITE 版本为 0.03，请使用该仓库下的工具：https://github.com/rodgomesc/avell-unofficial-control-center ；如果你的 ITE 版本为 0.02 且硬件 ID 正确，请提 issue 向我反馈。
+
+This program only support ITE controller with revision 0.02. If your ITE revision is 0.03, please use this CLI tool by @rodgomesc: https://github.com/rodgomesc/avell-unofficial-control-center ; if your ITE revision is 0.02 and vendor_id / product_id are correct, please open an issue to tell me.
 
 # Screenshot
 
