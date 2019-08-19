@@ -22,11 +22,15 @@ The program is powered by Electron. You can download packed binary file in [here
 # install dependencies
 npm install
 
-# start development environment
+# start development environment(macOS)
 npm start
+# in Linux you may need to run with `sudo`
 
-# pack binary
+# pack binary(macOS)
 npm run pack
+
+# pack binary(Linux)
+npm run pack:linux
 ```
 
 # Supported Devices
@@ -62,4 +66,4 @@ This program only support ITE controller with revision 0.02. If your ITE revisio
 
 # License
 
-Project: STAR BEAT is MIT licensed.
+Project: STAR BEAT! is MIT licensed.
