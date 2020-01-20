@@ -1,6 +1,6 @@
 # Project: STAR BEAT!
 
-![build](https://img.shields.io/badge/build-passing-brightgreen.svg) ![version](https://img.shields.io/badge/version-1.0.2-9cf.svg) ![built by](https://img.shields.io/badge/built_by-Yume_Maruyama-ff69b4.svg)
+![build](https://img.shields.io/badge/build-passing-brightgreen.svg) ![version](https://img.shields.io/badge/version-1.1.0-9cf.svg) ![built by](https://img.shields.io/badge/built_by-Yume_Maruyama-ff69b4.svg)
 
 基于 Electron 的、为同方模具的神舟笔记本设计的 macOS 版非官方控制中心。
 

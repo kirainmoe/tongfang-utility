@@ -14,8 +14,8 @@ const createWindow = () => {
 
     win.loadFile('./views/index.html');
 
-    // globalShortcut.register('CmdOrCtrl+R', () => {});
-    // globalShortcut.register('CmdOrCtrl+Shift+R', () => {});
+    globalShortcut.register('CmdOrCtrl+R', () => {});
+    globalShortcut.register('CmdOrCtrl+Shift+R', () => {});
     globalShortcut.register('CmdOrCtrl+Shift+I', () => {
       win.webContents.openDevTools();
     });
