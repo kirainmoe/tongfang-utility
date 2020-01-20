@@ -1,6 +1,6 @@
 {
   "name": "starbeat",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Project StarBeat: an unofficial control center for Hasee tongfang models.",
   "main": "main.js",
   "author": "kirainmoe",
@@ -9,13 +9,14 @@
     "node-hid": "^0.7.9"
   },
   "devDependencies": {
-    "electron": "^6.0.2",
+    "electron": "^7.1.3",
+    "electron-packager": "^14.2.0",
     "electron-rebuild": "^1.8.6"
   },
   "scripts": {
     "postinstall": "electron-rebuild --force",
     "start": "electron . --no-sandbox",
-    "pack": "electron-packager . 'STAR BEAT!' --overwrite --platform=darwin --arch=x64 --icon=app.icns --out=./dist --asar --app-version=1.0.3",
-    "pack:linux": "electron-packager . 'STAR BEAT!' --overwrite --platform=linux --arch=x64 --icon=app.ico --out=./dist --asar --app-version=1.0.3"
+    "pack": "electron-packager . 'STAR BEAT!' --overwrite --platform=darwin --arch=x64 --icon=app.icns --out=./dist --asar --app-version=1.1.0",
+    "pack:linux": "electron-packager . 'STAR BEAT!' --overwrite --platform=linux --arch=x64 --icon=app.ico --out=./dist --asar --app-version=1.1.0"
   }
 }

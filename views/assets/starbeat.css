@@ -2,6 +2,13 @@
     display: inline-block;
 }
 
+.brand-logo {
+    font-family: 'Zhi Mang Xing';
+}
+.app-description {
+    font-family: 'Roboto';
+}
+
 /* navigation */
 .app-description {
     display: inline;
@@ -13,6 +20,9 @@
 .tab-body {
     padding: 20px 20px 0px 20px;
 }
+.tab a {
+    text-transform: none;
+}
 
 /* color picker */
 input[type="color"] {
@@ -23,6 +33,9 @@ input[type="color"] {
 .monoColor-preview {
     visibility: hidden;
     pointer-events: none;
+}
+.single-color input:not([num='1']) {
+    display: none;
 }
 .color-operation {
     position: relative;
@@ -45,6 +58,9 @@ input[type="color"] {
     margin-left: 0px!important;
     margin-right: 0px!important;
     padding: 0px 10px;
+}
+.range-field {
+    margin-top: 20px;
 }
 
 /* about */

@@ -18,10 +18,7 @@ const initColorUtils = () => {
         [0xff, 0x00, 0xff]
     ];
     
-    console.log(hid.devices());
-    
     let device;
-    
     try {
         device = new hid.HID(vendorId, productId);
     } catch (e) {
