@@ -64,3 +64,5 @@ dist
 uncommit
 
 .DS_Store
+release
+build.sh

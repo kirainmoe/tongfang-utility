@@ -102,4 +102,4 @@ const initColorUtils = () => {
     };
 };
 
-module.exports = initColorUtils;
+window.initColorUtils = initColorUtils;
