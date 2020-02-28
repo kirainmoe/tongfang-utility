@@ -1,0 +1,50 @@
+.navigator
+    width: 120px
+    height: 100%
+    padding: 10px 0px
+    background: #e6f7ff
+    position: fixed
+
+    .title
+        margin: 8px 0px
+        font-size: 14px
+        font-family: 'Zhi Mang Xing'
+
+    .logo
+        text-align: center
+        padding: 10px 0px
+        img
+            width: 50px
+            height: 50px
+
+    .nav-link
+        width: 100%
+        text-align: center
+        display: block
+        text-decoration: none
+        padding: 10px 0px
+        font-size: 14px
+        background: transparent
+        transition: .2s all ease-in
+        p
+            transition: .2s all ease-in
+            color: #000
+
+        &.active
+            background: #91d5ff
+            border-right: 2px solid #1890ff
+            outline: 0
+            p
+                color: #fff
+
+    svg
+        width: 50px
+        height: 50px
+    
+    .starbeat-version
+        width: 100%
+        font-size: 10px
+        text-align: center
+        color: #888
+        position: absolute
+        bottom: 10px

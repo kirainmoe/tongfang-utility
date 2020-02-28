@@ -1,0 +1,111 @@
+.keyboard-light
+    width: 100%
+    padding: 40px 25px 0px 25px
+    .page-title
+        font-size: 22px
+    .keyboard-switch
+        position: absolute
+        top: 45px
+        right: 30px
+    .keyboard-style
+        width: 100%
+        margin: 50px 0px 0px 0px
+        display: flex
+        flex-wrap: wrap
+        justify-content: space-between
+
+        .style-block
+            width: 250px
+            height: 110px
+            padding: 20px 20px 10px 20px
+            border-radius: 10px
+            margin: 0px 0px 20px 0px
+            background: #000
+            color: #fff
+            cursor: pointer
+            position: relative
+            transition: .2s all ease-in
+
+            h3
+                color: #fff 
+
+            .style-icon
+                width: 70px
+                height: 70px
+                position: absolute
+                right: 20px
+                bottom: 10px
+                svg
+                    width: 70px
+                    height: 70px
+            &.active
+                transform: scale(1.1)
+                &:hover
+                    transform: scale(1.1)
+            &:hover
+                transform: scale(1.05)
+            &.monoColor
+                position: relative
+                background: #ffa39e
+                .color-picker-container
+                    position: absolute
+                    bottom: 10px
+                    display: none
+                &.active .color-picker-container
+                    display: block
+                .picker-cont
+                    width: 20px
+                    height: 20px
+                    overflow: hidden
+                    border-radius: 50%
+                    margin: 8px 4px
+                    border: 0px solid #000
+                    display: inline-block
+                    position: relative
+                input[type="color"]
+                    border: 0px
+                    width: 50px
+                    height: 50px
+                    background: transparentify
+                    position: absolute
+                    top: -15px
+                    left: -15px
+                    cursor: pointer                    
+                &:hover
+                    background: darken(#ffa39e, 10%)
+            &.breathing
+                background: lighten(#00933a, 5%)
+                &:hover
+                    background: darken(#00933a, 5%)
+            &.wave
+                background: lighten(#1296db, 40%)
+                &:hover
+                    background: lighten(#1296db, 10%)
+            &.flash
+                background: #fadb14
+                &:hover
+                    background: darken(#fadb14, 10%)
+            &.mix
+                background: #d3adf7
+                &:hover
+                    background: darken(#d3adf7, 10%)
+
+.keyboard-brightness, .keyboard-speed
+    width: 45%
+    padding: 0px 5px
+    margin: 20px 5px
+
+.keyboard-win-unsupported
+    .win-icon
+        width: 100%
+        margin: 50px 0px
+        text-align: center
+
+.keyboard-hid-failed
+    .hid-icon
+        width: 100%
+        margin: 50px 0px
+        text-align: center
+    ul li
+        margin: 10px 0px 10px 30px
+        list-style: circle
