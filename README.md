@@ -14,7 +14,7 @@ Next generation Tongfang Hackintosh Utility. (WIP)
 
 ```bash
 # ------ clone repo ------
-git clone https://github.com/kirainmoe/project-starbeat
+git clone https://github.com/kirainmoe/project-starbeat starbeat
 cd starbeat
 
 # ------ start a development server ------
