@@ -1,24 +1,24 @@
 # Project: STAR BEAT!
 
-[English](README-en.md)
+[简体中文](README.md)
 
-Tongfang Hackintosh Utility 2.0, 全新的同方模具笔记本黑苹果工具箱。
+Next generation Tongfang Hackintosh Utility. 
 
-## 功能简介
+## Features
 
-- 跨平台的键盘灯设置功能 (支持 Windows, macOS, Linux)
-- 管理、更新、定制 OpenCore 配置文件
-- 一键修复睡眠、开启 HiDPI 等
-- 相比 v1 更友好的用户界面
-- 多语言国际化支持
+- Keyboard light controlling (Windows, macOS, Linux)
+- Manage and customize OpenCore config
+- Useful scripts (fix sleep, enable HiDPI, etc.)
+- More friendly User Interface
+- Internationalization
 
-> Tips: 键盘灯控制功能仅适用于搭载了 ITE Device 8291, **版本 0.02** 的电脑. 如果你有 ITE Device 8291 设备，但 **版本为 0.03**, 请使用此工具： [AUCC](https://github.com/rodgomesc/avell-unofficial-control-center).
+> Tips: keyboard light controlling function is only available for laptops with ITE Device 8291, **revision 0.02**. If you have ITE Device 8291 **revision 0.03**, refer to [AUCC](https://github.com/rodgomesc/avell-unofficial-control-center).
 
-## 下载
+## Download
 
-可以在 [Release](https://github.com/kirainmoe/project-starbeat/releases) 页面下载。
+Binaries are available at [Release Page](https://github.com/kirainmoe/project-starbeat/releases).
 
-## 构建
+## Build
 
 ```bash
 # ------ clone repo ------
@@ -41,7 +41,7 @@ cd starbeat-client
 yarn pack:macos
 ```
 
-## 截图
+## Screenshots
 
 <img src="https://i.loli.net/2020/02/29/LRDhgZYP3bq5lBs.png" alt="keyboard" width="500px">
 
@@ -49,7 +49,7 @@ yarn pack:macos
 
 <a href="https://sm.ms/image/2gH3pFmIokYOEub" target="_blank"><img src="https://i.loli.net/2020/02/29/2gH3pFmIokYOEub.png" width="500px"></a>
 
-## 技术栈
+## Tech Stack
 
 - Node.js
 - electron
@@ -57,10 +57,12 @@ yarn pack:macos
 - React Router
 - node-hid
 
-## 贡献
+## Contribute
 
-Feel free.
+Feel free to pull requests.
 
-## 许可协议
 
-Tongfang Hackintosh Utility (Project: STAR BEAT!) 基于 MIT 协议开源。
+
+## License
+
+Tongfang Hackintosh Utility (Project: STAR BEAT!) is MIT licensed.
