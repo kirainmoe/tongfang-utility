@@ -123,10 +123,11 @@ const electronCompatLayer = () => {
                 macserial = isLinux()
                     ? p + "/macserial/macserial-linux"
                     : isWin()
-                    ? p + "\\macserial\\macserial32.exe"
+                    ? "\"" + p + "\\macserial\\macserial32.exe\""
                     : "";
 
-            macserial = macserial.replace(/ /g, "\\ ");
+            if (!isWin())
+                macserial = macserial.replace(/ /g, "\\ ");
 
             const uuidGen = require("node-uuid");
             const output = exec(macserial + " --model 43 --generate --num 1").toString();

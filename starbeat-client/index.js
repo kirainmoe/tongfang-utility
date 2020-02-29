@@ -1,5 +1,8 @@
 const { app, BrowserWindow, globalShortcut } = require('electron');
 
+if (require('electron-squirrel-startup'))
+  app.quit();
+
 const createWindow = () => {
     let win = new BrowserWindow({
       width: 700,
