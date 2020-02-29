@@ -5,25 +5,8 @@ import "../styles/KeyboardLight.styl";
 
 import { Palette, Breathing, Wave, Rainbow, Flash, Mix } from "../icons/KeyboardStyle";
 import { Slider, Switch } from "antd";
-import WindowsIcon from "../icons/Windows";
 import Chipset from "../icons/Chipset";
 
-class KeyboardOnWin extends Component {
-    render() {
-        return (
-            <div className="keyboard-light">
-                <h3 className="page-title">{str("cannotRunningOnWindows")}</h3>
-                <div className="keyboard-win-unsupported">
-                    <div className="win-icon">
-                        <WindowsIcon />
-                    </div>
-                    <p>{str("cannotRunningOnWinDescription")}</p>
-                    <p>{str("useOfficialControlCenter")}</p>
-                </div>
-            </div>
-        );
-    }
-}
 
 class NoCompatibleDevice extends Component {
     render() {
@@ -182,8 +165,6 @@ export default class KeyboardLight extends Component {
     }
 
     render() {
-        if (window.electron.isWin()) return <KeyboardOnWin />;
-
         if (this.utils === false) return <NoCompatibleDevice />;
 
         const c1 = 'rgb(' + this.state.colors[0].join(',') + ')';

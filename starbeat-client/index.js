@@ -7,12 +7,16 @@ const createWindow = () => {
       webPreferences: {
         nodeIntegration: true
       },
-      // frame: false
+      resizable: false,
+      frame: false
     });
     
     if (process.env.NODE_ENV == 'development') {
       win.loadURL('http://localhost:3000');
       win.webContents.openDevTools();
+      globalShortcut.register('CmdOrCtrl+Shift+I', () => {
+        win.webContents.openDevTools();
+      });
     } else {
       win.loadFile('./build/index.html');
       globalShortcut.register('CmdOrCtrl+R', () => {});

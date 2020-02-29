@@ -1,6 +1,6 @@
 export default {
-    version: '2.0.0-beta2',
-    build: 200227,
+    version: '2.0.0-beta3',
+    build: 200229,
 
     optimizeUrl: 'https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh',
     HiDPIUrl: 'https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh',
@@ -8,27 +8,113 @@ export default {
 
     supported_machine: [
         {
-            model: '神舟战神 Z7-KP7(G)Z, Z7M-KP7(G)Z, Z7M-KP5(G)Z',
+            model: '神舟战神 Z7-KP7GZ',
             barebone: 'GK5CN6X'
         },
         {
-            model: '神舟战神 Z7-KP7EC, Z7-KP7GC, Z7-KP7GA, Z7-KP7GE, Z7-KP7GH',
+            model: '神舟战神 Z7-KP7Z',
+            barebone: 'GK5CN6X'
+        },                        
+        {
+            model: '神舟战神 Z7M-KP7GZ',
+            barebone: 'GK5CN5X'
+        },
+
+        {
+            model: '神舟战神 Z7M-KP7Z',
+            barebone: 'GK5CN5X'
+        },          
+        {
+            model: '神舟战神 Z7M-KP5GZ',
+            barebone: 'GK5CN5X'
+        },
+
+        {
+            model: '神舟战神 Z7M-KP5Z',
+            barebone: 'GK5CN5X'
+        },        
+        {
+            model: '神舟战神 Z7-KP7EC',
             barebone: 'GJ5CN64'
         },
         {
-            model: '神舟战神 Z7M-KP7/5GC, Z7M-KP7/5GA, Z7M-KP7/5GE, Z7M-KP7/5GH',
+            model: '神舟战神 Z7-KP7GC',
+            barebone: 'GJ5CN64'
+        },
+        {
+            model: '神舟战神 Z7-KP7GA',
+            barebone: 'GJ5CN64'
+        },
+        {
+            model: '神舟战神 Z7-KP7GE',
+            barebone: 'GJ5CN64'
+        },
+        {
+            model: '神舟战神 Z7-KP7GH',
+            barebone: 'GJ5CN64'
+        },                                
+        {
+            model: '神舟战神 Z7M-KP7GC',
             barebone: 'GI5CN54'
         },
         {
-            model: '神舟战神 Z7-CT7GK, Z7-CT7VH, Z7-CT7VA, G7-CT7VK',
+            model: '神舟战神 Z7M-KP5GC',
+            barebone: 'GI5CN54'
+        },
+        {
+            model: '神舟战神 Z7-CT7GK',
             barebone: 'GK7CP6R'
         },
         {
-            model: '神舟战神 Z7M-CT7GS, Z7M-CT5GA',
+            model: '神舟战神 Z7-CT5GA',
+            barebone: 'GK7CP6R'
+        },        
+        {
+            model: '神舟战神 Z7-CT7VH',
+            barebone: 'GK7CP6R'
+        },
+        {
+            model: '神舟战神 Z7-CT7VA',
+            barebone: 'GK7CP6R'
+        },
+        {
+            model: '神舟战神 G7-CT7VK',
+            barebone: 'GK7CP6R'
+        },                        
+        {
+            model: '神舟战神 Z7M-CT7GS',
+            barebone: 'GK5CP6X'
+        }, 
+        {
+            model: '神舟战神 Z7M-CT5GA',
             barebone: 'GK5CP6X'
         },
         {
-            model: '炫龙耀7000',
+            model: '神舟战神 Z7M-KP7GA',
+            barebone: 'GI5CN54'
+        },
+        {
+            model: '神舟战神 Z7M-KP5GA',
+            barebone: 'GI5CN54'
+        },
+        {
+            model: '神舟战神 Z7M-KP7GE',
+            barebone: 'GI5CN54'
+        },
+        {
+            model: '神舟战神 Z7M-KP5GE',
+            barebone: 'GI5CN54'
+        },                                        
+        {
+            model: '神舟战神 Z7M-KP7GH',
+            barebone: 'GI5CN54'
+        },
+        {
+            model: '神舟战神 Z7M-KP5GH',
+            barebone: 'GI5CN54'
+        },                
+        {
+            model: '炫龙 耀7000',
             barebone: 'GK5CN6X'
         },
         {

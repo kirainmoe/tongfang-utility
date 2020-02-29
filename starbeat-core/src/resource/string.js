@@ -38,7 +38,7 @@ export const strings = {
         installed: '已安装',
         notInstalled: '未安装',
         successDescription: '所执行的操作已完成。',
-        ToolboxCannotRunningOnWinDescription: '工具箱中的功能仅限 macOS 下使用。',
+        ToolboxCannotRunningOnWinDescription: '工具箱中的功能仅用于优化在 macOS 系统下的使用体验，无法在 Windows / Linux 平台上使用。',
 
         configure: '配置文件',
         configureDescription: '管理、更新和定制 OpenCore 配置文件。',

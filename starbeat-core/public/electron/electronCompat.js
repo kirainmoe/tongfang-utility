@@ -153,3 +153,4 @@ const electronCompatLayer = () => {
 };
 
 window.electron = electronCompatLayer();
+window.browserWindow = require('electron').remote;

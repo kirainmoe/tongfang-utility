@@ -9,10 +9,12 @@ import Navigator from './components/Navigator';
 import KeyboardLight from './components/KeyboardLight';
 import Toolbox from './components/Toolbox';
 import Configure from './components/Configure';
+import TopButton from './components/TopButton';
 
 render(
     <div className="starbeat-app">
         <HashRouter>
+            <TopButton />
             <Navigator />
 
             <div className="page">
