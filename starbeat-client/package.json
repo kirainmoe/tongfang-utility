@@ -23,7 +23,6 @@
   "homepage": "https://github.com/kirainmoe/project-starbeat#readme",
   "dependencies": {
     "adm-zip": "^0.4.14",
-    "cnpm": "^6.1.1",
     "cross-env": "^7.0.0",
     "electron": "^8.0.1",
     "electron-packager": "^14.2.1",
