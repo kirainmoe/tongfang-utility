@@ -109,10 +109,14 @@ export default class Toolbox extends Component {
     }
 
     getFnDaemonState() {
-        const ouput = window.electron.exec('ls /usr/local/bin | grep Tongfang');
-        if (ouput !== '') {
-            return str('state') + ":" + str('installed');
-        } else {
+        try {
+            const ouput = window.electron.exec('ls /usr/local/bin | grep Tongfang');
+            if (ouput !== '') {
+                return str('state') + ":" + str('installed');
+            } else {
+                return str('state') + ":" + str('notInstalled');
+            }
+        } catch (e) {
             return str('state') + ":" + str('notInstalled');
         }
     }

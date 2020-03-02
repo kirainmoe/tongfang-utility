@@ -22,7 +22,6 @@ export default class Configure extends Component {
         }
 
         this.state = {
-            latestStable: "Unknown",
             latestDev: "Unknown",
             downloading: false,
             workStatus: str("getLatest"),
@@ -51,6 +50,10 @@ export default class Configure extends Component {
 为了防止发生兼容性问题，请前往 https://starbeat.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。`);
 
                     window.location.href = "/";
+                } else {
+                    this.setState({
+                        latestDev: data.latestDev
+                    });
                 }
             });
     }
@@ -340,9 +343,9 @@ export default class Configure extends Component {
 
                         <p>{str("versionInfo")}</p>
                         <div className="version-info">
-                            <p className="version-tag">
-                                {str("localVersion")}: {this.state.latestStable}
-                            </p>
+                            {/*<p className="version-tag">
+                                {str("localVersion")}: {this.state.latestStable}}
+                            </p>*/}
                             <p className="version-tag">
                                 {str("latestVersion")}: {this.state.latestDev}
                             </p>
