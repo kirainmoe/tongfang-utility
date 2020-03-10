@@ -66,7 +66,11 @@ export const strings = {
         successInfo: '已将最新 OpenCore 配置文件下载到当前用户桌面的 `starbeat` 文件夹中。请将桌面的 starbeat/BOOT 和 starbeat/OC 复制到 U 盘或硬盘中。',
         successInstructionUSB: '对于 U 盘引导用户：请将 BOOT 和 OC 文件夹复制到 U 盘 ESP 分区的 EFI/BOOT 和 EFI/OC 下。如果 ESP 分区中已存在 OC 文件夹，请先将其删除之后再粘贴。',
         successInstructionHD: '对于硬盘引导用户：请将 BOOT 内的 BOOTx64.efi 改名为 OpenCore.efi，然后将 BOOT 和 OC 复制到硬盘 ESP 分区的 EFI/BOOT 和 EFI/OC 下，添加 UEFI 启动项指向 EFI/BOOT/OpenCore.efi （而不是指向 EFI/OC/OpenCore.efi !）。如果 ESP 分区中已存在 OC 文件夹，请先将其删除之后再替换。',
-        backward: '我知道了，这就去和苹果对线'
+        backward: '我知道了，这就去和苹果对线',
+
+        youAreUsing: '你正在使用',
+        officialLatest: '官方最新版本是',
+        updateRemind: '为了防止发生兼容性问题，请前往 https://starbeat.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。'
     },
     'en': {
         config: 'Configuration',
@@ -135,7 +139,10 @@ export const strings = {
         successInfo: 'Successfully downloaded the latest OC config to ~/Desktop/starbeat. Please copy `BOOT` and `OC` folder to ESP.',
         successInstructionUSB: 'For users booting from USB flash: Copy `BOOT` and `OC` folder to `EFI/BOOT` and `EFI/OC` in your ESP. If `EFI/OC` has already existed in your ESP, please delete it before copy.',
         successInstructionHD: 'For users booting from hard disk: Rename `BOOT/BOOTx64.efi` to `BOOT/OpenCore.efi`, and copy `BOOT` and `OC` folder to `EFI/BOOT` and `EFI/OC` in your ESP, then add a boot entry pointing to `BOOT/OpenCore.efi`. If `EFI/OC` has already existed in your ESP, please delete it before copy.',
-        backward: 'Having fun hackintoshing!'        
+        backward: 'Having fun hackintoshing!',
+        youAreUsing: 'You are using ',
+        officialLatest: 'The latest version is ',
+        updateRemind: 'Please consider update Tongfang Hackintosh Utility from https://starbeat.kirainmoe.com to avoid compatibility problems.'
     }
 };
 

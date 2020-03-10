@@ -46,6 +46,10 @@ export default class Plist {
         this.json.DeviceProperties.Add[path][key] = value;
     }
 
+    deleteProperties(path, key) {
+        delete this.json.DeviceProperties.Add[path][key];
+    }
+
     setSSDT(name, value) {
         this.json.ACPI.Add.forEach(item => {
             if (item.Path.indexOf(name) >= 0) {

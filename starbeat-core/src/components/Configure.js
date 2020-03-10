@@ -46,8 +46,7 @@ export default class Configure extends Component {
             .then(res => res.json())
             .then(data => {
                 if (data.forceUpdate >= config.build) {
-                    alert(`你正在使用 Tongfang Hackintosh Utility v${config.version}，官方最新版本是 v${data.version}。\n
-为了防止发生兼容性问题，请前往 https://starbeat.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。`);
+                    alert(`${str('youAreUsing')} Tongfang Hackintosh Utility v${config.version}, ${str('officialLatest')} v${data.version}。\n\n${str('updateRemind')}`);
 
                     window.location.href = "/";
                 } else {
@@ -156,13 +155,11 @@ export default class Configure extends Component {
             });
 
             fs.renameSync(
-                // `${savePath}/OpenCore/hasee-tongfang-macos-${branch}/BOOT`,
                 `${savePath}/OpenCore/${extractPath}/BOOT`,
                 `${savePath}/BOOT`
             );
             window.electron.rmdir(`${savePath}/OC`);
             fs.renameSync(
-                // `${savePath}/OpenCore/hasee-tongfang-macos-${branch}/OC`,
                 `${savePath}/OpenCore/${extractPath}/OC`,
                 `${savePath}/OC`
             );
@@ -173,7 +170,6 @@ export default class Configure extends Component {
             window.p = plist;
 
             const ACPIdir = `${savePath}/OC/ACPI`;
-            // console.log(config.supported_machine[this.state.laptop].barebone);
             switch (config.supported_machine[this.state.laptop].barebone) {
                 case "GK5CN5X":
                 case "GK5CN6X":
@@ -239,8 +235,19 @@ export default class Configure extends Component {
             if (this.state.support4k) {
                 plist.setProperties(
                     "PciRoot(0x0)/Pci(0x2,0x0)",
+                    "AAPL,GfxYTile",
+                    new Uint8Array([1, 0, 0, 0])
+                );
+                plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");
+                plist.setProperties(
+                    "PciRoot(0x0)/Pci(0x2,0x0)",
+                    "device_type",
+                    "Display Controller"
+                );
+                plist.setProperties(
+                    "PciRoot(0x0)/Pci(0x2,0x0)",
                     "dpcd-max-link-rate",
-                    new Uint8Array([14, 0, 0, 0])
+                    new Uint8Array([20, 0, 0, 0])
                 );
                 plist.setProperties(
                     "PciRoot(0x0)/Pci(0x2,0x0)",
@@ -257,6 +264,41 @@ export default class Configure extends Component {
                     "enable-lspcon-support",
                     new Uint8Array([1, 0, 0, 0])
                 );
+                plist.setProperties(
+                    "PciRoot(0x0)/Pci(0x2,0x0)",
+                    "framebuffer-con1-alldata",
+                    new Uint8Array([1, 5, 9, 0, 0, 4, 0, 0, 135, 1, 0, 0])
+                );
+                plist.setProperties(
+                    "PciRoot(0x0)/Pci(0x2,0x0)",
+                    "framebuffer-con2-alldata",
+                    new Uint8Array([3, 4, 10, 0, 0, 8, 0, 0, 135, 1, 0, 0])
+                );
+                plist.setProperties(
+                    "PciRoot(0x0)/Pci(0x2,0x0)",
+                    "framebuffer-con2-has-lspcon",
+                    new Uint8Array([1, 0, 0, 0])
+                );
+                plist.setProperties(
+                    "PciRoot(0x0)/Pci(0x2,0x0)",
+                    "framebuffer-con2-preferred-lspcon-mode",
+                    new Uint8Array([1, 0, 0, 0])
+                );
+                plist.setProperties(
+                    "PciRoot(0x0)/Pci(0x2,0x0)",
+                    "framebuffer-portcount",
+                    new Uint8Array([4, 0, 0, 0])
+                );
+                plist.setProperties(
+                    "PciRoot(0x0)/Pci(0x2,0x0)",
+                    "framebuffer-unifiedmem",
+                    new Uint8Array([0, 0, 0, 192])
+                );
+                plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-enable");
+                plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-pipe");
+                plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con1-pipe");
+                plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-pipe");
+                plist.setValue("NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale", new Uint8Array([1]));
                 plist.setBootArg("-cdfon");
             }
 
@@ -264,7 +306,10 @@ export default class Configure extends Component {
             plist.setValue("PlatformInfo/Generic/SystemSerialNumber", this.state.sn);
             plist.setValue("PlatformInfo/Generic/MLB", this.state.mlb);
             plist.setValue("PlatformInfo/Generic/SystemUUID", this.state.smuuid);
-            // console.log(plist.json);
+
+            if (navigator.language != 'zh-CN') {
+                plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/prev-lang:kbd", "en-US:0");
+            }
 
             window.electron.writeFile(savePath + "/OC/config.plist", plist.buildPlist());
             fs.unlinkSync(savePath + "/OpenCore.zip");

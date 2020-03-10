@@ -110,6 +110,10 @@ export default class Toolbox extends Component {
 
     getFnDaemonState() {
         try {
+            const haveBin = window.electron.exec('ls /usr/local | grep bin');
+            if (!haveBin)
+                return str('state') + ":" + str('notInstalled');
+                
             const ouput = window.electron.exec('ls /usr/local/bin | grep Tongfang');
             if (ouput !== '') {
                 return str('state') + ":" + str('installed');
