@@ -188,7 +188,7 @@ export default class Configure extends Component {
                     plist.setKext("VoodooPS2", false);
                     plist.setKext("VoodooI2C", false);
                     plist.setKext("VoodooGPIO", false);
-                    plist.setKext("AppleSmartPS2Controller", true);
+                    plist.setKext("ApplePS2", true);
                     plist.setSSDT("SSDT-USTP", false);
                     break;
                 case "GI5CN54":
@@ -298,7 +298,7 @@ export default class Configure extends Component {
                 plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-pipe");
                 plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con1-pipe");
                 plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-pipe");
-                plist.setValue("NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale", new Uint8Array([1]));
+                plist.setValue("NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale", new Uint8Array([2]));
                 plist.setBootArg("-cdfon");
             }
 
