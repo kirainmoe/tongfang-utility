@@ -34,7 +34,8 @@ export default class Configure extends Component {
             support4k: false,
             pm981: false,
             smbiosGenerated,
-            success: false
+            success: false,
+            download_url: config.download_url.bitbucket
         };
 
         this.checkVersion();
@@ -46,7 +47,11 @@ export default class Configure extends Component {
             .then(res => res.json())
             .then(data => {
                 if (data.forceUpdate >= config.build) {
-                    alert(`${str('youAreUsing')} Tongfang Hackintosh Utility v${config.version}, ${str('officialLatest')} v${data.version}。\n\n${str('updateRemind')}`);
+                    alert(
+                        `${str("youAreUsing")} Tongfang Hackintosh Utility v${
+                            config.version
+                        }, ${str("officialLatest")} v${data.version}。\n\n${str("updateRemind")}`
+                    );
 
                     window.location.href = "/";
                 } else {
@@ -69,6 +74,32 @@ export default class Configure extends Component {
         return res;
     }
 
+    getDownloadSource() {
+        const res = [];
+        let index = 0;
+        res.push(
+            <Option key={index++} value={config.download_url.bitbucket}>
+                BitBucket ({str('recommend')})
+            </Option>
+        );
+        res.push(
+            <Option key={index++} value={config.download_url.github}>
+                GitHub
+            </Option>
+        );
+        res.push(
+            <Option key={index++} value={config.download_url.cloudflare}>
+                CloudFlare CDN
+            </Option>
+        );
+        res.push(
+            <Option key={index++} value={config.download_url.buildbot}>
+                Aya BuildBot
+            </Option>
+        );                
+        return res;
+    }
+
     getOptions() {
         const opts = [
             { label: str("injectAirport"), value: "airport" },
@@ -86,6 +117,15 @@ export default class Configure extends Component {
                     let todo = {};
                     opts.forEach(opt => (todo[opt.value] = 0));
                     v.forEach(item => (todo[item] = 1));
+
+                    if (
+                        todo["support4k"] &&
+                        (config.supported_machine[this.state.laptop].barebone === "GJ5CN64" ||
+                            config.supported_machine[this.state.laptop].barebone === "GI5CN54")
+                    ) {
+                        alert(str("requirement4k"));
+                    }
+
                     this.setState({
                         ...this.state,
                         ...todo
@@ -139,11 +179,10 @@ export default class Configure extends Component {
             downloading: true
         });
 
-        const savePath = window.electron.getUserDir() + "/Desktop/starbeat";
+        const savePath = window.electron.getUserDir() + "/Desktop/Tongfang_EFI";
         window.electron.mkdir(savePath);
         const saveFile = savePath + "/OpenCore.zip";
-        // branch = "oc-general";
-        window.electron.downloadFile(config.download_url, saveFile, () => {
+        window.electron.downloadFile(this.state.download_url, saveFile, () => {
             window.electron.unzip(saveFile, savePath + "/OpenCore");
 
             const fs = window.electron.fs();
@@ -151,18 +190,13 @@ export default class Configure extends Component {
 
             let extractPath;
             fs.readdirSync(`${savePath}/OpenCore`).forEach(path => {
-                if (path.indexOf("ayamita") >= 0) extractPath = path;
+                if (path.indexOf("ayamita") >= 0 || path.indexOf("hasee-tongfang-macos") >= 0)
+                    extractPath = path;
             });
 
-            fs.renameSync(
-                `${savePath}/OpenCore/${extractPath}/BOOT`,
-                `${savePath}/BOOT`
-            );
+            fs.renameSync(`${savePath}/OpenCore/${extractPath}/BOOT`, `${savePath}/BOOT`);
             window.electron.rmdir(`${savePath}/OC`);
-            fs.renameSync(
-                `${savePath}/OpenCore/${extractPath}/OC`,
-                `${savePath}/OC`
-            );
+            fs.renameSync(`${savePath}/OpenCore/${extractPath}/OC`, `${savePath}/OC`);
             window.electron.rmdir(`${savePath}/OpenCore`);
 
             const content = window.electron.readFile(savePath + "/OC/config.plist");
@@ -298,7 +332,12 @@ export default class Configure extends Component {
                 plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-pipe");
                 plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con1-pipe");
                 plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-pipe");
-                plist.setValue("NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale", new Uint8Array([2]));
+                plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-stolenmem");
+                plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
+                plist.setValue(
+                    "NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale",
+                    new Uint8Array([2])
+                );
                 plist.setBootArg("-cdfon");
             }
 
@@ -307,8 +346,11 @@ export default class Configure extends Component {
             plist.setValue("PlatformInfo/Generic/MLB", this.state.mlb);
             plist.setValue("PlatformInfo/Generic/SystemUUID", this.state.smuuid);
 
-            if (navigator.language != 'zh-CN') {
-                plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/prev-lang:kbd", "en-US:0");
+            if (navigator.language !== "zh-CN") {
+                plist.setValue(
+                    "NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/prev-lang:kbd",
+                    "en-US:0"
+                );
             }
 
             window.electron.writeFile(savePath + "/OC/config.plist", plist.buildPlist());
@@ -385,15 +427,32 @@ export default class Configure extends Component {
                             )
                         </p>
                         <div className="smbios-info">{this.getSMBIOSInfo()}</div>
+                        <div className="flex">
+                            <div className="half">
+                                <p>{str("downloadSource")}</p>
+                                <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    defaultValue={config.download_url.bitbucket}
+                                    style={{
+                                        width: "100%"
+                                    }}
+                                    onChange={val =>
+                                        this.setState({ ...this.state, download_url: val })
+                                    }
+                                >
+                                    {this.getDownloadSource()}
+                                </Select>
+                            </div>
 
-                        <p>{str("versionInfo")}</p>
-                        <div className="version-info">
-                            {/*<p className="version-tag">
-                                {str("localVersion")}: {this.state.latestStable}}
-                            </p>*/}
-                            <p className="version-tag">
-                                {str("latestVersion")}: {this.state.latestDev}
-                            </p>
+                            <div className="half">
+                                <p>{str("versionInfo")}</p>
+                                <div className="version-info">
+                                    <p className="version-tag">
+                                        {str("latestVersion")}: {this.state.latestDev}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="actions">
