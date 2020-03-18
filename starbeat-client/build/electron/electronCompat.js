@@ -24,13 +24,30 @@ const electronCompatLayer = () => {
         return fs.readFileSync(filename).toString();
     };
 
-    const downloadFile = (url, savePath, callback) => {
+    const downloadFile = (url, savePath, callback, setPercent) => {
         const fetch = require("node-fetch"),
             fs = require("fs");
+        let downloadedSize = 0,
+            totalLength = 0;
         fetch(url, {
             method: "GET",
             headers: { "Content-Type": "application/octet-stream" }
         })
+            .then(res => {
+                const body = res.body;
+                totalLength = res.headers.get("content-length");
+                body.on('readable', () => {
+                    let chunk;
+                    while (null !== (chunk = body.read())) {
+                        downloadedSize += chunk.length;
+                        const percent = Math.round(downloadedSize / totalLength * 100);
+
+                        if (setPercent)
+                            setPercent(percent);
+                    }
+                });
+                return res;
+            })
             .then(res => res.buffer())
             .then(data => {
                 fs.writeFileSync(savePath, data, "binary");
@@ -83,6 +100,11 @@ const electronCompatLayer = () => {
             });
             fs.rmdirSync(path);
         }
+    };
+
+    const openPage = (url) => {
+        const shell = require('electron').shell;
+        shell.openExternal(url);
     };
 
     return {
@@ -149,7 +171,8 @@ const electronCompatLayer = () => {
         unzip,
         zip,
         fs: fsopt,
-        rmdir: rmDir
+        rmdir: rmDir,
+        openPage
     };
 };
 
