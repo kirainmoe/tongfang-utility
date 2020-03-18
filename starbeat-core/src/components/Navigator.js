@@ -36,10 +36,10 @@ export default class Navigator extends Component {
                     <p>{str('tools')}</p>
                 </NavLink>
 
-                {/*<NavLink className="nav-link" to="/lab">
+                {navigator.language === 'zh-CN' ? <NavLink className="nav-link" to="/lab">
                     <Lab />
-                    <p>{str('lab')}</p>
-                </NavLink>*/}
+                    <p>其它</p>
+                </NavLink> : null}
 
                 <div className="starbeat-version">
                     <p>app v{conf.version}</p>

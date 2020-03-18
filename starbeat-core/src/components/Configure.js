@@ -35,6 +35,7 @@ export default class Configure extends Component {
             pm981: false,
             smbiosGenerated,
             success: false,
+            percent: 0,
             download_url: config.download_url.bitbucket
         };
 
@@ -79,7 +80,7 @@ export default class Configure extends Component {
         let index = 0;
         res.push(
             <Option key={index++} value={config.download_url.bitbucket}>
-                BitBucket ({str('recommend')})
+                BitBucket ({str("recommend")})
             </Option>
         );
         res.push(
@@ -96,7 +97,7 @@ export default class Configure extends Component {
             <Option key={index++} value={config.download_url.buildbot}>
                 Aya BuildBot
             </Option>
-        );                
+        );
         return res;
     }
 
@@ -172,6 +173,12 @@ export default class Configure extends Component {
         );
     }
 
+    updatePercent(percent) {
+        this.setState({
+            percent
+        });
+    }
+
     downloadLatest() {
         this.setState({
             ...this.state,
@@ -222,6 +229,7 @@ export default class Configure extends Component {
                     plist.setKext("VoodooPS2", false);
                     plist.setKext("VoodooI2C", false);
                     plist.setKext("VoodooGPIO", false);
+                    plist.setKext("IOGraphics", false);
                     plist.setKext("ApplePS2", true);
                     plist.setSSDT("SSDT-USTP", false);
                     break;
@@ -234,6 +242,7 @@ export default class Configure extends Component {
                     plist.setKext("VoodooPS2", false);
                     plist.setKext("VoodooI2C", false);
                     plist.setKext("VoodooGPIO", false);
+                    plist.setKext("IOGraphics", false);
                     plist.setKext("ApplePS2", true);
                     plist.setSSDT("SSDT-USTP", false);
                     break;
@@ -356,7 +365,7 @@ export default class Configure extends Component {
             window.electron.writeFile(savePath + "/OC/config.plist", plist.buildPlist());
             fs.unlinkSync(savePath + "/OpenCore.zip");
             this.setState({ downloading: false, success: true }, () => console.log(this.state));
-        });
+        }, (p) => this.updatePercent(p));
     }
 
     render() {
@@ -465,6 +474,7 @@ export default class Configure extends Component {
                                 onClick={() => this.downloadLatest()}
                             >
                                 {this.state.workStatus}
+                                {this.state.downloading ? " (" + this.state.percent + "%)" : ""}
                             </Button>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ import Navigator from './components/Navigator';
 import KeyboardLight from './components/KeyboardLight';
 import Toolbox from './components/Toolbox';
 import Configure from './components/Configure';
+import Lab from './components/Lab';
 import TopButton from './components/TopButton';
 
 render(
@@ -29,6 +30,9 @@ render(
                 </Route>
                 <Route path="/tools" exact>
                     <Toolbox />
+                </Route>
+                <Route path="/lab" exact>
+                    <Lab />
                 </Route>
             </div>
         </HashRouter>
