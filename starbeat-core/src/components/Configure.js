@@ -187,8 +187,12 @@ export default class Configure extends Component {
         });
 
         const savePath = window.electron.getUserDir() + "/Desktop/Tongfang_EFI";
+        try {
+            window.electron.rmdir(savePath);
+        } catch (e) {}
         window.electron.mkdir(savePath);
         const saveFile = savePath + "/OpenCore.zip";
+
         window.electron.downloadFile(this.state.download_url, saveFile, () => {
             window.electron.unzip(saveFile, savePath + "/OpenCore");
 
@@ -215,13 +219,11 @@ export default class Configure extends Component {
                 case "GK5CN5X":
                 case "GK5CN6X":
                 default:
-                    fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
                     break;
                 case "GJ5CN64":
-                    fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
@@ -238,23 +240,22 @@ export default class Configure extends Component {
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
-                    fs.renameSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml", ACPIdir + "/SSDT-UIAC.aml");
                     plist.setKext("VoodooPS2", false);
                     plist.setKext("VoodooI2C", false);
                     plist.setKext("VoodooGPIO", false);
                     plist.setKext("IOGraphics", false);
+                    plist.setKext("USBInjectAll", false);
+                    plist.setKext("USBPorts", true);
                     plist.setKext("ApplePS2", true);
                     plist.setSSDT("SSDT-USTP", false);
                     break;
                 case "GK7CP6R":
-                    fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
                     fs.renameSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml", ACPIdir + "/SSDT-UIAC.aml");
                     break;
                 case "GK5CP6X":
-                    fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");

@@ -68,6 +68,7 @@ export default class Toolbox extends Component {
                 operation: str("hiDPI")
             },
             () => {
+                alert(str('onlyForBOE0747'));
                 window.electron.sudoExec(
                     'sh -c "$(curl -fsSL ' + conf.HiDPIUrl + ')"',
                     (err, stdout) => {

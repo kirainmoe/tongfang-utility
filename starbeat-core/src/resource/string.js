@@ -47,6 +47,7 @@ export const strings = {
         successDescription: "所执行的操作已完成。",
         ToolboxCannotRunningOnWinDescription:
             "工具箱中的功能仅用于优化在 macOS 系统下的使用体验，无法在 Windows / Linux 平台上使用。",
+        onlyForBOE0747: "提示：一键开启 HiDPI 功能仅适用于搭载京东方 BOE0747 15.6' 屏幕的设备，如果你手动更换过屏幕或你的原厂屏幕不是此型号，那么可能会开启失败。",
 
         configure: "配置文件",
         configureDescription: "管理、更新和定制 OpenCore 配置文件。",
@@ -68,7 +69,7 @@ export const strings = {
         smbiosSmUUID: "系统 UUID",
         versionInfo: "版本信息",
         localVersion: "当前引导版本",
-        latestVersion: "最新开发版",
+        latestVersion: "最新版本",
         getLatest: "获取最新配置文件",
         downloadWait: "正在下载，请等待",
         successInfo:
@@ -86,7 +87,9 @@ export const strings = {
         updateRemind:
             "为了防止发生兼容性问题，请前往 https://starbeat.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。",
         downloadSource: "更新源",
-        recommend: '推荐'
+        recommend: '推荐',
+
+        about: '关于 Tongfang Hackintosh Utility'
     },
     en: {
         config: "Configuration",
@@ -135,6 +138,7 @@ export const strings = {
         notInstalled: "Uninstalled",
         successDescription: "Done.",
         ToolboxCannotRunningOnWinDescription: "Toolbox can only be used on macOS.",
+        onlyForBOE0747: "Warning: This option is for the BOE0747 15.6' monitor. If your laptop does not have this model of monitor, this function may not work properly.",
 
         configure: "Configuration",
         configureDescription: "Manage, update and customize OpenCore config.",

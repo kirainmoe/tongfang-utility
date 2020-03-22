@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import '../styles/Navigator.styl';
 
@@ -36,13 +36,17 @@ export default class Navigator extends Component {
                     <p>{str('tools')}</p>
                 </NavLink>
 
-                {navigator.language === 'zh-CN' ? <NavLink className="nav-link" to="/lab">
+                {/* <NavLink className="nav-link" to="/lab">
                     <Lab />
-                    <p>其它</p>
-                </NavLink> : null}
+                    <p>{str('lab')}</p>
+                </NavLink> */}
 
                 <div className="starbeat-version">
-                    <p>app v{conf.version}</p>
+                    { navigator.language === "zh-CN" ? 
+                        <Link to="/about">
+                            <p>app v{conf.version}</p>
+                        </Link>
+                    :  <p>app v{conf.version}</p>}
                 </div>
             </div>
         );
