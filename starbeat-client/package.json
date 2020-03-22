@@ -29,6 +29,7 @@
     "electron-rebuild": "^1.10.0",
     "electron-squirrel-startup": "^1.0.0",
     "global": "^4.4.0",
+    "minimist": "^1.2.2",
     "node-fetch": "^2.6.0",
     "node-hid": "^1.2.0",
     "node-uuid": "^1.4.8",

@@ -36,6 +36,14 @@ const electronCompatLayer = () => {
             .then(res => {
                 const body = res.body;
                 totalLength = res.headers.get("content-length");
+                
+                if (!totalLength) {
+                    totalLength = 8642344;      // tmp
+
+                    fetch('https://api.kirainmoe.com/starbeatVersion')
+                        .then(res => res.json())
+                        .then(res => totalLength = res.fileSize);
+                }
                 body.on('readable', () => {
                     let chunk;
                     while (null !== (chunk = body.read())) {
