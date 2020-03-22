@@ -248,6 +248,7 @@ export default class Configure extends Component {
                     plist.setKext("USBPorts", true);
                     plist.setKext("ApplePS2", true);
                     plist.setSSDT("SSDT-USTP", false);
+                    plist.setSSDT("SSDT-UIAC", false);
                     break;
                 case "GK7CP6R":
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
