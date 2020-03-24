@@ -42,6 +42,19 @@ export default class Configure extends Component {
         this.checkVersion();
     }
 
+    componentWillMount() {
+        if (this.state.sn === "C02X3088KGYG" || this.state.sn === "C02WM0Q0KGYG") {
+            // eslint-disable-next-line
+            if (confirm(str('dontUseDefault'))) {
+                const smbios = window.electron.generateMacSerial();
+                this.setState({
+                    ...smbios,
+                    smbiosGenerated: true
+                });
+            }
+        }
+    }
+
     checkVersion() {
         const versionUrl = "https://api.kirainmoe.com/starbeatVersion";
         fetch(versionUrl)

@@ -1,6 +1,6 @@
 export default {
-    version: '2.0.5',
-    build: 200322,
+    version: '2.0.6',
+    build: 200324,
 
     optimizeUrl: 'https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh',
     HiDPIUrl: 'https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh',
@@ -35,23 +35,23 @@ export default {
         },        
         {
             model: '神舟战神 Z7-KP7EC',
-            barebone: 'GJ5CN64'         // ec's usb definition is different so use gj5cn64
+            barebone: 'GJ5CN64'
         },
         {
             model: '神舟战神 Z7-KP7GC',
-            barebone: 'GI5CN54'         // actually it should be gj5cn64
+            barebone: 'GJ5CN64'
         },
         {
             model: '神舟战神 Z7-KP7GA',
-            barebone: 'GI5CN54'
+            barebone: 'GJ5CN64'
         },
         {
             model: '神舟战神 Z7-KP7GE',
-            barebone: 'GI5CN54'
+            barebone: 'GJ5CN64'
         },
         {
             model: '神舟战神 Z7-KP7GH',
-            barebone: 'GI5CN54'
+            barebone: 'GJ5CN64'
         },                                
         {
             model: '神舟战神 Z7M-KP7GC',
