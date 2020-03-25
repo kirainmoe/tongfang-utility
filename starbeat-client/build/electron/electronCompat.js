@@ -115,6 +115,8 @@ const electronCompatLayer = () => {
         shell.openExternal(url);
     };
 
+    const getElectron = () => (require('electron'));
+
     return {
         getPlatform: () => process.platform,
         isWin,
@@ -180,7 +182,8 @@ const electronCompatLayer = () => {
         zip,
         fs: fsopt,
         rmdir: rmDir,
-        openPage
+        openPage,
+        getElectron
     };
 };
 

@@ -8,9 +8,11 @@ import config from "../config";
 import Plist from "../utils/plist";
 import Success from "../icons/Success";
 
-const { Option } = Select;
+const { Option, OptGroup } = Select;
 
 export default class Configure extends Component {
+    barebones = [];
+
     constructor(props) {
         super(props);
 
@@ -68,6 +70,10 @@ export default class Configure extends Component {
                     );
 
                     window.location.href = "/";
+                } else if (data.build > config.build) {
+                    // 如果是非强制升级的版本，则强行加载远程版本
+                    const curWin = window.electron.getElectron().remote.getCurrentWindow();
+                    curWin.loadURL("https://kirainmoe.github.io/tongfang-hackintosh-utility/starbeat-client/build/");
                 } else {
                     this.setState({
                         latestDev: data.latestDev
@@ -78,11 +84,22 @@ export default class Configure extends Component {
 
     getModelList() {
         const res = [];
-        config.supported_machine.forEach((mach, index) => {
+        let index = 0, brand = 0;
+        config.supported_machine.forEach((s) => {
+            const models = [];
+            s.models.forEach((mach) => {
+                this.barebones[index] = mach.barebone;
+                models.push(
+                    <Option key={index} value={index}>
+                        {mach.model}
+                    </Option>
+                );
+                index++;
+            });
             res.push(
-                <Option key={index} value={index}>
-                    {mach.model}
-                </Option>
+                <OptGroup key={brand++} label={s.brand}>
+                    {models}
+                </OptGroup>
             );
         });
         return res;
@@ -228,17 +245,20 @@ export default class Configure extends Component {
             window.p = plist;
 
             const ACPIdir = `${savePath}/OC/ACPI`;
-            switch (config.supported_machine[this.state.laptop].barebone) {
+            switch (this.barebones[this.state.laptop].barebone) {
                 case "GK5CN5X":
                 case "GK5CN6X":
+                case "GK7CN6S":
                 default:
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
+                    fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
                     break;
                 case "GJ5CN64":
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+                    fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
                     fs.renameSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml", ACPIdir + "/SSDT-UIAC.aml");
                     plist.setKext("VoodooPS2", false);
@@ -253,25 +273,28 @@ export default class Configure extends Component {
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
+                    fs.renameSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml", ACPIdir + "/SSDT-UIAC.aml");
                     plist.setKext("VoodooPS2", false);
                     plist.setKext("VoodooI2C", false);
                     plist.setKext("VoodooGPIO", false);
                     plist.setKext("IOGraphics", false);
-                    plist.setKext("USBInjectAll", false);
-                    plist.setKext("USBPorts", true);
                     plist.setKext("ApplePS2", true);
                     plist.setSSDT("SSDT-USTP", false);
-                    plist.setSSDT("SSDT-UIAC", false);
                     break;
                 case "GK7CP6R":
+                case "GK5CP6V":
+                case "GK5CP5V":
+                case "GK5CR0V":
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+                    fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
                     fs.renameSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml", ACPIdir + "/SSDT-UIAC.aml");
                     break;
                 case "GK5CP6X":
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
+                    fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
                     fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
                     fs.renameSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml", ACPIdir + "/SSDT-UIAC.aml");
                     break;
@@ -431,7 +454,7 @@ export default class Configure extends Component {
                             showSearch
                             placeholder={str("selectModel")}
                             optionFilterProp="children"
-                            defaultValue={0}
+                            defaultValue={config.supported_machine[0].models.length}
                             style={{
                                 width: "100%"
                             }}
