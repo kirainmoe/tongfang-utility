@@ -109,7 +109,7 @@ export default class About extends Component {
                             marginTop: 20
                         }}
                     >
-                        &copy;2020 Yume Maruyama, All rights reserved.
+                        &copy;2020 Ami Technology, All rights reserved.
                     </p>
                 </div>
             </div>

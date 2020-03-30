@@ -1,4 +1,4 @@
-import React, { Component, version } from "react";
+import React, { Component } from "react";
 import { Select, Checkbox, Input, Button } from "antd";
 
 import "../styles/Configure.styl";
@@ -16,8 +16,14 @@ export default class Configure extends Component {
     constructor(props) {
         super(props);
 
-        let smbios = window.electron.getMacSerial(),
+        let smbios = null, smbiosGenerated = null;
+        
+        try {
+            smbios = window.electron.getMacSerial();
             smbiosGenerated = false;
+        } catch (err) {
+            alert(str('failedToGetSN'));
+        }
         if (!smbios) {
             smbios = window.electron.generateMacSerial();
             smbiosGenerated = true;
@@ -245,7 +251,7 @@ export default class Configure extends Component {
             window.p = plist;
 
             const ACPIdir = `${savePath}/OC/ACPI`;
-            switch (this.barebones[this.state.laptop].barebone) {
+            switch (this.barebones[this.state.laptop]) {
                 case "GK5CN5X":
                 case "GK5CN6X":
                 case "GK7CN6S":
@@ -402,7 +408,7 @@ export default class Configure extends Component {
 
             window.electron.writeFile(savePath + "/OC/config.plist", plist.buildPlist());
             fs.unlinkSync(savePath + "/OpenCore.zip");
-            this.setState({ downloading: false, success: true }, () => console.log(this.state));
+            this.setState({ downloading: false, success: true });
         }, (p) => this.updatePercent(p));
     }
 
@@ -484,7 +490,7 @@ export default class Configure extends Component {
                                     style={{
                                         width: "100%"
                                     }}
-                                    onChange={val =>
+                                    onChange={val => 
                                         this.setState({ ...this.state, download_url: val })
                                     }
                                 >

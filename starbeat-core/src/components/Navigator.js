@@ -9,7 +9,7 @@ import conf from '../config';
 import Keyboard from '../icons/Keyboard';
 import ConfigUpdate from '../icons/ConfigUpdate';
 import Tools from '../icons/Tools';
-import Lab from '../icons/Lab';
+// import Lab from '../icons/Lab';
 
 const logo = require('../resource/logo.png');
 
