@@ -96,7 +96,7 @@ export const strings = {
         update: '更新',
         currentVersion: '当前版本',
         fetchingLatest: '正在获取远端版本...',
-        thisIsAForceUpdate: '这是一个强制更新版本，App 无法自动完成更新，你需要到 https://starbeat.kirainmoe.com/ 手动下载最新版本。',
+        thisIsAForceUpdate: ' 这是一个强制更新版本，App 无法自动完成更新，你需要到 https://starbeat.kirainmoe.com/ 手动下载最新版本。',
         newVersionAvailable: `Tongfang Hackintosh Utility 有新版本 $1 可用，App 将在 $2 秒后开始更新；期间请不要退出程序。`,
         usingLatest: '你正在使用最新版本的 Tongfang Hackintosh Utility.',
         downloadRemoteVersion: '正在更新 Tongfang Hackintosh Utility，请稍等……',
@@ -194,7 +194,17 @@ export const strings = {
         failedToGetSN: 'Failed to read SMBIOS info from current system. Tongfang Hackintosh Utility will generate new SMBIOS info.',
         downloadFailed: 'Errors occurred while downloading config. Please restart App and try again.',
 
-        update: '更新'
+        update: 'Update',
+        currentVersion: 'Current version',
+        fetchingLatest: 'Fetching remote version...',
+        thisIsAForceUpdate: ' This is a force-update version, you need to go to https://starbeat.kirainmoe.com/ and download the latest version manually.',
+        newVersionAvailable: `New version $1 is available. App will update in $2 seconds. Don't quit the app before update is done.`,
+        usingLatest: 'You are running the latest version of Tongfang Hackintosh Utility.',
+        downloadRemoteVersion: 'Updating Tongfang Hackintosh Utility, please wait……',
+        updateSuccess: 'App updated. Please restart the app.',
+        updateFailed: 'Error occurred while updating. Please go to https://starbeat.kirainmoe.com and download the latest version manually.',
+        updateRequired: 'Tongfang Hackintosh Utility requests an update to avoid compatibility problems. I\'m taking you to the update page.'
+
     }
 };
 

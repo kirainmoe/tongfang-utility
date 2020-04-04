@@ -68,7 +68,7 @@ export default class Update extends Component {
         <Alert message={forceUpdate} type="error" showIcon />
       );
     }
-    else if (this.state.build >= config.build || window.location.href.indexOf('github') >= 0) {
+    else if (this.state.build > config.build || window.location.href.indexOf('github') >= 0) {
       const requestUpdate = str('newVersionAvailable')
         .replace('$1', this.state.latest)
         .replace('$2', this.state.second);
