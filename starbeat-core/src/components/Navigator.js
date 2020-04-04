@@ -9,6 +9,7 @@ import conf from '../config';
 import Keyboard from '../icons/Keyboard';
 import ConfigUpdate from '../icons/ConfigUpdate';
 import Tools from '../icons/Tools';
+import Update from '../icons/Update';
 // import Lab from '../icons/Lab';
 
 const logo = require('../resource/logo.png');
@@ -36,10 +37,10 @@ export default class Navigator extends Component {
                     <p>{str('tools')}</p>
                 </NavLink>
 
-                {/* <NavLink className="nav-link" to="/lab">
-                    <Lab />
-                    <p>{str('lab')}</p>
-                </NavLink> */}
+                <NavLink className="nav-link" to="/update">
+                    <Update />
+                    <p>{str('update')}</p>
+                </NavLink>
 
                 <div className="starbeat-version">
                     { navigator.language === "zh-CN" ? 

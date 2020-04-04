@@ -83,15 +83,26 @@ export const strings = {
             "请注意：同方 GJ5CN64 / GI5CN54 模具，需要解锁 BIOS 或使用 UEFI Shell 修改 DVMT Pre-allocated 大小为 64M 后方可支持 4K 内屏，否则会导致内核崩溃.",
         dontUseDefault: '请注意：程序检测到你正在使用配置文件模板默认的 SMBIOS 信息（序列号为 C02X3088KGYG 或 C02WM0Q0KGYG）。\n\n使用配置文件模板中的默认序列号是不被推荐的行为，可能会导致你无法使用与 Apple ID 关联的服务，建议重新生成 SMBIOS 信息。\n\n你想要重新生成吗？第一次使用新的 SMBIOS 信息引导 macOS 时，可能会要求你重新登录与 Apple ID 关联的服务 (iCloud, 随航等)。',
         failedToGetSN: '无法从系统获取 SMBIOS 信息，请确认当前系统的 SMBIOS 有效。软件将自动生成一组 SMBIOS 信息。',
-
         youAreUsing: "你正在使用",
         officialLatest: "官方最新版本是",
         updateRemind:
             "为了防止发生兼容性问题，请前往 https://starbeat.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。",
         downloadSource: "更新源",
         recommend: '推荐',
+        downloadFailed: '下载失败，请重启程序尝试重新下载。',
 
-        about: '关于 Tongfang Hackintosh Utility'
+        about: '关于 Tongfang Hackintosh Utility',
+
+        update: '更新',
+        currentVersion: '当前版本',
+        fetchingLatest: '正在获取远端版本...',
+        thisIsAForceUpdate: '这是一个强制更新版本，App 无法自动完成更新，你需要到 https://starbeat.kirainmoe.com/ 手动下载最新版本。',
+        newVersionAvailable: `Tongfang Hackintosh Utility 有新版本 $1 可用，App 将在 $2 秒后开始更新；期间请不要退出程序。`,
+        usingLatest: '你正在使用最新版本的 Tongfang Hackintosh Utility.',
+        downloadRemoteVersion: '正在更新 Tongfang Hackintosh Utility，请稍等……',
+        updateSuccess: '程序更新成功，请重启程序应用更改。',
+        updateFailed: '程序更新时出现错误，请尝试手动从 https://starbeat.kirainmoe.com 下载最新版本。',
+        updateRequired: '为防止出现兼容性问题，Tongfang Hackintosh Utility 需要更新，即将为你跳转到更新页面。'
     },
     en: {
         config: "Configuration",
@@ -180,7 +191,10 @@ export const strings = {
             'Warning: For Tongfang GJ5CN64 / GI5CN54 barebones\' user, you need to set "DVMT Pre-allocated" to 64MB by unlocking BIOS or using a UEFI shell, or you will meet with a kernel panic。',
         downloadSource: "Download From",
         recommend: 'Recommend',
-        failedToGetSN: 'Failed to read SMBIOS info from current system. Tongfang Hackintosh Utility will generate new SMBIOS info.'
+        failedToGetSN: 'Failed to read SMBIOS info from current system. Tongfang Hackintosh Utility will generate new SMBIOS info.',
+        downloadFailed: 'Errors occurred while downloading config. Please restart App and try again.',
+
+        update: '更新'
     }
 };
 

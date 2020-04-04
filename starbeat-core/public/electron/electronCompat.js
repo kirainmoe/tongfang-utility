@@ -117,6 +117,55 @@ const electronCompatLayer = () => {
 
     const getElectron = () => (require('electron'));
 
+    const selfUpdate = (proc, success, error) => {
+        const remote = require("electron").remote;
+        const appPath = remote.app.getAppPath();
+        const fs = require('fs');
+        const fetch = require('node-fetch');
+        
+        const keyFiles = [
+            '/build/index.html',
+            '/build/electron/electronCompat.js',
+            '/build/electron/hidutils.js',
+            '/build/service-worker.js',
+            '/build/static/css/2.chunk.css',
+            '/build/static/css/main.chunk.css',
+            '/build/static/js/2.chunk.js',
+            '/build/static/js/main.chunk.js',
+            '/build/static/js/runtime-main.js'
+        ];
+
+        const updateSpecificFile = (index) => {
+            const filename = keyFiles[index];
+            console.log(`[update] Fetching file ${filename} from remote...`);
+
+            if (proc)
+                proc(filename);
+            
+            fetch('https://kirainmoe.github.io/tongfang-hackintosh-utility/starbeat-client' + filename, {
+                method: "GET",
+                headers: { "Content-Type": "application/octet-stream" }
+            })
+                .then(res => res.buffer())
+                .then(data => {
+                    fs.writeFileSync(appPath + filename, data);
+                    if (index + 1 < keyFiles.length)
+                        updateSpecificFile(index + 1);
+                    else {
+                        if (success)
+                            success();
+                    }
+                })
+                .catch(err => {
+                    console.error(`Error occurred while updating file ${filename}`);
+                    console.log(err);
+                    if (error)
+                        error(err);
+                });
+        };
+        updateSpecificFile(0);
+    };
+
     return {
         getPlatform: () => process.platform,
         isWin,
@@ -132,17 +181,23 @@ const electronCompatLayer = () => {
             let macserialPath = (p + "/macserial/macserial").replace(/ /g, "\\ ");
             const output = exec(macserialPath).toString();
 
-            const model = output.match(/Model:\s(.*)/),
-                sn = output.match(/Serial\sNumber:\s(.*)/),
-                smuuid = output.match(/System\sID:\s(.*)/),
-                mlb = output.match(/MLB:\s(.*)/);
+            let result = {};
+            try {
+                const model = output.match(/Model:\s(.*)/),
+                    sn = output.match(/Serial\sNumber:\s(.*)/),
+                    smuuid = output.match(/System\sID:\s(.*)/),
+                    mlb = output.match(/MLB:\s(.*)/);
 
-            return {
-                model: model[1],
-                sn: sn[1],
-                smuuid: smuuid[1],
-                mlb: mlb[1]
-            };
+                result = {
+                    model: model[1],
+                    sn: sn[1],
+                    smuuid: smuuid[1],
+                    mlb: mlb[1]
+                };
+            } catch(err) {
+                result = null;
+            }
+            return result;
         },
         generateMacSerial: () => {
             let macserial;
@@ -183,7 +238,8 @@ const electronCompatLayer = () => {
         fs: fsopt,
         rmdir: rmDir,
         openPage,
-        getElectron
+        getElectron,
+        selfUpdate
     };
 };
 
