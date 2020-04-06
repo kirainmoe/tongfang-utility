@@ -265,7 +265,7 @@ export default class Configure extends Component {
             plist.setKext("VoodooI2C", false);
             plist.setKext("VoodooGPIO", false);
             plist.setKext("IOGraphics", false);
-            plist.setKext("ApplePS2", true);
+            plist.setKext("VoodooPS2Controller_Rehabman", true);
             plist.setSSDT("SSDT-USTP", false);
             break;
           case "GI5CN54":
@@ -278,7 +278,7 @@ export default class Configure extends Component {
             plist.setKext("VoodooI2C", false);
             plist.setKext("VoodooGPIO", false);
             plist.setKext("IOGraphics", false);
-            plist.setKext("ApplePS2", true);
+            plist.setKext("VoodooPS2Controller_Rehabman", true);
             plist.setSSDT("SSDT-USTP", false);
             break;
           case "GK7CP6R":
@@ -305,7 +305,7 @@ export default class Configure extends Component {
         if (this.state.brcm) {
           plist.setKext("BrcmBluetoothInjector", true);
           plist.setKext("BrcmFirmwareData", true);
-          plist.setKext("BrcmPatchRAM2", true);
+          plist.setKext("BrcmPatchRAM3", true);
         }
         if (this.state.rndis) {
           plist.setKext("HoRNDIS", true);
