@@ -45,6 +45,7 @@ export default class Configure extends Component {
       smbiosGenerated,
       success: false,
       percent: 0,
+      fixhibernate: 0,
       download_url: config.download_url.bitbucket
     };
 
@@ -137,7 +138,8 @@ export default class Configure extends Component {
       { label: str("injectBrcmBluetooth"), value: "brcm" },
       { label: str("injectHoRNDIS"), value: "rndis" },
       { label: str("inject4KSupport"), value: "support4k" },
-      { label: str("disablePM981"), value: "pm981" }
+      { label: str("disablePM981"), value: "pm981" },
+      { label: str("fixhibernate"), value: "fixhibernate" }
     ];
 
     return (
@@ -208,7 +210,15 @@ export default class Configure extends Component {
     });
   }
 
+  showChooseGuide() {
+    alert(str('chooseGuide'));
+  }
+
   downloadLatest() {
+    if (navigator.language === 'zh-CN') {
+      alert(str('license'));
+    }
+
     this.setState({
       ...this.state,
       workStatus: str("downloadWait"),
@@ -236,9 +246,11 @@ export default class Configure extends Component {
               extractPath = path;
           });
 
+          window.electron.rmdir(`${savePath}/BOOT`);
           fs.renameSync(`${savePath}/OpenCore/${extractPath}/BOOT`, `${savePath}/BOOT`);
           window.electron.rmdir(`${savePath}/OC`);
           fs.renameSync(`${savePath}/OpenCore/${extractPath}/OC`, `${savePath}/OC`);
+          fs.renameSync(`${savePath}/OpenCore/${extractPath}/Docs/Credits.md`, `${savePath}/OC/Credits.md`);
           window.electron.rmdir(`${savePath}/OpenCore`);
 
           const content = window.electron.readFile(savePath + "/OC/config.plist");
@@ -265,7 +277,6 @@ export default class Configure extends Component {
               plist.setKext("VoodooPS2", false);
               plist.setKext("VoodooI2C", false);
               plist.setKext("VoodooGPIO", false);
-              plist.setKext("IOGraphics", false);
               plist.setKext("VoodooPS2Controller_Rehabman", true);
               plist.setSSDT("SSDT-USTP", false);
               break;
@@ -278,7 +289,6 @@ export default class Configure extends Component {
               plist.setKext("VoodooPS2", false);
               plist.setKext("VoodooI2C", false);
               plist.setKext("VoodooGPIO", false);
-              plist.setKext("IOGraphics", false);
               plist.setKext("VoodooPS2Controller_Rehabman", true);
               plist.setSSDT("SSDT-USTP", false);
               break;
@@ -301,19 +311,23 @@ export default class Configure extends Component {
               break;
           }
 
-          if (this.state.airport) plist.setKext("AirportBrcmFixup", true);
-          if (this.state.intel) plist.setKext("IntelBluetooth", true);
+          if (this.state.airport) {
+            plist.setKext("AirportBrcmFixup", true);
+            plist.setBootArg("brcmfx-country=CN");
+          }
+          if (this.state.intel)
+            plist.setKext("IntelBluetooth", true);
           if (this.state.brcm) {
             plist.setKext("BrcmBluetoothInjector", true);
             plist.setKext("BrcmFirmwareData", true);
             plist.setKext("BrcmPatchRAM3", true);
           }
-          if (this.state.rndis) {
+          if (this.state.rndis)
             plist.setKext("HoRNDIS", true);
-          }
-          if (this.state.pm981) {
+          if (this.state.pm981)
             plist.setSSDT("SSDT-DNVME", true);
-          }
+          if (this.state.fixhibernate)
+            plist.setKext("HibernationFixup", true);
           if (this.state.support4k) {
             plist.setProperties(
               "PciRoot(0x0)/Pci(0x2,0x0)",
@@ -471,7 +485,10 @@ export default class Configure extends Component {
               {this.getModelList()}
             </Select>
 
-            <p>{str("injectOption")}</p>
+            <p>
+              {str("injectOption")} 
+              （<a href="javascript:;" onClick={this.showChooseGuide}>{str('whatShouldIChoose')}</a>）
+            </p>
             <div className="inject-options">{this.getOptions()}</div>
 
             <p>

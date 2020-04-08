@@ -53,13 +53,14 @@ export const strings = {
         configureDescription: "管理、更新和定制 OpenCore 配置文件。",
         laptopModel: "笔记本机型",
         selectModel: "选择机型或模具型号",
-        injectOption: "驱动/补丁注入选项（如无需要或无硬件请不要勾选）",
+        injectOption: "驱动/补丁注入选项",
         injectAirport: "添加博通无线网卡驱动",
         injectIntelBluetooth: "添加因特尔蓝牙驱动",
         injectBrcmBluetooth: "添加博通蓝牙驱动",
         injectHoRNDIS: "添加 USB 网络共享驱动",
         inject4KSupport: "添加 4K 内屏补丁",
-        disablePM981: "添加 PM981 屏蔽补丁",
+        disablePM981: "屏蔽不兼容的 NVMe 硬盘",
+        fixhibernate: "添加睡眠修复补丁",
         smbiosInfo: "硬件识别信息",
         getSMBIOSFromGeneration: "已随机生成",
         getSMBIOSFromSystem: "已从系统读取",
@@ -90,6 +91,21 @@ export const strings = {
         downloadSource: "更新源",
         recommend: '推荐',
         downloadFailed: '下载失败，请重启程序尝试重新下载。',
+        whatShouldIChoose: '我该如何选择？',
+        chooseGuide: 
+`如果你更换了博通无线网卡（DW1830, DW1860, DW1820A..），建议你勾选 “添加博通无线网卡驱动” 和 “添加博通蓝牙驱动”。\n
+如果你更换了白果拆机卡 (BCM94360CS2, BCM943602CS..)，建议你勾选 “添加博通无线网卡驱动”，不必勾选 “添加博通蓝牙驱动”。\n
+如果你使用 Intel 原装无线网卡 (AC9462, AC9560, AX200)，可以勾选 “添加因特尔蓝牙驱动”；请注意 Intel 无线网卡的 WiFi 是无法驱动的。\n
+如果你需要使用 Android 设备通过 USB 共享网络，可以勾选 “添加 USB 网络共享驱动”。请注意并不是所有的 Android 手机都兼容此驱动。\n
+如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”。\n
+如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。\n
+如果你遇到睡眠睡死问题，推荐你先按照：重置NVRAM -> 重置BIOS -> 重装系统 的方式排除；如果上述方法没能够修复问题，建议你尝试 “添加睡眠修复补丁”。`,
+        license:
+`在开始使用 "hasee-tongfang-macos 仓库提供的配置文件"（以下简称 EFI 文件）之前，请先阅读以下许可协议：\n
+1. 您可以免费、自由地使用、修改本 EFI 文件；同时，您不能在不提供附加服务的情况下，将 EFI 文件用于商业用途，也不允许以任何价格向任何人出售 EFI 文件。\n
+2. 如果您在此 EFI 文件的基础上，适配其它机型的配置文件，或修改并重新分发，必须保留版权声明文件 "Credits.md".\n
+3. 此 EFI 文件已经过作者测试，但倘若您要使用此配置文件，仍需自行承担由此 EFI 文件造成的直接或间接风险，包括但不限于软件损坏、数据丢失、硬件损坏等。作者和贡献者将不对这些风险承担任何形式的责任。\n
+点击确定则表示您已经阅读并知悉上述许可协议。App 将开始下载配置文件。`,
 
         about: '关于 Tongfang Hackintosh Utility',
 
@@ -157,13 +173,14 @@ export const strings = {
         configureDescription: "Manage, update and customize OpenCore config.",
         laptopModel: "Laptop Model",
         selectModel: "Select a model or barebone...",
-        injectOption: "Kext/Patch Injection（Do not check the options that you don't need）",
+        injectOption: "Kext/Patch Injection",
         injectAirport: "Broadcom Airport Fix",
         injectIntelBluetooth: "Intel Bluetooth",
         injectBrcmBluetooth: "Broadcom Bluetooth",
         injectHoRNDIS: "USB Network Tethering",
         inject4KSupport: "4K Resolution Screen",
         disablePM981: "Disable Incompatible NVMe",
+        fixhibernate: 'Fix hibernation failure',
         smbiosInfo: "SMBIOS",
         getSMBIOSFromGeneration: "Randomly generated",
         getSMBIOSFromSystem: "Read from system",
@@ -193,6 +210,16 @@ export const strings = {
         recommend: 'Recommend',
         failedToGetSN: 'Failed to read SMBIOS info from current system. Tongfang Hackintosh Utility will generate new SMBIOS info.',
         downloadFailed: 'Errors occurred while downloading config. Please restart App and try again.',
+        whatShouldIChoose: 'Which should I choose?',
+        chooseGuide: 
+`If you installed Broadcom Wi-Fi card (DW1830, DW1860, DW1820A..), check "Broadcom Airport Fix" and "Broadcom Bluetooth".\n
+If you installed Apple Wi-Fi card (BCM94360CS2, BCM943602CS..), check "Broadcom Airport Fix".\n
+If you had Intel Wi-Fi card (AC9462, AC9560, AX200), check "Intel Bluetooth"; Note that Intel Wi-Fi does not work on macOS currently.\n
+If you want to tether network via an Android device, check "USB Network Tethering". \n
+If you replaced the monitor of 4K resolution or stuck on "IOConsoleUsers" while booting macOS, check "4K Resolution".\n
+If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are not compatible with macOS, check "Disable incompatible NVMe".\n
+If you had problem hibernating, try to check "Fix hibernation failure".`,
+
 
         update: 'Update',
         currentVersion: 'Current version',
