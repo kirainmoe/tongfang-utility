@@ -37,28 +37,22 @@ export default class Toolbox extends Component {
   }
 
   fixSleep() {
-    this.setState(
-      {
+    this.setState({
         status: "performing",
         operation: str("fixSleep")
-      },
-      () => {
-        window.electron.sudoExec(
-          'sh -c "$(curl -fsSL ' + conf.optimizeUrl + ')"',
-          (err, stdout) => {
-            this.setState(
-              {
-                status: "success",
-                operation: "..."
-              },
-              () => {
-                setTimeout(() => this.setState({ status: "idle" }), 5000);
-              }
-            );
-          }
-        );
-      }
-    );
+      }, () => {
+      window.electron.sudoExec(
+        'sh -c "$(curl -fsSL ' + conf.optimizeUrl + ')"',
+        (err, stdout) => {
+          this.setState({
+              status: "success",
+              operation: "..."
+          }, () => {
+            setTimeout(() => this.setState({ status: "idle" }), 5000);
+          });
+        }
+      );
+    });
   }
 
   enableHiDPI() {

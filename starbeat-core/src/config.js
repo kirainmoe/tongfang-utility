@@ -1,6 +1,6 @@
 export default {
-    version: "2.1.2",
-    build: 2004080,
+    version: "2.1.3",
+    build: 2004210,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -14,6 +14,10 @@ export default {
                 {
                     model: "Tongfang GK5CN6X / GK5CN5X (8th gen)",
                     barebone: "GK5CN6X"
+                },
+                {
+                    model: "Tongfang GK5CN5Z / GK5CN6Z (8th gen)",
+                    barebone: "GK5CN6Z"
                 },
                 {
                     model: "Tongfang GJ5CN64 (8th gen)",
@@ -173,6 +177,10 @@ export default {
             brand: '机械革命 (Mechrevo)',
             models: [
                 {
+                    model: "机械革命 Z2",
+                    barebone: "GK5CN6Z"
+                },
+                {
                     model: "机械革命 Z2 Air",
                     barebone: "GK5CN6X"
                 },
@@ -183,7 +191,11 @@ export default {
                 {
                     model: "机械革命 X3 (试验性)",
                     barebone: "GK7CP6R"
-                }                             
+                },
+                {
+                    model: "机械革命 X8Ti（实验性）",
+                    barebone: "GK5CN5Z"
+                }                                            
             ]
         },
         {

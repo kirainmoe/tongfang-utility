@@ -88,24 +88,25 @@ export const strings = {
         officialLatest: "官方最新版本是",
         updateRemind:
             "为了防止发生兼容性问题，请前往 https://starbeat.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。",
-        downloadSource: "更新源",
+        downloadSource: "更新源（若下载过慢，尝试换一个源）",
         recommend: '推荐',
-        downloadFailed: '下载失败，请重启程序尝试重新下载。',
+        downloadFailed: '下载失败，请重启程序尝试重新下载。如果你在 Windows 下，可能会遇到 operation not permitted 问题，请多试几次。',
         whatShouldIChoose: '我该如何选择？',
         chooseGuide: 
 `如果你更换了博通无线网卡（DW1830, DW1860, DW1820A..），建议你勾选 “添加博通无线网卡驱动” 和 “添加博通蓝牙驱动”。\n
 如果你更换了白果拆机卡 (BCM94360CS2, BCM943602CS..)，建议你勾选 “添加博通无线网卡驱动”，不必勾选 “添加博通蓝牙驱动”。\n
 如果你使用 Intel 原装无线网卡 (AC9462, AC9560, AX200)，可以勾选 “添加因特尔蓝牙驱动”；请注意 Intel 无线网卡的 WiFi 是无法驱动的。\n
 如果你需要使用 Android 设备通过 USB 共享网络，可以勾选 “添加 USB 网络共享驱动”。请注意并不是所有的 Android 手机都兼容此驱动。\n
-如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”。\n
+如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”；若内屏为普通 1080p 屏幕请不要勾选，否则会遇到睡眠唤醒问题！\n
 如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。\n
 如果你遇到睡眠睡死问题，推荐你先按照：重置NVRAM -> 重置BIOS -> 重装系统 的方式排除；如果上述方法没能够修复问题，建议你尝试 “添加睡眠修复补丁”。`,
         license:
 `在开始使用 "hasee-tongfang-macos 仓库提供的配置文件"（以下简称 EFI 文件）之前，请先阅读以下许可协议：\n
 1. 您可以免费、自由地使用、修改本 EFI 文件；同时，您不能在不提供附加服务的情况下，将 EFI 文件用于商业用途，也不允许以任何价格向任何人出售 EFI 文件。\n
-2. 如果您在此 EFI 文件的基础上，适配其它机型的配置文件，或修改并重新分发，必须保留版权声明文件 "Credits.md".\n
+2. 如果您在此 EFI 文件的基础上，适配其它机型的配置文件，或修改并重新分发，必须保留版权声明文件 "Credits.md"，同时需要为大众保留至少一个免费获取、下载的方式。\n
 3. 此 EFI 文件已经过作者测试，但倘若您要使用此配置文件，仍需自行承担由此 EFI 文件造成的直接或间接风险，包括但不限于软件损坏、数据丢失、硬件损坏等。作者和贡献者将不对这些风险承担任何形式的责任。\n
 点击确定则表示您已经阅读并知悉上述许可协议。App 将开始下载配置文件。`,
+        dontCheck4kIfNotRequire: '如果你的笔记本 *内屏* 不是 4K 分辨率，请不要勾选此选项，否则在睡眠后你将无法正常唤醒设备。',
 
         about: '关于 Tongfang Hackintosh Utility',
 
@@ -210,6 +211,7 @@ export const strings = {
         recommend: 'Recommend',
         failedToGetSN: 'Failed to read SMBIOS info from current system. Tongfang Hackintosh Utility will generate new SMBIOS info.',
         downloadFailed: 'Errors occurred while downloading config. Please restart App and try again.',
+        dontCheck4kIfNotRequire: 'Don\'t check this option unless you have a 4K built-in monitor, or you will meet problems of sleep/hibernation.',
         whatShouldIChoose: 'Which should I choose?',
         chooseGuide: 
 `If you installed Broadcom Wi-Fi card (DW1830, DW1860, DW1820A..), check "Broadcom Airport Fix" and "Broadcom Bluetooth".\n
@@ -231,7 +233,6 @@ If you had problem hibernating, try to check "Fix hibernation failure".`,
         updateSuccess: 'App updated. Please restart the app.',
         updateFailed: 'Error occurred while updating. Please go to https://starbeat.kirainmoe.com and download the latest version manually.',
         updateRequired: 'Tongfang Hackintosh Utility requests an update to avoid compatibility problems. I\'m taking you to the update page.'
-
     }
 };
 

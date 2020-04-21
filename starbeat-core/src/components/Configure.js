@@ -46,7 +46,9 @@ export default class Configure extends Component {
       success: false,
       percent: 0,
       fixhibernate: 0,
-      download_url: config.download_url.bitbucket
+      download_url: navigator.language === 'zh-CN'
+        ? config.download_url.buildbot
+        : config.download_url.bitbucket
     };
 
     this.checkVersion();
@@ -109,8 +111,13 @@ export default class Configure extends Component {
     const res = [];
     let index = 0;
     res.push(
+      <Option key={index++} value={config.download_url.buildbot}>
+        Aya BuildBot ({str("recommend")})
+      </Option>
+    );    
+    res.push(
       <Option key={index++} value={config.download_url.bitbucket}>
-        BitBucket ({str("recommend")})
+        BitBucket
       </Option>
     );
     res.push(
@@ -121,11 +128,6 @@ export default class Configure extends Component {
     res.push(
       <Option key={index++} value={config.download_url.cloudflare}>
         CloudFlare CDN
-      </Option>
-    );
-    res.push(
-      <Option key={index++} value={config.download_url.buildbot}>
-        Aya BuildBot
       </Option>
     );
     return res;
@@ -149,6 +151,10 @@ export default class Configure extends Component {
           let todo = {};
           opts.forEach(opt => (todo[opt.value] = 0));
           v.forEach(item => (todo[item] = 1));
+
+          if (todo["support4k"]) {
+            alert(str("dontCheck4kIfNotRequire"));
+          }
 
           if (
             todo["support4k"] &&
@@ -267,10 +273,19 @@ export default class Configure extends Component {
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
               break;
+            case "GK5CN6Z":
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
+              fs.renameSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml", ACPIdir + "/SSDT-UIAC.aml");              break;
             case "GJ5CN64":
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
               fs.renameSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml", ACPIdir + "/SSDT-UIAC.aml");
@@ -284,6 +299,7 @@ export default class Configure extends Component {
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
               fs.renameSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml", ACPIdir + "/SSDT-UIAC.aml");
               plist.setKext("VoodooPS2", false);
@@ -299,6 +315,7 @@ export default class Configure extends Component {
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
               fs.renameSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml", ACPIdir + "/SSDT-UIAC.aml");
               break;
@@ -306,6 +323,7 @@ export default class Configure extends Component {
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
+              fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
               fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
               fs.renameSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml", ACPIdir + "/SSDT-UIAC.aml");
               break;
@@ -329,11 +347,6 @@ export default class Configure extends Component {
           if (this.state.fixhibernate)
             plist.setKext("HibernationFixup", true);
           if (this.state.support4k) {
-            plist.setProperties(
-              "PciRoot(0x0)/Pci(0x2,0x0)",
-              "AAPL,GfxYTile",
-              new Uint8Array([1, 0, 0, 0])
-            );
             plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");
             plist.setProperties(
               "PciRoot(0x0)/Pci(0x2,0x0)",
@@ -352,47 +365,18 @@ export default class Configure extends Component {
             );
             plist.setProperties(
               "PciRoot(0x0)/Pci(0x2,0x0)",
-              "enable-hdmi20",
-              new Uint8Array([1, 0, 0, 0])
-            );
-            plist.setProperties(
-              "PciRoot(0x0)/Pci(0x2,0x0)",
-              "enable-lspcon-support",
-              new Uint8Array([1, 0, 0, 0])
-            );
-            plist.setProperties(
-              "PciRoot(0x0)/Pci(0x2,0x0)",
               "framebuffer-con1-alldata",
               new Uint8Array([1, 5, 9, 0, 0, 4, 0, 0, 135, 1, 0, 0])
             );
             plist.setProperties(
               "PciRoot(0x0)/Pci(0x2,0x0)",
-              "framebuffer-con2-alldata",
-              new Uint8Array([3, 4, 10, 0, 0, 8, 0, 0, 135, 1, 0, 0])
-            );
-            plist.setProperties(
-              "PciRoot(0x0)/Pci(0x2,0x0)",
-              "framebuffer-con2-has-lspcon",
-              new Uint8Array([1, 0, 0, 0])
-            );
-            plist.setProperties(
-              "PciRoot(0x0)/Pci(0x2,0x0)",
-              "framebuffer-con2-preferred-lspcon-mode",
-              new Uint8Array([1, 0, 0, 0])
-            );
-            plist.setProperties(
-              "PciRoot(0x0)/Pci(0x2,0x0)",
-              "framebuffer-portcount",
-              new Uint8Array([4, 0, 0, 0])
-            );
-            plist.setProperties(
-              "PciRoot(0x0)/Pci(0x2,0x0)",
               "framebuffer-unifiedmem",
-              new Uint8Array([0, 0, 0, 192])
+              new Uint8Array([0, 0, 0, 255])
             );
             plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-enable");
             plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-pipe");
             plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con1-pipe");
+            plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-enable");            
             plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-pipe");
             plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-stolenmem");
             plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
@@ -505,7 +489,7 @@ export default class Configure extends Component {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  defaultValue={config.download_url.bitbucket}
+                  defaultValue={navigator.language === 'zh-CN' ? config.download_url.buildbot : config.download_url.bitbucket}
                   style={{
                     width: "100%"
                   }}
