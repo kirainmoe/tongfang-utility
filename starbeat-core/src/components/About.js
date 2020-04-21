@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "antd";
 
 import str from "../resource/string";
 
@@ -6,6 +7,8 @@ import "../styles/About.styl";
 import config from "../config";
 
 export default class About extends Component {
+  issuePage = "https://github.com/kirainmoe/tongfang-hackintosh-utility/issues/new";
+
   openPage(url) {
     window.electron.openPage(url);
   }
@@ -34,16 +37,9 @@ export default class About extends Component {
             <div>
               <p>
                 如果你在使用过程中遇到 BUG，或者想要什么功能，可以在
-                <a
-                  onClick={() =>
-                    this.openPage(
-                      "https://github.com/kirainmoe/tongfang-hackintosh-utility/issues/new"
-                    )
-                  }
-                  href="#"
-                >
+                <Button type="link" onClick={() => this.openPage(this.issuePage)} style={{ padding: 0 }}>
                   此页面
-                </a>
+                </Button>
                 中告诉我。
               </p>
             </div>
