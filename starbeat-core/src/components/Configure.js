@@ -371,7 +371,7 @@ export default class Configure extends Component {
             plist.setProperties(
               "PciRoot(0x0)/Pci(0x2,0x0)",
               "framebuffer-unifiedmem",
-              new Uint8Array([0, 0, 0, 255])
+              new Uint8Array([0, 0, 0, 192])
             );
             plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-enable");
             plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-pipe");

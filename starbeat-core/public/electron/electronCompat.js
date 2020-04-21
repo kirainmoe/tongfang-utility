@@ -122,6 +122,14 @@ const electronCompatLayer = () => {
         const appPath = remote.app.getAppPath();
         const fs = require('fs');
         const fetch = require('node-fetch');
+
+        if (appPath.indexOf('/private') >= 0) {
+            alert(
+                "检测到你正在 macOS 的 Sandbox 环境下运行 Tongfang Hackintosh Utility，程序无法自动更新。这可能是程序位于 ~/Downloads 目录下，请将程序移动到其它位置（如“应用程序”）下后重试更新。\n\n"
+                + "Tongfang Hackintosh Utility is currently running on macOS sandbox environment, which will forbid the update. This may because that app is running on ~/Downloads directory. Please move Tongfang Hackintosh Utility to somewhere else and retry."
+            );
+            return;
+        }
         
         const keyFiles = [
             '/build/index.html',
