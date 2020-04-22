@@ -17,7 +17,7 @@ export default class Configure extends Component {
   constructor(props) {
     super(props);
 
-    // 获取 & 生成 SMBIOS 信息
+    /* 获取 & 生成 SMBIOS 信息 */
     let smbios = null, smbiosGenerated = null;
     try {
       smbios = window.electron.getMacSerial();
@@ -25,6 +25,7 @@ export default class Configure extends Component {
     } catch (err) {
       alert(str('failedToGetSN'));
     }
+    /* 如果 SMBIOS 信息为空，说明程序无法获取 SMBIOS 信息，使用 macserial 随机生成 */
     if (!smbios) {
       smbios = window.electron.generateMacSerial();
       smbiosGenerated = true;
@@ -46,12 +47,12 @@ export default class Configure extends Component {
       success: false,
       percent: 0,
       fixhibernate: 0,
+      modal_visible: false,
+      modal_content: '',
       download_url: navigator.language === 'zh-CN'
         ? config.download_url.buildbot
         : config.download_url.bitbucket
     };
-
-    this.checkVersion();
   }
 
   componentWillMount() {
@@ -68,9 +69,13 @@ export default class Configure extends Component {
     }
   }
 
+  componentDidMount() {
+    this.checkVersion();
+  }
+
+  /* 检查版本更新 */
   checkVersion() {
     const versionUrl = "https://api.kirainmoe.com/starbeatVersion";
-    
     fetch(versionUrl)
       .then(res => res.json())
       .then(data => {
@@ -82,6 +87,7 @@ export default class Configure extends Component {
       });
   }
 
+  /* 获取模具、机型列表，写在 config.js 中 */
   getModelList() {
     const res = [];
     let index = 0, brand = 0;
@@ -90,12 +96,12 @@ export default class Configure extends Component {
       s.models.forEach((mach) => {
         this.barebones[index] = mach.barebone;
         models.push(
-          <Option key={index} value={index}>
+          <Option key={index} value={index++}>
             {mach.model}
           </Option>
         );
-        index++;
       });
+
       res.push(
         <OptGroup key={brand++} label={s.brand}>
           {models}
@@ -105,6 +111,7 @@ export default class Configure extends Component {
     return res;
   }
 
+  /* 渲染下载源；大陆默认使用 Aya Buildbot，海外默认使用 bitbucket */
   getDownloadSource() {
     const res = [];
     let index = 0;
@@ -131,6 +138,27 @@ export default class Configure extends Component {
     return res;
   }
 
+  handleOptionChange(v, opts) {
+    let selected = {};
+    opts.forEach(opt => (selected[opt.value] = 0));
+    v.forEach(item => (selected[item] = 1));
+
+    // 勾选 4K 时显示警告
+    if (!this.state.support4k && selected["support4k"]) {
+      alert(str("dontCheck4kIfNotRequire"));
+    }
+
+    // 对 GI5CN54 / GJ5CN64 的用户勾选 4K 时提示警告
+    if (!this.state.support4k && selected["support4k"] &&
+      (this.barebones[this.state.laptop] === "GJ5CN64" ||
+        this.barebones[this.state.laptop] === "GI5CN54")) {
+      alert(str("requirement4k"));
+    }
+
+    this.setState({ ...selected });
+  }
+
+  /* 显示选项 */
   getOptions() {
     const opts = [
       { label: str("injectAirport"), value: "airport" },
@@ -145,29 +173,7 @@ export default class Configure extends Component {
     return (
       <Checkbox.Group
         options={opts}
-        onChange={v => {
-          let todo = {};
-          opts.forEach(opt => (todo[opt.value] = 0));
-          v.forEach(item => (todo[item] = 1));
-
-          if (!this.state.support4k && todo["support4k"]) {
-            alert(str("dontCheck4kIfNotRequire"));
-          }
-
-          if (
-            !this.state.support4k &&
-            todo["support4k"] &&
-            (this.barebones[this.state.laptop] === "GJ5CN64" ||
-              this.barebones[this.state.laptop] === "GI5CN54")
-          ) {
-            alert(str("requirement4k"));
-          }
-
-          this.setState({
-            ...this.state,
-            ...todo
-          });
-        }}
+        onChange={v => this.handleOptionChange(v, opts)}
       />
     );
   }
@@ -180,6 +186,7 @@ export default class Configure extends Component {
     this.setState(state);
   }
 
+  /* 渲染 SMBIOS 信息 */
   getSMBIOSInfo() {
     return (
       <div className="smbios-input">
@@ -209,15 +216,9 @@ export default class Configure extends Component {
     );
   }
 
-  updatePercent(percent) {
-    this.setState({
-      percent
-    });
-  }
+  updatePercent = (percent) => this.setState({ percent })
 
-  showChooseGuide() {
-    alert(str('chooseGuide'));
-  }
+  showChooseGuide = () => alert(str('chooseGuide'))
 
   async downloadLatest() {
     if (navigator.language === 'zh-CN') {
@@ -225,7 +226,6 @@ export default class Configure extends Component {
     }
 
     this.setState({
-      ...this.state,
       workStatus: str("downloadWait"),
       downloading: true
     });
@@ -355,11 +355,6 @@ export default class Configure extends Component {
               );
               plist.setProperties(
                 "PciRoot(0x0)/Pci(0x2,0x0)",
-                "dpcd-max-link-rate",
-                new Uint8Array([20, 0, 0, 0])
-              );
-              plist.setProperties(
-                "PciRoot(0x0)/Pci(0x2,0x0)",
                 "enable-dpcd-max-link-rate-fix",
                 new Uint8Array([1, 0, 0, 0])
               );
@@ -384,7 +379,7 @@ export default class Configure extends Component {
                 "NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale",
                 new Uint8Array([2])
               );
-              plist.setBootArg("-cdfon");
+              plist.setBootArg("-cdfon -igfxmlr");
             }
 
             plist.setValue("PlatformInfo/Generic/SystemProductName", this.state.model);
@@ -405,12 +400,18 @@ export default class Configure extends Component {
 
           } catch (err) {
             alert(str('downloadFailed') + '\n' + err);
+            console.error(err);
           }
         }, 1000);
       }, (p) => this.updatePercent(p));
     } catch (err) {
       alert(str('downloadFailed') + '\n' + err);
+      console.error(err);
     }
+  }
+
+  openPage(url) {
+    window.electron.openPage(url);
   }
 
   render() {

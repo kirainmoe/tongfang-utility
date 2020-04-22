@@ -31,7 +31,8 @@ export const strings = {
         toolsDescription: "部分功能需要授权。",
         fixSleep: "调节睡眠参数",
         fixSleepDescription: "调节睡眠参数，修复睡眠睡死、自动唤醒等问题。",
-        hiDPI: "开启 HiDPI",
+        hiDPI: "启用/禁用 HiDPI",
+        hiDPIEnabled: '检测到当前系统已经启用了 HiDPI，若继续操作将恢复未启用 HiDPI 的状态。你想关闭 HiDPI 吗？操作完成后需要重启系统。',
         hiDPIDescription:
             "在笔记本内建屏幕中启用缩放 (HiDPI) 功能，降低可视分辨率使得文字渲染更清晰(需要重启)。",
         kextCache: "重建 Kext 缓存",
@@ -99,7 +100,7 @@ export const strings = {
 如果你需要使用 Android 设备通过 USB 共享网络，可以勾选 “添加 USB 网络共享驱动”。请注意并不是所有的 Android 手机都兼容此驱动。\n
 如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”；若内屏为普通 1080p 屏幕请不要勾选，否则会遇到睡眠唤醒问题！\n
 如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。\n
-如果你遇到睡眠睡死问题，推荐你先按照：重置NVRAM -> 重置BIOS -> 重装系统 的方式排除；如果上述方法没能够修复问题，建议你尝试 “添加睡眠修复补丁”。`,
+如果你遇到睡眠睡死问题，推荐你先按照：重置NVRAM -> 重置BIOS -> 重装系统 的方式排除；没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”；如果上述方法没能够修复问题，建议你尝试 “添加睡眠修复补丁”。`,
         license:
 `在开始使用 "hasee-tongfang-macos 仓库提供的配置文件"（以下简称 EFI 文件）之前，请先阅读以下许可协议：\n
 1. 您可以免费、自由地使用、修改本 EFI 文件；同时，您不能在不提供附加服务的情况下，将 EFI 文件用于商业用途，也不允许以任何价格向任何人出售 EFI 文件。\n
@@ -155,6 +156,7 @@ export const strings = {
         fixSleep: "Fix sleep",
         fixSleepDescription: 'Run "pmset" command to fix broken sleep.',
         hiDPI: "Enable HiDPI",
+        hiDPIEnabled: 'Tongfang Hackintosh Utility has found that HiDPI has already been enabled. Do you want to disable HiDPI?',
         hiDPIDescription: "Make the font more clear.",
         kextCache: "Rebuild kextcache",
         kextCacheDescription: 'Run "kextcache -i /" command to refresh the kernel extension cache.',

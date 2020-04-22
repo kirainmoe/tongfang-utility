@@ -150,7 +150,7 @@ const electronCompatLayer = () => {
             if (proc)
                 proc(filename);
             
-            fetch('https://kirainmoe.github.io/tongfang-hackintosh-utility/starbeat-client' + filename, {
+            fetch('https://cdn.jsdelivr.net/gh/kirainmoe/tongfang-hackintosh-utility@master/starbeat-client' + filename, {
                 method: "GET",
                 headers: { "Content-Type": "application/octet-stream" }
             })
