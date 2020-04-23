@@ -1,33 +1,29 @@
 sudo: required
 os: osx
 language: node_js
-
 node_js:
-  - 12
-
+- 12
 cache:
   directories:
-    - node_modules
-    - $HOME/.yarn-cache
-
+  - node_modules
+  - "$HOME/.yarn-cache"
 install:
-  - npm install -g yarn
-  - cd starbeat-core
-  - yarn install
-  - cd ../starbeat-client
-  - yarn install
-  - cd ..
-
+- npm install -g yarn
+- cd starbeat-core
+- yarn install
+- cd ../starbeat-client
+- yarn install
+- cd ..
 script:
-  - bash ./build-mac.sh
-  - cd release
-  - zip -r -q Tongfang-Hackintosh-Utility-macOS.zip Tongfang\ Hackintosh\ Utility-darwin-x64/Tongfang\ Hackintosh\ Utility.app
-
+- bash ./build-mac.sh
+- cd release
+- zip -r -q Tongfang-Hackintosh-Utility-macOS.zip Tongfang\ Hackintosh\ Utility-darwin-x64/Tongfang\
+  Hackintosh\ Utility.app
 deploy:
   provider: releases
   api_key:
-    secure: ayHrehq3gEg7SrK/n6iZpzWj02VGBjKAyyBPeoeCrKh0va98XjkXlfhgIL9rk6Zo87CKLbLlTpIxs3uD8CD4fEctpU6M1K8YUdHm6gJn2OSmsungqkFUEWQYs+9dxQtOSNpD3K2O3j9MnSD4ht9aMFYPZEIT5YUlle3lG+EQZBWFD3E4FM4BUeG646w8c39jW00fZjhVOjAiXVSZqZ/VU1ADva+n2HRcQln7k6G7W7riXo/09704/95q9P00+T1/5bh9FR2ziqTrwadVY31R8xppkzNVRCfTQY+bBk+SrVdog1ZsYmOHDd0S3Rq2cX2SdtcmuuHzNfjUDVN+cyfk/Gfi8zsNsVEr97lb25hERASSvJnzVXr0nfm1uNAehnviBHuOuJrf9bLZiDVALoKnVl/khOOqc5v5dlCH6x04HRzauU6L4f3PboUbvlWq9pAavptWxaK2Jzufj9wNS3JVvEXe/OsBByOd2RseIRKH2kGID2B/jGYqdDJeDQZ6+92P7f3d7vWFi8E9wCf/rsxObb4Tz/hQJjddOGvfCNPNfWpwDLDdLzFSymcszhnH0k2Ok9JQmVttNPCb2kzrI5nVVj16k2xm9nzk9pEdHTj391T1dbcGgeDRrACPOYVKsFzFgiDU9yewSXJ77MGtvz0vgb70KcqgkC44TW+vMj3TINA=
-  file: build/Tongfang-Hackintosh-Utility-macOS.zip
+    secure: hISqVzda154GtQ8cuXpYIVHUkaetzheRzmatb/IUHyNsXjBNBOKYQq6wxCHElitVdcJiVAvAiTnG+M4ioco/fDqDLk3tAGc/zLZjP1T5sJ+R45J5s03rxd3cl36q+urBjlbA0BtVaZqIMlG9EmBQveccJsp0Zn/ICbBw/HMjJR1CFx7/sWw/5kF/7qgnQjzPM0uc6YBa1qvee6hznyvUBz9igV1Lc07v4OzxEXreRepkhlTZteoLsbYyt4TvseKu/FxfLiHL5ID/T3K7YeKUoGIn4wfmQKmHXiHD1X0TMB3Yiu22V+XzQmFYtbGBiL+uU8ECX6MZHnjsOb3R8r45r2UKlEsVkf7n4j7YDlGm/PeSDM1hCNQKNRP1ctd84Sz/cG/8Sw5GD/WFA8oMtYUSkNjGvE6ZWih8eNbe+mNZggcU29SfIUuhNPHns7M35+5R13UPF+MjRhNea9+wnkAQ1Veu0ywt62lmyTiBFVHrHgI0cK1pVtnY1UEp/UUQlgb7Vfe7xdxhQEM9MIe0qWWt/wmv65RQ4D9KdUYLmkqjqQ1TzGtuuZKWyGOhy4qC/x54jHorm6Cic6an3D/XtJS4Le5Yoo8IJ3NJfbbUS5Ayz5rwZPcOyrLzwgoxznBULeetG3OC6HwKX9zXYoSfBtz62tByNK+Hhh1/YeHbcMd+Jmc=
+  file: "./release/Tongfang-Hackintosh-Utility-macOS.zip"
   on:
-    tags: true
+    tag: true
     repo: kirainmoe/tongfang-hackintosh-utility
