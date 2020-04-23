@@ -11,6 +11,7 @@ cache:
     - $HOME/.yarn-cache
 
 install:
+  - npm install -g yarn
   - cd starbeat-core
   - yarn install
   - cd ../starbeat-client
