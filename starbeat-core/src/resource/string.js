@@ -62,6 +62,7 @@ export const strings = {
         inject4KSupport: "添加 4K 内屏补丁",
         disablePM981: "屏蔽不兼容的 NVMe 硬盘",
         fixhibernate: "添加睡眠修复补丁",
+        useFakeSMC: '使用传统 SMC 驱动',
         smbiosInfo: "硬件识别信息",
         getSMBIOSFromGeneration: "已随机生成",
         getSMBIOSFromSystem: "已从系统读取",
@@ -100,7 +101,8 @@ export const strings = {
 如果你需要使用 Android 设备通过 USB 共享网络，可以勾选 “添加 USB 网络共享驱动”。请注意并不是所有的 Android 手机都兼容此驱动。\n
 如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”；若内屏为普通 1080p 屏幕请不要勾选，否则会遇到睡眠唤醒问题！\n
 如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。\n
-如果你遇到睡眠睡死问题，推荐你先按照：重置NVRAM -> 重置BIOS -> 重装系统 的方式排除；没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”；如果上述方法没能够修复问题，建议你尝试 “添加睡眠修复补丁”。`,
+如果你遇到睡眠睡死问题，推荐你先按照：重置NVRAM -> 重置BIOS -> 重装系统 的方式排除；没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”；如果上述方法没能够修复问题，建议你尝试 “添加睡眠修复补丁”。\n
+EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以选择使用传统传感器驱动获得更详细的传感器信息和风扇转速等信息。`,
         license:
 `在开始使用 "hasee-tongfang-macos 仓库提供的配置文件"（以下简称 EFI 文件）之前，请先阅读以下许可协议：\n
 1. 您可以免费、自由地使用、修改本 EFI 文件；同时，您不能在不提供附加服务的情况下，将 EFI 文件用于商业用途，也不允许以任何价格向任何人出售 EFI 文件。\n
@@ -184,6 +186,7 @@ export const strings = {
         inject4KSupport: "4K Resolution Screen",
         disablePM981: "Disable Incompatible NVMe",
         fixhibernate: 'Fix hibernation failure',
+        useFakeSMC: 'Use FakeSMC',
         smbiosInfo: "SMBIOS",
         getSMBIOSFromGeneration: "Randomly generated",
         getSMBIOSFromSystem: "Read from system",
@@ -222,7 +225,8 @@ If you had Intel Wi-Fi card (AC9462, AC9560, AX200), check "Intel Bluetooth"; No
 If you want to tether network via an Android device, check "USB Network Tethering". \n
 If you replaced the monitor of 4K resolution or stuck on "IOConsoleUsers" while booting macOS, check "4K Resolution".\n
 If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are not compatible with macOS, check "Disable incompatible NVMe".\n
-If you had problem hibernating, try to check "Fix hibernation failure".`,
+If you had problem hibernating, try to check "Fix hibernation failure".\n
+This EFI uses next-generation SMC driver VirtualSMC.kext by default, you can replace it with traditional SMC driver FakeSMC.kext to get more sensor info and fan RPM.`,
 
 
         update: 'Update',

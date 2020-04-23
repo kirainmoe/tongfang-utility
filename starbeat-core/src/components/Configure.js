@@ -47,6 +47,7 @@ export default class Configure extends Component {
       success: false,
       percent: 0,
       fixhibernate: 0,
+      usefakesmc: 0,
       modal_visible: false,
       modal_content: '',
       download_url: navigator.language === 'zh-CN'
@@ -167,7 +168,8 @@ export default class Configure extends Component {
       { label: str("injectHoRNDIS"), value: "rndis" },
       { label: str("inject4KSupport"), value: "support4k" },
       { label: str("disablePM981"), value: "pm981" },
-      { label: str("fixhibernate"), value: "fixhibernate" }
+      { label: str("fixhibernate"), value: "fixhibernate" },
+      { label: str("useFakeSMC"), value: "usefakesmc" }
     ];
 
     return (
@@ -331,7 +333,7 @@ export default class Configure extends Component {
 
             if (this.state.airport) {
               plist.setKext("AirportBrcmFixup", true);
-              plist.setBootArg("brcmfx-country=CN");
+              plist.setBootArg("brcmfx-country=#a");
             }
             if (this.state.intel)
               plist.setKext("IntelBluetooth", true);
@@ -346,6 +348,17 @@ export default class Configure extends Component {
               plist.setSSDT("SSDT-DNVME", true);
             if (this.state.fixhibernate)
               plist.setKext("HibernationFixup", true);
+            if (this.state.usefakesmc) {
+              plist.setKext("VirtualSMC", false);
+              plist.setKext("SMCBatteryManager", false);
+              plist.setKext("SMCLightSensor", false);
+              plist.setKext("SMCProcessor", false);
+              plist.setKext("SMCSuperIO", false);
+
+              plist.setKext("FakeSMC", true);
+              plist.setKext("ACPIBattery", true);
+              plist.setSSDT("SSDT-SMCD", true);
+            }
             if (this.state.support4k) {
               plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");
               plist.setProperties(
