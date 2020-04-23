@@ -117,7 +117,7 @@ export default class Update extends Component {
       });
     };
 
-    window.electron.selfUpdate(proc, success, error);
+    window.electron.selfUpdate(proc, 'v' + this.state.latest, success, error);
   }
 
   render() {

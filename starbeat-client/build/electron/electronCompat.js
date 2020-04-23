@@ -117,7 +117,7 @@ const electronCompatLayer = () => {
 
     const getElectron = () => (require('electron'));
 
-    const selfUpdate = (proc, success, error) => {
+    const selfUpdate = (proc, version, success, error) => {
         const remote = require("electron").remote;
         const appPath = remote.app.getAppPath();
         const fs = require('fs');
@@ -143,14 +143,14 @@ const electronCompatLayer = () => {
             '/build/static/js/runtime-main.js'
         ];
 
-        const updateSpecificFile = (index) => {
+        const updateSpecificFile = (index, version) => {
             const filename = keyFiles[index];
             console.log(`[update] Fetching file ${filename} from remote...`);
 
             if (proc)
                 proc(filename);
             
-            fetch('https://cdn.jsdelivr.net/gh/kirainmoe/tongfang-hackintosh-utility@master/starbeat-client' + filename, {
+            fetch('https://cdn.jsdelivr.net/gh/kirainmoe/tongfang-hackintosh-utility@' + version + '/starbeat-client' + filename, {
                 method: "GET",
                 headers: { "Content-Type": "application/octet-stream" }
             })
@@ -158,7 +158,7 @@ const electronCompatLayer = () => {
                 .then(data => {
                     fs.writeFileSync(appPath + filename, data);
                     if (index + 1 < keyFiles.length)
-                        updateSpecificFile(index + 1);
+                        updateSpecificFile(index + 1, version);
                     else {
                         if (success)
                             success();
