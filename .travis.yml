@@ -25,5 +25,5 @@ deploy:
   file: "./release/Tongfang-Hackintosh-Utility-macOS.zip"
   on:
     tag: true
-	all_branches: true
+    all_branches: true
     repo: kirainmoe/tongfang-hackintosh-utility
