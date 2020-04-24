@@ -24,4 +24,6 @@ deploy:
   api_key: dd73a33a862f0deb12e00015660b8aa2dd33f4b1
   file: "./release/Tongfang-Hackintosh-Utility-macOS.zip"
   on:
+    tag: true
+	all_branches: true
     repo: kirainmoe/tongfang-hackintosh-utility
