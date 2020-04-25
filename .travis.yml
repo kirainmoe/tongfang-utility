@@ -25,5 +25,5 @@ deploy:
   file: "./Tongfang-Hackintosh-Utility-macOS.dmg"
   skip_cleanup: true
   on:
-    tag: true
+    tags: true
     all_branches: true
