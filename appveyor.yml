@@ -34,11 +34,13 @@ after_build:
   - node build-win.js
   - cd release
   - rename Setup.exe Tongfang-Hackintosh-Utility-Windows-Setup.exe
+artifacts:
+  - path: c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
+    name: setup
 deploy:
   - provider: GitHub
-    artifact: c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
+    artifact: setup
     draft: false
-    release: $(appveyor_build_version)
     prerelease: false
     force_update: true
     on:
