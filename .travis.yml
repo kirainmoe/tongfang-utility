@@ -19,6 +19,7 @@ script:
 - cd release
 - zip -r -q Tongfang-Hackintosh-Utility-macOS.zip Tongfang\ Hackintosh\ Utility-darwin-x64/Tongfang\
   Hackintosh\ Utility.app
+- cd ..
 deploy:
   provider: releases
   api_key:
