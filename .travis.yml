@@ -24,6 +24,7 @@ deploy:
   api_key:
     secure: EQdzuG45bkUBrWIIHOstXPH0SxVbdE1D7o8NQLh2QHrh9TvRJIiTQizA15gdFzxP6wVtl8rMb94mKeT7t/9+Z9wu5ZkE2UHW7toYozzxIYlEd+0ztrYsRNDPC8Y++tHvfEle5kOlfJIOs+/lSSPqYqpyJuZHh6xKaUZ1+rrVO5IdWI8yhdLjQsuGRsk/OmE3ZdQvWuwBhF1+bSV07MkXIZWlgngbSswHxiM3sC3Wv9ARMtRhHIyTLRgTLD/G+M7HdeomV7Yf3VpBJ4XyQnwp+VeYQXLj4j9HEQLY+F+9Uofb6CMZEFT2Ep4+4F3k/CU01IOdfGgvtNvpjMNrByNYOWEpwYDXZ40BhHrHIZgD5PmU0RFFZqfwnYVcbbV3uH0iRhGoAHLXDgJsKG+9v7p0RhzxXLW54C6r7u2om5UJ3l0U/zw4PlhzOu1MrfQjiYp+eKE8XGSkHTOBk0719PphMEEZg9mfYz+uJ0eyIDk5zB1gVfhPcU9jf0m+CDowfYS2UipFxKl0O7Hijl+XZH76c4NwN+yjEVYyeKk1hS+O9JFc/dy9YBq46JTvbau0mdQJaoRpkRN3+9qIY0QNIYDzY6i8aj5FGk3Fxb++TGPhEuN6WNDQuuloWGYwI2SiVHT2Gxjrse1Qu36b0LdWGuIKXrviDHZnVZvdP834TklzNRE=
   file: "./release/Tongfang-Hackintosh-Utility-macOS.zip"
+  skip_cleanup: true
   on:
     tag: true
     all_branches: true
