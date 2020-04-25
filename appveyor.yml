@@ -30,7 +30,8 @@ build_script:
 after_build:
   - cd c:\project
   - node build-win.js
-  - rename c:\project\release\Setup.exe c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
+  - cd release
+  - rename Setup.exe Tongfang-Hackintosh-Utility-Windows-Setup.exe
 deploy:
   - provider: GitHub
     artifact: c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe

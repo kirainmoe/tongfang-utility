@@ -13,6 +13,7 @@ install:
 - cd ../starbeat-client
 - yarn install
 - cd ..
+- yarn install
 script:
 - bash ./build-mac.sh
 - yarn create-installer
