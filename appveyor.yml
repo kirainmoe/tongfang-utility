@@ -29,7 +29,7 @@ build_script:
   - yarn pack:win
 after_build:
   - cd c:\project
-  - yarn build-win.js
+  - node build-win.js
   - ren c:\project\release\Setup.exe c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
 deploy:
   - provider: GitHub
