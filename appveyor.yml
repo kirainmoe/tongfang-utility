@@ -1,5 +1,6 @@
 max_jobs: 1
 skip_branch_with_pr: true
+skip_non_tags: true
 environment:
   matrix:
   - nodejs_version: "12"
