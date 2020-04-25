@@ -2,6 +2,8 @@
 
 [English](README-en.md)
 
+![travis-build](https://travis-ci.org/kirainmoe/tongfang-hackintosh-utility.svg?branch=master)
+
 Tongfang Hackintosh Utility 2.0, 全新的同方模具笔记本黑苹果工具箱。
 
 ## 功能简介

@@ -1,5 +1,7 @@
 max_jobs: 1
 skip_branch_with_pr: true
+environment:
+  nodejs_version: "12"
 image: Visual Studio 2019
 init:
   - git config --global core.autocrlf input
