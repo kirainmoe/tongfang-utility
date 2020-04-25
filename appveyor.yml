@@ -1,0 +1,37 @@
+max_jobs: 1
+skip_branch_with_pr: true
+image: Visual Studio 2019
+init:
+  - git config --global core.autocrlf input
+clone_folder: c:\project
+cache:
+  - node_modules
+install:
+  - npm install -g yarn
+before_build:
+  - cd c:\project\starbeat-core
+  - yarn install
+  - cd c:\project\starbeat-client
+  - yarn install
+  - cd c:\project
+  - yarn install
+build_script:
+  - cd c:\project\starbeat-core
+  - yarn build
+  - xcopy c:\project\starbeat-core\build c:\project\starbeat-client\build /s/y
+  - cd c:\project\starbeat-client
+  - yarn pack:win
+after_build:
+  - cd c:\project
+  - yarn build-win.js
+  - ren c:\project\release\Setup.exe c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
+deploy:
+  - provider: GitHub
+    artifact: c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
+    draft: false
+    prerelease: false
+    on:
+      branch: master
+      APPVEYOR_REPO_TAG: true
+    auth_token:
+      secure: hCeYMHCYlNMskb+nhK5TcbzquabXYRgrWjlQD9R2bCimADhVae3Rkz9SqWp2sJV2

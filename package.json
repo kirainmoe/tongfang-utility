@@ -1,0 +1,13 @@
+{
+  "name": "tongfang-hackintosh-utility",
+  "version": "2.0",
+  "description": "An all-in-one Hackintosh Utility for Tongfang laptops",
+  "main": "build-win.js",
+  "repository": "https://github.com/kirainmoe/project-starbeat",
+  "author": "kirainmoe <i@kirainmoe.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "electron-winstaller": "^4.0.0"
+  }
+}
