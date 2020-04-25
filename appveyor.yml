@@ -37,6 +37,7 @@ deploy:
     artifact: c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
     draft: false
     prerelease: false
+    force_update: true
     on:
       branch: master
       APPVEYOR_REPO_TAG: true
