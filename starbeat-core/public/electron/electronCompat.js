@@ -171,7 +171,7 @@ const electronCompatLayer = () => {
                         error(err);
                 });
         };
-        updateSpecificFile(0);
+        updateSpecificFile(0, version);
     };
 
     return {
