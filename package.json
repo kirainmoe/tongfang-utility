@@ -7,7 +7,13 @@
   "author": "kirainmoe <i@kirainmoe.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+  	"create-installer": "electron-installer-dmg release/Tongfang\\ Hackintosh\\ Utility-darwin-x64/Tongfang\\ Hackintosh\\ Utility.app/ 'Tongfang-Hackintosh-Utility'"
+  },
   "dependencies": {
     "electron-winstaller": "^4.0.0"
+  },
+  "devDependencies": {
+    "electron-installer-dmg": "^3.0.0"
   }
 }
