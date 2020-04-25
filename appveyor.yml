@@ -35,7 +35,7 @@ after_build:
   - cd release
   - rename Setup.exe Tongfang-Hackintosh-Utility-Windows-Setup.exe
 artifacts:
-  - path: c:\project\release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
+  - path: release\Tongfang-Hackintosh-Utility-Windows-Setup.exe
     name: setup
 deploy:
   - provider: GitHub
