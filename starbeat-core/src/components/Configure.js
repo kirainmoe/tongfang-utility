@@ -17,6 +17,10 @@ export default class Configure extends Component {
   constructor(props) {
     super(props);
 
+    if (window.electron.isWin() && window.location.search.indexOf("reloaded") < 0) {
+      window.location.href = window.location.href = "?reloaded=true";
+    }
+
     /* 获取 & 生成 SMBIOS 信息 */
     let smbios = null, smbiosGenerated = null;
     try {
@@ -54,6 +58,8 @@ export default class Configure extends Component {
         ? config.download_url.buildbot
         : config.download_url.bitbucket
     };
+
+    this.checkVersion();
   }
 
   componentWillMount() {
@@ -68,10 +74,6 @@ export default class Configure extends Component {
         });
       }
     }
-  }
-
-  componentDidMount() {
-    this.checkVersion();
   }
 
   /* 检查版本更新 */
@@ -222,6 +224,14 @@ export default class Configure extends Component {
 
   showChooseGuide = () => alert(str('chooseGuide'))
 
+  sleep(time = 0) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    })
+  };
+
   async downloadLatest() {
     if (navigator.language === 'zh-CN') {
       alert(str('license'));
@@ -239,8 +249,9 @@ export default class Configure extends Component {
     window.electron.mkdir(savePath);
     const saveFile = savePath + "/OpenCore.zip";
 
-    try {
+    setTimeout(() => {
       window.electron.downloadFile(this.state.download_url, saveFile, () => {
+        this.setState({ workStatus: str("generating") });
         setTimeout(async() => {
           try {
             window.electron.unzip(saveFile, savePath + "/OpenCore");
@@ -254,11 +265,16 @@ export default class Configure extends Component {
                 extractPath = path;
             });
 
+            // sleep() for fixing Windows sync thread error
             window.electron.rmdir(`${savePath}/BOOT`);
             await fs.rename(`${savePath}/OpenCore/${extractPath}/BOOT`, `${savePath}/BOOT`, () => {});
+            await this.sleep(500);
             window.electron.rmdir(`${savePath}/OC`);
+            await this.sleep(500);
             await fs.rename(`${savePath}/OpenCore/${extractPath}/OC`, `${savePath}/OC`, () => {});
+            await this.sleep(500);
             await fs.rename(`${savePath}/OpenCore/${extractPath}/Docs/Credits.md`, `${savePath}/OC/Credits.md`, () => {});
+            await this.sleep(500);
             window.electron.rmdir(`${savePath}/OpenCore`);
 
             const content = window.electron.readFile(savePath + "/OC/config.plist");
@@ -417,10 +433,7 @@ export default class Configure extends Component {
           }
         }, 1000);
       }, (p) => this.updatePercent(p));
-    } catch (err) {
-      alert(str('downloadFailed') + '\n' + err);
-      console.error(err);
-    }
+    }, 50);
   }
 
   openPage(url) {

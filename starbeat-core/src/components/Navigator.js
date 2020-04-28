@@ -32,10 +32,12 @@ export default class Navigator extends Component {
                     <p>{str('config')}</p>
                 </NavLink>
 
-                <NavLink className="nav-link" to="/tools">
-                    <Tools />
-                    <p>{str('tools')}</p>
-                </NavLink>
+                {window.electron.isMac() ? (
+                    <NavLink className="nav-link" to="/tools">
+                        <Tools />
+                        <p>{str('tools')}</p>
+                    </NavLink>
+                ) : null}
 
                 <NavLink className="nav-link" to="/update">
                     <Update />

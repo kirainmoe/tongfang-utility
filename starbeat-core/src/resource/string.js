@@ -75,6 +75,7 @@ export const strings = {
         latestVersion: "最新版本",
         getLatest: "获取最新配置文件",
         downloadWait: "正在下载，请等待",
+        generating: "正在生成 EFI...",
         successInfo:
             "已将最新 OpenCore 配置文件下载到当前用户桌面的 `Tongfang_EFI` 文件夹中。请将桌面的 Tongfang_EFI/BOOT 和 Tongfang_EFI/OC 复制到 U 盘或硬盘中。",
         successInstructionUSB:
@@ -199,6 +200,7 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         latestVersion: "Latest version",
         getLatest: "Get the latest config",
         downloadWait: "Downloading, please wait..",
+        generating: "Generating EFI...",
         successInfo:
             "Successfully downloaded the latest OC config to ~/Desktop/Tongfang_EFI. Please copy `BOOT` and `OC` folder to ESP.",
         successInstructionUSB:

@@ -24,43 +24,65 @@ const electronCompatLayer = () => {
         return fs.readFileSync(filename).toString();
     };
 
-    const downloadFile = (url, savePath, callback, setPercent) => {
-        const fetch = require("node-fetch"),
-            fs = require("fs");
-        let downloadedSize = 0,
-            totalLength = 0;
-        fetch(url, {
-            method: "GET",
-            headers: { "Content-Type": "application/octet-stream" }
-        })
-            .then(res => {
-                const body = res.body;
-                totalLength = res.headers.get("content-length");
-                
-                if (!totalLength) {
-                    totalLength = 8642344;      // tmp
+    const downloadFile = async(url, savePath, callback, setPercent) => {
+        const fs = require("fs"),
+            fetch = require('node-fetch');
+        let totalLength = 0,
+            resolved = false,
+            done = false,
+            retry = 0;
 
-                    fetch('https://api.kirainmoe.com/starbeatVersion')
-                        .then(res => res.json())
-                        .then(res => totalLength = res.fileSize);
-                }
-                body.on('readable', () => {
-                    let chunk;
-                    while (null !== (chunk = body.read())) {
-                        downloadedSize += chunk.length;
-                        const percent = Math.round(downloadedSize / totalLength * 100);
+        const doFetch = (index) => {
+            let downloadedSize = 0;
 
-                        if (setPercent)
-                            setPercent(percent);
+            return fetch(url)
+                .then(res => {
+                    resolved = true;
+                    retry = 0;
+                    const body = res.body;
+                    totalLength = res.headers.get("content-length");
+                    resolved = true;
+
+                    if (!totalLength) {
+                        totalLength = 8642344;      // tmp
+                        fetch('https://api.kirainmoe.com/starbeatVersion')
+                            .then(res => res.json())
+                            .then(res => totalLength = res.fileSize);
                     }
+                    body.on('readable', () => {
+                        let chunk;
+                        retry = 0;
+                        while (null !== (chunk = body.read())) {
+                            downloadedSize += chunk.length;
+                            const percent = Math.round(downloadedSize / totalLength * 100);
+
+                            if (setPercent)
+                                setPercent(percent);
+                        }
+                    });
+                    return res;
+                })
+                .then(res => res.buffer())
+                .then(data => {
+                    done = true;
+                    fs.writeFileSync(savePath, data, "binary");
+                    callback();
+                })
+                .catch(err => {
+                    alert(err);
                 });
-                return res;
-            })
-            .then(res => res.buffer())
-            .then(data => {
-                fs.writeFileSync(savePath, data, "binary");
-                callback();
-            });
+        };
+
+        doFetch(1);
+
+        const retryDaemon = setInterval(() => {
+            if (done)
+                clearInterval(retryDaemon);
+            retry++;
+            if (retry >= 10)
+                window.location.reload();
+        }, 1000);
+
     };
 
     const getUserDir = () => {
@@ -174,6 +196,28 @@ const electronCompatLayer = () => {
         updateSpecificFile(0, version);
     };
 
+    const getWMIC = () => {
+        const cp = require('child_process');
+        const res = cp.execSync('echo "csproduct" | wmic').toString(),
+            tmp = res.split('\n');
+        let wmic = "";
+
+        for (let i = 0; i < tmp.length; i++) {
+            if (tmp[i].indexOf("SKUNumber") >= 0) {
+                wmic = tmp[i+1];
+                break;
+            }
+        }
+        wmic = wmic.replace(/\s\s+/g, '/');
+
+        const smbiosinfo = wmic.split('/');
+        return {
+            sn: smbiosinfo[2],
+            model: smbiosinfo[3],
+            uuid: smbiosinfo[4]
+        };
+    }
+
     return {
         getPlatform: () => process.platform,
         isWin,
@@ -182,30 +226,32 @@ const electronCompatLayer = () => {
         exec,
         sudoExec,
         getMacSerial: () => {
-            if (!isMac()) return false;
-            const remote = require("electron").remote;
-            const p = remote.app.getAppPath();
+            // macOS
+            if (isMac()) {
+                const remote = require("electron").remote;
+                const p = remote.app.getAppPath();
 
-            let macserialPath = (p + "/macserial/macserial").replace(/ /g, "\\ ");
-            const output = exec(macserialPath).toString();
+                let macserialPath = (p + "/macserial/macserial").replace(/ /g, "\\ ");
+                const output = exec(macserialPath).toString();
+                let result = {};
+                try {
+                    const model = output.match(/Model:\s(.*)/),
+                        sn = output.match(/Serial\sNumber:\s(.*)/),
+                        smuuid = output.match(/System\sID:\s(.*)/),
+                        mlb = output.match(/MLB:\s(.*)/);
 
-            let result = {};
-            try {
-                const model = output.match(/Model:\s(.*)/),
-                    sn = output.match(/Serial\sNumber:\s(.*)/),
-                    smuuid = output.match(/System\sID:\s(.*)/),
-                    mlb = output.match(/MLB:\s(.*)/);
-
-                result = {
-                    model: model[1],
-                    sn: sn[1],
-                    smuuid: smuuid[1],
-                    mlb: mlb[1]
-                };
-            } catch(err) {
-                result = null;
+                    result = {
+                        model: model[1],
+                        sn: sn[1],
+                        smuuid: smuuid[1],
+                        mlb: mlb[1]
+                    };
+                } catch (err) {
+                    result = null;
+                }
+                return result;
             }
-            return result;
+            return false;
         },
         generateMacSerial: () => {
             let macserial;
@@ -226,7 +272,13 @@ const electronCompatLayer = () => {
 
             const uuidGen = require("node-uuid");
             const output = exec(macserial + " --model 43 --generate --num 1").toString();
-            const uuid = uuidGen.v4();
+            let uuid = uuidGen.v4();
+
+            if (isWin()) {
+                const wmic = getWMIC();
+                if (wmic.uuid)
+                    uuid = wmic.uuid;
+            }
 
             const res = output.split("|");
             return {
