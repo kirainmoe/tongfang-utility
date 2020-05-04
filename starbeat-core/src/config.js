@@ -1,11 +1,11 @@
 export default {
-    version: "2.1.8",
-    build: 2004280,
+    version: "2.1.9",
+    build: 2005040,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
     fnDaemonUrl:
-        "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/install-tongfang-fn-daemon.sh",
+        "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/install_daemon.sh",
 
     supported_machine: [
         {

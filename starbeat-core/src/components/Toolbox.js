@@ -122,7 +122,7 @@ export default class Toolbox extends Component {
       if (!haveBin)
         return str('state') + ":" + str('notInstalled');
         
-      const ouput = window.electron.exec('ls /usr/local/bin | grep Tongfang');
+      const ouput = window.electron.exec('ls /Library/LaunchAgents | grep io.github');
       if (ouput !== '') {
         return str('state') + ":" + str('installed');
       } else {
