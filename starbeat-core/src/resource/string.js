@@ -14,7 +14,7 @@ export const strings = {
         hidCommFailedReason:
             "Tongfang Hackintosh Utility 在与 HID 设备通信的时候遇到了错误，导致无法加载必要组件。造成此问题的原因可能是：",
         hidCommFailedNotFound:
-            "在此电脑上没有找到兼容设备。请确认你的系统能识别到：制造商 ID 为 0x048d, 产品 ID 为 0xce00 的 ITE Devices(8291)。",
+            "在此电脑上没有找到兼容设备。请确认你的笔记本是 **同方模具**，且系统能识别到：制造商 ID 为 0x048d, 产品 ID 为 0xce00 的 ITE Devices(8291)。",
         hidCommFailedRevisionNotMatch:
             "在此电脑上找到了兼容设备，但 ITE 版本 (revision) 不为 0.02。",
         hidCommFailedLinuxUnauthorized:
@@ -39,7 +39,7 @@ export const strings = {
         kextCacheDescription: "重建内核拓展缓存，以使某些对 Kext 的更改生效。",
         installTongfangFnDaemon: "安装快捷键守护程序",
         installTongfangFnDaemonDescription:
-            "安装同方 Fn 快捷键守护程序，以便使 Fn+F1~F7 的功能正常使用。",
+            "安装同方 Fn 快捷键守护程序，以使 Fn+F1~F7 和双击开关触摸板功能正常使用。",
         pleaseWait: "操作正在执行中，这可能需要几十秒或更长时间，请等待操作完成...",
         success: "成功",
         state: "状态",
@@ -62,7 +62,7 @@ export const strings = {
         inject4KSupport: "添加 4K 内屏补丁",
         disablePM981: "屏蔽不兼容的 NVMe 硬盘",
         fixhibernate: "添加睡眠修复补丁",
-        useFakeSMC: '使用传统 SMC 驱动',
+        useFakeSMC: '使用传统 SMC 驱动 (不推荐)',
         smbiosInfo: "硬件识别信息",
         getSMBIOSFromGeneration: "已随机生成",
         getSMBIOSFromSystem: "已从系统读取",
@@ -187,7 +187,7 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         inject4KSupport: "4K Resolution Screen",
         disablePM981: "Disable Incompatible NVMe",
         fixhibernate: 'Fix hibernation failure',
-        useFakeSMC: 'Use FakeSMC',
+        useFakeSMC: 'Use FakeSMC(Not recommended)',
         smbiosInfo: "SMBIOS",
         getSMBIOSFromGeneration: "Randomly generated",
         getSMBIOSFromSystem: "Read from system",

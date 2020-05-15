@@ -232,6 +232,10 @@ export default class Configure extends Component {
     })
   };
 
+  openPage(url) {
+    window.electron.openPage(url);
+  }
+
   async downloadLatest() {
     if (navigator.language === 'zh-CN') {
       alert(str('license'));
@@ -338,6 +342,7 @@ export default class Configure extends Component {
                 fs.renameSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml", ACPIdir + "/SSDT-UIAC.aml");
                 break;
               case "GK5CP6X":
+              case "GK5CP6Z":
                 fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
                 fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
                 fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
@@ -456,6 +461,21 @@ export default class Configure extends Component {
               <ul>
                 <li className="success-item">{str("successInstructionUSB")}</li>
                 <li className="success-item">{str("successInstructionHD")}</li>
+                {(() => {
+                  if (navigator.language === 'zh-CN') {
+                    return (
+                      <li className="success-item">
+                        仍然不知道如何安装/替换？请参考
+                        <Button
+                          onClick={() => this.openPage('https://www.bilibili.com/video/BV1uJ411Y77y')}
+                          type="link">
+                            教学视频
+                        </Button>
+                        的演示。
+                      </li>
+                    )
+                  }
+                })()}
               </ul>
               <div className="actions">
                 <Button

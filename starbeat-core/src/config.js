@@ -1,6 +1,6 @@
 export default {
-    version: "2.1.9",
-    build: 2005040,
+    version: "2.2.0",
+    build: 2005150,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -177,15 +177,19 @@ export default {
             brand: '机械革命 (Mechrevo)',
             models: [
                 {
-                    model: "机械革命 Z2",
+                    model: "机械革命 Z2 系列 (8 代)",
                     barebone: "GK5CN6Z"
                 },
                 {
-                    model: "机械革命 Z2 Air",
+                    model: "机械革命 Z2 Air (8 代)",
                     barebone: "GK5CN6X"
                 },
                 {
-                    model: "机械革命 Z2 Air-G",
+                    model: "机械革命 Z2-G 系列 (9 代)",
+                    barebone: "GK5CP6Z"
+                },                
+                {
+                    model: "机械革命 Z2 Air-G (9 代)",
                     barebone: "GK5CP6X"
                 },
                 {
