@@ -13,6 +13,30 @@ const { Option, OptGroup } = Select;
 
 export default class Configure extends Component {
   barebones = [];
+  options = {
+    airport: false,
+    intel: false,
+    brcm: false,
+    rndis: false,
+    support4k: false,
+    pm981: false,
+    fixhibernate: false,
+    usefakesmc: false,
+    loadguc: false,
+    nvmefix: false
+  };
+  defaultOpts = [
+    { label: str("injectAirport"), value: "airport", defaultVal: this.isKextLoaded("Airport") },
+    { label: str("injectIntelBluetooth"), value: "intel", defaultVal: this.isKextLoaded("IntelBluetooth") },
+    { label: str("injectBrcmBluetooth"), value: "brcm", defaultVal: this.isKextLoaded("BrcmBluetooth") },
+    { label: str("injectHoRNDIS"), value: "rndis", defaultVal: false },
+    { label: str("inject4KSupport"), value: "support4k", defaultVal: this.hasParam('igfxmlr') },
+    { label: str("disablePM981"), value: "pm981", defaultVal: false },
+    { label: str("fixhibernate"), value: "fixhibernate", defaultVal: this.isKextLoaded('Hibernation') },
+    { label: str("useFakeSMC"), value: "usefakesmc", defaultVal: this.isKextLoaded('FakeSMC') },
+    { label: str("nvmefix"), value: "nvmefix", defaultVal: this.isKextLoaded('NVMeFix') },
+    { label: str("loadguc"), value: "loadguc", defaultVal: this.hasParam('igfxfw') }
+  ];
 
   constructor(props) {
     super(props);
@@ -41,17 +65,10 @@ export default class Configure extends Component {
       workStatus: str("getLatest"),
       ...smbios,
       laptop: 0,
-      airport: false,
-      intel: false,
-      brcm: false,
-      rndis: false,
-      support4k: false,
-      pm981: false,
       smbiosGenerated,
       success: false,
       percent: 0,
-      fixhibernate: 0,
-      usefakesmc: 0,
+      speed: 0,
       modal_visible: false,
       modal_content: '',
       download_url: navigator.language === 'zh-CN'
@@ -147,36 +164,64 @@ export default class Configure extends Component {
     v.forEach(item => (selected[item] = 1));
 
     // 勾选 4K 时显示警告
-    if (!this.state.support4k && selected["support4k"]) {
+    if (!this.options.support4k && selected["support4k"]) {
       alert(str("dontCheck4kIfNotRequire"));
     }
 
     // 对 GI5CN54 / GJ5CN64 的用户勾选 4K 时提示警告
-    if (!this.state.support4k && selected["support4k"] &&
+    if (!this.options.support4k && selected["support4k"] &&
       (this.barebones[this.state.laptop] === "GJ5CN64" ||
         this.barebones[this.state.laptop] === "GI5CN54")) {
       alert(str("requirement4k"));
     }
 
-    this.setState({ ...selected });
+    for (const i in selected) {
+      if (!selected.hasOwnProperty(i))
+        continue;
+      this.options[i] = selected[i];
+    }
+  }
+
+  isKextLoaded(kextName) {
+    if (!window.electron.isMac())
+      return false;
+    try {
+      const proc = window.require('child_process');
+      const stdout = proc.execSync(`kextstat | grep "${kextName}"`).toString();
+      return (stdout !== '');
+    } catch (err) {
+      return false;
+    }
+  }
+
+  hasParam(param) {
+    if (!window.electron.isMac())
+      return false;
+    try {
+      const proc = window.require('child_process');
+      const stdout = proc.execSync(`nvram -p | grep "${param}"`).toString();
+      return (stdout !== '');    
+    } catch (err) {
+      return false;
+    }
   }
 
   /* 显示选项 */
   getOptions() {
-    const opts = [
-      { label: str("injectAirport"), value: "airport" },
-      { label: str("injectIntelBluetooth"), value: "intel" },
-      { label: str("injectBrcmBluetooth"), value: "brcm" },
-      { label: str("injectHoRNDIS"), value: "rndis" },
-      { label: str("inject4KSupport"), value: "support4k" },
-      { label: str("disablePM981"), value: "pm981" },
-      { label: str("fixhibernate"), value: "fixhibernate" },
-      { label: str("useFakeSMC"), value: "usefakesmc" }
-    ];
+    const opts = this.defaultOpts;
+
+    let nextState = {}, defaultValues = [];
+    opts.forEach(opt => {
+      nextState[opt.value] = opt.defaultVal;
+
+      if (opt.defaultVal)
+        defaultValues.push(opt.value);
+    });
 
     return (
       <Checkbox.Group
         options={opts}
+        defaultValue={defaultValues}
         onChange={v => this.handleOptionChange(v, opts)}
       />
     );
@@ -220,7 +265,7 @@ export default class Configure extends Component {
     );
   }
 
-  updatePercent = (percent) => this.setState({ percent })
+  updatePercent = (percent, speed) => this.setState({ percent, speed })
 
   showChooseGuide = () => alert(str('chooseGuide'))
 
@@ -340,6 +385,7 @@ export default class Configure extends Component {
                 fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
                 fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
                 fs.renameSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml", ACPIdir + "/SSDT-UIAC.aml");
+                this.options.loadguc = true;
                 break;
               case "GK5CP6X":
               case "GK5CP6Z":
@@ -349,27 +395,28 @@ export default class Configure extends Component {
                 fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
                 fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
                 fs.renameSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml", ACPIdir + "/SSDT-UIAC.aml");
+                this.options.loadguc = true;
                 break;
             }
 
-            if (this.state.airport) {
+            if (this.options.airport) {
               plist.setKext("AirportBrcmFixup", true);
               plist.setBootArg("brcmfx-country=#a");
             }
-            if (this.state.intel)
+            if (this.options.intel)
               plist.setKext("IntelBluetooth", true);
-            if (this.state.brcm) {
+            if (this.options.brcm) {
               plist.setKext("BrcmBluetoothInjector", true);
               plist.setKext("BrcmFirmwareData", true);
               plist.setKext("BrcmPatchRAM3", true);
             }
-            if (this.state.rndis)
+            if (this.options.rndis)
               plist.setKext("HoRNDIS", true);
-            if (this.state.pm981)
+            if (this.options.pm981)
               plist.setSSDT("SSDT-DNVME", true);
-            if (this.state.fixhibernate)
+            if (this.options.fixhibernate)
               plist.setKext("HibernationFixup", true);
-            if (this.state.usefakesmc) {
+            if (this.options.usefakesmc) {
               plist.setKext("VirtualSMC", false);
               plist.setKext("SMCBatteryManager", false);
               plist.setKext("SMCLightSensor", false);
@@ -380,7 +427,7 @@ export default class Configure extends Component {
               plist.setKext("ACPIBattery", true);
               plist.setSSDT("SSDT-SMCD", true);
             }
-            if (this.state.support4k) {
+            if (this.options.support4k) {
               plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");
               plist.setProperties(
                 "PciRoot(0x0)/Pci(0x2,0x0)",
@@ -415,6 +462,10 @@ export default class Configure extends Component {
               );
               plist.setBootArg("-cdfon -igfxmlr");
             }
+            if (this.options.loadguc)
+              plist.setBootArg("igfxfw=2");
+            if (this.options.nvmefix)
+              plist.setKext("NVMeFix", true);
 
             plist.setValue("PlatformInfo/Generic/SystemProductName", this.state.model);
             plist.setValue("PlatformInfo/Generic/SystemSerialNumber", this.state.sn);
@@ -437,12 +488,8 @@ export default class Configure extends Component {
             console.error(err);
           }
         }, 1000);
-      }, (p) => this.updatePercent(p));
+      }, (p, s) => this.updatePercent(p, s));
     }, 50);
-  }
-
-  openPage(url) {
-    window.electron.openPage(url);
   }
 
   render() {
@@ -572,7 +619,7 @@ export default class Configure extends Component {
                 onClick={() => this.downloadLatest()}
               >
                 {this.state.workStatus}
-                {this.state.downloading ? " (" + this.state.percent + "%)" : ""}
+                {this.state.downloading ? " (" + this.state.percent + "% " + Math.ceil(this.state.speed / 1024) +  "K/s)" : ""}
               </Button>
             </div>
           </div>

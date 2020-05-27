@@ -1,6 +1,6 @@
 export default {
-    version: "2.2.0",
-    build: 2005150,
+    version: "2.2.1",
+    build: 2005270,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -31,6 +31,10 @@ export default {
                     model: "Tongfang GK7CP6R (9th gen)",
                     barebone: "GK7CP6R"
                 },
+                {
+                    model: "Tongfang GK5CP6Z / GK5CP5Z (9th gen)",
+                    barebone: "GK5CP6Z"
+                },                
                 {
                     model: "Tongfang GK5CP6X / GK5CP5X (9th gen)",
                     barebone: "GK5CP6X"

@@ -39,6 +39,7 @@ const electronCompatLayer = () => {
                 .then(res => {
                     resolved = true;
                     retry = 0;
+                    let speed = 0, lastUpdate = 0, cur = 0;
                     const body = res.body;
                     totalLength = res.headers.get("content-length");
                     resolved = true;
@@ -54,10 +55,18 @@ const electronCompatLayer = () => {
                         retry = 0;
                         while (null !== (chunk = body.read())) {
                             downloadedSize += chunk.length;
+                            cur += chunk.length;
+
                             const percent = Math.round(downloadedSize / totalLength * 100);
+                            const curTime = Date.parse(new Date());
+                            if (curTime - lastUpdate >= 1000) {
+                                lastUpdate = curTime;
+                                speed = cur;
+                                cur = 0;
+                            }
 
                             if (setPercent)
-                                setPercent(percent);
+                                setPercent(percent, speed);
                         }
                     });
                     return res;

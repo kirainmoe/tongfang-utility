@@ -40,23 +40,24 @@ export default class About extends Component {
                 <Button type="link" onClick={() => this.openPage(this.issuePage)} style={{ padding: 0 }}>
                   此页面
                 </Button>
-                中告诉我。
+                中告诉我，或者发送邮件给 kirainmoe@gmail.com .
               </p>
             </div>
           </div>
 
           <div className="donate" style={{ display: navigator.language === 'zh-CN' ? 'block' : 'none' }}>
-            <h3 className="subtitle">恰饭</h3>
+            <h3 className="subtitle">社区支持 and 恰饭</h3>
             <div>
               <p>
-                本工具和仓库提供的配置文件都是免费的。
-                <br /> 但你可以扫一扫二维码，支持主播_(:з」∠)_
+                本工具和仓库提供的配置文件都是免费的。如果你需要获得支持，请加入下面的 QQ 群。
+                <br /> 你也可以扫一扫二维码，支持主播_(:з」∠)_
               </p>
               <table>
                 <thead>
                   <tr>
                     <td>支付宝</td>
                     <td>微信</td>
+                    <td>QQ 群</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -75,6 +76,13 @@ export default class About extends Component {
                         alt="wechat"
                       />
                     </td>
+                    <td>
+                      <img
+                        src="https://i.loli.net/2019/11/23/Fzkeprn9PA7bf6q.png"
+                        width="110px"
+                        alt="qqgroup"
+                      />
+                    </td>                    
                   </tr>
                 </tbody>
               </table>
