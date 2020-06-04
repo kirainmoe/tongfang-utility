@@ -13,6 +13,7 @@ const { Option, OptGroup } = Select;
 
 export default class Configure extends Component {
   barebones = [];
+  brandTag = [];
   options = {
     airport: false,
     intel: false,
@@ -25,6 +26,8 @@ export default class Configure extends Component {
     loadguc: false,
     nvmefix: false
   };
+  kextstatRes = "";
+  nvramRes = "";
   defaultOpts = [
     { label: str("injectAirport"), value: "airport", defaultVal: this.isKextLoaded("Airport") },
     { label: str("injectIntelBluetooth"), value: "intel", defaultVal: this.isKextLoaded("IntelBluetooth") },
@@ -64,7 +67,7 @@ export default class Configure extends Component {
       downloading: false,
       workStatus: str("getLatest"),
       ...smbios,
-      laptop: 0,
+      laptop: navigator.language === 'zh-CN' ? 8 : 0,
       smbiosGenerated,
       success: false,
       percent: 0,
@@ -115,6 +118,7 @@ export default class Configure extends Component {
       const models = [];
       s.models.forEach((mach) => {
         this.barebones[index] = mach.barebone;
+        this.brandTag[index] = s.vendorTag;
         models.push(
           <Option key={index} value={index++}>
             {mach.model}
@@ -148,6 +152,11 @@ export default class Configure extends Component {
     res.push(
       <Option key={index++} value={config.download_url.github}>
         GitHub
+      </Option>
+    );
+    res.push(
+      <Option key={index++} value={config.download_url.github_mirror}>
+        GitHub 非官方镜像
       </Option>
     );
     res.push(
@@ -185,13 +194,17 @@ export default class Configure extends Component {
   isKextLoaded(kextName) {
     if (!window.electron.isMac())
       return false;
+    if (this.kextstatRes !== "") {
+      return this.kextstatRes.indexOf(kextName) >= 0;
+    }
     try {
       const proc = window.require('child_process');
-      const stdout = proc.execSync(`kextstat | grep "${kextName}"`).toString();
-      return (stdout !== '');
+      const stdout = proc.execSync(`kextstat`).toString();
+      this.kextstatRes = stdout;
     } catch (err) {
       return false;
     }
+    return this.kextstatRes.indexOf(kextName) >= 0;
   }
 
   hasParam(param) {
@@ -325,6 +338,12 @@ export default class Configure extends Component {
             await fs.rename(`${savePath}/OpenCore/${extractPath}/Docs/Credits.md`, `${savePath}/OC/Credits.md`, () => {});
             await this.sleep(500);
             window.electron.rmdir(`${savePath}/OpenCore`);
+            await this.sleep(500);
+            await fs.unlink(`${savePath}/OC/Icons/Background.png`, () => {});
+            await this.sleep(500);
+            await fs.rename(`${savePath}/OC/Icons/Background-${this.brandTag[this.state.laptop]}.png`,
+                            `${savePath}/OC/Icons/Background.png`, () => {});
+
 
             const content = window.electron.readFile(savePath + "/OC/config.plist");
             const plist = new Plist(content);

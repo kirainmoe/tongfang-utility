@@ -1,6 +1,6 @@
 export default {
-    version: "2.2.1",
-    build: 2005270,
+    version: "2.2.3",
+    build: 2006040,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -10,6 +10,7 @@ export default {
     supported_machine: [
         {
             brand: '通用 (General for all brands)',
+            vendorTag: 'tongfang',
             models: [
                 {
                     model: "Tongfang GK5CN6X / GK5CN5X (8th gen)",
@@ -28,7 +29,7 @@ export default {
                     barebone: "GI5CN54"
                 },
                 {
-                    model: "Tongfang GK7CP6R (9th gen)",
+                    model: "Tongfang GK7CP6R / GK7CR0V (9th gen)",
                     barebone: "GK7CP6R"
                 },
                 {
@@ -47,6 +48,7 @@ export default {
         },        
         {
             brand: "神舟 (Hasee)",
+            vendorTag: 'hasee',
             models: [
                 {
                     model: "神舟战神 Z7-KP7GZ",
@@ -158,27 +160,37 @@ export default {
         },
         {
             brand: "炫龙 (Shinelon)",
+            vendorTag: 'shinelon',
             models: [
                 {
                     model: "炫龙 耀7000",
                     barebone: "GK5CN5X"
                 },
                 {
-                    model: "炫龙 耀9000 II (试验性)",
+                    model: "炫龙 耀9000 II",
                     barebone: "GK5CN6X"
                 },
                 {
-                    model: "炫龙 炎魔T3Ti (试验性)",
+                    model: "炫龙 T3Ti - 710S5R (实验性)",
                     barebone: "GK7CP6R"
                 }, 
                 {
-                    model: "炫龙 炎魔T2Ti (试验性)",
+                    model: "炫龙 T3Ti - 710S5V (实验性)",
+                    barebone: "GK5CP6X"
+                }, 
+                {
+                    model: "炫龙 T3Ti - 510S5V (实验性)",
+                    barebone: "GK5CP6X"
+                },                                 
+                {
+                    model: "炫龙 T2Ti (实验性)",
                     barebone: "GI5CN54"
                 },                                        
             ]
         },
         {
             brand: '机械革命 (Mechrevo)',
+            vendorTag: 'mechrevo',
             models: [
                 {
                     model: "机械革命 Z2 系列 (8 代)",
@@ -197,7 +209,7 @@ export default {
                     barebone: "GK5CP6X"
                 },
                 {
-                    model: "机械革命 X3 (试验性)",
+                    model: "机械革命 X3",
                     barebone: "GK7CP6R"
                 },
                 {
@@ -208,6 +220,7 @@ export default {
         },
         {
             brand: 'Monster (Turkey Reseller)',
+            vendorTag: 'tongfang',
             models: [
                 {
                     model: 'Monster Abra A7 v10.1 (Tested by Se7Touch)',
@@ -220,11 +233,16 @@ export default {
                 {
                     model: "Monster Tulpar T7 v19.3 (Tested by Se7Touch)",
                     barebone: 'GK7CP6R'
+                },
+                {
+                    model: "Monster Tulpar T7 V20.1 (Tested by @sutsurup)",
+                    barebone: 'GK7CP6R'
                 }
             ]
         },
         {
             brand: 'EVDO',
+            vendorTag: 'tongfang',
             models: [
                 {
                     model: 'EVOO 15.6" model laptops LP4/LP5 (Tested by EricHemingway)',
@@ -238,6 +256,7 @@ export default {
         bitbucket: "https://bitbucket.org/ayamita/hasee-tongfang-macos/get/oc-general.zip",
         github: "https://github.com/kirainmoe/hasee-tongfang-macos/archive/oc-general.zip",
         cloudflare: "https://efi.kirainmoe.com/getopencore",
-        buildbot: "https://aya-buildbot.kirainmoe.com/getopencore"
+        buildbot: "https://aya-buildbot.kirainmoe.com/getopencore",
+        github_mirror: "https://github.wuyanzheshui.workers.dev/kirainmoe/hasee-tongfang-macos/archive/oc-general.zip"
     }
 };
