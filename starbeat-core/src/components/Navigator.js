@@ -10,7 +10,7 @@ import Keyboard from '../icons/Keyboard';
 import ConfigUpdate from '../icons/ConfigUpdate';
 import Tools from '../icons/Tools';
 import Update from '../icons/Update';
-// import Lab from '../icons/Lab';
+import Lab from '../icons/Lab';
 
 const logo = require('../resource/logo.png');
 
@@ -32,12 +32,19 @@ export default class Navigator extends Component {
                     <p>{str('config')}</p>
                 </NavLink>
 
-                {window.electron.isMac() ? (
+                {window.electron.isMac() && (
                     <NavLink className="nav-link" to="/tools">
                         <Tools />
                         <p>{str('tools')}</p>
                     </NavLink>
-                ) : null}
+                )}
+
+                {window.electron.isMac() && (
+                    <NavLink className="nav-link" to="/lab">
+                        <Lab />
+                        <p>{str('lab')}</p>
+                    </NavLink>
+                )}
 
                 <NavLink className="nav-link" to="/update">
                     <Update />

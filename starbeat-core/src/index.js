@@ -9,6 +9,7 @@ import './styles/app.styl';
 import Navigator from './components/Navigator';
 import KeyboardLight from './components/KeyboardLight';
 import Toolbox from './components/Toolbox';
+import Lab from './components/Lab';
 import Configure from './components/Configure';
 import Update from './components/Update';
 import About from './components/About';
@@ -33,6 +34,9 @@ render(
                 <Route path="/tools" exact>
                     <Toolbox />
                 </Route>
+                <Route path="/lab" exact>
+                    <Lab />
+                </Route>                
                 <Route path="/about" exact>
                     <About />
                 </Route>

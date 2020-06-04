@@ -125,7 +125,27 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         downloadRemoteVersion: '正在更新 Tongfang Hackintosh Utility，请稍等……',
         updateSuccess: '程序更新成功，请重启程序应用更改。',
         updateFailed: '程序更新时出现错误，请尝试手动从 https://starbeat.kirainmoe.com 下载最新版本。',
-        updateRequired: '为防止出现兼容性问题，Tongfang Hackintosh Utility 需要更新，即将为你跳转到更新页面。'
+        updateRequired: '为防止出现兼容性问题，Tongfang Hackintosh Utility 需要更新，即将为你跳转到更新页面。',
+
+        labRemind: '提醒：实验室的功能可能是不稳定的，仅供尝鲜使用，并且后期可能会删除部分功能。',
+        intelWifi: '智能驱动 Intel WiFi',
+        intelWifiDescription: '下载并自动生成来自 @zxystd 的 Intel WiFi 驱动。',
+        intelWifiRemind: '请注意，此驱动仅能够连接 WEP/WPA2 加密的网络，且需要预先写入 SSID 和密码（目前支持最多4组网络名和密码）；并且暂时不支持隔空投送等基于 IO80211 的功能。' +
+          '加载完成后，请查看设置 => 网络中是否出现新的"以太网"接口。如果没有出现，说明固件上传失败，请先关机断电几分钟后再试。',
+        downloadStatus: '下载状态',
+        undownloaded: '未下载',
+        downloaded: '已下载',
+        clickToDownload: '点击下载 itlwm.kext',
+        successAndRefersh: '下载成功',
+        loadStatus: '加载状态',
+        loaded: '已加载',
+        unloaded: '未加载',
+        loadSuccess: '加载成功，请查看设置 => 网络中是否出现新的"以太网"接口。如果没有出现，说明固件上传失败，请先关机断电几分钟后再试。',
+        unloadSuccess: '卸载成功。',
+        unsuccess: '未成功',
+        notDownloaded: '未找到 itlwm.kext，请先点击上面的下载按钮。',
+        loadKext: '加载驱动',
+        unloadKext: '卸载驱动（更换网络前需要先卸载）'
     },
     en: {
         config: "Configuration",
@@ -244,7 +264,26 @@ This EFI uses next-generation SMC driver VirtualSMC.kext by default, you can rep
         downloadRemoteVersion: 'Updating Tongfang Hackintosh Utility, please wait……',
         updateSuccess: 'App updated. Please restart the app.',
         updateFailed: 'Error occurred while updating. Please go to https://starbeat.kirainmoe.com and download the latest version manually.',
-        updateRequired: 'Tongfang Hackintosh Utility requests an update to avoid compatibility problems. I\'m taking you to the update page.'
+        updateRequired: 'Tongfang Hackintosh Utility requests an update to avoid compatibility problems. I\'m taking you to the update page.',
+
+        labRemind: 'Warning: Features in this lab can be unstable, use at your own risk. Some features may be removed in the future release.',
+        intelWifi: 'Intel WiFi',
+        intelWifiDescription: 'Download and generate Intel WiFi kexts by @zxystd.',
+        intelWifiRemind: 'Notes: This kext can only connect to WEP/WPA2 encrypted network and requires to predict SSID/password (at most 4 pairs). And the features based on IO80211 like Airdrop are not available.',
+        downloadStatus: 'Download status',
+        undownloaded: 'Not downloaded',
+        downloaded: 'Downloaded',
+        clickToDownload: 'Click to download itlwm.kext',
+        successAndRefersh: 'Download success',
+        loadStatus: 'Load status',
+        loaded: 'Loaded',
+        unloaded: 'Unloaded',
+        loadSuccess: 'Loading itlwm.kext successfully, please check if a new Ethernet interface appears in System Preference Setting. If it doesn\'t appear, please completely showdown your laptop, reboot in a few minutes and try again.',
+        unloadSuccess: 'itlwm.kext unloaded',
+        unsuccess: 'Failed',
+        notDownloaded: 'itlwm.kext not found, please download it first.',
+        loadKext: 'Load Kext',
+        unloadKext: 'Unload Kext (before switching network)'
     }
 };
 
