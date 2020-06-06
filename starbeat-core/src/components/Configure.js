@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { createHashHistory } from "history";
-import { Select, Checkbox, Input, Button } from "antd";
+import { Select, Checkbox, Input, Button, message } from "antd";
+import { CloudDownloadOutlined, LeftOutlined } from "@ant-design/icons";
 
 import "../styles/Configure.styl";
 
@@ -107,7 +108,10 @@ export default class Configure extends Component {
           createHashHistory().push('/update');
         } else
           this.setState({  latestDev: data.latestDev  });
-      });
+      })
+      .catch(err => {
+        message.error("连接更新服务器失败。部分功能和下载源可能无法使用。");
+      })
   }
 
   /* 获取模具、机型列表，写在 config.js 中 */
@@ -547,7 +551,7 @@ export default class Configure extends Component {
                 <Button
                   type="primary"
                   shape="round"
-                  icon="left"
+                  icon={<LeftOutlined />}
                   onClick={() =>
                     this.setState({
                       workStatus: str("getLatest"),
@@ -632,7 +636,7 @@ export default class Configure extends Component {
               <Button
                 type="primary"
                 shape="round"
-                icon="download"
+                icon={<CloudDownloadOutlined />}
                 loading={this.state.downloading}
                 disable={(!this.state.downloading).toString()}
                 onClick={() => this.downloadLatest()}

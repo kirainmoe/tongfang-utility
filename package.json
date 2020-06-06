@@ -8,9 +8,10 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-  	"create-installer": "electron-installer-dmg release/Tongfang\\ Hackintosh\\ Utility-darwin-x64/Tongfang\\ Hackintosh\\ Utility.app/ 'Tongfang-Hackintosh-Utility'"
+    "create-installer": "electron-installer-dmg release/Tongfang\\ Hackintosh\\ Utility-darwin-x64/Tongfang\\ Hackintosh\\ Utility.app/ 'Tongfang-Hackintosh-Utility'"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.2.1",
     "electron-winstaller": "^4.0.0"
   },
   "devDependencies": {
