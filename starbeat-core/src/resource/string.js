@@ -78,6 +78,15 @@ export const strings = {
         getLatest: "获取最新配置文件",
         downloadWait: "正在下载，请等待",
         generating: "正在生成 EFI...",
+        cannotDownload: "下载时遇到问题？",
+        cannotDownloadSolution: `
+        <p>如果由于各种原因无法下载配置文件，请尝试以下解决方案：</p>
+        <ul>
+            <li>点击<a onclick="window.location.reload()">这里重载 App</a>，然后重试下载。</li>
+            <li>前往以下链接下载配置文件模板压缩包，<b>改名为 OpenCore.zip 并放置到桌面的 Tongfang_EFI 文件夹下</b>，然后重新运行本程序，勾选你需要的选项，然后点击"从本地生成 EFI"。</li>
+        </ul>
+        `,
+        generateEFI: "从本地文件生成 EFI",
         successInfo:
             "已将最新 OpenCore 配置文件下载到当前用户桌面的 `Tongfang_EFI` 文件夹中。请将桌面的 Tongfang_EFI/BOOT 和 Tongfang_EFI/OC 复制到 U 盘或硬盘中。",
         successInstructionUSB:
@@ -225,6 +234,15 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         getLatest: "Get the latest config",
         downloadWait: "Downloading, please wait..",
         generating: "Generating EFI...",
+        cannotDownload: "Having trouble downloading?",
+        cannotDownloadSolution: `
+        <p>If you have failed to download the config file, please try to:</p>
+        <ul>
+            <li><a onclick="window.location.reload()">Reload App</a> and retry.</li>
+            <li>Download the config template archive from the following links, <b>rename the zip you download to "OpenCore.zip", and put it into "Tongfang_EFI" directory in your desktop</b>. Restart this App and click "Generate from local file".</li>
+        </ul>
+        `,
+        generateEFI: "Generate from local file",
         successInfo:
             "Successfully downloaded the latest OC config to ~/Desktop/Tongfang_EFI. Please copy `BOOT` and `OC` folder to ESP.",
         successInstructionUSB:

@@ -1,6 +1,6 @@
 export default {
-    version: "2.2.5",
-    build: 2006060,
+    version: "2.2.6",
+    build: 2006100,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -221,7 +221,7 @@ export default {
         },
         {
             brand: 'Monster (Turkey Reseller)',
-            vendorTag: 'tongfang',
+            vendorTag: 'monster',
             models: [
                 {
                     model: 'Monster Abra A7 v10.1 (Tested by Se7Touch)',
@@ -236,7 +236,7 @@ export default {
                     barebone: 'GK7CP6R'
                 },
                 {
-                    model: "Monster Tulpar T7 V20.1 (Tested by @sutsurup)",
+                    model: "Monster Tulpar T7 V20.1 (Tested by sutsurup)",
                     barebone: 'GK7CP6R'
                 }
             ]

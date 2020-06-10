@@ -1,5 +1,7 @@
 .configure
     width: 100%
+    height: 100%
+    overflow-y: hidden
     padding: 40px 25px 0px 25px
     .page-title
         font-size: 22px
@@ -31,7 +33,6 @@
     .version-info
         display: flex
         .version-tag
-            width: 50%
             margin: 0px
     .actions
         margin-top: 20px
@@ -60,6 +61,18 @@
     .ant-btn-link
         padding: 0px
         margin: 0px
+    
+    .spinning
+        width: 100%
+        height: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        z-index: 30
+        position: absolute
+        top: 0px
+        left: 0px
+        background: rgba(255, 255, 255, 0.9)
 
 .toobox-win-unsupported
     .win-icon

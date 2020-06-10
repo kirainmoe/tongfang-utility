@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { createHashHistory } from "history";
-import { Select, Checkbox, Input, Button, message } from "antd";
-import { CloudDownloadOutlined, LeftOutlined } from "@ant-design/icons";
+import { Select, Checkbox, Input, Button, message, Modal, Spin } from "antd";
+import { CloudDownloadOutlined, LeftOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import "../styles/Configure.styl";
 
@@ -77,7 +77,8 @@ export default class Configure extends Component {
       modal_content: '',
       download_url: navigator.language === 'zh-CN'
         ? config.download_url.buildbot
-        : config.download_url.bitbucket
+        : config.download_url.bitbucket,
+      modal: false
     };
 
     this.checkVersion();
@@ -94,6 +95,16 @@ export default class Configure extends Component {
           smbiosGenerated: true
         });
       }
+    }
+  }
+
+  componentDidMount() {
+    const savePath = window.electron.getUserDir() + "/Desktop/Tongfang_EFI";
+    const saveFile = savePath + "/OpenCore.zip";
+    const fs = window.electron.fs();
+
+    if (fs.existsSync(saveFile)) {
+      this.setState({ workStatus: str("generateEFI") });
     }
   }
 
@@ -309,214 +320,228 @@ export default class Configure extends Component {
     });
 
     const savePath = window.electron.getUserDir() + "/Desktop/Tongfang_EFI";
-    try {
-      window.electron.rmdir(savePath);
-    } catch (e) {}
-    window.electron.mkdir(savePath);
     const saveFile = savePath + "/OpenCore.zip";
+    const fs = window.electron.fs();
 
-    setTimeout(() => {
-      window.electron.downloadFile(this.state.download_url, saveFile, () => {
-        this.setState({ workStatus: str("generating") });
-        setTimeout(async() => {
-          try {
-            window.electron.unzip(saveFile, savePath + "/OpenCore");
+    if (fs.existsSync(saveFile)) {
+      this.processEFI(saveFile, savePath);
+    } else {
+      try {
+        window.electron.rmdir(savePath);
+      } catch (err) {}
+      window.electron.mkdir(savePath);
+      setTimeout(() => {
+        window.electron.downloadFile(this.state.download_url, saveFile, () => {
+          this.processEFI(saveFile, savePath);
+        }, (p, s) => this.updatePercent(p, s));
+      }, 50);
+    }
+  }
 
-            const fs = window.electron.fs();
-            window.electron.rmdir(`${savePath}/BOOT`);
+  processEFI(saveFile, savePath) {
+    this.setState({ workStatus: str("generating") });
+    setTimeout(async() => {
+      try {
+        window.electron.unzip(saveFile, savePath + "/OpenCore");
 
-            let extractPath;
-            fs.readdirSync(`${savePath}/OpenCore`).forEach(path => {
-              if (path.indexOf("ayamita") >= 0 || path.indexOf("hasee-tongfang-macos") >= 0)
-                extractPath = path;
-            });
+        const fs = window.electron.fs();
+        window.electron.rmdir(`${savePath}/BOOT`);
 
-            // sleep() for fixing Windows sync thread error
-            window.electron.rmdir(`${savePath}/BOOT`);
-            await fs.rename(`${savePath}/OpenCore/${extractPath}/BOOT`, `${savePath}/BOOT`, () => {});
-            await this.sleep(500);
-            window.electron.rmdir(`${savePath}/OC`);
-            await this.sleep(500);
-            await fs.rename(`${savePath}/OpenCore/${extractPath}/OC`, `${savePath}/OC`, () => {});
-            await this.sleep(500);
-            await fs.rename(`${savePath}/OpenCore/${extractPath}/Docs/Credits.md`, `${savePath}/OC/Credits.md`, () => {});
-            await this.sleep(500);
-            window.electron.rmdir(`${savePath}/OpenCore`);
-            await this.sleep(500);
-            await fs.unlink(`${savePath}/OC/Icons/Background.png`, () => {});
-            await this.sleep(500);
-            await fs.rename(`${savePath}/OC/Icons/Background-${this.brandTag[this.state.laptop]}.png`,
-                            `${savePath}/OC/Icons/Background.png`, () => {});
+        let extractPath;
+        fs.readdirSync(`${savePath}/OpenCore`).forEach(path => {
+          if (path.indexOf("ayamita") >= 0 || path.indexOf("hasee-tongfang-macos") >= 0)
+            extractPath = path;
+        });
+
+        // sleep() for fixing Windows sync thread error
+        window.electron.rmdir(`${savePath}/BOOT`);
+        await fs.rename(`${savePath}/OpenCore/${extractPath}/BOOT`, `${savePath}/BOOT`, () => {});
+        await this.sleep(500);
+        window.electron.rmdir(`${savePath}/OC`);
+        await this.sleep(500);
+        await fs.rename(`${savePath}/OpenCore/${extractPath}/OC`, `${savePath}/OC`, () => {});
+        await this.sleep(500);
+        await fs.rename(`${savePath}/OpenCore/${extractPath}/Docs/Credits.md`, `${savePath}/OC/Credits.md`, () => {});
+        await this.sleep(500);
+        window.electron.rmdir(`${savePath}/OpenCore`);
+        await this.sleep(500);
+        await fs.unlink(`${savePath}/OC/Icons/Background.png`, () => {});
+        await this.sleep(500);
+        await fs.rename(`${savePath}/OC/Icons/Background-${this.brandTag[this.state.laptop]}.png`,
+                        `${savePath}/OC/Icons/Background.png`, () => {});
 
 
-            const content = window.electron.readFile(savePath + "/OC/config.plist");
-            const plist = new Plist(content);
-            window.p = plist;
+        const content = window.electron.readFile(savePath + "/OC/config.plist");
+        const plist = new Plist(content);
+        window.p = plist;
 
-            const ACPIdir = `${savePath}/OC/ACPI`;
-            switch (this.barebones[this.state.laptop]) {
-              case "GK5CN5X":
-              case "GK5CN6X":
-              case "GK7CN6S":
-              default:
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
-                break;
-              case "GK5CN6Z":
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
-                fs.renameSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml", ACPIdir + "/SSDT-UIAC.aml");              break;
-              case "GJ5CN64":
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
-                fs.renameSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml", ACPIdir + "/SSDT-UIAC.aml");
-                plist.setKext("VoodooPS2", false);
-                plist.setKext("VoodooI2C", false);
-                plist.setKext("VoodooGPIO", false);
-                plist.setKext("VoodooPS2Controller_Rehabman", true);
-                plist.setSSDT("SSDT-USTP", false);
-                break;
-              case "GI5CN54":
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
-                fs.renameSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml", ACPIdir + "/SSDT-UIAC.aml");
-                plist.setKext("VoodooPS2", false);
-                plist.setKext("VoodooI2C", false);
-                plist.setKext("VoodooGPIO", false);
-                plist.setKext("VoodooPS2Controller_Rehabman", true);
-                plist.setSSDT("SSDT-USTP", false);
-                break;
-              case "GK7CP6R":
-              case "GK5CP6V":
-              case "GK5CP5V":
-              case "GK5CR0V":
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
-                fs.renameSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml", ACPIdir + "/SSDT-UIAC.aml");
-                this.options.loadguc = true;
-                break;
-              case "GK5CP6X":
-              case "GK5CP6Z":
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
-                fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
-                fs.renameSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml", ACPIdir + "/SSDT-UIAC.aml");
-                this.options.loadguc = true;
-                break;
-            }
+        const ACPIdir = `${savePath}/OC/ACPI`;
+        switch (this.barebones[this.state.laptop]) {
+          case "GK5CN5X":
+          case "GK5CN6X":
+          case "GK7CN6S":
+          default:
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
+            break;
+          case "GK5CN6Z":
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
+            fs.renameSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml", ACPIdir + "/SSDT-UIAC.aml");              break;
+          case "GJ5CN64":
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
+            fs.renameSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml", ACPIdir + "/SSDT-UIAC.aml");
+            plist.setKext("VoodooPS2", false);
+            plist.setKext("VoodooI2C", false);
+            plist.setKext("VoodooGPIO", false);
+            plist.setKext("VoodooPS2Controller_Rehabman", true);
+            plist.setSSDT("SSDT-USTP", false);
+            break;
+          case "GI5CN54":
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
+            fs.renameSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml", ACPIdir + "/SSDT-UIAC.aml");
+            plist.setKext("VoodooPS2", false);
+            plist.setKext("VoodooI2C", false);
+            plist.setKext("VoodooGPIO", false);
+            plist.setKext("VoodooPS2Controller_Rehabman", true);
+            plist.setSSDT("SSDT-USTP", false);
+            break;
+          case "GK7CP6R":
+          case "GK5CP6V":
+          case "GK5CP5V":
+          case "GK5CR0V":
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
+            fs.renameSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml", ACPIdir + "/SSDT-UIAC.aml");
+            this.options.loadguc = true;
+            break;
+          case "GK5CP6X":
+          case "GK5CP6Z":
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK7CP6R.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GJ5CN64.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GI5CN54.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC-GK5CN6Z.aml");
+            fs.unlinkSync(ACPIdir + "/SSDT-UIAC.aml");
+            fs.renameSync(ACPIdir + "/SSDT-UIAC-GK5CP6X.aml", ACPIdir + "/SSDT-UIAC.aml");
+            this.options.loadguc = true;
+            break;
+        }
 
-            if (this.options.airport) {
-              plist.setKext("AirportBrcmFixup", true);
-              plist.setBootArg("brcmfx-country=#a");
-            }
-            if (this.options.intel)
-              plist.setKext("IntelBluetooth", true);
-            if (this.options.brcm) {
-              plist.setKext("BrcmBluetoothInjector", true);
-              plist.setKext("BrcmFirmwareData", true);
-              plist.setKext("BrcmPatchRAM3", true);
-            }
-            if (this.options.rndis)
-              plist.setKext("HoRNDIS", true);
-            if (this.options.pm981)
-              plist.setSSDT("SSDT-DNVME", true);
-            if (this.options.fixhibernate)
-              plist.setKext("HibernationFixup", true);
-            if (this.options.usefakesmc) {
-              plist.setKext("VirtualSMC", false);
-              plist.setKext("SMCBatteryManager", false);
-              plist.setKext("SMCLightSensor", false);
-              plist.setKext("SMCProcessor", false);
-              plist.setKext("SMCSuperIO", false);
+        if (this.options.airport) {
+          plist.setKext("AirportBrcmFixup", true);
+          plist.setBootArg("brcmfx-country=#a");
+        }
+        if (this.options.intel)
+          plist.setKext("IntelBluetooth", true);
+        if (this.options.brcm) {
+          plist.setKext("BrcmBluetoothInjector", true);
+          plist.setKext("BrcmFirmwareData", true);
+          plist.setKext("BrcmPatchRAM3", true);
+        }
+        if (this.options.rndis)
+          plist.setKext("HoRNDIS", true);
+        if (this.options.pm981)
+          plist.setSSDT("SSDT-DNVME", true);
+        if (this.options.fixhibernate)
+          plist.setKext("HibernationFixup", true);
+        if (this.options.usefakesmc) {
+          plist.setKext("VirtualSMC", false);
+          plist.setKext("SMCBatteryManager", false);
+          plist.setKext("SMCLightSensor", false);
+          plist.setKext("SMCProcessor", false);
+          plist.setKext("SMCSuperIO", false);
 
-              plist.setKext("FakeSMC", true);
-              plist.setKext("ACPIBattery", true);
-              plist.setSSDT("SSDT-SMCD", true);
-            }
-            if (this.options.support4k) {
-              plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");
-              plist.setProperties(
-                "PciRoot(0x0)/Pci(0x2,0x0)",
-                "device_type",
-                "Display Controller"
-              );
-              plist.setProperties(
-                "PciRoot(0x0)/Pci(0x2,0x0)",
-                "enable-dpcd-max-link-rate-fix",
-                new Uint8Array([1, 0, 0, 0])
-              );
-              plist.setProperties(
-                "PciRoot(0x0)/Pci(0x2,0x0)",
-                "framebuffer-con1-alldata",
-                new Uint8Array([1, 5, 9, 0, 0, 4, 0, 0, 135, 1, 0, 0])
-              );
-              plist.setProperties(
-                "PciRoot(0x0)/Pci(0x2,0x0)",
-                "framebuffer-unifiedmem",
-                new Uint8Array([0, 0, 0, 192])
-              );
-              plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-enable");
-              plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-pipe");
-              plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con1-pipe");
-              plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-enable");            
-              plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-pipe");
-              plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-stolenmem");
-              plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
-              plist.setValue(
-                "NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale",
-                new Uint8Array([2])
-              );
-              plist.setBootArg("-cdfon -igfxmlr");
-            }
-            if (this.options.loadguc)
-              plist.setBootArg("igfxfw=2");
-            if (this.options.nvmefix)
-              plist.setKext("NVMeFix", true);
+          plist.setKext("FakeSMC", true);
+          plist.setKext("ACPIBattery", true);
+          plist.setSSDT("SSDT-SMCD", true);
+        }
+        if (this.options.support4k) {
+          plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");
+          plist.setProperties(
+            "PciRoot(0x0)/Pci(0x2,0x0)",
+            "device_type",
+            "Display Controller"
+          );
+          plist.setProperties(
+            "PciRoot(0x0)/Pci(0x2,0x0)",
+            "enable-dpcd-max-link-rate-fix",
+            new Uint8Array([1, 0, 0, 0])
+          );
+          plist.setProperties(
+            "PciRoot(0x0)/Pci(0x2,0x0)",
+            "framebuffer-con1-alldata",
+            new Uint8Array([1, 5, 9, 0, 0, 4, 0, 0, 135, 1, 0, 0])
+          );
+          plist.setProperties(
+            "PciRoot(0x0)/Pci(0x2,0x0)",
+            "framebuffer-unifiedmem",
+            new Uint8Array([0, 0, 0, 192])
+          );
+          plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-enable");
+          plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-pipe");
+          plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con1-pipe");
+          plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-enable");            
+          plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-pipe");
+          plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-stolenmem");
+          plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
+          plist.setValue(
+            "NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale",
+            new Uint8Array([2])
+          );
+          plist.setBootArg("-cdfon -igfxmlr");
+        }
+        if (this.options.loadguc)
+          plist.setBootArg("igfxfw=2");
+        if (this.options.nvmefix)
+          plist.setKext("NVMeFix", true);
 
-            plist.setValue("PlatformInfo/Generic/SystemProductName", this.state.model);
-            plist.setValue("PlatformInfo/Generic/SystemSerialNumber", this.state.sn);
-            plist.setValue("PlatformInfo/Generic/MLB", this.state.mlb);
-            plist.setValue("PlatformInfo/Generic/SystemUUID", this.state.smuuid);
+        plist.setValue("PlatformInfo/Generic/SystemProductName", this.state.model);
+        plist.setValue("PlatformInfo/Generic/SystemSerialNumber", this.state.sn);
+        plist.setValue("PlatformInfo/Generic/MLB", this.state.mlb);
+        plist.setValue("PlatformInfo/Generic/SystemUUID", this.state.smuuid);
 
-            if (navigator.language !== "zh-CN") {
-              plist.setValue(
-                "NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/prev-lang:kbd",
-                "en-US:0"
-              );
-            }
+        if (navigator.language !== "zh-CN") {
+          plist.setValue(
+            "NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/prev-lang:kbd",
+            "en-US:0"
+          );
+        }
 
-            window.electron.writeFile(savePath + "/OC/config.plist", plist.buildPlist());
-            fs.unlinkSync(savePath + "/OpenCore.zip");
-            this.setState({ downloading: false, success: true });
+        window.electron.writeFile(savePath + "/OC/config.plist", plist.buildPlist());
+        fs.unlinkSync(savePath + "/OpenCore.zip");
+        this.setState({ downloading: false, success: true });
 
-          } catch (err) {
-            alert(str('downloadFailed') + '\n' + err);
-            console.error(err);
-          }
-        }, 1000);
-      }, (p, s) => this.updatePercent(p, s));
-    }, 50);
+      } catch (err) {
+        alert(str('downloadFailed') + '\n' + err);
+        console.error(err);
+      }
+    }, 1000);
+  }
+
+  showModal() {
+    this.setState({ modal: true });
   }
 
   render() {
-    const opencore = require("../resource/opencore.png");
+    const opencore = require("../resource/opencore.png"),
+      biliPageLink = 'https://www.bilibili.com/video/BV1uJ411Y77y';
 
     if (this.state.success)
       return (
@@ -531,21 +556,13 @@ export default class Configure extends Component {
               <ul>
                 <li className="success-item">{str("successInstructionUSB")}</li>
                 <li className="success-item">{str("successInstructionHD")}</li>
-                {(() => {
-                  if (navigator.language === 'zh-CN') {
-                    return (
-                      <li className="success-item">
-                        仍然不知道如何安装/替换？请参考
-                        <Button
-                          onClick={() => this.openPage('https://www.bilibili.com/video/BV1uJ411Y77y')}
-                          type="link">
-                            教学视频
-                        </Button>
-                        的演示。
-                      </li>
-                    )
-                  }
-                })()}
+                {navigator.language === 'zh-CN' && (
+                  <li className="success-item">
+                    仍然不知道如何安装/替换？请参考
+                    <Button onClick={() => this.openPage(biliPageLink)} type="link">教学视频</Button>
+                    的演示。
+                </li>
+                )}
               </ul>
               <div className="actions">
                 <Button
@@ -570,6 +587,61 @@ export default class Configure extends Component {
     else
       return (
         <div className="configure">
+          <div className="spinning" style={{ display: this.state.downloading ? 'flex' : 'none' }}>
+            <Spin
+              tip={[
+                <p style={{ color: '#000' }}>
+                  {this.state.workStatus}
+                  {this.state.downloading ? " (" + this.state.percent + "% " + Math.ceil(this.state.speed / 1024) +  "K/s)" : ""}
+                </p>,
+                <p>
+                  {this.state.downloading && <Button type="link" onClick={() => this.showModal()}>
+                    {str("cannotDownload")}
+                  </Button>}
+                </p>
+              ]}
+              indicator={
+                <LoadingOutlined style={{ fontSize: 60, margin: 20 }} />
+              } />
+          </div>
+
+          <Modal
+            title={str("cannotDownload")}
+            visible={this.state.modal}
+            footer={null}
+            onCancel={() => this.setState({ modal: false })}
+          >
+            <div dangerouslySetInnerHTML={{
+              __html: str("cannotDownloadSolution")
+            }} />
+            <div className="download-lists" style={{ fontSize: 12, color: '#999' }}>
+              <li>
+                Aya BuildBot:<br />
+                <Button type="link" onClick={() => this.openPage(config.download_url.buildbot)}>
+                  {config.download_url.buildbot}
+                </Button>
+              </li>
+              <li>
+                GitHub: <br />
+                <Button type="link" onClick={() => this.openPage(config.download_url.github)}>
+                  {config.download_url.github}
+                </Button>
+              </li>
+              <li>
+                BitBucket <br />
+                <Button type="link" onClick={() => this.openPage(config.download_url.bitbucket)}>
+                  {config.download_url.bitbucket}
+                </Button>
+              </li>
+              <li>
+                CloudFlare: <br />
+                <Button type="link" onClick={() => this.openPage(config.download_url.cloudflare)}>
+                  {config.download_url.cloudflare}
+                </Button>
+              </li>                        
+            </div>
+          </Modal>
+
           <h3 className="page-title">{str("configure")}</h3>
           <p className="page-description">{str("configureDescription")}</p>
           <img className="oc-logo" src={opencore} alt="opencore" />
@@ -579,7 +651,7 @@ export default class Configure extends Component {
               showSearch
               placeholder={str("selectModel")}
               optionFilterProp="children"
-              defaultValue={config.supported_machine[0].models.length}
+              defaultValue={this.state.laptop}
               style={{
                 width: "100%"
               }}
@@ -590,7 +662,7 @@ export default class Configure extends Component {
 
             <p>
               {str("injectOption")} 
-              （<Button type="link" onClick={this.showChooseGuide} style={{ padding:0 }}>
+              （<Button type="link" onClick={this.showChooseGuide} style={{ padding: 0, height: 'auto' }}>
                 {str('whatShouldIChoose')}
                 </Button>）
             </p>
@@ -642,7 +714,6 @@ export default class Configure extends Component {
                 onClick={() => this.downloadLatest()}
               >
                 {this.state.workStatus}
-                {this.state.downloading ? " (" + this.state.percent + "% " + Math.ceil(this.state.speed / 1024) +  "K/s)" : ""}
               </Button>
             </div>
           </div>
