@@ -304,6 +304,8 @@ export default class KeyboardLight extends Component {
                             }
                         />
                     </div>
+                    
+                    {this.utils.getITErevision() === 3 && <p className="ite-support">{str("iteSupport")}</p>}
                 </div>
                 <div className="keyboard-switch">
                     <Switch defaultChecked onChange={c => this.toggleKeyboardLight(c)} />

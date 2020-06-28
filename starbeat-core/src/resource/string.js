@@ -19,6 +19,7 @@ export const strings = {
             "在此电脑上找到了兼容设备，但 ITE 版本 (revision) 不为 0.02。",
         hidCommFailedLinuxUnauthorized:
             "Tongfang Hackintosh Utility 正在 Linux 下运行，但未能获取 root 权限，无权访问 HID 设备。",
+        iteSupport: "* ITE 0.03 版本的键盘灯控制代码来自 rodgomesc 的项目 AUCC.",
         monoColor: "固定颜色",
         breathing: "呼吸",
         wave: "波浪",
@@ -63,6 +64,7 @@ export const strings = {
         disablePM981: "屏蔽不兼容的 NVMe 硬盘",
         fixhibernate: "添加睡眠修复补丁",
         useFakeSMC: '使用传统 SMC 驱动(不推荐)',
+        useBigSur: 'macOS Big Sur 支持',
         nvmefix: '加载 NVMe 电源管理',
         loadguc: '加载 Apple GuC 核显固件',
         smbiosInfo: "硬件识别信息",
@@ -154,7 +156,9 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         unsuccess: '未成功',
         notDownloaded: '未找到 itlwm.kext，请先点击上面的下载按钮。',
         loadKext: '加载驱动',
-        unloadKext: '卸载驱动（更换网络前需要先卸载）'
+        unloadKext: '卸载驱动（更换网络前需要先卸载）',
+
+        failedToConnectServer: "连接更新服务器失败。部分功能和下载源可能无法使用。"
     },
     en: {
         config: "Configuration",
@@ -185,6 +189,7 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         mix: "Mix",
         brightness: "Brightness",
         speed: "Speed",
+        iteSupport: "* Controlling of ITE revision 0.03 is supported by @rodgomesc.",
 
         toolsDescription: "Some operation requires to be done as superuser.",
         fixSleep: "Fix sleep",
@@ -219,6 +224,7 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         disablePM981: "Disable Incompatible NVMe",
         fixhibernate: 'Fix hibernation failure',
         useFakeSMC: 'Use FakeSMC(Not recommended)',
+        useBigSur: 'Preliminary support for macOS 11.0',
         nvmefix: 'Load NVMeFix.kext',
         loadguc: 'Load Apple GuC Firmware',
         smbiosInfo: "SMBIOS",
@@ -301,7 +307,9 @@ This EFI uses next-generation SMC driver VirtualSMC.kext by default, you can rep
         unsuccess: 'Failed',
         notDownloaded: 'itlwm.kext not found, please download it first.',
         loadKext: 'Load Kext',
-        unloadKext: 'Unload Kext (before switching network)'
+        unloadKext: 'Unload Kext (before switching network)',
+
+        failedToConnectServer: "Failed to connect to the update server, some download sources will be unavailable."
     }
 };
 

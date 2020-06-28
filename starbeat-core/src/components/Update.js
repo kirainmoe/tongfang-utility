@@ -20,7 +20,7 @@ export default class Update extends Component {
   }
 
   getRemoteVersion() {
-    fetch('https://api.kirainmoe.com/starbeatVersion')
+    fetch('https://api-aliyun.kirainmoe.com:2333/tongfang/version')
     .then(res => res.json())
     .then(res => {
       this.setState({

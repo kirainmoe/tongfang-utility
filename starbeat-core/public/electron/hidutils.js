@@ -1,8 +1,11 @@
 const initColorUtils = () => {
     const hid = require('node-hid');
+    const isWin = () => process.platform === "win32";
+    const isMac = () => process.platform === "darwin";
+
+    let revision = 2;
 
     Array.prototype.zeroFill = function (len) {
-        const isWin = () => process.platform === "win32";
         if (isWin()) {
             for (let i = this.length - 1; i >= 0; i--)
                 this[i+1] = this[i];
@@ -35,20 +38,34 @@ const initColorUtils = () => {
         console.error(e);
         device = null;
     }
-    
     if (device == null) {
         console.error("No compatible device found!");
         return false;
     }
+
+    try {
+        if (isMac()) {
+            const cp = require("child_process");
+            const stdout = cp.execSync("ioreg -c IOUSBDevice | grep -A 10 ITE | grep bcdDevice").toString();
+            if (stdout.indexOf("\"bcdDevice\" = 3") >= 0)
+                revision = 3;
+        }
+    } catch (e) {}
+
+    console.log(`[Info] ITE revision is 0.0${revision}`);
     
     const sendGenericPacket = () => {
         for (let i = 1; i <= 7; i++)
             device.sendFeatureReport([ 0x14, 0x00, i, ...generic[i-1], 0x00, 0x00 ].zeroFill(16));
     };
-    
+
+    const getITErevision = () => {
+        return revision;
+    };
+
     const monoColor = (red, green, blue, save, block, brightness) => {
         const packet = [0x14, 0x00, 0x01, red, green, blue, 0x00, 0x00],
-            endPacket = [0x08, 0x02, 0x01, 0x05, brightness, 0x08, 0x00, save ? 0x00 : 0x01];
+            endPacket = [0x08, 0x02, 0x01, 0x05, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
 
         if (block) {        // set specific block
             packet[2] = block;
@@ -65,13 +82,13 @@ const initColorUtils = () => {
     };
     
     const breathing = (save, speed, brightness) => {
-        const endPacket = [0x08, 0x02, 0x02, speed, brightness, 0x08, 0x00, save ? 0x00 : 0x01];
+        const endPacket = [0x08, 0x02, 0x02, speed, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
         sendGenericPacket();
         device.sendFeatureReport(endPacket.zeroFill(16));
     };
 
     const wave = (save, speed, brightness, direction) => {
-        const endPacket = [0x08, 0x02, 0x03, speed, brightness, 0x08, direction, save ? 0x00 : 0x01];
+        const endPacket = [0x08, 0x02, 0x03, speed, brightness, 0x08, direction, save ? 0x01 : 0x00];
         sendGenericPacket();
         device.sendFeatureReport(endPacket.zeroFill(16));
     };
@@ -79,19 +96,18 @@ const initColorUtils = () => {
     const rainbow = (save, brightness) => {
         for (let i = 1; i <= 4; i++)
             device.sendFeatureReport([0x14, 0x00, i, ...rainbowColor[i-1], 0x00, 0x00].zeroFill(9));
-        const endPacket = [0x08, 0x02, 0x05, 0x05, brightness, 0x08, 0x00, save ? 0x00 : 0x01];
-        console.log(endPacket);
+        const endPacket = [0x08, 0x02, 0x05, 0x05, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
         device.sendFeatureReport(endPacket.zeroFill(9));
     };
     
     const flash = (save, speed, brightness, direction) => {
-        const endPacket = [0x08, 0x02, 0x12, speed, brightness, 0x08, direction, save ? 0x00 : 0x01];
+        const endPacket = [0x08, 0x02, 0x12, speed, brightness, 0x08, direction, save ? 0x01 : 0x00];
         sendGenericPacket();
         device.sendFeatureReport(endPacket.zeroFill(16));
     };
     
     const mix = (save, speed, brightness) => {
-        const endPacket = [0x08, 0x02, 0x13, speed, brightness, 0x08, 0x00, save ? 0x00 : 0x01];
+        const endPacket = [0x08, 0x02, 0x13, speed, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
         sendGenericPacket();
         device.sendFeatureReport(endPacket.zeroFill(16));
     };
@@ -109,7 +125,8 @@ const initColorUtils = () => {
         flash,
         mix,
         device,
-        disabler
+        disabler,
+        getITErevision
     };
 };
 

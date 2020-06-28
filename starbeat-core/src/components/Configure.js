@@ -22,8 +22,8 @@ export default class Configure extends Component {
     rndis: false,
     support4k: false,
     pm981: false,
+    supportBigSur: false,
     fixhibernate: false,
-    usefakesmc: false,
     loadguc: false,
     nvmefix: false
   };
@@ -37,7 +37,7 @@ export default class Configure extends Component {
     { label: str("inject4KSupport"), value: "support4k", defaultVal: this.hasParam('igfxmlr') },
     { label: str("disablePM981"), value: "pm981", defaultVal: false },
     { label: str("fixhibernate"), value: "fixhibernate", defaultVal: this.isKextLoaded('Hibernation') },
-    { label: str("useFakeSMC"), value: "usefakesmc", defaultVal: this.isKextLoaded('FakeSMC') },
+    { label: str("useBigSur"), value: "supportBigSur", defaultVal: false },
     { label: str("nvmefix"), value: "nvmefix", defaultVal: this.isKextLoaded('NVMeFix') },
     { label: str("loadguc"), value: "loadguc", defaultVal: this.hasParam('igfxfw') }
   ];
@@ -46,7 +46,7 @@ export default class Configure extends Component {
     super(props);
 
     if (window.electron.isWin() && window.location.search.indexOf("reloaded") < 0) {
-      window.location.href = window.location.href = "?reloaded=true";
+      window.location.href = window.location.href + "?reloaded=true";
     }
 
     /* 获取 & 生成 SMBIOS 信息 */
@@ -65,6 +65,7 @@ export default class Configure extends Component {
 
     this.state = {
       latestDev: "Unknown",
+      supportVersion: [],
       downloading: false,
       workStatus: str("getLatest"),
       ...smbios,
@@ -75,9 +76,7 @@ export default class Configure extends Component {
       speed: 0,
       modal_visible: false,
       modal_content: '',
-      download_url: navigator.language === 'zh-CN'
-        ? config.download_url.buildbot
-        : config.download_url.bitbucket,
+      download_url: config.download_url.bitbucket,
       modal: false
     };
 
@@ -110,7 +109,7 @@ export default class Configure extends Component {
 
   /* 检查版本更新 */
   checkVersion() {
-    const versionUrl = "https://api.kirainmoe.com/starbeatVersion";
+    const versionUrl = "https://api-aliyun.kirainmoe.com:2333/tongfang/version";
     fetch(versionUrl)
       .then(res => res.json())
       .then(data => {
@@ -121,7 +120,7 @@ export default class Configure extends Component {
           this.setState({  latestDev: data.latestDev  });
       })
       .catch(err => {
-        message.error("连接更新服务器失败。部分功能和下载源可能无法使用。");
+        message.error(str("failedToConnectServer"));
       })
   }
 
@@ -156,7 +155,7 @@ export default class Configure extends Component {
     let index = 0;
     res.push(
       <Option key={index++} value={config.download_url.buildbot}>
-        Aya BuildBot ({str("recommend")})
+        Aya BuildBot
       </Option>
     );    
     res.push(
@@ -364,12 +363,6 @@ export default class Configure extends Component {
         await fs.rename(`${savePath}/OpenCore/${extractPath}/Docs/Credits.md`, `${savePath}/OC/Credits.md`, () => {});
         await this.sleep(500);
         window.electron.rmdir(`${savePath}/OpenCore`);
-        await this.sleep(500);
-        await fs.unlink(`${savePath}/OC/Icons/Background.png`, () => {});
-        await this.sleep(500);
-        await fs.rename(`${savePath}/OC/Icons/Background-${this.brandTag[this.state.laptop]}.png`,
-                        `${savePath}/OC/Icons/Background.png`, () => {});
-
 
         const content = window.electron.readFile(savePath + "/OC/config.plist");
         const plist = new Plist(content);
@@ -447,6 +440,8 @@ export default class Configure extends Component {
         if (this.options.airport) {
           plist.setKext("AirportBrcmFixup", true);
           plist.setBootArg("brcmfx-country=#a");
+          if (this.options.supportBigSur)
+            plist.setBootArg("-brcmfxbeta");
         }
         if (this.options.intel)
           plist.setKext("IntelBluetooth", true);
@@ -461,16 +456,9 @@ export default class Configure extends Component {
           plist.setSSDT("SSDT-DNVME", true);
         if (this.options.fixhibernate)
           plist.setKext("HibernationFixup", true);
-        if (this.options.usefakesmc) {
-          plist.setKext("VirtualSMC", false);
-          plist.setKext("SMCBatteryManager", false);
-          plist.setKext("SMCLightSensor", false);
-          plist.setKext("SMCProcessor", false);
-          plist.setKext("SMCSuperIO", false);
-
-          plist.setKext("FakeSMC", true);
+        if (this.options.supportBigSur) {
+          plist.setKext("SMCBattery", false);
           plist.setKext("ACPIBattery", true);
-          plist.setSSDT("SSDT-SMCD", true);
         }
         if (this.options.support4k) {
           plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");
@@ -590,11 +578,11 @@ export default class Configure extends Component {
           <div className="spinning" style={{ display: this.state.downloading ? 'flex' : 'none' }}>
             <Spin
               tip={[
-                <p style={{ color: '#000' }}>
+                <p key={1} style={{ color: '#000' }}>
                   {this.state.workStatus}
                   {this.state.downloading ? " (" + this.state.percent + "% " + Math.ceil(this.state.speed / 1024) +  "K/s)" : ""}
                 </p>,
-                <p>
+                <p key={2}>
                   {this.state.downloading && <Button type="link" onClick={() => this.showModal()}>
                     {str("cannotDownload")}
                   </Button>}
@@ -682,7 +670,7 @@ export default class Configure extends Component {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  defaultValue={navigator.language === 'zh-CN' ? config.download_url.buildbot : config.download_url.bitbucket}
+                  defaultValue={config.download_url.bitbucket}
                   style={{
                     width: "100%"
                   }}

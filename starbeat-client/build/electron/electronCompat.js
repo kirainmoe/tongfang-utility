@@ -83,15 +83,6 @@ const electronCompatLayer = () => {
         };
 
         doFetch(1);
-
-        const retryDaemon = setInterval(() => {
-            if (done)
-                clearInterval(retryDaemon);
-            retry++;
-            if (retry >= 10)
-                window.location.reload();
-        }, 1000);
-
     };
 
     const getUserDir = () => {
