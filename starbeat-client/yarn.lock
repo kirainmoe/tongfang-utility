@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@electron/get@^1.0.1":
+"@electron/get@^1.0.1", "@electron/get@^1.6.0":
   version "1.10.0"
   resolved "https://registry.npm.taobao.org/@electron/get/download/@electron/get-1.10.0.tgz?cache=0&sync_timestamp=1586798370670&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40electron%2Fget%2Fdownload%2F%40electron%2Fget-1.10.0.tgz#258fdda22bbd5a247e0b663ba9c525dedc1bdfff"
   integrity sha1-JY/doiu9WiR+C2Y7qcUl3twb3/8=
@@ -12,21 +12,6 @@
     fs-extra "^8.1.0"
     got "^9.6.0"
     progress "^2.0.3"
-    sanitize-filename "^1.6.2"
-    sumchecker "^3.0.1"
-  optionalDependencies:
-    global-agent "^2.0.2"
-    global-tunnel-ng "^2.7.1"
-
-"@electron/get@^1.6.0":
-  version "1.8.0"
-  resolved "https://registry.npm.taobao.org/@electron/get/download/@electron/get-1.8.0.tgz#b10320e2b0ec55165e097862695be34b236ef0b5"
-  integrity sha1-sQMg4rDsVRZeCXhiaVvjSyNu8LU=
-  dependencies:
-    debug "^4.1.1"
-    env-paths "^2.2.0"
-    fs-extra "^8.1.0"
-    got "^9.6.0"
     sanitize-filename "^1.6.2"
     sumchecker "^3.0.1"
   optionalDependencies:
@@ -607,10 +592,10 @@ electron-squirrel-startup@^1.0.0:
   dependencies:
     debug "^2.2.0"
 
-electron@^8.0.1:
-  version "8.2.3"
-  resolved "https://registry.npm.taobao.org/electron/download/electron-8.2.3.tgz#b7d6a43bd9f3a2428c660dcd055a20034520e1ea"
-  integrity sha1-t9akO9nzokKMZg3NBVogA0Ug4eo=
+electron@^8.2.4:
+  version "8.2.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-8.2.4.tgz#c4e51ca8e84b5a5beaaabdae1024bd52ba487ba4"
+  integrity sha512-Lle0InIgSAHZxD5KDY0wZ1A2Zlc6GHwMhAxoHMzn05mndyP1YBkCYHc0TDDofzUTrsLFofduPjlknO5Oj9fTPA==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
