@@ -1,7 +1,7 @@
 export const strings = {
     "zh-CN": {
         config: "配置文件",
-        keyboardLight: "键盘灯",
+        keyboardLight: "灯效",
         tools: "工具",
         lab: "实验室",
 

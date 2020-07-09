@@ -64,57 +64,96 @@ const initColorUtils = () => {
     };
 
     const monoColor = (red, green, blue, save, block, brightness) => {
-        const packet = [0x14, 0x00, 0x01, red, green, blue, 0x00, 0x00],
-            endPacket = [0x08, 0x02, 0x01, 0x05, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
-
-        if (block) {        // set specific block
-            packet[2] = block;
-            device.sendFeatureReport(packet.zeroFill(16));
-        } else {
-            // keyboard has 4 discrete color areas
-            for (let i = 1; i <= 4; i++) {
+        if (getITErevision() === 2) {
+            const packet = [0x14, 0x00, 0x01, red, green, blue, 0x00, 0x00],
+                endPacket = [0x08, 0x02, 0x01, 0x05, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
+            if (block) {        // set specific block
+                packet[2] = block;
                 device.sendFeatureReport(packet.zeroFill(16));
-                packet[2]++;
+            } else {
+                // keyboard has 4 discrete color areas
+                for (let i = 1; i <= 4; i++) {
+                    device.sendFeatureReport(packet.zeroFill(16));
+                    packet[2]++;
+                }
             }
+            // send ending packet
+            device.sendFeatureReport(endPacket.zeroFill(16));
+        } else {
+            const commandPacket = [0x08, 0x02, 0x33, 0x0, 0x32, 0x0, 0x0, 0x0];
+            device.sendFeatureReport(commandPacket);
+
+            const endPacket = [0x12, 0x00, 0x00, 0x08, save ? 0x01 : 0x00, 0x00, 0x00, 0x00];
+            device.sendFeatureReport(endPacket);
+
+            let colorPacket = [];
+            for (let i = 0; i < 16; i++) {
+                colorPacket.push(red);
+                colorPacket.push(green);
+                colorPacket.push(blue);
+            }
+            device.sendFeatureReport(colorPacket);
         }
-        // send ending packet
-        device.sendFeatureReport(endPacket.zeroFill(16));
     };
     
     const breathing = (save, speed, brightness) => {
         const endPacket = [0x08, 0x02, 0x02, speed, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
-        sendGenericPacket();
-        device.sendFeatureReport(endPacket.zeroFill(16));
+        if (getITErevision() === 2) {
+            sendGenericPacket();
+            device.sendFeatureReport(endPacket.zeroFill(16));
+        } else {
+            device.sendFeatureReport(endPacket);
+        }
     };
 
     const wave = (save, speed, brightness, direction) => {
         const endPacket = [0x08, 0x02, 0x03, speed, brightness, 0x08, direction, save ? 0x01 : 0x00];
-        sendGenericPacket();
-        device.sendFeatureReport(endPacket.zeroFill(16));
+        if (getITErevision() === 2) {
+            sendGenericPacket();
+            device.sendFeatureReport(endPacket.zeroFill(16));
+        } else {
+            device.sendFeatureReport(endPacket);
+        }
     };
     
     const rainbow = (save, brightness) => {
-        for (let i = 1; i <= 4; i++)
-            device.sendFeatureReport([0x14, 0x00, i, ...rainbowColor[i-1], 0x00, 0x00].zeroFill(9));
-        const endPacket = [0x08, 0x02, 0x05, 0x05, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
-        device.sendFeatureReport(endPacket.zeroFill(9));
+        if (getITErevision() === 2) {
+            const endPacket = [0x08, 0x02, 0x05, 0x05, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
+            for (let i = 1; i <= 4; i++)
+                device.sendFeatureReport([0x14, 0x00, i, ...rainbowColor[i-1], 0x00, 0x00].zeroFill(9));
+            device.sendFeatureReport(endPacket.zeroFill(9));
+        } else {
+            const endPacket = [0x08, 0x02, 0x05, 0x05, brightness, 0x00, 0x00, save ? 0x01 : 0x00];
+            device.sendFeatureReport(endPacket);
+        }
     };
     
     const flash = (save, speed, brightness, direction) => {
         const endPacket = [0x08, 0x02, 0x12, speed, brightness, 0x08, direction, save ? 0x01 : 0x00];
-        sendGenericPacket();
-        device.sendFeatureReport(endPacket.zeroFill(16));
+        if (getITErevision() === 2) {
+            sendGenericPacket();
+            device.sendFeatureReport(endPacket.zeroFill(16));
+        } else {
+            device.sendFeatureReport(endPacket);
+        }
     };
     
     const mix = (save, speed, brightness) => {
         const endPacket = [0x08, 0x02, 0x13, speed, brightness, 0x08, 0x00, save ? 0x01 : 0x00];
-        sendGenericPacket();
-        device.sendFeatureReport(endPacket.zeroFill(16));
+        if (getITErevision() === 2) {
+            sendGenericPacket();
+            device.sendFeatureReport(endPacket.zeroFill(16));
+        } else {
+            device.sendFeatureReport(endPacket);
+        }
     };
 
     const disabler = () => {
         const endPacket = [0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
-        device.sendFeatureReport(endPacket.zeroFill(16));
+        if (getITErevision() === 2) 
+            device.sendFeatureReport(endPacket.zeroFill(16));
+        else
+            device.sendFeatureReport(endPacket);
     }
 
     return {

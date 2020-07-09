@@ -7,7 +7,6 @@ import { Palette, Breathing, Wave, Rainbow, Flash, Mix } from "../icons/Keyboard
 import { Slider, Switch } from "antd";
 import Chipset from "../icons/Chipset";
 
-
 class NoCompatibleDevice extends Component {
     render() {
         return (
@@ -52,8 +51,8 @@ export default class KeyboardLight extends Component {
                 [0xff, 0x7a, 0x79],
                 [0xff, 0x7a, 0x79],
                 [0xff, 0x7a, 0x79],
-                [0xff, 0x7a, 0x79]
-            ]
+                [0xff, 0x7a, 0x79],
+            ],
         };
     }
 
@@ -67,9 +66,14 @@ export default class KeyboardLight extends Component {
             brightness = this.brightness[Math.max(0, Math.ceil(this.state.brightness / 20) - 1)];
         switch (this.state.mode) {
             case 1: // monoColor
-                this.state.colors.forEach((col, index) => {
-                    this.utils.monoColor(col[0], col[1], col[2], 1, index + 1, brightness);
-                });
+                if (this.utils.getITErevision() === 2)
+                    this.state.colors.forEach((col, index) => {
+                        this.utils.monoColor(col[0], col[1], col[2], 1, index + 1, brightness);
+                    });
+                else {
+                    const col = this.state.colors[0];
+                    this.utils.monoColor(col[0], col[1], col[2], 1, 0, brightness);  
+                }
                 break;
             case 2: // breathing
                 this.utils.breathing(1, speed, brightness);
@@ -95,17 +99,17 @@ export default class KeyboardLight extends Component {
         this.setState(
             {
                 ...this.state,
-                mode: 1
+                mode: 1,
             },
             () => this.applySetting()
-        );       
+        );
     }
 
     setBreathing() {
         this.setState(
             {
                 ...this.state,
-                mode: 2
+                mode: 2,
             },
             () => this.applySetting()
         );
@@ -115,7 +119,7 @@ export default class KeyboardLight extends Component {
         this.setState(
             {
                 ...this.state,
-                mode: 3
+                mode: 3,
             },
             () => this.applySetting()
         );
@@ -125,7 +129,7 @@ export default class KeyboardLight extends Component {
         this.setState(
             {
                 ...this.state,
-                mode: 4
+                mode: 4,
             },
             () => this.applySetting()
         );
@@ -135,7 +139,7 @@ export default class KeyboardLight extends Component {
         this.setState(
             {
                 ...this.state,
-                mode: 5
+                mode: 5,
             },
             () => this.applySetting()
         );
@@ -145,7 +149,7 @@ export default class KeyboardLight extends Component {
         this.setState(
             {
                 ...this.state,
-                mode: 6
+                mode: 6,
             },
             () => this.applySetting()
         );
@@ -157,22 +161,25 @@ export default class KeyboardLight extends Component {
         const r = parseInt(value.substr(1, 2), 16),
             g = parseInt(value.substr(3, 2), 16),
             b = parseInt(value.substr(5, 2), 16);
-        colors[block] = [ r, g, b ];
-        this.setState({
-            ...this.state,
-            colors
-        }, () => this.applySetting());
+        colors[block] = [r, g, b];
+        this.setState(
+            {
+                ...this.state,
+                colors,
+            },
+            () => this.applySetting()
+        );
     }
 
     render() {
         if (this.utils === false) return <NoCompatibleDevice />;
 
-        const c1 = 'rgb(' + this.state.colors[0].join(',') + ')';
-        const c2 = 'rgb(' + this.state.colors[1].join(',') + ')';
-        const c3 = 'rgb(' + this.state.colors[2].join(',') + ')';
-        const c4 = 'rgb(' + this.state.colors[3].join(',') + ')';
+        const c1 = "rgb(" + this.state.colors[0].join(",") + ")";
+        const c2 = "rgb(" + this.state.colors[1].join(",") + ")";
+        const c3 = "rgb(" + this.state.colors[2].join(",") + ")";
+        const c4 = "rgb(" + this.state.colors[3].join(",") + ")";
 
-        const linear = 'linear-gradient(to right, ' + c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ')';
+        const linear = "linear-gradient(to right, " + c1 + ", " + c2 + ", " + c3 + ", " + c4 + ")";
 
         return (
             <div className="keyboard-light">
@@ -183,9 +190,13 @@ export default class KeyboardLight extends Component {
                             "monoColor style-block " + (this.state.mode === 1 ? "active" : "")
                         }
                         onClick={() => this.setMonoColor()}
-                        style={this.state.mode === 1 ? {
-                            background: linear
-                        } : null}
+                        style={
+                            this.state.mode === 1
+                                ? {
+                                      background: linear,
+                                  }
+                                : null
+                        }
                     >
                         <h3>{str("monoColor")}</h3>
                         <div className="style-icon">
@@ -193,37 +204,39 @@ export default class KeyboardLight extends Component {
                         </div>
                         <div className="color-picker-container">
                             <div className="picker-cont">
-                            <input
-                                type="color"
-                                ref={ref => (this.block1 = ref)}
-                                defaultValue={"#00b4ff"}
-                                onChange={e => this.pickColor(e, 0)}
-                            />
+                                <input
+                                    type="color"
+                                    ref={(ref) => (this.block1 = ref)}
+                                    defaultValue={"#00b4ff"}
+                                    onChange={(e) => this.pickColor(e, 0)}
+                                />
                             </div>
-                            <div className="picker-cont">
-                            <input
-                                type="color"
-                                ref={ref => (this.block2 = ref)}
-                                defaultValue={"#00b4ff"}
-                                onChange={e => this.pickColor(e, 1)}
-                            />
-                            </div>
-                            <div className="picker-cont">
-                            <input
-                                type="color"
-                                ref={ref => (this.block3 = ref)}
-                                defaultValue={"#00b4ff"}
-                                onChange={e => this.pickColor(e, 2)}
-                            />
-                            </div>
-                            <div className="picker-cont">
-                            <input
-                                type="color"
-                                ref={ref => (this.block4 = ref)}
-                                defaultValue={"#00b4ff"}
-                                onChange={e => this.pickColor(e, 3)}
-                            />
-                            </div>
+                            {this.utils.getITErevision() === 2 && [
+                                <div className="picker-cont" key={1}>
+                                    <input
+                                        type="color"
+                                        ref={(ref) => (this.block2 = ref)}
+                                        defaultValue={"#00b4ff"}
+                                        onChange={(e) => this.pickColor(e, 1)}
+                                    />
+                                </div>,
+                                <div className="picker-cont" key={2}>
+                                    <input
+                                        type="color"
+                                        ref={(ref) => (this.block3 = ref)}
+                                        defaultValue={"#00b4ff"}
+                                        onChange={(e) => this.pickColor(e, 2)}
+                                    />
+                                </div>,
+                                <div className="picker-cont" key={3}>
+                                    <input
+                                        type="color"
+                                        ref={(ref) => (this.block4 = ref)}
+                                        defaultValue={"#00b4ff"}
+                                        onChange={(e) => this.pickColor(e, 3)}
+                                    />
+                                </div>,
+                            ]}
                         </div>
                     </div>
 
@@ -284,7 +297,7 @@ export default class KeyboardLight extends Component {
                         <Slider
                             step={20}
                             defaultValue={80}
-                            onChange={c =>
+                            onChange={(c) =>
                                 this.setState({ ...this.state, brightness: c }, () =>
                                     this.applySetting()
                                 )
@@ -297,18 +310,20 @@ export default class KeyboardLight extends Component {
                         <Slider
                             step={20}
                             defaultValue={40}
-                            onChange={c =>
+                            onChange={(c) =>
                                 this.setState({ ...this.state, speed: c }, () =>
                                     this.applySetting()
                                 )
                             }
                         />
                     </div>
-                    
-                    {this.utils.getITErevision() === 3 && <p className="ite-support">{str("iteSupport")}</p>}
+
+                    {this.utils.getITErevision() === 3 && (
+                        <p className="ite-support">{str("iteSupport")}</p>
+                    )}
                 </div>
                 <div className="keyboard-switch">
-                    <Switch defaultChecked onChange={c => this.toggleKeyboardLight(c)} />
+                    <Switch defaultChecked onChange={(c) => this.toggleKeyboardLight(c)} />
                 </div>
             </div>
         );
