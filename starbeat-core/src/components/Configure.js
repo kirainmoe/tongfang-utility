@@ -287,7 +287,7 @@ export default class Configure extends Component {
     try {
       const proc = window.require('child_process');
       const stdout = proc.execSync(`nvram -p | grep boot-args`).toString();
-      const match = stdout.match(/efi-version=(.*[0-9]$)/);
+      const match = stdout.trim().match(/efi-version=([^\s]+)/);
 
       if (match.length)
         return match[1];
