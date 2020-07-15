@@ -58,7 +58,7 @@ export default class Update extends Component {
     
     const filenames = ["itlwm.kext", "itlwmx.kext", "IntelBluetoothFirmware"];
 
-    for (const index in filenames) {
+    for (let index = 0; index < filenames.length; index++) {
       const file = filenames[index];
       await this.setState({
         status: 4,
