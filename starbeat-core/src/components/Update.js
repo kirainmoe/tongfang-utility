@@ -33,6 +33,45 @@ export default class Update extends Component {
 
   componentDidMount() {
     this.getRemoteVersion();
+
+    if (this.state.build <= config.build && !this.isAssistDownloaded()) {
+      this.downloadAssistPackage();
+    }
+  }
+
+  isAssistDownloaded() {
+    const fs = window.electron.fs();
+    const userDir = window.electron.getUserDir();
+
+    if (fs.existsSync(`${userDir}/.tfu/itlwm.kext`)
+      && fs.existsSync(`${userDir}/.tfu/itlwmx.kext`)
+      && fs.existsSync(`${userDir}/.tfu/IntelBluetoothFirmware.kext`)) {
+        return true;
+    }
+    return false;
+  }
+
+  async downloadAssistPackage() {
+    const path = window.require("path");
+    const userDir = window.electron.getUserDir(),
+      savePath = path.join(userDir, ".tfu");
+    
+    const filenames = ["itlwm.kext", "itlwmx.kext", "IntelBluetoothFirmware"];
+
+    for (const index in filenames) {
+      const file = filenames[index];
+      await this.setState({
+        status: 4,
+        log: this.state.log + 'Downloading file ' + file + ' ...\n'      
+      });
+
+      const downloadUrl = "https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/" + file + '.zip',
+        saveFile = path.join(savePath, file + '.zip');
+      await window.electron.normalDownload(downloadUrl, saveFile);
+      window.electron.unzip(saveFile, savePath);
+    }
+
+    this.setState({ status: 5 });
   }
 
   showMessage() {
@@ -54,6 +93,14 @@ export default class Update extends Component {
       return (
         <Alert message={str('updateFailed')} type="error" showIcon />
       );
+    }
+    else if (this.state.status === 4) {
+      return (
+        <Alert message={str('downloadingAssistPackage')} type="info" showIcon />
+      );
+    }
+    else if (this.state.status === 5) {
+      return <Alert message={str('downloadDone')} type="success" showIcon />;
     }
     else if (this.state.latest === 'Unknown')
       return (

@@ -15,6 +15,13 @@ import Update from './components/Update';
 import About from './components/About';
 import TopButton from './components/TopButton';
 
+const fs = window.electron.fs();
+const userDir =  window.electron.getUserDir();
+
+if (!fs.existsSync(`${userDir}/.tfu`)) {
+    fs.mkdirSync(`${userDir}/.tfu`);
+}
+
 render(
     <div className="starbeat-app">
         <HashRouter history={createBrowserHistory()}>

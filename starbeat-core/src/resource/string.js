@@ -57,14 +57,15 @@ export const strings = {
         selectModel: "选择机型或模具型号",
         injectOption: "驱动/补丁注入选项",
         injectAirport: "添加博通无线网卡驱动",
+        injectIntelWiFi: "添加 Intel 无线网卡驱动",
+        injectIntelWiFiAX200: "添加 Intel 无线网卡驱动 (AX200)",
         injectIntelBluetooth: "添加因特尔蓝牙驱动",
         injectBrcmBluetooth: "添加博通蓝牙驱动",
         injectHoRNDIS: "添加 USB 网络共享驱动",
         inject4KSupport: "添加 4K 内屏补丁",
         disablePM981: "屏蔽不兼容的 NVMe 硬盘",
-        fixhibernate: "添加睡眠修复补丁",
         useFakeSMC: '使用传统 SMC 驱动(不推荐)',
-        useBigSur: 'macOS Big Sur 支持',
+        useBigSur: 'macOS 11.0 测试版支持',
         nvmefix: '加载 NVMe 电源管理',
         loadguc: '加载 Apple GuC 核显固件',
         smbiosInfo: "硬件识别信息",
@@ -115,8 +116,7 @@ export const strings = {
 如果你需要使用 Android 设备通过 USB 共享网络，可以勾选 “添加 USB 网络共享驱动”。请注意并不是所有的 Android 手机都兼容此驱动。\n
 如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”；若内屏为普通 1080p 屏幕请不要勾选，否则会遇到睡眠唤醒问题！\n
 如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。\n
-如果你遇到睡眠无法唤醒的问题：没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”，8 代 CPU 用户请尝试不要勾选“加载 Apple GuC” 固件；如果上述方法没能够修复问题，建议你尝试 “添加睡眠修复补丁”。\n
-EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以选择使用传统传感器驱动获得更详细的传感器信息和风扇转速等信息（不推荐）。`,
+如果你遇到睡眠无法唤醒的问题：没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”，8 代 CPU 用户请尝试不要勾选“加载 Apple GuC” 固件。\n·`,
         license:
 `在开始使用 "hasee-tongfang-macos 仓库提供的配置文件"（以下简称 EFI 文件）之前，请先阅读以下许可协议：\n
 1. 您可以免费、自由地使用、修改本 EFI 文件；同时，您不能在不提供附加服务的情况下，将 EFI 文件用于商业用途，也不允许以任何价格向任何人出售 EFI 文件。\n
@@ -124,6 +124,13 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
 3. 此 EFI 文件已经过作者测试，但倘若您要使用此配置文件，仍需自行承担由此 EFI 文件造成的直接或间接风险，包括但不限于软件损坏、数据丢失、硬件损坏等。作者和贡献者将不对这些风险承担任何形式的责任。\n
 点击确定则表示您已经阅读并知悉上述许可协议。App 将开始下载配置文件。`,
         dontCheck4kIfNotRequire: '如果你的笔记本 *内屏* 不是 4K 分辨率，请不要勾选此选项，否则在睡眠后你将无法正常唤醒设备。',
+        unknown: "未知",
+        assistPackageNotDownloaded: "Intel 蓝牙驱动和 itlwm Wi-Fi 驱动需要下载后方可使用，请手动前往更新页面下载拓展包。",
+        goDownloadAssistPackage: "第一次运行程序或清除缓存后，需要下载拓展包才能注入 Intel 蓝牙固件上传驱动和 WiFi 驱动。\n\n是否前往更新页面下载拓展包？",
+        downloadingAssistPackage: "正在下载驱动拓展包，请稍等...",
+        downloadDone: '拓展包下载完成。',
+        needHeliport: "在配置文件中注入 Intel Wi-Fi 驱动，需要配合 macOS 下的 HeliPort 客户端管理网络。\n请自行前往 macOS 版本的 Tongfang Hackintosh Utility 的实验室或其它渠道下载 HeliPort 客户端。",
+        itlwmUnique: "只能注入 itlwm.kext (适用于 AC9462, AC9560...) 或 itlwmx.kext (适用于 AX200) 其中之一，否则可能会有无法预料的问题发生。",
 
         about: '关于 Tongfang Hackintosh Utility',
 
@@ -157,6 +164,10 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         notDownloaded: '未找到 itlwm.kext，请先点击上面的下载按钮。',
         loadKext: '加载驱动',
         unloadKext: '卸载驱动（更换网络前需要先卸载）',
+        useHeliport: '若要使用 Intel Wi-Fi，推荐在下载配置文件时勾选 “添加 Intel 无线网卡驱动”，并在 macOS 下使用 HeliPort 客户端管理无线网络。',
+        downloadHeliport: '点击下面的图标可以下载 HeliPort 客户端；如果使用 HeliPort 无法联网，请尝试将电脑断电几分钟后，重新启动尝试联网。',
+        continueUse: '如果你想要继续使用先前的实验室功能，请点继续。',
+        continue: '继续使用',
 
         failedToConnectServer: "连接更新服务器失败。部分功能和下载源可能无法使用。"
     },
@@ -216,14 +227,14 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         laptopModel: "Laptop Model",
         selectModel: "Select a model or barebone...",
         injectOption: "Kext/Patch Injection",
-        injectAirport: "Broadcom Airport Fix",
-        injectIntelBluetooth: "Intel Bluetooth",
-        injectBrcmBluetooth: "Broadcom Bluetooth",
-        injectHoRNDIS: "USB Network Tethering",
-        inject4KSupport: "4K Resolution Screen",
-        disablePM981: "Disable Incompatible NVMe",
-        fixhibernate: 'Fix hibernation failure',
-        useFakeSMC: 'Use FakeSMC(Not recommended)',
+        injectAirport: "Broadcom WiFi support",
+        injectIntelWiFi: "Intel WiFi support",
+        injectIntelWiFiAX200: "Intel WiFi support (AX200)",
+        injectIntelBluetooth: "Intel Bluetooth support",
+        injectBrcmBluetooth: "Broadcom bluetooth support",
+        injectHoRNDIS: "Android USB network tethering",
+        inject4KSupport: "4K resolution monitor",
+        disablePM981: "Disable incompatible NVMe",
         useBigSur: 'Preliminary support for macOS 11.0',
         nvmefix: 'Load NVMeFix.kext',
         loadguc: 'Load Apple GuC Firmware',
@@ -235,7 +246,7 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         smbiosMLB: "Motherboard SerialNumber",
         smbiosSmUUID: "System UUID",
         versionInfo: "Version Info",
-        localVersion: "Current version",
+        localVersion: "Current boot",
         latestVersion: "Latest version",
         getLatest: "Get the latest config",
         downloadWait: "Downloading, please wait..",
@@ -269,14 +280,20 @@ EFI 默认使用的是下一代的 SMC 和传感器驱动 VirtualSMC. 你可以�
         dontCheck4kIfNotRequire: 'Don\'t check this option unless you have a 4K built-in monitor, or you will meet problems of sleep/hibernation.',
         whatShouldIChoose: 'Which should I choose?',
         chooseGuide: 
-`If you installed Broadcom Wi-Fi card (DW1830, DW1860, DW1820A..), check "Broadcom Airport Fix" and "Broadcom Bluetooth".\n
-If you installed Apple Wi-Fi card (BCM94360CS2, BCM943602CS..), check "Broadcom Airport Fix".\n
-If you had Intel Wi-Fi card (AC9462, AC9560, AX200), check "Intel Bluetooth"; Note that Intel Wi-Fi does not work on macOS currently.\n
-If you want to tether network via an Android device, check "USB Network Tethering". \n
-If you replaced the monitor of 4K resolution or stuck on "IOConsoleUsers" while booting macOS, check "4K Resolution".\n
-If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are not compatible with macOS, check "Disable incompatible NVMe".\n
-If you had problem hibernating, try to check "Fix hibernation failure".\n
-This EFI uses next-generation SMC driver VirtualSMC.kext by default, you can replace it with traditional SMC driver FakeSMC.kext to get more sensor info and fan RPM.`,
+`If you installed Broadcom Wi-Fi card (DW1830, DW1860, DW1820A..), check "Broadcom WiFi support" and "Broadcom bluetooth support".\n
+If you installed Apple Wi-Fi card (BCM94360CS2, BCM943602CS..), check "Broadcom WiFi support".\n
+If you had Intel Wi-Fi card (AC9462, AC9560, AX200), check "Intel bluetooth support".\n
+If you want to try Intel Wi-Fi supported by @OpenIntelWireless, check "Intel WiFi support" pair with HeliPort client on macOS.\n
+If you want to tether network via an Android device, check "USB network tethering". \n
+If you replaced the monitor of 4K resolution or stuck on "IOConsoleUsers" while booting macOS, check "4K resolution monitor".\n
+If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are not compatible with macOS, check "Disable incompatible NVMe", and plug the incompatible SSD in m.2 slot 1.`,
+        unknown: 'Unknown',
+        assistPackageNotDownloaded: "Intel bluetooth driver and itlwm Wi-Fi driver require to download extension package. Please go to \"Update\" page and download it.",
+        goDownloadAssistPackage: "You are running the app for the first time. We recommend you to download extension package to enable Intel bluetooth and Wi-Fi injecting.\n\nDo you want to download it?",
+        downloadingAssistPackage: "Downloading, please wait...",
+        downloadDone: 'Download success.',
+        needHeliport: "To make Intel Wi-Fi work, you will require \"HeliPort\" client on macOS to manage networks. \nYou can download the \"HeliPort.app\" from \"Tongfang Hackintosh Utility for mac\" or any other channel.",
+        itlwmUnique: "You can only select one of itlwm.kext (for AC9462, AC9560...) and itlwmx.kext (for AX200) ",
 
 
         update: 'Update',
@@ -308,6 +325,10 @@ This EFI uses next-generation SMC driver VirtualSMC.kext by default, you can rep
         notDownloaded: 'itlwm.kext not found, please download it first.',
         loadKext: 'Load Kext',
         unloadKext: 'Unload Kext (before switching network)',
+        useHeliport: 'If you want to connect to network via an Intel Wi-Fi card, it is recommended to inject driver to config directly by checking "Intel Wi-Fi support" in "Configuration" page, and use "HeliPort.app" client to manage wireless networks on macOS.',
+        downloadHeliport: 'Click the following icon to download "HeliPort.app" client. If HeliPort is not working, please completely shut down the laptop and try again.',
+        continueUse: 'Click "Continue" if you want to use legacy method to access Intel Wi-Fi.',
+        continue: 'Continue',
 
         failedToConnectServer: "Failed to connect to the update server, some download sources will be unavailable."
     }

@@ -32,8 +32,11 @@
                 margin-bottom: 5px
     .version-info
         display: flex
+        flex-wrap: nowrap
         .version-tag
-            margin: 0px
+            width: 100%
+            font-size: 12px
+            margin-top: 5px
     .actions
         margin-top: 20px
         text-align: center
@@ -73,6 +76,20 @@
         top: 0px
         left: 0px
         background: rgba(255, 255, 255, 0.9)
+    
+.download-lists .ant-btn
+    padding: 0px
+    width: 100%
+    text-align: left 
+    overflow-x: hidden
+
+.download-lists .ant-btn span
+    word-wrap: break-word
+    word-break: break-all
+    font-size: 10px
+    width: 100%
+    text-overflow: ellipsis
+    
 
 .toobox-win-unsupported
     .win-icon

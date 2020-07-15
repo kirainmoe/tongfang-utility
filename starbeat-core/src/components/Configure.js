@@ -23,20 +23,22 @@ export default class Configure extends Component {
     support4k: false,
     pm981: false,
     supportBigSur: false,
-    fixhibernate: false,
     loadguc: false,
-    nvmefix: false
+    nvmefix: false,
+    intelwifi: false,
+    intelwifiax200: false
   };
   kextstatRes = "";
   nvramRes = "";
   defaultOpts = [
     { label: str("injectAirport"), value: "airport", defaultVal: this.isKextLoaded("Airport") },
-    { label: str("injectIntelBluetooth"), value: "intel", defaultVal: this.isKextLoaded("IntelBluetooth") },
-    { label: str("injectBrcmBluetooth"), value: "brcm", defaultVal: this.isKextLoaded("BrcmBluetooth") },
     { label: str("injectHoRNDIS"), value: "rndis", defaultVal: false },
+    { label: str("injectIntelWiFi"), value: "intelwifi", defaultVal: this.isKextLoaded("itlwm") },
+    { label: str("injectIntelWiFiAX200"), value: "intelwifiax200", defaultVal: this.isKextLoaded("itlwmx") },
+    { label: str("injectBrcmBluetooth"), value: "brcm", defaultVal: this.isKextLoaded("BrcmBluetooth") },
+    { label: str("injectIntelBluetooth"), value: "intel", defaultVal: this.isKextLoaded("IntelBluetooth") },
     { label: str("inject4KSupport"), value: "support4k", defaultVal: this.hasParam('igfxmlr') },
     { label: str("disablePM981"), value: "pm981", defaultVal: false },
-    { label: str("fixhibernate"), value: "fixhibernate", defaultVal: this.isKextLoaded('Hibernation') },
     { label: str("useBigSur"), value: "supportBigSur", defaultVal: false },
     { label: str("nvmefix"), value: "nvmefix", defaultVal: this.isKextLoaded('NVMeFix') },
     { label: str("loadguc"), value: "loadguc", defaultVal: this.hasParam('igfxfw') }
@@ -105,6 +107,13 @@ export default class Configure extends Component {
     if (fs.existsSync(saveFile)) {
       this.setState({ workStatus: str("generateEFI") });
     }
+
+    if (!this.isAssistDownloaded()) {
+      // eslint-disable-next-line
+      if (confirm(str("goDownloadAssistPackage"))) {
+        createHashHistory().push('/update');
+      }
+    }
   }
 
   /* 检查版本更新 */
@@ -117,7 +126,10 @@ export default class Configure extends Component {
           alert(str('updateRequired'));
           createHashHistory().push('/update');
         } else
-          this.setState({  latestDev: data.latestDev  });
+          this.setState({
+            latestDev: data.latestDev,
+            download_url: `${config.download_url.jsdelivr}-${data.latestDev}.zip`
+          });
       })
       .catch(err => {
         message.error(str("failedToConnectServer"));
@@ -154,11 +166,6 @@ export default class Configure extends Component {
     const res = [];
     let index = 0;
     res.push(
-      <Option key={index++} value={config.download_url.buildbot}>
-        Aya BuildBot
-      </Option>
-    );    
-    res.push(
       <Option key={index++} value={config.download_url.bitbucket}>
         BitBucket
       </Option>
@@ -168,19 +175,19 @@ export default class Configure extends Component {
         GitHub
       </Option>
     );
-    res.push(
-      <Option key={index++} value={config.download_url.github_mirror}>
-        GitHub 非官方镜像
-      </Option>
-    );
-    res.push(
-      <Option key={index++} value={config.download_url.cloudflare}>
-        CloudFlare CDN
-      </Option>
-    );
+
+    if (this.state.latestDev !== "Unknown") {
+      res.push(
+        <Option key={index++} value={`${config.download_url.jsdelivr}-${this.state.latestDev}.zip`}>
+          JSDelivr ({str("recommend")})
+        </Option>
+      );
+    }
+
     return res;
   }
 
+  /* 处理选项提醒 */
   handleOptionChange(v, opts) {
     let selected = {};
     opts.forEach(opt => (selected[opt.value] = 0));
@@ -198,6 +205,31 @@ export default class Configure extends Component {
       alert(str("requirement4k"));
     }
 
+    // Intel 驱动需要拓展包
+    if (!this.isAssistDownloaded()
+      && ((!this.options.intel && selected["intel"])
+      || (!this.options.intelwifi && selected["intelwifi"])
+      || (!this.options.intelwifiax200 && selected["intelwifiax200"]))) {
+        alert(str("assistPackageNotDownloaded"));
+
+        selected["intel"] = false;
+        selected["intelwifi"] = false;
+        selected["intelwifiax200"] = false;
+        createHashHistory().push('/update');
+    }
+
+    if ((!this.options.intelwifi && selected["intelwifi"])
+    || (!this.options.intelwifiax200 && selected["intelwifiax200"])) {
+      alert(str("needHeliport"));
+    }
+
+    if ((this.options.intelwifi && selected["intelwifi"] && selected["intelwifiax200"])
+      || (this.options.intelwifiax200 && selected["intelwifi"] && selected["intelwifiax200"])) {
+      alert(str("itlwmUnique"));
+    }
+
+    if (!this.options.intel)
+
     for (const i in selected) {
       if (!selected.hasOwnProperty(i))
         continue;
@@ -205,6 +237,20 @@ export default class Configure extends Component {
     }
   }
 
+  // 辅助工具包是否下载
+  isAssistDownloaded() {
+    const fs = window.electron.fs();
+    const userDir = window.electron.getUserDir();
+
+    if (fs.existsSync(`${userDir}/.tfu/itlwm.kext`)
+      && fs.existsSync(`${userDir}/.tfu/itlwmx.kext`)
+      && fs.existsSync(`${userDir}/.tfu/IntelBluetoothFirmware.kext`)) {
+        return true;
+    }
+    return false;
+  }
+
+  // 检查 Kext 是否加载
   isKextLoaded(kextName) {
     if (!window.electron.isMac())
       return false;
@@ -221,6 +267,7 @@ export default class Configure extends Component {
     return this.kextstatRes.indexOf(kextName) >= 0;
   }
 
+  // 检查 NVRAM 中是否存在参数
   hasParam(param) {
     if (!window.electron.isMac())
       return false;
@@ -230,6 +277,23 @@ export default class Configure extends Component {
       return (stdout !== '');    
     } catch (err) {
       return false;
+    }
+  }
+
+  // 获取当前 EFI 版本
+  getCurrentVersionFromNVRAM() {
+    if (!window.electron.isMac())
+      return str("unknown");
+    try {
+      const proc = window.require('child_process');
+      const stdout = proc.execSync(`nvram -p | grep boot-args`).toString();
+      const match = stdout.match(/efi-version=(.*[0-9]$)/);
+
+      if (match.length)
+        return match[1];
+      return str("unknown");
+    } catch (err) {
+      return str("unknown");
     }
   }
 
@@ -350,6 +414,8 @@ export default class Configure extends Component {
         fs.readdirSync(`${savePath}/OpenCore`).forEach(path => {
           if (path.indexOf("ayamita") >= 0 || path.indexOf("hasee-tongfang-macos") >= 0)
             extractPath = path;
+          else
+            extractPath = ``;
         });
 
         // sleep() for fixing Windows sync thread error
@@ -437,14 +503,41 @@ export default class Configure extends Component {
             break;
         }
 
+        const path = window.require("path");
+        const userDir = window.electron.getUserDir();
+        const extPath = path.join(userDir, ".tfu");
+
         if (this.options.airport) {
           plist.setKext("AirportBrcmFixup", true);
           plist.setBootArg("brcmfx-country=#a");
           if (this.options.supportBigSur)
             plist.setBootArg("-brcmfxbeta");
         }
-        if (this.options.intel)
+        if (this.options.intel) {
+          window.electron.copyDir(
+            path.join(extPath, "IntelBluetoothFirmware.kext"),
+            `${savePath}/OC/Kexts/IntelBluetoothFirmware.kext`
+          );
+          window.electron.copyDir(
+            path.join(extPath, "IntelBluetoothInjector.kext"),
+            `${savePath}/OC/Kexts/IntelBluetoothInjector.kext`
+          );
           plist.setKext("IntelBluetooth", true);
+        }
+        if (this.options.intelwifi) {
+          window.electron.copyDir(
+            path.join(extPath, "itlwm.kext"),
+            `${savePath}/OC/Kexts/itlwm.kext`
+          );
+          plist.setKext("itlwm.kext", true);
+        }
+        if (this.options.intelwifiax200) {
+          window.electron.copyDir(
+            path.join(extPath, "itlwmx.kext"),
+            `${savePath}/OC/Kexts/itlwmx.kext`
+          );
+          plist.setKext("itlwmx.kext", true);
+        }                
         if (this.options.brcm) {
           plist.setKext("BrcmBluetoothInjector", true);
           plist.setKext("BrcmFirmwareData", true);
@@ -454,11 +547,14 @@ export default class Configure extends Component {
           plist.setKext("HoRNDIS", true);
         if (this.options.pm981)
           plist.setSSDT("SSDT-DNVME", true);
-        if (this.options.fixhibernate)
-          plist.setKext("HibernationFixup", true);
         if (this.options.supportBigSur) {
           plist.setKext("SMCBattery", false);
           plist.setKext("ACPIBattery", true);
+
+          plist.setValue(
+            "NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/csr-active-config",
+            new Uint8Array([119, 0, 0, 0])
+          );          
         }
         if (this.options.support4k) {
           plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");
@@ -603,12 +699,16 @@ export default class Configure extends Component {
               __html: str("cannotDownloadSolution")
             }} />
             <div className="download-lists" style={{ fontSize: 12, color: '#999' }}>
-              <li>
-                Aya BuildBot:<br />
-                <Button type="link" onClick={() => this.openPage(config.download_url.buildbot)}>
-                  {config.download_url.buildbot}
-                </Button>
-              </li>
+              {this.state.latestDev !== 'Unknown' && (
+                <li style={{ width: '100%' }}>
+                  JSDelivr: <br />
+                  <Button
+                    type="link"
+                    onClick={() => this.openPage(`${config.download_url.jsdelivr}-${this.state.latestDev}.zip`)}>
+                  {`${config.download_url.jsdelivr}-${this.state.latestDev}.zip`}
+                  </Button>
+                </li>
+              )}
               <li>
                 GitHub: <br />
                 <Button type="link" onClick={() => this.openPage(config.download_url.github)}>
@@ -620,13 +720,7 @@ export default class Configure extends Component {
                 <Button type="link" onClick={() => this.openPage(config.download_url.bitbucket)}>
                   {config.download_url.bitbucket}
                 </Button>
-              </li>
-              <li>
-                CloudFlare: <br />
-                <Button type="link" onClick={() => this.openPage(config.download_url.cloudflare)}>
-                  {config.download_url.cloudflare}
-                </Button>
-              </li>                        
+              </li>               
             </div>
           </Modal>
 
@@ -670,10 +764,10 @@ export default class Configure extends Component {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  defaultValue={config.download_url.bitbucket}
                   style={{
                     width: "100%"
                   }}
+                  value={this.state.download_url}
                   onChange={val => 
                     this.setState({ ...this.state, download_url: val })
                   }
@@ -688,6 +782,9 @@ export default class Configure extends Component {
                   <p className="version-tag">
                     {str("latestVersion")}: {this.state.latestDev}
                   </p>
+                  <p className="version-tag">
+                    {str("localVersion")}: {this.getCurrentVersionFromNVRAM()}
+                  </p>                  
                 </div>
               </div>
             </div>

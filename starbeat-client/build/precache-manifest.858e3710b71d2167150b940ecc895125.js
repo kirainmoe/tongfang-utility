@@ -4,15 +4,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "./index.html"
   },
   {
-    "revision": "dc3a3ba41bc1eccce49c",
+    "revision": "6d8916d79dd55916463a",
     "url": "./static/css/2.chunk.css"
   },
   {
-    "revision": "0b3528a22d30455d7ad0",
+    "revision": "7f8cb99975f6217e0209",
     "url": "./static/css/main.chunk.css"
   },
   {
-    "revision": "dc3a3ba41bc1eccce49c",
+    "revision": "6d8916d79dd55916463a",
     "url": "./static/js/2.chunk.js"
   },
   {
@@ -20,12 +20,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "./static/js/2.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "0b3528a22d30455d7ad0",
+    "revision": "7f8cb99975f6217e0209",
     "url": "./static/js/main.chunk.js"
   },
   {
     "revision": "4f7676623aa0345a8bf8",
     "url": "./static/js/runtime-main.js"
+  },
+  {
+    "revision": "3143e56e320013244afe4581f8a33a3b",
+    "url": "./static/media/heliport.png"
   },
   {
     "revision": "63914570bb259525a1c9e3f995736fad",

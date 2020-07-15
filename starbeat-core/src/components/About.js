@@ -45,12 +45,12 @@ export default class About extends Component {
             </div>
           </div>
 
-          <div className="donate" style={{ display: navigator.language === 'zh-CN' ? 'block' : 'none' }}>
-            <h3 className="subtitle">社区支持 and 恰饭</h3>
+          <div className="donate">
+            <h3 className="subtitle">获取帮助 and 恰饭</h3>
             <div>
               <p>
-                本工具和仓库提供的配置文件都是免费的。如果你需要获得支持，请加入下面的 QQ 群。
-                <br /> 你也可以扫一扫二维码，支持主播_(:з」∠)_
+                本工具和仓库提供的配置文件都是免费的。如果你需要获得帮助，请加入下面的 QQ 群。
+                <br /> 你也可以扫一扫二维码，支持开发者_(:з」∠)_
               </p>
               <table>
                 <thead>

@@ -1,6 +1,6 @@
 export default {
-    version: "2.3.1",
-    build: 2007090,
+    version: "2.3.2",
+    build: 2007150,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -256,8 +256,6 @@ export default {
     download_url: {
         bitbucket: "https://bitbucket.org/ayamita/hasee-tongfang-macos/get/oc-general.zip",
         github: "https://github.com/kirainmoe/hasee-tongfang-macos/archive/oc-general.zip",
-        cloudflare: "https://aya-buildbot.kirainmoe.com/getopencore",
-        buildbot: "https://api-aliyun.kirainmoe.com:2333/tongfang/download",
-        github_mirror: "https://github.wuyanzheshui.workers.dev/kirainmoe/hasee-tongfang-macos/archive/oc-general.zip"
+        jsdelivr: "https://cdn.jsdelivr.net/gh/kirainmoe/hasee-tongfang-macos-build/hasee-tongfang-macos"
     }
 };
