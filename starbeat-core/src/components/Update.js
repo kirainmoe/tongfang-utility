@@ -19,6 +19,14 @@ export default class Update extends Component {
     };
   }
 
+  sleep(time = 0) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    })
+  };
+
   getRemoteVersion() {
     fetch('https://api-aliyun.kirainmoe.com:2333/tongfang/version')
     .then(res => res.json())
@@ -28,15 +36,14 @@ export default class Update extends Component {
         build: res.build,
         isForceUpdate: res.forceUpdate >= config.build
       });
+
+      if (res.build <= config.build && !this.isAssistDownloaded())
+        this.downloadAssistPackage();
     });
   }
 
   componentDidMount() {
     this.getRemoteVersion();
-
-    if (this.state.build <= config.build && !this.isAssistDownloaded()) {
-      this.downloadAssistPackage();
-    }
   }
 
   isAssistDownloaded() {
@@ -52,10 +59,13 @@ export default class Update extends Component {
   }
 
   async downloadAssistPackage() {
-    const path = window.require("path");
+    const path = window.require("path"),
+      fs = window.require("fs");
     const userDir = window.electron.getUserDir(),
       savePath = path.join(userDir, ".tfu");
-    
+
+    if (!fs.existsSync(savePath))
+      fs.mkdirSync(savePath);      
     const filenames = ["itlwm.kext", "itlwmx.kext", "IntelBluetoothFirmware"];
 
     for (let index = 0; index < filenames.length; index++) {
@@ -67,7 +77,9 @@ export default class Update extends Component {
 
       const downloadUrl = "https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/" + file + '.zip',
         saveFile = path.join(savePath, file + '.zip');
+      
       await window.electron.normalDownload(downloadUrl, saveFile);
+      await this.sleep(500);
       window.electron.unzip(saveFile, savePath);
     }
 

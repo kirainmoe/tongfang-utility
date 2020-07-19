@@ -104,7 +104,7 @@ export const strings = {
         youAreUsing: "你正在使用",
         officialLatest: "官方最新版本是",
         updateRemind:
-            "为了防止发生兼容性问题，请前往 https://starbeat.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。",
+            "为了防止发生兼容性问题，请前往 https://tongfang.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。",
         downloadSource: "更新源（若下载过慢，尝试换一个源）",
         recommend: '推荐',
         downloadFailed: '下载失败，请重启程序尝试重新下载。如果你在 Windows 下，可能会遇到 operation not permitted 问题，请多试几次。',
@@ -137,12 +137,12 @@ export const strings = {
         update: '更新',
         currentVersion: '当前版本',
         fetchingLatest: '正在获取远端版本...',
-        thisIsAForceUpdate: ' 这是一个强制更新版本，App 无法自动完成更新，你需要到 https://starbeat.kirainmoe.com/ 手动下载最新版本。',
+        thisIsAForceUpdate: ' 这是一个强制更新版本，App 无法自动完成更新，你需要到 https://tongfang.kirainmoe.com/ 手动下载最新版本。',
         newVersionAvailable: `Tongfang Hackintosh Utility 有新版本 $1 可用，App 将在 $2 秒后开始更新；期间请不要退出程序。`,
         usingLatest: '你正在使用最新版本的 Tongfang Hackintosh Utility.',
         downloadRemoteVersion: '正在更新 Tongfang Hackintosh Utility，请稍等……',
         updateSuccess: '程序更新成功，请重启程序应用更改。',
-        updateFailed: '程序更新时出现错误，请尝试手动从 https://starbeat.kirainmoe.com 下载最新版本。',
+        updateFailed: '程序更新时出现错误，请尝试手动从 https://tongfang.kirainmoe.com 下载最新版本。',
         updateRequired: '为防止出现兼容性问题，Tongfang Hackintosh Utility 需要更新，即将为你跳转到更新页面。',
 
         labRemind: '提醒：实验室的功能可能是不稳定的，仅供尝鲜使用，并且后期可能会删除部分功能。',
@@ -166,7 +166,7 @@ export const strings = {
         unloadKext: '卸载驱动（更换网络前需要先卸载）',
         useHeliport: '若要使用 Intel Wi-Fi，推荐在下载配置文件时勾选 “添加 Intel 无线网卡驱动”，并在 macOS 下使用 HeliPort 客户端管理无线网络。',
         downloadHeliport: '点击下面的图标可以下载 HeliPort 客户端；如果使用 HeliPort 无法联网，请尝试将电脑断电几分钟后，重新启动尝试联网。',
-        continueUse: '如果你想要继续使用先前的实验室功能，请点继续。',
+        continueUse: '如果你想要继续使用先前的实验室功能，请点继续。使用实验室方法驱动要求在下载配置文件时未勾选“添加 Intel 网卡驱动”。',
         continue: '继续使用',
 
         failedToConnectServer: "连接更新服务器失败。部分功能和下载源可能无法使用。"
@@ -270,7 +270,7 @@ export const strings = {
         youAreUsing: "You are using ",
         officialLatest: "The latest version is ",
         updateRemind:
-            "Please consider update Tongfang Hackintosh Utility from https://starbeat.kirainmoe.com to avoid compatibility problems.",
+            "Please consider update Tongfang Hackintosh Utility from https://tongfang.kirainmoe.com to avoid compatibility problems.",
         requirement4k:
             'Warning: For Tongfang GJ5CN64 / GI5CN54 barebones\' user, you need to set "DVMT Pre-allocated" to 64MB by unlocking BIOS or using a UEFI shell, or you will meet with a kernel panic。',
         downloadSource: "Download From",
@@ -299,12 +299,12 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         update: 'Update',
         currentVersion: 'Current version',
         fetchingLatest: 'Fetching remote version...',
-        thisIsAForceUpdate: ' This is a force-update version, you need to go to https://starbeat.kirainmoe.com/ and download the latest version manually.',
+        thisIsAForceUpdate: ' This is a force-update version, you need to go to https://tongfang.kirainmoe.com/ and download the latest version manually.',
         newVersionAvailable: `New version $1 is available. App will update in $2 seconds. Don't quit the app before update is done.`,
         usingLatest: 'You are running the latest version of Tongfang Hackintosh Utility.',
         downloadRemoteVersion: 'Updating Tongfang Hackintosh Utility, please wait……',
         updateSuccess: 'App updated. Please restart the app.',
-        updateFailed: 'Error occurred while updating. Please go to https://starbeat.kirainmoe.com and download the latest version manually.',
+        updateFailed: 'Error occurred while updating. Please go to https://tongfang.kirainmoe.com and download the latest version manually.',
         updateRequired: 'Tongfang Hackintosh Utility requests an update to avoid compatibility problems. I\'m taking you to the update page.',
 
         labRemind: 'Warning: Features in this lab can be unstable, use at your own risk. Some features may be removed in the future release.',

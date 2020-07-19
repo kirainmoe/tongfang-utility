@@ -38,8 +38,8 @@ export default class Configure extends Component {
     { label: str("injectBrcmBluetooth"), value: "brcm", defaultVal: this.isKextLoaded("BrcmBluetooth") },
     { label: str("injectIntelBluetooth"), value: "intel", defaultVal: this.isKextLoaded("IntelBluetooth") },
     { label: str("inject4KSupport"), value: "support4k", defaultVal: this.hasParam('igfxmlr') },
-    { label: str("disablePM981"), value: "pm981", defaultVal: false },
-    { label: str("useBigSur"), value: "supportBigSur", defaultVal: false },
+    { label: str("disablePM981"), value: "pm981", defaultVal: this.hasParam('nvme-disabled') },
+    { label: str("useBigSur"), value: "supportBigSur", defaultVal: this.isKextLoaded('SmartBattery') },
     { label: str("nvmefix"), value: "nvmefix", defaultVal: this.isKextLoaded('NVMeFix') },
     { label: str("loadguc"), value: "loadguc", defaultVal: this.hasParam('igfxfw') }
   ];
@@ -432,7 +432,6 @@ export default class Configure extends Component {
 
         const content = window.electron.readFile(savePath + "/OC/config.plist");
         const plist = new Plist(content);
-        window.p = plist;
 
         const ACPIdir = `${savePath}/OC/ACPI`;
         switch (this.barebones[this.state.laptop]) {
@@ -545,8 +544,10 @@ export default class Configure extends Component {
         }
         if (this.options.rndis)
           plist.setKext("HoRNDIS", true);
-        if (this.options.pm981)
+        if (this.options.pm981) {
           plist.setSSDT("SSDT-DNVME", true);
+          plist.setBootArg('-nvme-disabled');
+        }
         if (this.options.supportBigSur) {
           plist.setKext("SMCBattery", false);
           plist.setKext("ACPIBattery", true);
