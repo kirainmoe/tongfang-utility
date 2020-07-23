@@ -555,7 +555,8 @@ export default class Configure extends Component {
           plist.setValue(
             "NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/csr-active-config",
             new Uint8Array([119, 0, 0, 0])
-          );          
+          );
+          plist.setBootArg("vsmcgen=1");
         }
         if (this.options.support4k) {
           plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");

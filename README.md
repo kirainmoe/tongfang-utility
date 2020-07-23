@@ -1,17 +1,19 @@
-# Project: STAR BEAT!
+# 同方黑苹果助手 (Tongfang Hackintosh Utility)
 
 [English](README-en.md)
 
 ![travis-build](https://travis-ci.org/kirainmoe/tongfang-hackintosh-utility.svg?branch=master)
 
-Tongfang Hackintosh Utility 2.0, 全新的同方模具笔记本黑苹果工具箱。
+Tongfang Hackintosh Utility (同方黑苹果助手) 2.0, 全新的同方模具笔记本黑苹果工具箱。
+
+[蓝奏云下载地址](https://www.lanzous.com/b0ephfc4d)，提取密码：`1919810`
 
 ## 功能简介
 
 - 跨平台的键盘灯设置功能 (支持 Windows, macOS, Linux)
 - 管理、更新、定制 OpenCore 配置文件
 - 一键修复睡眠、开启 HiDPI 等
-- 相比 v1 更友好的用户界面
+- 更友好的用户界面
 - 多语言国际化支持
 
 > Tips: 键盘灯控制功能仅适用于搭载了 ITE Device 8291, **版本 0.02** 的电脑. 如果你有 ITE Device 8291 设备，但 **版本为 0.03**, 请使用此工具： [AUCC](https://github.com/rodgomesc/avell-unofficial-control-center).
