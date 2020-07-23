@@ -83,6 +83,10 @@ export default class Configure extends Component {
     };
 
     this.checkVersion();
+
+    for (const opt of this.defaultOpts) {
+      this.options[opt["value"]] = opt["defaultVal"];
+    }
   }
 
   componentWillMount() {
