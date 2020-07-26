@@ -75,6 +75,7 @@ export const strings = {
         smbiosSN: "序列号",
         smbiosMLB: "主板序列号",
         smbiosSmUUID: "系统 UUID",
+        regenerate: "重新生成",
         versionInfo: "版本信息",
         localVersion: "当前引导版本",
         latestVersion: "最新版本",
@@ -169,7 +170,8 @@ export const strings = {
         continueUse: '如果你想要继续使用先前的实验室功能，请点继续。使用实验室方法驱动要求在下载配置文件时未勾选“添加 Intel 网卡驱动”。',
         continue: '继续使用',
 
-        failedToConnectServer: "连接更新服务器失败。部分功能和下载源可能无法使用。"
+        failedToConnectServer: "连接更新服务器失败。部分功能和下载源可能无法使用。",
+        discontinued: "【公告】同方机型 EFI 和黑苹果助手将于 macOS Big Sur 正式版发布后停止更新，并停止社区支持。若您有意参与后续维护，仍然可以前往 GitHub 发起 pull request; 感谢所有用户的支持，有缘再见。"
     },
     en: {
         config: "Configuration",
@@ -245,6 +247,7 @@ export const strings = {
         smbiosSN: "SerialNumber",
         smbiosMLB: "Motherboard SerialNumber",
         smbiosSmUUID: "System UUID",
+        regenerate: "Generate New",
         versionInfo: "Version Info",
         localVersion: "Current boot",
         latestVersion: "Latest version",
@@ -330,7 +333,8 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         continueUse: 'Click "Continue" if you want to use legacy method to access Intel Wi-Fi.',
         continue: 'Continue',
 
-        failedToConnectServer: "Failed to connect to the update server, some download sources will be unavailable."
+        failedToConnectServer: "Failed to connect to the update server, some download sources will be unavailable.",
+        discontinued: "Tongfang Hackintosh Project will be discontinued after the release of macOS Big Sur due to personal reasons. Community support will be stopped in the meanwhile. Thanks for the support of all users."
     }
 };
 

@@ -39,6 +39,8 @@ export default class Update extends Component {
 
       if (res.build <= config.build && !this.isAssistDownloaded())
         this.downloadAssistPackage();
+      else if (res.build <= config.build && !this.checkAssistUpdate())
+        this.downloadAssistPackage();
     });
   }
 
@@ -52,10 +54,25 @@ export default class Update extends Component {
 
     if (fs.existsSync(`${userDir}/.tfu/itlwm.kext`)
       && fs.existsSync(`${userDir}/.tfu/itlwmx.kext`)
-      && fs.existsSync(`${userDir}/.tfu/IntelBluetoothFirmware.kext`)) {
+      && fs.existsSync(`${userDir}/.tfu/IntelBluetoothFirmware.kext`)
+      && fs.existsSync(`${userDir}/.tfu/version.json`)) {
         return true;
     }
     return false;
+  }
+
+  async checkAssistUpdate() {
+    const fs = window.require("fs");
+    const userDir = window.electron.getUserDir(),
+      versionFile = `${userDir}/.tfu/version.json`;
+    if (!fs.existsSync(versionFile))
+      return false;
+    const version = fs.readFileSync(versionFile).toString();
+    let remote = null;
+    await fetch("https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json")
+      .then(res => res.text())
+      .then(res => remote = res);
+    return (remote === version);
   }
 
   async downloadAssistPackage() {
@@ -63,6 +80,14 @@ export default class Update extends Component {
       fs = window.require("fs");
     const userDir = window.electron.getUserDir(),
       savePath = path.join(userDir, ".tfu");
+    
+    try {
+      window.electron.rmdir(`${userDir}/.tfu/itlwm.kext`);
+      window.electron.rmdir(`${userDir}/.tfu/itlwmx.kext`);
+      window.electron.rmdir(`${userDir}/.tfu/IntelBluetoothFirmware.kext`);
+      window.electron.rmdir(`${userDir}/.tfu/IntelBluetoothInjector.kext`);
+      fs.unlinkSync(`${userDir}/.tfu/version.json`);
+    } catch (err) {}
 
     if (!fs.existsSync(savePath))
       fs.mkdirSync(savePath);      
@@ -83,6 +108,10 @@ export default class Update extends Component {
       window.electron.unzip(saveFile, savePath);
     }
 
+    const downloadUrl = "https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json",
+      saveFile = path.join(savePath, "version.json");
+    await window.electron.normalDownload(downloadUrl, saveFile)
+    
     this.setState({ status: 5 });
   }
 

@@ -37,9 +37,9 @@ export default class Configure extends Component {
     { label: str("injectIntelWiFiAX200"), value: "intelwifiax200", defaultVal: this.isKextLoaded("itlwmx") },
     { label: str("injectBrcmBluetooth"), value: "brcm", defaultVal: this.isKextLoaded("BrcmBluetooth") },
     { label: str("injectIntelBluetooth"), value: "intel", defaultVal: this.isKextLoaded("IntelBluetooth") },
+    { label: str("useBigSur"), value: "supportBigSur", defaultVal: this.isKextLoaded('SmartBattery') },
     { label: str("inject4KSupport"), value: "support4k", defaultVal: this.hasParam('igfxmlr') },
     { label: str("disablePM981"), value: "pm981", defaultVal: this.hasParam('nvme-disabled') },
-    { label: str("useBigSur"), value: "supportBigSur", defaultVal: this.isKextLoaded('SmartBattery') },
     { label: str("nvmefix"), value: "nvmefix", defaultVal: this.isKextLoaded('NVMeFix') },
     { label: str("loadguc"), value: "loadguc", defaultVal: this.hasParam('igfxfw') }
   ];
@@ -134,6 +134,8 @@ export default class Configure extends Component {
             latestDev: data.latestDev,
             download_url: `${config.download_url.jsdelivr}-${data.latestDev}.zip`
           });
+
+          message.info(str("discontinued"));
       })
       .catch(err => {
         message.error(str("failedToConnectServer"));
@@ -338,22 +340,22 @@ export default class Configure extends Component {
           <label>{str("smbiosModel")}</label>
           <Input
             onChange={v => this.setOpt("model", v.target.value)}
-            defaultValue={this.state.model}
+            value={this.state.model}
           />
         </div>
         <div>
           <label>{str("smbiosSN")}</label>
-          <Input onChange={v => this.setOpt("sn", v.target.value)} defaultValue={this.state.sn} />
+          <Input onChange={v => this.setOpt("sn", v.target.value)} value={this.state.sn} />
         </div>
         <div>
           <label>{str("smbiosMLB")}</label>
-          <Input onChange={v => this.setOpt("mlb", v.target.value)} defaultValue={this.state.mlb} />
+          <Input onChange={v => this.setOpt("mlb", v.target.value)} value={this.state.mlb} />
         </div>
         <div>
           <label>{str("smbiosSmUUID")}</label>
           <Input
             onChange={v => this.setOpt("smuuid", v.target.value)}
-            defaultValue={this.state.smuuid}
+            value={this.state.smuuid}
           />
         </div>
       </div>
@@ -629,6 +631,15 @@ export default class Configure extends Component {
     this.setState({ modal: true });
   }
 
+  reGenerateSMBIOS() {
+    try {
+      let smbios = window.electron.generateMacSerial();
+      this.setState({
+        ...smbios
+      });
+    } catch (err) {}
+  }
+
   render() {
     const opencore = require("../resource/opencore.png"),
       biliPageLink = 'https://www.bilibili.com/video/BV1uJ411Y77y';
@@ -757,11 +768,15 @@ export default class Configure extends Component {
             <div className="inject-options">{this.getOptions()}</div>
 
             <p>
-              {str("smbiosInfo")}(
+              {str("smbiosInfo")} (
               {this.state.smbiosGenerated
                 ? str("getSMBIOSFromGeneration")
-                : str("getSMBIOSFromSystem")}
-              )
+                : (
+                  <span>
+                    {str("getSMBIOSFromSystem")}，
+                    <Button type="link" onClick={() => this.reGenerateSMBIOS()}>{str("regenerate")}</Button>
+                  </span>
+                )})
             </p>
             <div className="smbios-info">{this.getSMBIOSInfo()}</div>
             <div className="flex">
