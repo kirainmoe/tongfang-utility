@@ -171,7 +171,7 @@ export const strings = {
         continue: '继续使用',
 
         failedToConnectServer: "连接更新服务器失败。部分功能和下载源可能无法使用。",
-        discontinued: "【公告】同方机型 EFI 和黑苹果助手将于 macOS Big Sur 正式版发布后停止更新，并停止社区支持。若您有意参与后续维护，仍然可以前往 GitHub 发起 pull request; 感谢所有用户的支持，有缘再见。"
+        discontinued: "【公告】同方机型 EFI 和黑苹果助手将于 macOS Big Sur 正式版发布后停止更新，并停止社区支持。若您有意参与后续维护，仍然可以前往 GitHub 发起 pull request; 感谢所有用户的支持。"
     },
     en: {
         config: "Configuration",

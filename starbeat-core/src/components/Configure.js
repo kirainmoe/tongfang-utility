@@ -292,13 +292,17 @@ export default class Configure extends Component {
       return str("unknown");
     try {
       const proc = window.require('child_process');
-      const stdout = proc.execSync(`nvram -p | grep boot-args`).toString();
-      const match = stdout.trim().match(/efi-version=([^\s]+)/);
+      const stdout = proc.execSync(`nvram -p`).toString();
+      let match = stdout.trim().match(/efi-version=([^\s]+)/);
+      if (match && match.length)
+        return match[1];
 
-      if (match.length)
+      match = stdout.trim().match(/efi-version\s*([^\s]+)%00/);
+      if (match && match.length)
         return match[1];
       return str("unknown");
     } catch (err) {
+      console.log(err);
       return str("unknown");
     }
   }
@@ -770,7 +774,7 @@ export default class Configure extends Component {
                 : (
                   <span>
                     {str("getSMBIOSFromSystem")}，
-                    <Button type="link" onClick={() => this.reGenerateSMBIOS()}>{str("regenerate")}</Button>
+                    <Button style={{ height: 'auto' }} type="link" onClick={() => this.reGenerateSMBIOS()}>{str("regenerate")}</Button>
                   </span>
                 )})
             </p>
