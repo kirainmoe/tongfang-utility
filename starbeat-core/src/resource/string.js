@@ -170,8 +170,17 @@ export const strings = {
         continueUse: '如果你想要继续使用先前的实验室功能，请点继续。使用实验室方法驱动要求在下载配置文件时未勾选“添加 Intel 网卡驱动”。',
         continue: '继续使用',
 
+        compatCheck: '兼容检查',
+        compatCheckDescription: '检查在这台电脑上是否能正常安装 macOS。',
+        compatCheckForReference: 'Tips: 检查结果仅供解决问题的参考，不代表你的电脑一定能安装或一定不能安装 macOS。如果上面的检测结果有红色的内容，请先解决相应的问题。',
+        cannotGetHardwareInfo: '获取硬件信息时发生错误。',
+
         failedToConnectServer: "连接更新服务器失败。部分功能和下载源可能无法使用。",
-        discontinued: "【公告】同方机型 EFI 和黑苹果助手将于 macOS Big Sur 正式版发布后停止更新，并停止社区支持。若您有意参与后续维护，仍然可以前往 GitHub 发起 pull request; 感谢所有用户的支持。"
+        discontinued: "【公告】同方机型 EFI 和黑苹果助手将于 macOS Big Sur 正式版发布后停止更新，并停止社区支持。若您有意参与后续维护，仍然可以前往 GitHub 发起 pull request; 感谢所有用户的支持。",
+        
+        exit: "退出程序",
+        minimize: "最小化程序",
+        maximize: "最大化程序"
     },
     en: {
         config: "Configuration",

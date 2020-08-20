@@ -34,5 +34,8 @@
     "node-hid": "^1.2.0",
     "node-uuid": "^1.4.8",
     "sudo-prompt": "^9.1.1"
+  },
+  "devDependencies": {
+    "iconv-lite": "^0.6.2"
   }
 }

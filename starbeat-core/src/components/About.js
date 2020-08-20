@@ -15,7 +15,7 @@ export default class About extends Component {
   render() {
     return (
       <div className="about">
-        <h3 className="page-title">{str("about")}</h3>
+        <h3 className="page-title" aria-labelledby={str("about")}>{str("about")}</h3>
         <div className="description">
           <p>
             Tongfang Hackintosh Utility (同方黑苹果助手，前身 Project: STAR BEAT!) ，主要作用是方便使用清华同方模具的神舟、机械革命等其它品牌的笔记本用户安装 macOS.
@@ -40,7 +40,7 @@ export default class About extends Component {
               <p>
                 本程序和仓库提供的配置文件都是免费的，仅供学习，请勿用于商业用途。
                 <br />因使用本程序及配置文件造成的任何后果和损坏，开发者不承担任何形式的责任。
-                <br />如果你需要获得帮助，请加入下面的 QQ 群。
+                <br />如果你需要获得帮助，请加入下面的 QQ 群。只有本软件支持的模具用户才可以入群，入群请正确填写模具型号。
                 <br /><br />你也可以扫一扫二维码，支持开发者_(:з」∠)_
               </p>
               <table>

@@ -134,8 +134,6 @@ export default class Configure extends Component {
             latestDev: data.latestDev,
             download_url: `${config.download_url.jsdelivr}-${data.latestDev}.zip`
           });
-
-          message.info(str("discontinued"));
       })
       .catch(err => {
         message.error(str("failedToConnectServer"));
@@ -167,7 +165,6 @@ export default class Configure extends Component {
     return res;
   }
 
-  /* 渲染下载源；大陆默认使用 Aya Buildbot，海外默认使用 bitbucket */
   getDownloadSource() {
     const res = [];
     let index = 0;

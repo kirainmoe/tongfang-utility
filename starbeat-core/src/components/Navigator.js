@@ -10,6 +10,7 @@ import Keyboard from '../icons/Keyboard';
 import ConfigUpdate from '../icons/ConfigUpdate';
 import Tools from '../icons/Tools';
 import Update from '../icons/Update';
+import CompatCheck from '../icons/CompatCheck';
 import Lab from '../icons/Lab';
 
 const logo = require('../resource/logo.png');
@@ -45,6 +46,13 @@ export default class Navigator extends Component {
                         <p>{str('lab')}</p>
                     </NavLink>
                 )}
+
+                {navigator.language === "zh-CN" && window.electron.isWin() && (
+                    <NavLink className="nav-link" to="/compatCheck">
+                        <CompatCheck />
+                        <p>{str('compatCheck')}</p>
+                    </NavLink>
+                )}                
 
                 <NavLink className="nav-link" to="/update">
                     <Update />

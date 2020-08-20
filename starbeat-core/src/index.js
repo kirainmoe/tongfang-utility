@@ -13,6 +13,7 @@ import Lab from './components/Lab';
 import Configure from './components/Configure';
 import Update from './components/Update';
 import About from './components/About';
+import CompatCheck from './components/CompatCheck';
 import TopButton from './components/TopButton';
 
 const fs = window.electron.fs();
@@ -46,6 +47,9 @@ render(
                 </Route>                
                 <Route path="/about" exact>
                     <About />
+                </Route>
+                <Route path="/compatCheck" exact>
+                    <CompatCheck />
                 </Route>
                 <Route path="/update" exact>
                     <Update />

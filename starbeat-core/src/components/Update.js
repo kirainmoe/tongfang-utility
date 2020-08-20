@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert } from 'antd';
+import { Alert, message } from 'antd';
 
 import str from "../resource/string";
 import config from "../config";
@@ -36,6 +36,8 @@ export default class Update extends Component {
         build: res.build,
         isForceUpdate: res.forceUpdate >= config.build
       });
+
+      message.info(str("discontinued"));
 
       if (res.build <= config.build && !this.isAssistDownloaded())
         this.downloadAssistPackage();

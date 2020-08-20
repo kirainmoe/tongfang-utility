@@ -1,0 +1,61 @@
+.compat-check
+    width: 100%
+    font-size: 13px
+    padding: 40px 25px 0px 25px
+    .page-title
+        font-size: 22px
+    
+    .bugreport-feature
+        margin: 20px 0px
+        
+    .latest-version
+        float: right
+        margin-right: 40px
+
+    .container
+        width: 100%
+        display: flex
+        flex-wrap: wrap
+        justify-content: space-between
+        .check-item
+            width: 250px
+            height: 110px
+            padding: 10px
+            color: #fff
+            display: flex
+            flex-wrap: wrap
+            align-content: flex-start
+            border-radius: 10px
+            margin-top: 10px
+
+            .check-icon
+                width: 20%
+                svg
+                    width: 40px
+                    height: 40px
+            .check-title
+                width: 100%
+                color: #fff
+                font-size: 16px
+                margin-bottom: 10px
+            .check-result
+                font-size: 12px
+                width: 80%
+            &.success
+                order: 3
+                background: linear-gradient(to right, #52c41a, #73d13d, #95de64)
+            &.info
+                order: 2
+                background: linear-gradient(to right, #1890ff, #40a9ff, #91d5ff)
+            &.error
+                order: 0
+                width: 600px
+                background: linear-gradient(to right, #f5222d, #ff4d4f, #ffa39e)
+            &.warning
+                width: 600px
+                order: 0
+                background: linear-gradient(to right, #fadb14, #fadb14, #ffec3d)
+
+
+    .for-reference                
+        margin: 20px 0px
