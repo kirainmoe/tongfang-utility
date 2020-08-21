@@ -75,7 +75,30 @@
         position: absolute
         top: 0px
         left: 0px
-        background: rgba(255, 255, 255, 0.9)
+        background: rgb(255, 255, 255)
+
+.download-button
+    width: 30px
+    height: 30px
+    border: 0px
+    margin-right: 10px
+    background: #fff
+    cursor: pointer
+    outline: 0
+    svg
+        width: 20px
+        height: 20px
+        fill: #888
+        transition: .3s all
+    &:hover
+        svg
+            fill: #000
+    &.bitbucket.true svg
+        fill: #0054c6
+    &.github.true svg
+        fill: #00869f
+    &.jsdelivr.true svg
+        fill: #fd4945
     
 .download-lists .ant-btn
     padding: 0px
@@ -96,3 +119,29 @@
         width: 100%
         margin: 50px 0px
         text-align: center
+
+.select-other
+    margin: 0px
+    padding: 0px 
+    height: auto
+    position: absolute
+    right: 30px
+.model-select
+    p
+        display: inline
+        svg 
+            width: 10px
+            height: 10px
+            fill: #000
+.model-select-button
+    display: inline-block
+    width: 100%
+    border: 0px
+    word-break: break-all
+    &:hover
+        background: #eff
+    &.true
+        background: #eff
+.brand-title
+    font-weight: bold
+    margin: 15px 0px

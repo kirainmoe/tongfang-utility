@@ -35,6 +35,22 @@ export default class Plist {
         return true;
     }
 
+    deleteValue(path) {
+        let p = path.split('/');
+        let ref = this.json;
+        for (let i = 0; i < p.length; i++) {
+            if (this.isNumeric(p[i]))
+                p[i] = parseInt(p[i]);
+            if (typeof ref[p[i]] === 'undefined') {
+                return false;
+            }
+            if (i !== p.length - 1)
+                ref = ref[p[i]];
+            else
+                delete ref[p[i]];
+        }
+    }
+
     setKext(name, status) {
         this.json.Kernel.Add.forEach(item => {
             if (item.BundlePath.indexOf(name) >= 0)

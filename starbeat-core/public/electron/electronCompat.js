@@ -58,9 +58,11 @@ const electronCompatLayer = () => {
                             .then((res) => res.json())
                             .then((res) => (totalLength = res.fileSize));
                     }
+                    let counter = 0;
                     body.on("readable", () => {
                         let chunk;
                         retry = 0;
+                        counter ++;
                         while (null !== (chunk = body.read())) {
                             downloadedSize += chunk.length;
                             cur += chunk.length;
@@ -72,8 +74,8 @@ const electronCompatLayer = () => {
                                 speed = cur;
                                 cur = 0;
                             }
-
-                            if (setPercent) setPercent(percent, speed);
+                            if (setPercent && counter % 10 == 0)
+                                setPercent(percent, speed);
                         }
                     });
                     return res;

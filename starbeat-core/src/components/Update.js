@@ -3,6 +3,7 @@ import { Alert, message } from 'antd';
 
 import str from "../resource/string";
 import config from "../config";
+import makeAlert from "../utils/makeAlert";
 
 import '../styles/Update.styl';
 
@@ -30,7 +31,7 @@ export default class Update extends Component {
   getRemoteVersion() {
     fetch('https://api-aliyun.kirainmoe.com:2333/tongfang/version')
     .then(res => res.json())
-    .then(res => {
+    .then(async res => {
       this.setState({
         latest: res.version,
         build: res.build,
@@ -39,10 +40,12 @@ export default class Update extends Component {
 
       message.info(str("discontinued"));
 
-      if (res.build <= config.build && !this.isAssistDownloaded())
-        this.downloadAssistPackage();
-      else if (res.build <= config.build && !this.checkAssistUpdate())
-        this.downloadAssistPackage();
+      if (res.build <= config.build) {
+        if (!this.isAssistDownloaded() || !(await this.checkAssistUpdate()))
+          this.downloadAssistPackage();
+        if (window.location.href.includes("voiceover"))
+          this.downloadVoiceOverPackage();
+      }
     });
   }
 
@@ -71,10 +74,35 @@ export default class Update extends Component {
       return false;
     const version = fs.readFileSync(versionFile).toString();
     let remote = null;
-    await fetch("https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json")
+    await fetch("https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json", {
+      cache: 'no-cache'
+    })
       .then(res => res.text())
       .then(res => remote = res);
     return (remote === version);
+  }
+
+  async downloadVoiceOverPackage() {
+    const path = window.require("path");
+    const userDir = window.electron.getUserDir(),
+      savePath = path.join(userDir, ".tfu");
+    
+    try {
+      window.electron.rmdir(`${userDir}/.tfu/Audio`);
+    } catch (err) {}
+
+    await this.setState({
+      status: 6,
+      log: this.state.log + 'Downloading file Audio.zip ...\n'      
+    });
+    const downloadUrl = "https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr-2/OCAudio.zip",
+        saveFile = path.join(savePath, 'Audio.zip');
+    await window.electron.normalDownload(downloadUrl, saveFile);
+    await this.sleep(500);    
+    await this.sleep(500);
+    window.electron.unzip(saveFile, savePath);
+
+    this.setState({ status: 7 });
   }
 
   async downloadAssistPackage() {
@@ -112,7 +140,7 @@ export default class Update extends Component {
 
     const downloadUrl = "https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json",
       saveFile = path.join(savePath, "version.json");
-    await window.electron.normalDownload(downloadUrl, saveFile)
+    await window.electron.normalDownload(downloadUrl, saveFile);
     
     this.setState({ status: 5 });
   }
@@ -124,8 +152,8 @@ export default class Update extends Component {
       );
     }
     else if (this.state.status === 2) {
-      setTimeout(() => {
-        alert(str('updateSuccess'));
+      setTimeout(async () => {
+        await makeAlert(str('updateSuccess'));
         window.close();
       }, 0);
       return (
@@ -145,6 +173,14 @@ export default class Update extends Component {
     else if (this.state.status === 5) {
       return <Alert message={str('downloadDone')} type="success" showIcon />;
     }
+    else if (this.state.status === 6) {
+      return (
+        <Alert message={str('downloadingVoiceOver')} type="info" showIcon />
+      );
+    }
+    else if (this.state.status === 7) {
+      return <Alert message={str('voiceOverDone')} type="success" showIcon />;
+    }    
     else if (this.state.latest === 'Unknown')
       return (
         <Alert message={str('fetchingLatest')} type="warning" showIcon />
@@ -227,7 +263,9 @@ export default class Update extends Component {
           </p>
         </div>
 
-        {this.showMessage()}
+        <div role="alert" aria-atomic="true">
+          {this.showMessage()}
+        </div>
 
         <pre className="update-log">
           {this.state.log}

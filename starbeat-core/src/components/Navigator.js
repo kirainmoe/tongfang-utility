@@ -20,7 +20,7 @@ export default class Navigator extends Component {
         return (
             <div className="navigator">
                 <div className="logo">
-                    <img src={logo} alt="Logo" />
+                    <img src={logo} alt={str("logo")} />
                 </div>
 
                 <NavLink className="nav-link" to="/keyboard">

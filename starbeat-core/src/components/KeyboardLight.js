@@ -323,7 +323,7 @@ export default class KeyboardLight extends Component {
                     )}
                 </div>
                 <div className="keyboard-switch">
-                    <Switch defaultChecked onChange={(c) => this.toggleKeyboardLight(c)} />
+                    <Switch aria-label={str("keyboardSwitch")} defaultChecked onChange={(c) => this.toggleKeyboardLight(c)} />
                 </div>
             </div>
         );

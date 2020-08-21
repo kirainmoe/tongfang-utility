@@ -17,3 +17,53 @@ html, body, #root, .starbeat-app
     position: fixed
     left: 120px
     overflow-y: auto
+
+@keyframes showalert {
+    from { top: -200px }
+    to { top: 0px }
+}
+
+.global-alert-cover
+    width: 100%
+    height: 100%
+    position: fixed
+    top: 0
+    left: 0
+    z-index: 233
+    background: rgba(0, 0, 0, 0.65)
+    .global-alert
+        background: #fff
+        width: 70%
+        padding: 30px 20px
+        position: fixed
+        top: 10px
+        left: 15%
+        border-radius: 4px
+        animation: showalert .3s
+        box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05)
+        .global-alert-content
+            width: 100%
+            max-height: 500px
+            overflow-y: auto
+        .global-alert-action
+            margin-top: 30px
+            text-align: center
+            button
+                width: 100px
+                height: 30px
+                color: #000
+                background: #eee
+                border: 0
+                margin-left: 10px
+                cursor: pointer
+                outline: 0
+                transition: .2s all
+                &:hover
+                    color: #fff
+                    background: #00abf9
+                &.approve
+                    background: #0092f8
+                    color: #fff
+                    border: 0
+                    &:hover
+                        background: #00abf9

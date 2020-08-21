@@ -1,7 +1,7 @@
 export const strings = {
     "zh-CN": {
         config: "配置文件",
-        keyboardLight: "灯效",
+        keyboardLight: "键盘灯",
         tools: "工具",
         lab: "实验室",
 
@@ -28,6 +28,7 @@ export const strings = {
         mix: "渐变",
         brightness: "键盘灯亮度",
         speed: "变换速度",
+        keyboardSwitch: "键盘灯开关",
 
         toolsDescription: "部分功能需要授权。",
         fixSleep: "调节睡眠参数",
@@ -100,7 +101,7 @@ export const strings = {
         backward: "我知道了，这就去和苹果对线",
         requirement4k:
             "请注意：同方 GJ5CN64 / GI5CN54 模具，需要解锁 BIOS 或使用 UEFI Shell 修改 DVMT Pre-allocated 大小为 64M 后方可支持 4K 内屏，否则会导致内核崩溃.",
-        dontUseDefault: '请注意：程序检测到你正在使用配置文件模板默认的 SMBIOS 信息（序列号为 C02X3088KGYG 或 C02WM0Q0KGYG）。\n\n使用配置文件模板中的默认序列号是不被推荐的行为，可能会导致你无法使用与 Apple ID 关联的服务，建议重新生成 SMBIOS 信息。\n\n你想要重新生成吗？第一次使用新的 SMBIOS 信息引导 macOS 时，可能会要求你重新登录与 Apple ID 关联的服务 (iCloud, 随航等)。',
+        dontUseDefault: '请注意：程序检测到你正在使用配置文件模板默认的 SMBIOS 信息（序列号为 C02X3088KGYG 或 C02WM0Q0KGYG）。<br><br>使用配置文件模板中的默认序列号是不被推荐的行为，可能会导致你无法使用与 Apple ID 关联的服务，建议重新生成 SMBIOS 信息。<br><br>你想要重新生成吗？第一次使用新的 SMBIOS 信息引导 macOS 时，可能会要求你重新登录与 Apple ID 关联的服务 (iCloud, 随航等)。',
         failedToGetSN: '无法从系统获取 SMBIOS 信息，请确认当前系统的 SMBIOS 有效。软件将自动生成一组 SMBIOS 信息。',
         youAreUsing: "你正在使用",
         officialLatest: "官方最新版本是",
@@ -111,27 +112,29 @@ export const strings = {
         downloadFailed: '下载失败，请重启程序尝试重新下载。如果你在 Windows 下，可能会遇到 operation not permitted 问题，请多试几次。',
         whatShouldIChoose: '我该如何选择？',
         chooseGuide: 
-`如果你更换了博通无线网卡（DW1830, DW1860, DW1820A..），建议你勾选 “添加博通无线网卡驱动” 和 “添加博通蓝牙驱动”。\n
-如果你更换了白果拆机卡 (BCM94360CS2, BCM943602CS..)，建议你勾选 “添加博通无线网卡驱动”，不必勾选 “添加博通蓝牙驱动”。\n
-如果你使用 Intel 原装无线网卡 (AC9462, AC9560, AX200)，可以勾选 “添加因特尔蓝牙驱动”；请注意 Intel 无线网卡的 WiFi 是无法驱动的。\n
-如果你需要使用 Android 设备通过 USB 共享网络，可以勾选 “添加 USB 网络共享驱动”。请注意并不是所有的 Android 手机都兼容此驱动。\n
-如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”；若内屏为普通 1080p 屏幕请不要勾选，否则会遇到睡眠唤醒问题！\n
-如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。\n
-如果你遇到睡眠无法唤醒的问题：没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”，8 代 CPU 用户请尝试不要勾选“加载 Apple GuC” 固件。\n·`,
+`如果你更换了博通无线网卡（DW1830, DW1560, DW1820A..），建议你勾选 “添加博通无线网卡驱动” 和 “添加博通蓝牙驱动”。<br><br>
+如果你更换了白果拆机卡 (BCM94360CS2, BCM943602CS..)，建议你勾选 “添加博通无线网卡驱动”，不必勾选 “添加博通蓝牙驱动”。<br><br>
+如果你使用 Intel 原装无线网卡 (AC9462, AC9560, AX200)，可以勾选 “添加因特尔蓝牙驱动”；请注意 Intel 无线网卡的 WiFi 是无法驱动的。<br><br>
+如果你需要使用 Android 设备通过 USB 共享网络，可以勾选 “添加 USB 网络共享驱动”。请注意并不是所有的 Android 手机都兼容此驱动。<br><br>
+如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”；若内屏为普通 1080p 屏幕请不要勾选，否则会遇到睡眠唤醒问题！<br><br>
+如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。<br><br>
+如果你遇到睡眠无法唤醒的问题：没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”，8 代 CPU 用户请尝试不要勾选“加载 Apple GuC” 固件。<br><br>`,
         license:
-`在开始使用 "hasee-tongfang-macos 仓库提供的配置文件"（以下简称 EFI 文件）之前，请先阅读以下许可协议：\n
-1. 您可以免费、自由地使用、修改本 EFI 文件；同时，您不能在不提供附加服务的情况下，将 EFI 文件用于商业用途，也不允许以任何价格向任何人出售 EFI 文件。\n
-2. 如果您在此 EFI 文件的基础上，适配其它机型的配置文件，或修改并重新分发，必须保留版权声明文件 "Credits.md"，同时需要为大众保留至少一个免费获取、下载的方式。\n
-3. 此 EFI 文件已经过作者测试，但倘若您要使用此配置文件，仍需自行承担由此 EFI 文件造成的直接或间接风险，包括但不限于软件损坏、数据丢失、硬件损坏等。作者和贡献者将不对这些风险承担任何形式的责任。\n
-点击确定则表示您已经阅读并知悉上述许可协议。App 将开始下载配置文件。`,
+`在开始使用 "hasee-tongfang-macos 仓库提供的配置文件"（以下简称 EFI 文件）之前，请先阅读以下许可协议：<br><br>
+1. 您可以免费、自由地使用、修改本 EFI 文件；同时，您不能在不提供附加服务的情况下，将 EFI 文件用于商业用途，也不允许以任何价格向任何人出售 EFI 文件。<br><br>
+2. 如果您在此 EFI 文件的基础上，适配其它机型的配置文件，或修改并重新分发，必须保留版权声明文件 "Credits.md"，同时需要为大众保留至少一个免费获取、下载的方式。<br><br>
+3. 此 EFI 文件已经过作者测试，但倘若您要使用此配置文件，仍需自行承担由此 EFI 文件造成的直接或间接风险，包括但不限于软件损坏、数据丢失、硬件损坏等。作者和贡献者将不对这些风险承担任何形式的责任。<br><br>
+点击“我同意”则表示您已经阅读并知悉上述许可协议。App 将开始下载配置文件。`,
         dontCheck4kIfNotRequire: '如果你的笔记本 *内屏* 不是 4K 分辨率，请不要勾选此选项，否则在睡眠后你将无法正常唤醒设备。',
         unknown: "未知",
         assistPackageNotDownloaded: "Intel 蓝牙驱动和 itlwm Wi-Fi 驱动需要下载后方可使用，请手动前往更新页面下载拓展包。",
-        goDownloadAssistPackage: "第一次运行程序或清除缓存后，需要下载拓展包才能注入 Intel 蓝牙固件上传驱动和 WiFi 驱动。\n\n是否前往更新页面下载拓展包？",
-        downloadingAssistPackage: "正在下载驱动拓展包，请稍等...",
-        downloadDone: '拓展包下载完成。',
-        needHeliport: "在配置文件中注入 Intel Wi-Fi 驱动，需要配合 macOS 下的 HeliPort 客户端管理网络。\n请自行前往 macOS 版本的 Tongfang Hackintosh Utility 的实验室或其它渠道下载 HeliPort 客户端。",
+        goDownloadAssistPackage: "第一次运行程序或清除缓存后，需要下载拓展包才能注入 Intel 蓝牙固件上传驱动和 WiFi 驱动，或开启无障碍支持。<br><br>是否前往更新页面下载拓展包？",
+        needHeliport: "在配置文件中注入 Intel Wi-Fi 驱动，需要配合 macOS 下的 HeliPort 客户端管理网络。<br><br>请自行前往 macOS 版本的 Tongfang Hackintosh Utility 的实验室或其它渠道下载 HeliPort 客户端。",
         itlwmUnique: "只能注入 itlwm.kext (适用于 AC9462, AC9560...) 或 itlwmx.kext (适用于 AX200) 其中之一，否则可能会有无法预料的问题发生。",
+        accessibility: "引导时开启无障碍支持(旁白)",
+        voiceOverNotDownloaded: "引导时启用无障碍支持（旁白）需要额外下载语音包，是否前往更新页面下载？",
+        accessibilityDescription: "【无障碍支持模式】是为方便阅读屏幕内容有困难的用户使用电脑而产生的模式。开启此模式后，将会在 OpenCore 引导时使用语音提示启动项，同时会关闭 OpenCore 图形界面。是否要继续启用【无障碍模式】？",
+        bootChime: "启用模拟白果开机声音",
 
         about: '关于 Tongfang Hackintosh Utility',
 
@@ -169,6 +172,10 @@ export const strings = {
         downloadHeliport: '点击下面的图标可以下载 HeliPort 客户端；如果使用 HeliPort 无法联网，请尝试将电脑断电几分钟后，重新启动尝试联网。',
         continueUse: '如果你想要继续使用先前的实验室功能，请点继续。使用实验室方法驱动要求在下载配置文件时未勾选“添加 Intel 网卡驱动”。',
         continue: '继续使用',
+        downloadingAssistPackage: "正在下载驱动拓展包，请稍等，视网络环境不同，这可能需要几分钟的时间...",
+        downloadDone: '拓展包下载完成。',
+        downloadingVoiceOver: "正在下载无障碍语音包，请稍等。由于语音包体积较大，视网络环境不同，这可能需要几分钟的时间...",
+        voiceOverDone: "语音包下载完成。",
 
         compatCheck: '兼容检查',
         compatCheckDescription: '检查在这台电脑上是否能正常安装 macOS。',
@@ -180,7 +187,17 @@ export const strings = {
         
         exit: "退出程序",
         minimize: "最小化程序",
-        maximize: "最大化程序"
+        maximize: "最大化程序",
+        logo: "图标",
+        downloadFromBitbucket: "从 BitBucket 下载",
+        downloadFromGitHub: "从 GitHub 下载",
+        downloadFromJSDelivr: "从 JSDelivr 下载",
+        selectOtherModel: "选择其它机型",
+        filterModel: "搜索机型..",
+        approve: "确定",
+        cancel: "取消",
+        approveLicense: "我同意",
+        dontApproveLicense: "我不同意"
     },
     en: {
         config: "Configuration",
@@ -292,19 +309,19 @@ export const strings = {
         dontCheck4kIfNotRequire: 'Don\'t check this option unless you have a 4K built-in monitor, or you will meet problems of sleep/hibernation.',
         whatShouldIChoose: 'Which should I choose?',
         chooseGuide: 
-`If you installed Broadcom Wi-Fi card (DW1830, DW1860, DW1820A..), check "Broadcom WiFi support" and "Broadcom bluetooth support".\n
-If you installed Apple Wi-Fi card (BCM94360CS2, BCM943602CS..), check "Broadcom WiFi support".\n
-If you had Intel Wi-Fi card (AC9462, AC9560, AX200), check "Intel bluetooth support".\n
-If you want to try Intel Wi-Fi supported by @OpenIntelWireless, check "Intel WiFi support" pair with HeliPort client on macOS.\n
-If you want to tether network via an Android device, check "USB network tethering". \n
-If you replaced the monitor of 4K resolution or stuck on "IOConsoleUsers" while booting macOS, check "4K resolution monitor".\n
+`If you installed Broadcom Wi-Fi card (DW1830, DW1860, DW1820A..), check "Broadcom WiFi support" and "Broadcom bluetooth support".<br><br>
+If you installed Apple Wi-Fi card (BCM94360CS2, BCM943602CS..), check "Broadcom WiFi support".<br><br>
+If you had Intel Wi-Fi card (AC9462, AC9560, AX200), check "Intel bluetooth support".<br><br>
+If you want to try Intel Wi-Fi supported by @OpenIntelWireless, check "Intel WiFi support" pair with HeliPort client on macOS.<br><br>
+If you want to tether network via an Android device, check "USB network tethering". <br><br>
+If you replaced the monitor of 4K resolution or stuck on "IOConsoleUsers" while booting macOS, check "4K resolution monitor".<br><br>
 If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are not compatible with macOS, check "Disable incompatible NVMe", and plug the incompatible SSD in m.2 slot 1.`,
         unknown: 'Unknown',
         assistPackageNotDownloaded: "Intel bluetooth driver and itlwm Wi-Fi driver require to download extension package. Please go to \"Update\" page and download it.",
-        goDownloadAssistPackage: "You are running the app for the first time. We recommend you to download extension package to enable Intel bluetooth and Wi-Fi injecting.\n\nDo you want to download it?",
+        goDownloadAssistPackage: "You are running the app for the first time. We recommend you to download extension package to enable Intel bluetooth and Wi-Fi injecting.<br><br>Do you want to download it?",
         downloadingAssistPackage: "Downloading, please wait...",
         downloadDone: 'Download success.',
-        needHeliport: "To make Intel Wi-Fi work, you will require \"HeliPort\" client on macOS to manage networks. \nYou can download the \"HeliPort.app\" from \"Tongfang Hackintosh Utility for mac\" or any other channel.",
+        needHeliport: "To make Intel Wi-Fi work, you will require \"HeliPort\" client on macOS to manage networks. <br><br>You can download the \"HeliPort.app\" from \"Tongfang Hackintosh Utility for mac\" or any other channel.",
         itlwmUnique: "You can only select one of itlwm.kext (for AC9462, AC9560...) and itlwmx.kext (for AX200) ",
 
 
@@ -343,7 +360,23 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         continue: 'Continue',
 
         failedToConnectServer: "Failed to connect to the update server, some download sources will be unavailable.",
-        discontinued: "Tongfang Hackintosh Project will be discontinued after the release of macOS Big Sur due to personal reasons. Community support will be stopped in the meanwhile. Thanks for the support of all users."
+        discontinued: "Tongfang Hackintosh Project will be discontinued after the release of macOS Big Sur due to personal reasons. Community support will be stopped in the meanwhile. Thanks for the support of all users.",
+
+        exit: "Exit",
+        minimize: "Minimize Window",
+        maximize: "Maximize Window",
+        logo: "Logo",
+        downloadFromBitbucket: "Download from BitBucket",
+        downloadFromGitHub: "从 GitHub 下载",
+        downloadFromJSDelivr: "从 JSDelivr 下载",
+        selectOtherModel: "选择其它机型",
+        filterModel: "搜索机型..",
+        approve: "确定",
+        cancel: "取消",
+        approveLicense: "我同意",
+        dontApproveLicense: "我不同意",
+        downloadingVoiceOver: "正在下载无障碍语音包，请稍等。由于语音包体积较大，视网络环境不同，这可能需要几分钟的时间...",
+        voiceOverDone: "语音包下载完成。",
     }
 };
 

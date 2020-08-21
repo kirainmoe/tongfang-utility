@@ -58,9 +58,11 @@ const electronCompatLayer = () => {
                             .then((res) => res.json())
                             .then((res) => (totalLength = res.fileSize));
                     }
+                    let counter = 0;
                     body.on("readable", () => {
                         let chunk;
                         retry = 0;
+                        counter ++;
                         while (null !== (chunk = body.read())) {
                             downloadedSize += chunk.length;
                             cur += chunk.length;
@@ -72,8 +74,8 @@ const electronCompatLayer = () => {
                                 speed = cur;
                                 cur = 0;
                             }
-
-                            if (setPercent) setPercent(percent, speed);
+                            if (setPercent && counter % 10 == 0)
+                                setPercent(percent, speed);
                         }
                     });
                     return res;
@@ -206,7 +208,7 @@ const electronCompatLayer = () => {
 
     const getWMIC = () => {
         const cp = require("child_process");
-        const res = cp.execSync('echo "csproduct" | wmic').toString(),
+        const res = cp.execSync('wmic csproduct').toString(),
             tmp = res.split("\n");
         let wmic = "";
 
@@ -223,6 +225,49 @@ const electronCompatLayer = () => {
             sn: smbiosinfo[2],
             model: smbiosinfo[3],
             uuid: smbiosinfo[4],
+        };
+    };
+
+    const parseWMIC = (cmd) => {
+        const cp = require('child_process');
+        const res = cp.execSync(`wmic ${cmd}`).toString().split('\n');
+
+        if (!res.length)
+            return undefined;
+
+        let keys = [], lastIndex = 0, i = 0;
+        while (i < res[0].length) {
+            while (res[0][i] === ' ') {
+                if (res[0][lastIndex] !== ' ') {
+                    keys.push({
+                        name: res[0].substr(lastIndex, i - lastIndex),
+                        from: lastIndex
+                    });
+                }
+                lastIndex = i + 1;
+                i++;
+            }
+            i++;
+        }
+
+        const answer = [];
+
+        for (let i = 1; i < res.length; i++) {
+            if (res[i].trim().length === 0)
+                continue;
+            const cur = {};
+            for (let j = 0; j < keys.length; j++) {
+                const key = keys[j],
+                    ends = (j === keys.length - 1) ? res[i].length : keys[j+1].from;
+                const value = res[i].substr(key.from, ends - key.from);
+                cur[key.name] = value.trim();
+            }
+            answer.push(cur);
+        }
+
+        return {
+            key: keys,
+            result: answer
         };
     };
 
@@ -267,6 +312,69 @@ const electronCompatLayer = () => {
         }
     };
 
+    const getMacSerial = () => {
+        // macOS
+        if (isMac()) {
+            const remote = require("electron").remote;
+            const p = remote.app.getAppPath();
+
+            let macserialPath = (p + "/macserial/macserial").replace(/ /g, "\\ ");
+            const output = exec(macserialPath).toString();
+            let result = {};
+            try {
+                const model = output.match(/Model:\s(.*)/),
+                    sn = output.match(/Serial\sNumber:\s(.*)/),
+                    smuuid = output.match(/System\sID:\s(.*)/),
+                    mlb = output.match(/MLB:\s(.*)/);
+
+                result = {
+                    model: model[1],
+                    sn: sn[1],
+                    smuuid: smuuid[1],
+                    mlb: mlb[1],
+                };
+            } catch (err) {
+                result = null;
+            }
+            return result;
+        }
+        return false;
+    };
+
+    const generateMacSerial = () => {
+        let macserial;
+        const remote = require("electron").remote;
+
+        const p = remote.app.getAppPath();
+        if (isMac()) {
+            macserial = p + "/macserial/macserial";
+        } else
+            macserial = isLinux()
+                ? p + "/macserial/macserial-linux"
+                : isWin()
+                ? '"' + p + '\\macserial\\macserial32.exe"'
+                : "";
+
+        if (!isWin()) macserial = macserial.replace(/ /g, "\\ ");
+
+        const uuidGen = require("node-uuid");
+        const output = exec(macserial + " --model 43 --generate --num 1").toString();
+        let uuid = uuidGen.v4();
+
+        if (isWin()) {
+            const wmic = getWMIC();
+            if (wmic.uuid) uuid = wmic.uuid;
+        }
+
+        const res = output.split("|");
+        return {
+            model: "MacBookPro15,3",
+            sn: res[0],
+            mlb: res[1].trim(),
+            smuuid: uuid.toUpperCase(),
+        };
+    };
+
     return {
         getPlatform: () => process.platform,
         isWin,
@@ -274,67 +382,6 @@ const electronCompatLayer = () => {
         isLinux,
         exec,
         sudoExec,
-        getMacSerial: () => {
-            // macOS
-            if (isMac()) {
-                const remote = require("electron").remote;
-                const p = remote.app.getAppPath();
-
-                let macserialPath = (p + "/macserial/macserial").replace(/ /g, "\\ ");
-                const output = exec(macserialPath).toString();
-                let result = {};
-                try {
-                    const model = output.match(/Model:\s(.*)/),
-                        sn = output.match(/Serial\sNumber:\s(.*)/),
-                        smuuid = output.match(/System\sID:\s(.*)/),
-                        mlb = output.match(/MLB:\s(.*)/);
-
-                    result = {
-                        model: model[1],
-                        sn: sn[1],
-                        smuuid: smuuid[1],
-                        mlb: mlb[1],
-                    };
-                } catch (err) {
-                    result = null;
-                }
-                return result;
-            }
-            return false;
-        },
-        generateMacSerial: () => {
-            let macserial;
-            const remote = require("electron").remote;
-
-            const p = remote.app.getAppPath();
-            if (isMac()) {
-                macserial = p + "/macserial/macserial";
-            } else
-                macserial = isLinux()
-                    ? p + "/macserial/macserial-linux"
-                    : isWin()
-                    ? '"' + p + '\\macserial\\macserial32.exe"'
-                    : "";
-
-            if (!isWin()) macserial = macserial.replace(/ /g, "\\ ");
-
-            const uuidGen = require("node-uuid");
-            const output = exec(macserial + " --model 43 --generate --num 1").toString();
-            let uuid = uuidGen.v4();
-
-            if (isWin()) {
-                const wmic = getWMIC();
-                if (wmic.uuid) uuid = wmic.uuid;
-            }
-
-            const res = output.split("|");
-            return {
-                model: "MacBookPro15,3",
-                sn: res[0],
-                mlb: res[1].trim(),
-                smuuid: uuid.toUpperCase(),
-            };
-        },
         writeFile,
         readFile,
         normalDownload,
@@ -349,6 +396,9 @@ const electronCompatLayer = () => {
         openPage,
         getElectron,
         selfUpdate,
+        getMacSerial,
+        generateMacSerial,
+        parseWMIC
     };
 };
 
