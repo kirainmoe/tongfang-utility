@@ -16,7 +16,7 @@ export const strings = {
         hidCommFailedNotFound:
             "在此电脑上没有找到兼容设备。请确认你的笔记本是 **同方模具**，且系统能识别到：制造商 ID 为 0x048d, 产品 ID 为 0xce00 的 ITE Devices(8291)。",
         hidCommFailedRevisionNotMatch:
-            "在此电脑上找到了兼容设备，但 ITE 版本 (revision) 不为 0.02。",
+            "另一个 Tongfang Hackintosh Utility 的实例正在运行。",
         hidCommFailedLinuxUnauthorized:
             "Tongfang Hackintosh Utility 正在 Linux 下运行，但未能获取 root 权限，无权访问 HID 设备。",
         iteSupport: "* ITE 0.03 版本的键盘灯控制代码来自 rodgomesc 的项目 AUCC.",
@@ -50,7 +50,7 @@ export const strings = {
         successDescription: "所执行的操作已完成。",
         ToolboxCannotRunningOnWinDescription:
             "工具箱中的功能仅用于优化在 macOS 系统下的使用体验，无法在 Windows / Linux 平台上使用。",
-        onlyForBOE0747: "提示：一键开启 HiDPI 功能仅适用于搭载京东方 BOE0747 15.6' 屏幕的设备，如果你手动更换过屏幕或你的原厂屏幕不是此型号，那么可能会开启失败。",
+        onlyForBOE0747: "提示：一键开启 HiDPI 功能仅适用于搭载京东方 BOE0747 15.6' 屏幕的设备，如果你手动更换过屏幕或你的原厂屏幕不是此型号，那么可能会开启失败。命令执行完成后请重启电脑，并在显示器设置中调节分辨率为 1424x802.",
 
         configure: "配置文件",
         configureDescription: "管理、更新和定制 OpenCore 配置文件。",
@@ -114,9 +114,10 @@ export const strings = {
         chooseGuide: 
 `如果你更换了博通无线网卡（DW1830, DW1560, DW1820A..），建议你勾选 “添加博通无线网卡驱动” 和 “添加博通蓝牙驱动”。<br><br>
 如果你更换了白果拆机卡 (BCM94360CS2, BCM943602CS..)，建议你勾选 “添加博通无线网卡驱动”，不必勾选 “添加博通蓝牙驱动”。<br><br>
-如果你使用 Intel 原装无线网卡 (AC9462, AC9560, AX200)，可以勾选 “添加因特尔蓝牙驱动”；请注意 Intel 无线网卡的 WiFi 是无法驱动的。<br><br>
+如果你使用 Intel 原装无线网卡 (AC9462, AC9560, AX200)，可以勾选 “添加因特尔蓝牙驱动”，和 “添加 Intel 无线网卡驱动”，并在 macOS 下使用 HeliPort 客户端连接无线网络。<br><br>
 如果你需要使用 Android 设备通过 USB 共享网络，可以勾选 “添加 USB 网络共享驱动”。请注意并不是所有的 Android 手机都兼容此驱动。<br><br>
 如果你更换了笔记本内屏为 4K 分辨率或换屏后开机卡在 IOConsoleUsers，建议你勾选 “添加 4K 内屏补丁”；若内屏为普通 1080p 屏幕请不要勾选，否则会遇到睡眠唤醒问题！<br><br>
+如果你要安装 macOS 11.0 Big Sur，请勾选“macOS 11.0 测试版支持”。需要注意的是 macOS 11.0 暂时不支持 4K 内屏。<br><br>
 如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。<br><br>
 如果你遇到睡眠无法唤醒的问题：没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”，8 代 CPU 用户请尝试不要勾选“加载 Apple GuC” 固件。<br><br>`,
         license:
@@ -135,6 +136,8 @@ export const strings = {
         voiceOverNotDownloaded: "引导时启用无障碍支持（旁白）需要额外下载语音包，是否前往更新页面下载？",
         accessibilityDescription: "【无障碍支持模式】是为方便阅读屏幕内容有困难的用户使用电脑而产生的模式。开启此模式后，将会在 OpenCore 引导时使用语音提示启动项，同时会关闭 OpenCore 图形界面。是否要继续启用【无障碍模式】？",
         bootChime: "启用模拟白果开机声音",
+        bestPerformance: "CPU 最佳性能模式",
+        bestPerformaceTips: "提醒：开启 CPU 最佳性能模式将会显著提升 CPU 的性能，但同时也会显著降低使用电池时的续航。",
 
         about: '关于 Tongfang Hackintosh Utility',
 
@@ -170,7 +173,7 @@ export const strings = {
         unloadKext: '卸载驱动（更换网络前需要先卸载）',
         useHeliport: '若要使用 Intel Wi-Fi，推荐在下载配置文件时勾选 “添加 Intel 无线网卡驱动”，并在 macOS 下使用 HeliPort 客户端管理无线网络。',
         downloadHeliport: '点击下面的图标可以下载 HeliPort 客户端；如果使用 HeliPort 无法联网，请尝试将电脑断电几分钟后，重新启动尝试联网。',
-        continueUse: '如果你想要继续使用先前的实验室功能，请点继续。使用实验室方法驱动要求在下载配置文件时未勾选“添加 Intel 网卡驱动”。',
+        continueUse: '新版 itlwm 不再支持填写 SSID 和密码驱动，请下载 HeliPort 使用。',
         continue: '继续使用',
         downloadingAssistPackage: "正在下载驱动拓展包，请稍等，视网络环境不同，这可能需要几分钟的时间...",
         downloadDone: '拓展包下载完成。',
@@ -323,6 +326,8 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         downloadDone: 'Download success.',
         needHeliport: "To make Intel Wi-Fi work, you will require \"HeliPort\" client on macOS to manage networks. <br><br>You can download the \"HeliPort.app\" from \"Tongfang Hackintosh Utility for mac\" or any other channel.",
         itlwmUnique: "You can only select one of itlwm.kext (for AC9462, AC9560...) and itlwmx.kext (for AX200) ",
+        bestPerformance: "CPU Best Performance Mode",
+        bestPerformaceTips: "Enabling CPU best performance mode will remarkably promote the CPU performance, but in the meanwhile it will reduce battery endurance.",
 
 
         update: 'Update',
@@ -367,16 +372,16 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         maximize: "Maximize Window",
         logo: "Logo",
         downloadFromBitbucket: "Download from BitBucket",
-        downloadFromGitHub: "从 GitHub 下载",
-        downloadFromJSDelivr: "从 JSDelivr 下载",
-        selectOtherModel: "选择其它机型",
-        filterModel: "搜索机型..",
-        approve: "确定",
-        cancel: "取消",
-        approveLicense: "我同意",
-        dontApproveLicense: "我不同意",
-        downloadingVoiceOver: "正在下载无障碍语音包，请稍等。由于语音包体积较大，视网络环境不同，这可能需要几分钟的时间...",
-        voiceOverDone: "语音包下载完成。",
+        downloadFromGitHub: "Download from GitHub",
+        downloadFromJSDelivr: "Download from JSDelivr",
+        selectOtherModel: "Other..",
+        filterModel: "Type and search your model...",
+        approve: "OK",
+        cancel: "Cancel",
+        approveLicense: "Approve",
+        dontApproveLicense: "Disapprove",
+        downloadingVoiceOver: "Downloading VoiceOver package...",
+        voiceOverDone: "VoiceOver package downloaded.",
     }
 };
 

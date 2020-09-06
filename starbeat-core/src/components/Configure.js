@@ -33,6 +33,7 @@ export default class Configure extends Component {
         intelwifiax200: false,
         accessibility: false,
         bootchime: false,
+        bestperformance: false
     };
     kextstatRes = "";
     nvramRes = "";
@@ -70,6 +71,7 @@ export default class Configure extends Component {
         { label: str("loadguc"), value: "loadguc", defaultVal: this.hasParam("igfxfw") },
         { label: str("accessibility"), value: "accessibility", defaultVal: false },
         { label: str("bootChime"), value: "bootchime", defaultVal: false },
+        { label: str("bestPerformance"), value: "bestperformance", defaultVal: false }
     ];
 
     constructor(props) {
@@ -298,6 +300,10 @@ export default class Configure extends Component {
             (!this.options.intelwifiax200 && selected["intelwifiax200"])
         ) {
             makeAlert(str("needHeliport"));
+        }
+
+        if (!this.options.bestperformance && selected["bestperformance"]) {
+            makeAlert(str("bestPerformaceTips"));
         }
 
         if (
@@ -751,6 +757,10 @@ export default class Configure extends Component {
                         "NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/csr-active-config",
                         new Uint8Array([119, 0, 0, 0])
                     );
+                }
+                if (this.options.bestperformance) {
+                    plist.setKext("CPUFriendDataProvider.kext", false);
+                    plist.setKext("CPUFriendDataProvider_Performance.kext", true);
                 }
                 if (this.options.support4k) {
                     plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,slot-name", "Built-in");

@@ -189,13 +189,6 @@ export default class Lab extends Component {
                                         )
                                     }
                                 ></div>
-
-                                <Button
-                                    type="primary"
-                                    onClick={() => this.setState({ useheliport: false })}
-                                >
-                                    {str("continue")}
-                                </Button>
                             </div>
                         </TabPane>
                     ) : (

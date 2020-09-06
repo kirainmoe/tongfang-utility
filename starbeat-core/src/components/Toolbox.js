@@ -5,6 +5,7 @@ import "../styles/Toolbox.styl";
 
 import conf from "../config";
 import str from "../resource/string";
+import makeAlert from "../utils/makeAlert";
 import { Sleep, HIDPI, KextCache } from "../icons/Toolbox";
 import { Shortcut } from "../icons/Shortcut";
 import WindowsIcon from '../icons/Windows';
@@ -61,26 +62,27 @@ export default class Toolbox extends Component {
     });
 
     const fs = window.electron.fs();
-    if (fs.existsSync("/System/Library/Displays/Contents/Resources/Overrides/backup")) {
-      // eslint-disable-next-line
-      if (confirm(str('hiDPIEnabled'))) {
-        window.electron.sudoExec('echo 2 | sh -c "$(curl -fsSL ' + conf.HiDPIUrl + ')"',
-          async(err, stdout) => {
-            await this.setState({
-              status: "success",
-              operation: "..."
-            });
-            
-            setTimeout(() => this.setState({ status: "idle" }), 5000);
-          }
-        );
-      } else {
-        this.setState({ status: "idle" });
-      }
+    if (fs.existsSync("/Library/Displays/Contents/Resources/Overrides/backup")) {
+      await makeAlert(str('hiDPIEnabled'), true)
+        .then(() => {
+          window.electron.sudoExec('echo 2 | sh -c "$(curl -fsSL ' + conf.HiDPIUrl + ')"',
+            async(err, stdout) => {
+              await this.setState({
+                status: "success",
+                operation: "..."
+              });
+              
+              setTimeout(() => this.setState({ status: "idle" }), 5000);
+            }
+          );
+        })
+        .catch(() => {
+          this.setState({ status: "idle" });
+        });
       return;
     }
 
-    alert(str('onlyForBOE0747'));
+    await makeAlert(str('onlyForBOE0747'));
 
     window.electron.sudoExec('echo 1 | sh -c "$(curl -fsSL ' + conf.HiDPIUrl + ')"',
       async(err, stdout) => {
