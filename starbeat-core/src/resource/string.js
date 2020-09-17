@@ -243,7 +243,7 @@ export const strings = {
         kextCacheDescription: 'Run "kextcache -i /" command to refresh the kernel extension cache.',
         installTongfangFnDaemon: "Install Fn Daemon",
         installTongfangFnDaemonDescription:
-            "Install Tongfang Fn-shortcut Daemon to fix function keys.",
+            "Install Tongfang Fn-shortcut Daemon to fix function keys and double-tap switch touchpad.",
         pleaseWait: "Please wait, it will take several seconds to perform the operation...",
         success: "Success",
         state: "Status ",
@@ -361,7 +361,7 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         unloadKext: 'Unload Kext (before switching network)',
         useHeliport: 'If you want to connect to network via an Intel Wi-Fi card, it is recommended to inject driver to config directly by checking "Intel Wi-Fi support" in "Configuration" page, and use "HeliPort.app" client to manage wireless networks on macOS.',
         downloadHeliport: 'Click the following icon to download "HeliPort.app" client. If HeliPort is not working, please completely shut down the laptop and try again.',
-        continueUse: 'Click "Continue" if you want to use legacy method to access Intel Wi-Fi.',
+        continueUse: '',
         continue: 'Continue',
 
         failedToConnectServer: "Failed to connect to the update server, some download sources will be unavailable.",
@@ -382,6 +382,9 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         dontApproveLicense: "Disapprove",
         downloadingVoiceOver: "Downloading VoiceOver package...",
         voiceOverDone: "VoiceOver package downloaded.",
+        accessibility: "Accessibility Mode(VoiceOver)",
+        bootChime: "Enable Boot Chime",
+        accessibilityDescription: "【Accessiblity Mode】 is designed for those who have trouble reading the screen text. Enable Accessibility Mode will instruct you with voice when you boot OpenCore, and disable OpenCore GUI. Are you still want to enable it?",
     }
 };
 
