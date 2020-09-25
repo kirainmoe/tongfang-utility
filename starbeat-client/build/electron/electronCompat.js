@@ -33,6 +33,42 @@ const electronCompatLayer = () => {
         await streamPipeline(resp.body, fs.createWriteStream(savePath));
     };
 
+    const listESP = () => {
+        if (!isMac())
+            return [];
+
+        const cp = require("child_process");
+        const ret = cp.execSync("diskutil list | grep EFI").toString().trim().split("\n"),
+            result = [];
+        ret.forEach(line => {
+            const tmp = line.trim().replace(/\s+/g, ' ').replace(/\s([M|G]B)/g, '$1').split(' '),
+                index = tmp[tmp.length - 1],
+                size = tmp[tmp.length - 2],
+                name = tmp[tmp.length - 3];
+
+            result.push({
+                index, size, name
+            });
+        });
+        return result;
+    }
+
+    const mountESP = (index, mountPoint, callback) => {
+        if (!isMac())
+            return false;
+        const cp = require("child_process"),
+            fs = require("fs");
+    
+        if (!fs.existsSync(mountPoint)) {
+            fs.mkdirSync(mountPoint);
+            sudoExec(`diskutil mount -mountPoint ${mountPoint} /dev/${index}`, callback);
+        } else
+            sudoExec(`diskutil umount ${mountPoint}`, () => {
+                sudoExec(`diskutil mount -mountPoint ${mountPoint} /dev/${index}`, callback);
+            });
+        return true;
+    };
+
     const downloadFile = async (url, savePath, callback, setPercent) => {
         const fs = require("fs"),
             fetch = require("node-fetch");
@@ -53,7 +89,7 @@ const electronCompatLayer = () => {
                     resolved = true;
 
                     if (!totalLength) {
-                        totalLength = 8642344; // tmp
+                        totalLength = 6357624 ; // tmp
                         fetch("https://api-aliyun.kirainmoe.com:2333/tongfang/version")
                             .then((res) => res.json())
                             .then((res) => (totalLength = res.fileSize));
@@ -74,6 +110,7 @@ const electronCompatLayer = () => {
                                 speed = cur;
                                 cur = 0;
                             }
+
                             if (setPercent && counter % 10 == 0)
                                 setPercent(percent, speed);
                         }
@@ -283,11 +320,11 @@ const electronCompatLayer = () => {
 
         function _copy(err, src, dist) {
             if (err) {
-                callback(err);
+                console.log(err, src, dist);
             } else {
                 fs.readdir(src, function (err, paths) {
                     if (err) {
-                        callback(err);
+                        console.log(err, paths);
                     } else {
                         paths.forEach(function (path) {
                             var _src = src + "/" + path;
@@ -394,6 +431,8 @@ const electronCompatLayer = () => {
         fs: fsopt,
         rmdir: rmDir,
         openPage,
+        listESP,
+        mountESP,
         getElectron,
         selfUpdate,
         getMacSerial,

@@ -4,7 +4,7 @@
 
 ![travis-build](https://travis-ci.org/kirainmoe/tongfang-hackintosh-utility.svg?branch=master)
 
-Tongfang Hackintosh Utility (同方黑苹果助手) 2.0, 全新的同方模具笔记本黑苹果工具箱。
+Tongfang Hackintosh Utility (同方黑苹果助手) 3.0, 全新的同方模具笔记本黑苹果工具箱。
 
 [蓝奏云下载地址](https://www.lanzous.com/b0ephfc4d) / [下载地址2](https://wwa.lanzous.com/b0ephfc4d)，提取密码：`1919810`
 
@@ -47,11 +47,13 @@ yarn pack:macos
 
 ## 截图
 
-<img src="https://i.loli.net/2020/02/29/LRDhgZYP3bq5lBs.png" alt="keyboard" width="500px">
+![QQ20200925-193046.png](https://i.loli.net/2020/09/25/ZIgxnrmio1eFXkQ.png)
 
-<a href="https://sm.ms/image/iPlXRYDmSf2BcVo" target="_blank"><img src="https://i.loli.net/2020/02/29/iPlXRYDmSf2BcVo.png" width="500px"></a>
+![QQ20200925-193106.png](https://i.loli.net/2020/09/25/GBfQRrV5tKJOvgN.png)
 
-<a href="https://sm.ms/image/2gH3pFmIokYOEub" target="_blank"><img src="https://i.loli.net/2020/02/29/2gH3pFmIokYOEub.png" width="500px"></a>
+![image.png](https://i.loli.net/2020/09/25/PL6Rvch97grSbFp.png)
+
+![image.png](https://i.loli.net/2020/09/25/TfymBSz8Qtpraj9.png)
 
 ## 技术栈
 
