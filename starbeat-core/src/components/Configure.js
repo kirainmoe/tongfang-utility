@@ -15,6 +15,8 @@ import Bitbucket from "../icons/Bitbucket";
 import GitHub from "../icons/GitHub";
 import JSDelivr from "../icons/JSDelivr";
 
+import { isKextLoaded, hasParam, isAssistDownloaded, isVoiceOverDownloaded, getCurrentVersionFromNVRAM } from "../utils/env";
+
 export default class Configure extends Component {
     barebones = [];
     models = [];
@@ -30,7 +32,6 @@ export default class Configure extends Component {
         loadguc: false,
         nvmefix: false,
         intelwifi: false,
-        intelwifiax200: false,
         accessibility: false,
         bootchime: false,
         bestperformance: false
@@ -38,37 +39,32 @@ export default class Configure extends Component {
     kextstatRes = "";
     nvramRes = "";
     defaultOpts = [
-        { label: str("injectAirport"), value: "airport", defaultVal: this.isKextLoaded("Airport") },
+        { label: str("injectAirport"), value: "airport", defaultVal: isKextLoaded("Airport") },
         { label: str("injectHoRNDIS"), value: "rndis", defaultVal: false },
         {
             label: str("injectIntelWiFi"),
             value: "intelwifi",
-            defaultVal: this.isKextLoaded("itlwm"),
-        },
-        {
-            label: str("injectIntelWiFiAX200"),
-            value: "intelwifiax200",
-            defaultVal: this.isKextLoaded("itlwmx"),
+            defaultVal: isKextLoaded("itlwm"),
         },
         {
             label: str("injectBrcmBluetooth"),
             value: "brcm",
-            defaultVal: this.isKextLoaded("BrcmBluetooth"),
+            defaultVal: isKextLoaded("BrcmBluetooth"),
         },
         {
             label: str("injectIntelBluetooth"),
             value: "intel",
-            defaultVal: this.isKextLoaded("IntelBluetooth"),
+            defaultVal: isKextLoaded("IntelBluetooth"),
         },
         {
             label: str("useBigSur"),
             value: "supportBigSur",
-            defaultVal: this.isKextLoaded("SmartBattery"),
+            defaultVal: isKextLoaded("SmartBattery"),
         },
-        { label: str("inject4KSupport"), value: "support4k", defaultVal: this.hasParam("igfxmlr") },
-        { label: str("disablePM981"), value: "pm981", defaultVal: this.hasParam("nvme-disabled") },
-        { label: str("nvmefix"), value: "nvmefix", defaultVal: this.isKextLoaded("NVMeFix") },
-        { label: str("loadguc"), value: "loadguc", defaultVal: this.hasParam("igfxfw") },
+        { label: str("inject4KSupport"), value: "support4k", defaultVal: hasParam("igfxmlr") },
+        { label: str("disablePM981"), value: "pm981", defaultVal: hasParam("nvme-disabled") },
+        { label: str("nvmefix"), value: "nvmefix", defaultVal: isKextLoaded("NVMeFix") },
+        { label: str("loadguc"), value: "loadguc", defaultVal: hasParam("igfxfw") },
         { label: str("accessibility"), value: "accessibility", defaultVal: false },
         { label: str("bootChime"), value: "bootchime", defaultVal: false },
         { label: str("bestPerformance"), value: "bestperformance", defaultVal: false }
@@ -144,7 +140,7 @@ export default class Configure extends Component {
             this.setState({ workStatus: str("generateEFI") });
         }
 
-        if (!this.isAssistDownloaded()) {
+        if (!isAssistDownloaded()) {
             makeAlert(str("goDownloadAssistPackage"), true).then(() => {
                 createHashHistory().push("/update?target=assist");
             });
@@ -264,21 +260,19 @@ export default class Configure extends Component {
 
         // Intel 驱动需要拓展包
         if (
-            !this.isAssistDownloaded() &&
+            !isAssistDownloaded() &&
             ((!this.options.intel && selected["intel"]) ||
-                (!this.options.intelwifi && selected["intelwifi"]) ||
-                (!this.options.intelwifiax200 && selected["intelwifiax200"]))
+                (!this.options.intelwifi && selected["intelwifi"]))
         ) {
             makeAlert(str("assistPackageNotDownloaded"));
 
             selected["intel"] = false;
             selected["intelwifi"] = false;
-            selected["intelwifiax200"] = false;
             createHashHistory().push("/update");
         }
 
         if (!this.options.accessibility && selected["accessibility"]) {
-            if (!this.isVoiceOverDownloaded()) {
+            if (!isVoiceOverDownloaded()) {
                 const res = await makeAlert(str("voiceOverNotDownloaded"), true)
                     .then(() => {
                         createHashHistory().push("/update?voiceover");
@@ -295,10 +289,7 @@ export default class Configure extends Component {
             }
         }
 
-        if (
-            (!this.options.intelwifi && selected["intelwifi"]) ||
-            (!this.options.intelwifiax200 && selected["intelwifiax200"])
-        ) {
+        if (!this.options.intelwifi && selected["intelwifi"]) {
             makeAlert(str("needHeliport"));
         }
 
@@ -306,46 +297,10 @@ export default class Configure extends Component {
             makeAlert(str("bestPerformaceTips"));
         }
 
-        if (
-            (this.options.intelwifi && selected["intelwifi"] && selected["intelwifiax200"]) ||
-            (this.options.intelwifiax200 && selected["intelwifi"] && selected["intelwifiax200"])
-        ) {
-            makeAlert(str("itlwmUnique"));
-        }
-
         for (const i in selected) {
             if (!selected.hasOwnProperty(i)) continue;
             this.options[i] = selected[i];
         }
-    }
-
-    // 辅助工具包是否下载
-    isAssistDownloaded() {
-        const fs = window.electron.fs();
-        const userDir = window.electron.getUserDir();
-
-        if (
-            fs.existsSync(`${userDir}/.tfu/itlwm.kext`) &&
-            fs.existsSync(`${userDir}/.tfu/itlwmx.kext`) &&
-            fs.existsSync(`${userDir}/.tfu/IntelBluetoothFirmware.kext`)
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    // VoiceOver 是否下载
-    isVoiceOverDownloaded() {
-        const fs = window.electron.fs();
-        const userDir = window.electron.getUserDir();
-
-        if (
-            fs.existsSync(`${userDir}/.tfu/Audio`) &&
-            fs.existsSync(`${userDir}/.tfu/Audio/AXEFIAudio_zh_CN_AccountLocked.wav`)
-        ) {
-            return true;
-        }
-        return false;
     }
 
     renderModels() {
@@ -386,51 +341,7 @@ export default class Configure extends Component {
         return res;
     }
 
-    // 检查 Kext 是否加载
-    isKextLoaded(kextName) {
-        if (!window.electron.isMac()) return false;
-        if (this.kextstatRes !== "") {
-            return this.kextstatRes.indexOf(kextName) >= 0;
-        }
-        try {
-            const proc = window.require("child_process");
-            const stdout = proc.execSync(`kextstat`).toString();
-            this.kextstatRes = stdout;
-        } catch (err) {
-            return false;
-        }
-        return this.kextstatRes.indexOf(kextName) >= 0;
-    }
 
-    // 检查 NVRAM 中是否存在参数
-    hasParam(param) {
-        if (!window.electron.isMac()) return false;
-        try {
-            const proc = window.require("child_process");
-            const stdout = proc.execSync(`nvram -p | grep "${param}"`).toString();
-            return stdout !== "";
-        } catch (err) {
-            return false;
-        }
-    }
-
-    // 获取当前 EFI 版本
-    getCurrentVersionFromNVRAM() {
-        if (!window.electron.isMac()) return str("unknown");
-        try {
-            const proc = window.require("child_process");
-            const stdout = proc.execSync(`nvram -p`).toString();
-            let match = stdout.trim().match(/efi-version=([^\s]+)/);
-            if (match && match.length) return match[1];
-
-            match = stdout.trim().match(/efi-version\s*([^\s]+)%00/);
-            if (match && match.length) return match[1];
-            return str("unknown");
-        } catch (err) {
-            console.log(err);
-            return str("unknown");
-        }
-    }
 
     /* 显示选项 */
     getOptions() {
@@ -1049,7 +960,7 @@ export default class Configure extends Component {
                                         {str("latestVersion")}: {this.state.latestDev}
                                     </p>
                                     <p className="version-tag">
-                                        {str("localVersion")}: {this.getCurrentVersionFromNVRAM()}
+                                        {str("localVersion")}: {getCurrentVersionFromNVRAM()}
                                     </p>
                                 </div>
                             </div>

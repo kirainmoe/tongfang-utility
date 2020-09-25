@@ -1,5 +1,5 @@
 .navigator
-    width: 120px
+    width: 80px
     height: 100%
     padding: 30px 0px 10px 0px
     background: #e6f7ff
@@ -26,13 +26,6 @@
             color: #000
             margin: 0px
 
-        &.active
-            background: #91d5ff
-            border-right: 2px solid #1890ff
-            outline: 0
-            p
-                color: #fff
-
     svg
         width: 40px
         height: 40px
@@ -44,3 +37,48 @@
         color: #888
         position: absolute
         bottom: 10px
+
+    .active-mask
+        width: 100%
+        height: 65px
+        background: #91d5ff
+        border-right: 2px solid #1890ff
+        outline: 0
+        position: absolute
+        top: 0px
+        z-index: -1
+        transition: .15s all ease-in-out
+        p
+            color: #fff
+    
+    &.green
+        background: #d9f7be
+        .active-mask
+            background: #b7eb8f
+            border-right: 2px solid #389e0d
+        a
+            color: #135200
+    &.purple
+        background: #efdbff
+        .active-mask
+            background: #d3adf7
+            border-right: 2px solid #391085
+        a
+            color: #22075e
+    &.pink
+        background: #ffd6e7
+        .active-mask
+            background: #ff85c0
+            border-right: 2px solid #c41d7f
+        a
+            color: #780650
+    &.h1f1e33
+        background: #1f1e33
+        .config-update
+            svg path
+                fill: #ffffff
+        .active-mask
+            background: lighten(#1f1e33, 20%)
+            border-right: 2px solid lighten(#1f1e33, 50%)
+        a
+            color: lighten(#1f1e33, 50%)

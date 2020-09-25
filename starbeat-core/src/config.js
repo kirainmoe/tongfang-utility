@@ -1,6 +1,6 @@
 export default {
-    version: "2.5.2",
-    build: 2009170,
+    version: "3.0.0-b1",
+    build: 2009250,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -53,109 +53,135 @@ export default {
             models: [
                 {
                     model: "神舟战神 Z7-KP7GZ",
-                    barebone: "GK5CN6X"
+                    barebone: "GK5CN6X",
+                    image: "kp7gz.jpg"
                 },
                 {
                     model: "神舟战神 Z7-KP7Z",
-                    barebone: "GK5CN6X"
+                    barebone: "GK5CN6X",
+                    image: "kp7gz.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP7GZ",
-                    barebone: "GK5CN5X"
+                    barebone: "GK5CN5X",
+                    image: "kp7gz.jpg"
                 },
 
                 {
                     model: "神舟战神 Z7M-KP7Z",
-                    barebone: "GK5CN5X"
+                    barebone: "GK5CN5X",
+                    image: "kp7gz.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP5GZ",
-                    barebone: "GK5CN5X"
+                    barebone: "GK5CN5X",
+                    image: "kp7gz.jpg"
                 },
 
                 {
                     model: "神舟战神 Z7M-KP5Z",
-                    barebone: "GK5CN5X"
+                    barebone: "GK5CN5X",
+                    image: "kp7gz.jpg"
                 },
                 {
                     model: "神舟战神 Z7-KP7EC",
-                    barebone: "GJ5CN64"
+                    barebone: "GJ5CN64",
+                    image: "kp7ec.jpg"
                 },
                 {
                     model: "神舟战神 Z7-KP7GC",
-                    barebone: "GJ5CN64"
+                    barebone: "GJ5CN64",
+                    image: "kp7ec.jpg"
                 },
                 {
                     model: "神舟战神 Z7-KP7GA",
-                    barebone: "GJ5CN64"
+                    barebone: "GJ5CN64",
+                    image: "kp7ec.jpg"
                 },
                 {
                     model: "神舟战神 Z7-KP7GE",
-                    barebone: "GJ5CN64"
+                    barebone: "GJ5CN64",
+                    image: "kp7ec.jpg"
                 },
                 {
                     model: "神舟战神 Z7-KP7GH",
-                    barebone: "GJ5CN64"
+                    barebone: "GJ5CN64",
+                    image: "kp7ec.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP7GC",
-                    barebone: "GI5CN54"
+                    barebone: "GI5CN54",
+                    image: "kp7ec.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP5GC",
-                    barebone: "GI5CN54"
+                    barebone: "GI5CN54",
+                    image: "kp7gc.jpg"
                 },
                 {
                     model: "神舟战神 Z7-CT7GK",
-                    barebone: "GK7CP6R"
+                    barebone: "GK7CP6R",
+                    image: "ct7gk.jpg"
                 },
                 {
                     model: "神舟战神 Z7-CT5GA",
-                    barebone: "GK7CP6R"
+                    barebone: "GK7CP6R",
+                    image: "ct7gk.jpg"
                 },
                 {
                     model: "神舟战神 Z7-CT7VH",
-                    barebone: "GK7CP6R"
+                    barebone: "GK7CP6R",
+                    image: "ct7vh.jpg"
                 },
                 {
                     model: "神舟战神 Z7-CT7VA",
-                    barebone: "GK7CP6R"
+                    barebone: "GK7CP6R",
+                    image: "ct7gk.jpg"
                 },
                 {
                     model: "神舟战神 G7-CT7VK",
-                    barebone: "GK7CP6R"
+                    barebone: "GK7CP6R",
+                    image: "ct7vk.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-CT7GS",
-                    barebone: "GK5CP6X"
+                    barebone: "GK5CP6X",
+                    image: "ct7gs.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-CT5GA",
-                    barebone: "GK5CP6X"
+                    barebone: "GK5CP6X",
+                    image: "ct7gs.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP7GA",
-                    barebone: "GI5CN54"
+                    barebone: "GI5CN54",
+                    image: "kp7gc.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP5GA",
-                    barebone: "GI5CN54"
+                    barebone: "GI5CN54",
+                    image: "kp7gc.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP7GE",
-                    barebone: "GI5CN54"
+                    barebone: "GI5CN54",
+                    image: "kp7gc.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP5GE",
-                    barebone: "GI5CN54"
+                    barebone: "GI5CN54",
+                    image: "kp7gc.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP7GH",
-                    barebone: "GI5CN54"
+                    barebone: "GI5CN54",
+                    image: "kp7gc.jpg"
                 },
                 {
                     model: "神舟战神 Z7M-KP5GH",
-                    barebone: "GI5CN54"
+                    barebone: "GI5CN54",
+                    image: "kp7gc.jpg"
                 }
             ]
         },
@@ -165,27 +191,33 @@ export default {
             models: [
                 {
                     model: "炫龙 耀7000",
-                    barebone: "GK5CN5X"
+                    barebone: "GK5CN5X",
+                    image: "yao7000.jpg"
                 },
                 {
                     model: "炫龙 耀9000 II",
-                    barebone: "GK5CN6X"
+                    barebone: "GK5CN6X",
+                    image: "yao7000.jpg"
                 },
                 {
-                    model: "炫龙 T3Ti - 710S5R (实验性)",
-                    barebone: "GK7CP6R"
+                    model: "炫龙 T3Ti - 710S5R",
+                    barebone: "GK7CP6R",
+                    image: "t3ti.jpg"
                 }, 
                 {
-                    model: "炫龙 T3Ti - 710S5V (实验性)",
-                    barebone: "GK5CP6X"
+                    model: "炫龙 T3Ti - 710S5V",
+                    barebone: "GK5CP6X",
+                    image: "t3ti.jpg"
                 }, 
                 {
-                    model: "炫龙 T3Ti - 510S5V (实验性)",
-                    barebone: "GK5CP6X"
+                    model: "炫龙 T3Ti - 510S5V",
+                    barebone: "GK5CP6X",
+                    image: "t3ti.jpg"
                 },                                 
                 {
-                    model: "炫龙 T2Ti (实验性)",
-                    barebone: "GI5CN54"
+                    model: "炫龙 T2Ti",
+                    barebone: "GI5CN54",
+                    image: "kp7gc.jpg"
                 },                                        
             ]
         },
@@ -195,27 +227,33 @@ export default {
             models: [
                 {
                     model: "机械革命 Z2 系列 (8 代)",
-                    barebone: "GK5CN6Z"
+                    barebone: "GK5CN6Z",
+                    image: "z2.jpg"
                 },
                 {
                     model: "机械革命 Z2 Air (8 代)",
-                    barebone: "GK5CN6X"
+                    barebone: "GK5CN6X",
+                    image: "z2air.jpg"
                 },
                 {
                     model: "机械革命 Z2-G 系列 (9 代)",
-                    barebone: "GK5CP6Z"
+                    barebone: "GK5CP6Z",
+                    image: "z2.jpg"
                 },                
                 {
                     model: "机械革命 Z2 Air-G (9 代)",
-                    barebone: "GK5CP6X"
+                    barebone: "GK5CP6X",
+                    image: "z2air.jpg"
                 },
                 {
                     model: "机械革命 X3",
-                    barebone: "GK7CP6R"
+                    barebone: "GK7CP6R",
+                    image: "x3.jpg"
                 },
                 {
-                    model: "机械革命 X8Ti（实验性）",
-                    barebone: "GK5CN5Z"
+                    model: "机械革命 X8Ti",
+                    barebone: "GK5CN5Z",
+                    image: "x8ti.jpg"
                 }                                            
             ]
         },
@@ -224,30 +262,35 @@ export default {
             vendorTag: 'monster',
             models: [
                 {
-                    model: 'Monster Abra A7 v10.1 (Tested by Se7Touch)',
-                    barebone: 'GK7CN6S'
+                    model: 'Monster Abra A7 v10.1',
+                    barebone: 'GK7CN6S',
+                    image: "abra-a7.jpg"
                 },
                 {
-                    model: 'Monster Abra A5 v13.4 (Tested by ugurrdemirel)',
-                    barebone: 'GK7CN6S'
+                    model: 'Monster Abra A5 v13.4',
+                    barebone: 'GK7CN6S',
+                    image: "abra-a5-v13.4.jpg"
                 },
                 {
-                    model: "Monster Tulpar T7 v19.3 (Tested by Se7Touch)",
-                    barebone: 'GK7CP6R'
+                    model: "Monster Tulpar T7 v19.3",
+                    barebone: 'GK7CP6R',
+                    image: "tuplar-t7.jpg"
                 },
                 {
-                    model: "Monster Tulpar T7 V20.1 (Tested by sutsurup)",
-                    barebone: 'GK7CP6R'
+                    model: "Monster Tulpar T7 V20.1",
+                    barebone: 'GK7CP6R',
+                    image: "tuplar-t7.jpg"
                 }
             ]
         },
         {
-            brand: 'EVDO',
+            brand: 'EVOO',
             vendorTag: 'tongfang',
             models: [
                 {
-                    model: 'EVOO 15.6" model laptops LP4/LP5 (Tested by EricHemingway)',
-                    barebone: 'GK5CP6X'
+                    model: 'EVOO 15.6" model laptops LP4/LP5',
+                    barebone: 'GK5CP6X',
+                    image: "evoo-lp4.jpg"
                 }
             ]
         }

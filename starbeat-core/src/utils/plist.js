@@ -24,7 +24,7 @@ export default class Plist {
         for (let i = 0; i < p.length; i++) {
             if (this.isNumeric(p[i]))
                 p[i] = parseInt(p[i]);
-            if (typeof ref[p[i]] === 'undefined') {
+            if (i !== p.length - 1 && typeof ref[p[i]] === 'undefined') {
                 return false;
             }
             if (i !== p.length - 1)
@@ -56,6 +56,17 @@ export default class Plist {
             if (item.BundlePath.indexOf(name) >= 0)
                 item.Enabled = status;
         });
+    }
+
+    setACPIPatch(keyword, status) {
+        this.json.ACPI.Patch.forEach(item => {
+            if (item.Comment.indexOf(keyword) >= 0)
+                item.Enabled = status
+        });
+    }
+
+    setAllKexts(names, status) {
+        names.forEach(name => this.setKext(name, status));
     }
 
     setProperties(path, key, value) {

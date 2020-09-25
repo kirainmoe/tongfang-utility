@@ -1,0 +1,116 @@
+@keyframes charge {
+    0% { background: #7cb305; }
+    50% { background: #a0d911; }
+    100% { background: #7cb305; }
+}
+
+.dashboard
+    width: 100%
+    height: 100%
+    overflow-y: hidden
+    padding: 40px 25px 0px 25px
+
+    .ant-btn-link
+        height: auto
+
+    .page-title
+        font-size: 22px
+    .device-info
+        h3
+            width: 100%
+        display: flex
+        flex-wrap: wrap
+        margin: 20px 10px
+        .device-info-items
+            padding: 0px 20px
+            .device-info-item span
+                font-weight: bold
+        .mac-image
+            width: 30%
+            img
+                width: 100%
+    .content-title
+        font-size: 20px
+        margin-top: 10px
+    .resource
+        width: 100%
+        display: flex
+        justify-content: space-around
+        div
+            margin-top: 5px
+            text-align: center
+    .battery-status
+        width: 50%
+        h1
+            width: 100%
+        display: flex
+        flex-wrap: wrap
+        .battery-shape
+            display: inline-block
+            width: 100px
+            height: 50px
+            margin: 20px 30px
+            position: relative
+
+            &.true 
+                .battery-height
+                    animation: charge 3s infinite linear
+        .battery-border
+            &:before
+                content: ' '
+                width: 8px
+                height: 20px
+                background: #888
+                position: absolute
+                right: -8px
+                top: 10px
+            width: 100%
+            height: 100%
+            border-radius: 10px
+            position: absolute
+            border: 4px solid #888
+            z-index: 10
+        .battery-height
+            height: calc(100% - 8px)
+            position: absolute
+            top: 4px
+            left: 4px
+            background: linear-gradient(to right, #7cb305, #a0d911)
+            z-index: 1
+            transition: .3s all ease-in-out
+        .battery-percentage
+            font-size: 24px
+            font-weight: bold
+            line-height: 50px
+            margin: 20px 0px
+    .owner-info
+        width: 20%
+        height: 100px
+        position: fixed
+        top: 140px
+        right: 30px
+        text-align: center
+        cursor: pointer
+        .owner-name
+            color: #002766
+        img
+            width: 100px
+            height: 100px
+            margin-bottom: 10px
+            border-radius: 50%
+            border: 2px solid #888
+            
+    .palettes
+        width: 50%
+        position: fixed 
+        bottom: 70px
+        right: 70px
+        text-align: right
+
+        .palette-item
+            width: 30px
+            height: 30px
+            margin: 0px 5px 
+            border-radius: 50%
+            display: inline-block
+            cursor: pointer

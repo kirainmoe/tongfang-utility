@@ -88,6 +88,7 @@ const initColorUtils = () => {
 
             let colorPacket = [];
             for (let i = 0; i < 16; i++) {
+                colorPacket.push(0x00);
                 colorPacket.push(red);
                 colorPacket.push(green);
                 colorPacket.push(blue);

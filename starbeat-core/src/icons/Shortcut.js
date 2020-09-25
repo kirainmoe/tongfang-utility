@@ -19,3 +19,5 @@ export const Shortcut = () => (
         ></path>
     </svg>
 );
+
+export default Shortcut;

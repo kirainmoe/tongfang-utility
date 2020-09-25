@@ -55,7 +55,7 @@ export const strings = {
         configure: "配置文件",
         configureDescription: "管理、更新和定制 OpenCore 配置文件。",
         laptopModel: "笔记本机型",
-        selectModel: "选择机型或模具型号",
+        selectModel: "选择机型/模具",
         injectOption: "驱动/补丁注入选项",
         injectAirport: "添加博通无线网卡驱动",
         injectIntelWiFi: "添加 Intel 无线网卡驱动",
@@ -70,20 +70,20 @@ export const strings = {
         nvmefix: '加载 NVMe 电源管理',
         loadguc: '加载 Apple GuC 核显固件',
         smbiosInfo: "硬件识别信息",
-        getSMBIOSFromGeneration: "已随机生成",
-        getSMBIOSFromSystem: "已从系统读取",
+        getSMBIOSFromGeneration: "随机生成",
+        getSMBIOSFromSystem: "从系统读取",
         smbiosModel: "型号",
         smbiosSN: "序列号",
         smbiosMLB: "主板序列号",
         smbiosSmUUID: "系统 UUID",
-        regenerate: "重新生成",
+        regenerate: "重新生成 SMBIOS 信息",
         versionInfo: "版本信息",
         localVersion: "当前引导版本",
         latestVersion: "最新版本",
         getLatest: "获取最新配置文件",
         downloadWait: "正在下载，请等待",
         generating: "正在生成 EFI...",
-        cannotDownload: "下载时遇到问题？",
+        cannotDownload: "点此查看无法正常下载的解决方案",
         cannotDownloadSolution: `
         <p>如果由于各种原因无法下载配置文件，请尝试以下解决方案：</p>
         <ul>
@@ -95,9 +95,10 @@ export const strings = {
         successInfo:
             "已将最新 OpenCore 配置文件下载到当前用户桌面的 `Tongfang_EFI` 文件夹中。请将桌面的 Tongfang_EFI/BOOT 和 Tongfang_EFI/OC 复制到 U 盘或硬盘中。",
         successInstructionUSB:
-            "对于 U 盘引导用户：请将 BOOT 和 OC 文件夹复制到 U 盘 ESP 分区的 EFI/BOOT 和 EFI/OC 下。如果 ESP 分区中已存在 OC 文件夹，请先将其删除之后再粘贴。",
+            "对于 U 盘引导用户：请将 BOOT 和 OC 文件夹复制到 U 盘 ESP 分区的 EFI/BOOT 和 EFI/OC 下。",
         successInstructionHD:
-            "对于硬盘引导用户：请将 BOOT 内的 BOOTx64.efi 改名为 OpenCore.efi，然后将 BOOT 和 OC 复制到硬盘 ESP 分区的 EFI/BOOT 和 EFI/OC 下，添加 UEFI 启动项指向 EFI/BOOT/OpenCore.efi （而不是指向 EFI/OC/OpenCore.efi !）。如果 ESP 分区中已存在 OC 文件夹，请先将其删除之后再替换。",
+            "对于硬盘引导用户：请将 BOOT 内的 BOOTx64.efi 改名为 OpenCore.efi，然后将 BOOT 和 OC 复制到硬盘 ESP 分区的 EFI/BOOT 和 EFI/OC 下，在 Windows 中使用 DiskGenius ，添加 UEFI 启动项指向 EFI/BOOT/OpenCore.efi （请注意不是指向 EFI/OC/OpenCore.efi）。",
+        deleteBeforeReplace: "如果 ESP 分区中已存在 OC 文件夹，请先将其删除之后再替换。如果你正在使用 macOS, 点击下面的图标可以快速复制到硬盘 / U 盘上的 ESP 分区。",
         backward: "我知道了，这就去和苹果对线",
         requirement4k:
             "请注意：同方 GJ5CN64 / GI5CN54 模具，需要解锁 BIOS 或使用 UEFI Shell 修改 DVMT Pre-allocated 大小为 64M 后方可支持 4K 内屏，否则会导致内核崩溃.",
@@ -107,7 +108,7 @@ export const strings = {
         officialLatest: "官方最新版本是",
         updateRemind:
             "为了防止发生兼容性问题，请前往 https://tongfang.kirainmoe.com 更新 Tongfang Hackintosh Utility 后再管理配置文件。",
-        downloadSource: "更新源（若下载过慢，尝试换一个源）",
+        downloadSource: "请选择下载源（若下载过慢可以尝试换一个源，如果你不知道这是什么，保持默认即可）",
         recommend: '推荐',
         downloadFailed: '下载失败，请重启程序尝试重新下载。如果你在 Windows 下，可能会遇到 operation not permitted 问题，请多试几次。',
         whatShouldIChoose: '我该如何选择？',
@@ -120,12 +121,6 @@ export const strings = {
 如果你要安装 macOS 11.0 Big Sur，请勾选“macOS 11.0 测试版支持”。需要注意的是 macOS 11.0 暂时不支持 4K 内屏。<br><br>
 如果你正在使用三星 PM981(a)，镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到指定的 m.2 插槽，然后勾选 “屏蔽不兼容的 NVMe 硬盘”。<br><br>
 如果你遇到睡眠无法唤醒的问题：没有更换 4K 内屏的用户请不要勾选“添加 4K 内屏补丁”，8 代 CPU 用户请尝试不要勾选“加载 Apple GuC” 固件。<br><br>`,
-        license:
-`在开始使用 "hasee-tongfang-macos 仓库提供的配置文件"（以下简称 EFI 文件）之前，请先阅读以下许可协议：<br><br>
-1. 您可以免费、自由地使用、修改本 EFI 文件；同时，您不能在不提供附加服务的情况下，将 EFI 文件用于商业用途，也不允许以任何价格向任何人出售 EFI 文件。<br><br>
-2. 如果您在此 EFI 文件的基础上，适配其它机型的配置文件，或修改并重新分发，必须保留版权声明文件 "Credits.md"，同时需要为大众保留至少一个免费获取、下载的方式。<br><br>
-3. 此 EFI 文件已经过作者测试，但倘若您要使用此配置文件，仍需自行承担由此 EFI 文件造成的直接或间接风险，包括但不限于软件损坏、数据丢失、硬件损坏等。作者和贡献者将不对这些风险承担任何形式的责任。<br><br>
-点击“我同意”则表示您已经阅读并知悉上述许可协议。App 将开始下载配置文件。`,
         dontCheck4kIfNotRequire: '如果你的笔记本 *内屏* 不是 4K 分辨率，请不要勾选此选项，否则在睡眠后你将无法正常唤醒设备。',
         unknown: "未知",
         assistPackageNotDownloaded: "Intel 蓝牙驱动和 itlwm Wi-Fi 驱动需要下载后方可使用，请手动前往更新页面下载拓展包。",
@@ -134,10 +129,10 @@ export const strings = {
         itlwmUnique: "只能注入 itlwm.kext (适用于 AC9462, AC9560...) 或 itlwmx.kext (适用于 AX200) 其中之一，否则可能会有无法预料的问题发生。",
         accessibility: "引导时开启无障碍支持(旁白)",
         voiceOverNotDownloaded: "引导时启用无障碍支持（旁白）需要额外下载语音包，是否前往更新页面下载？",
-        accessibilityDescription: "【无障碍支持模式】是为方便阅读屏幕内容有困难的用户使用电脑而产生的模式。开启此模式后，将会在 OpenCore 引导时使用语音提示启动项，同时会关闭 OpenCore 图形界面。是否要继续启用【无障碍模式】？",
+        accessibilityDescription: "【无障碍支持模式】是为方便阅读屏幕内容有困难的用户使用电脑而产生的模式。开启此模式后，将会在 OpenCore 引导时使用语音提示启动项，同时会关闭 OpenCore 图形界面。",
         bootChime: "启用模拟白果开机声音",
         bestPerformance: "CPU 最佳性能模式",
-        bestPerformaceTips: "提醒：开启 CPU 最佳性能模式将会显著提升 CPU 的性能，但同时也会显著降低使用电池时的续航。",
+        bestPerformanceTips: "提醒：开启 CPU 最佳性能模式将会显著提升 CPU 的性能，但同时也会显著降低使用电池时的续航。",
 
         about: '关于 Tongfang Hackintosh Utility',
 
@@ -158,7 +153,7 @@ export const strings = {
         intelWifiRemind: '请注意，此驱动仅能够连接 WEP/WPA2 加密的网络，且需要预先写入 SSID 和密码（目前支持最多4组网络名和密码）；并且暂时不支持隔空投送等基于 IO80211 的功能。' +
           '加载完成后，请查看设置 => 网络中是否出现新的"以太网"接口。如果没有出现，说明固件上传失败，请先关机断电几分钟后再试。',
         downloadStatus: '下载状态',
-        undownloaded: '未下载',
+        undownloaded: '未下载，前往下载',
         downloaded: '已下载',
         clickToDownload: '点击下载 itlwm.kext',
         successAndRefersh: '下载成功',
@@ -200,7 +195,114 @@ export const strings = {
         approve: "确定",
         cancel: "取消",
         approveLicense: "我同意",
-        dontApproveLicense: "我不同意"
+        dontApproveLicense: "我不同意",
+
+        // guidance
+        stepIndicate: "$1 / $2",
+        getReady: "欢迎",
+        customizeHardware: "定制配置文件",
+        setSMBIOS: "设置识别信息",
+        generate: "生成配置文件",
+        finish: "完成",
+
+        checkComponentVersion: "检查组件版本",
+        readLicense: "阅读许可协议",
+        pleaseReadLicense: "在开始使用 hasee-tongfang-macos 仓库提供的配置文件（以下简称 EFI）之前，请先阅读以下许可协议：",
+        license:
+`<h3>禁止商业使用</h3>
+<p><b>对于本配置文件的一切开发、维护旨在学习，请勿用于商业用途和非法用途</b>。hasee-tongfang-macos 仓库和本工具提供的所有配置文件是完全免费的。不允许任何人以任何形式、任何价格出售和重新分发此配置文件。</p>
+<p>这意味着你不能：</p>
+<ul>
+    <li>针对仓库或本工具提供的 EFI，提供包括但不限于交易下载、付费下载、邀请下载等 “将下载与付费绑定” 的服务。</li>
+</ul>
+
+<h3>对衍生产品的规定</h3>
+<p>若在此配置文件的基础上适配其它机型的配置文件，需要将成果向任何人开放，并保留对本项目的引用和鸣谢 (Credits) 信息。若在任何项目中，使用了从此仓库中获取的任何由其他人创作的内容，需要保留对本项目的引用和他人的版权信息。</p>
+<p>这意味着你不能：</p>
+<ul>
+    <li>在此配置文件的基础上适配其他机型的 EFI 并提供上述付费下载服务。</li>
+    <li>重新分发此 EFI 或适配其它机型 EFI 时，删除版权信息或鸣谢声明。</li>
+</ul>
+
+<h3>免责声明</h3>
+<p>此配置文件已经过作者测试，但倘若您要使用此配置文件，仍需自行承担由此造成的直接或间接风险，包括但不限于软件损坏、数据丢失、硬件损坏等。作者和贡献者将不对这些风险承担任何形式的责任。</p>`,
+        nextAndAgree: "点击\"下一步\"则表示您已阅读并同意上述协议。",
+        latestConfigVersion: "最新配置文件版本",
+        intelVersion: "Intel 驱动包状态",
+        voiceoverVersion: "无障碍语音包状态",
+        updateable: "建议更新",
+        goDownload: "前往下载",
+        optional: "（可选）",
+        currentModel: "当前选择的机型",
+        macOSversion: "选择你要安装的 macOS 版本",
+        internetConnection: "选择你的网卡型号",
+        appleWireless: "Mac 原装无线网卡",
+        appleWirelessModels: "常见型号为 BCM94360CS2, BCM943602CS 等",
+        broadcomWireless: "博通/戴尔兼容无线网卡",
+        broadcomWirelessModels: "常见型号为 DW1830, DW1560, DW1820A 等",
+        intelWireless: "Intel 无线网卡",
+        intelWirelessModels: "常见型号为 Intel AC9462, AC9560, AX200 等",
+        usbRNDIS: "Android USB 共享网络",
+        innerScreenResolution: "选择笔记本内屏的分辨率",
+        specialHardware: "配置特殊硬件",
+        disableIncompatibleDescription: "如果你的笔记本中安装了三星 PM981(a), 镁光 2200s 等 macOS 不兼容的 NVMe 硬盘，请将其插到第一个 m.2 硬盘插槽并勾选此项；若没有上述硬盘请不要勾选。",
+        nvmeFixDescription: "如果你发现 SSD 在 macOS 下的发热量很大，请尝试勾选此项。",
+        gucDescription: "加载 GuC 固件能够提升核显在视频剪辑等高负载环境下的性能，但在部分机型上可能导致睡眠后无法唤醒。",
+        bigSurNotSupport4K: "由于上游驱动 (WhateverGreen) 尚未兼容的原因，macOS Big Sur 下 4K 屏幕将无法驱动。",
+        useAirportItlwm: "使用原生接口的 Intel 驱动",
+        useAirportItlwmDescription: "可以使用系统原生 IO80211 接口联网（而不需要使用 HeliPort）和接力功能，但可能无法连接 iPhone 的共享热点。",
+        setSMBIOSInfo: "SMBIOS 信息设置",
+        SMBIOSInfoSource: "当前 SMBIOS 信息来源",
+        leaveItAsIsIfYouDontKnow: "如果你不知道以下内容有什么作用，那么不修改保持默认值即可。",
+        personalize: "个性化设置",
+        readyToGenerate: "准备生成配置文件",
+        confirmYourChoose: "确认你的选择",
+        YourModel: "你选择的机型 / 模具是",
+        YourOSToBeInstalled: "你将要安装的 macOS 版本是",
+        YourWirelessCard: "你选择的联网方式是",
+        YourResolution: "你的内屏分辨率是",
+        addition: "同时使用",
+        nativeItlwm: "使用原生接口，无需 HeliPort",
+        heliportItlwm: "需要 HeliPort mac 客户端用于联网",
+        YouDisabledNVMe: "屏蔽了位于第一个 m.2 插槽的 NVMe 硬盘",
+        YouEnabledNVMeFix: "启用了 NVMe 电源管理驱动",
+        YouEnabledGuC: "加载了核显的 Apple GuC 固件",
+        YouEnabledCPUBestPerformance: "CPU 模式设置为性能模式",
+        YouEnabledAccessibility: "开启了引导时的无障碍语音提示并关闭了图形界面",
+        clickToGenerate: "确认上述选项无误后，请点击\"生成\"来下载或生成当前机型的配置文件。如果下载配置文件时遇到问题，请",
+        cannotDownloadTitle: "无法完成下载？",
+        diskName: "分区名称",
+        diskIndex: "分区描述符",
+        diskSize: "分区大小",
+        confirmToReplace: "确定要将 EFI 文件复制到 $1 (描述符：$2) 上吗？",
+        copyComplete: "EFI 文件复制完成！<br>*上一个版本的 EFI 文件已经备份到 EFI/OC-Backup 下。",
+        intelNotDownloaded: "Intel 驱动包尚未下载，需要先下载 Intel 无线驱动包才可以注入无线网卡驱动。",
+        accessibilityNotDownloaded: "无障碍语音包尚未下载，需要先下载才可以启用引导语音提醒。",
+        conflictDetected: "检测到无效的选项",
+        resolveConflict: "看起来您似乎选择了某些无效的选项。在生成 EFI 之前，请解决以下问题：",
+        prevStep: "上一步",
+        nextStep: "下一步",
+
+        dashboard: "仪表盘",
+        deviceInfo: "设备信息",
+        resourceUsage: "资源占用",
+        cpuTemperature: "CPU 温度",
+        cpuUtilization: "CPU 占用率",
+        memoryUtilization: "内存占用率",
+        storageUtilization: "存储使用率",
+        realModel: "真实设备型号",
+        computerName: "设备名称",
+        osVersion: "系统版本",
+        batteryInfo: "电池信息",
+        batteryNotInstalled: "电池未安装",
+        charging: "正在充电",
+        setOwnerInfo: "设置机主信息",
+        ownerName: "机主昵称",
+        ownerAvatar: "机主头像链接（可直接填写 QQ 号）",
+        morning: "早上好",
+        noon: "中午好",
+        afternoon: "下午好",
+        evening: "晚上好"
     },
     en: {
         config: "Configuration",
@@ -295,9 +397,10 @@ export const strings = {
         successInfo:
             "Successfully downloaded the latest OC config to ~/Desktop/Tongfang_EFI. Please copy `BOOT` and `OC` folder to ESP.",
         successInstructionUSB:
-            "For users booting from USB flash: Copy `BOOT` and `OC` folder to `EFI/BOOT` and `EFI/OC` in your ESP. If `EFI/OC` has already existed in your ESP, please delete it before copy.",
+            "For users booting from USB flash: Copy `BOOT` and `OC` folder to `EFI/BOOT` and `EFI/OC` in your ESP. ",
         successInstructionHD:
-            "For users booting from hard disk: Rename `BOOT/BOOTx64.efi` to `BOOT/OpenCore.efi`, and copy `BOOT` and `OC` folder to `EFI/BOOT` and `EFI/OC` in your ESP, then add a boot entry pointing to `BOOT/OpenCore.efi`. If `EFI/OC` has already existed in your ESP, please delete it before copy.",
+            "For users booting from hard disk: Rename `BOOT/BOOTx64.efi` to `BOOT/OpenCore.efi`, and copy `BOOT` and `OC` folder to `EFI/BOOT` and `EFI/OC` in your ESP, then add a boot entry pointing to `BOOT/OpenCore.efi`. ",
+        deleteBeforeReplace: "If `EFI/OC` has already existed in your ESP, please delete it before copy. If you are using macOS, you can quickly copy EFI files to ESP by clicking the following icons.",
         backward: "Having fun hackintoshing!",
         youAreUsing: "You are using ",
         officialLatest: "The latest version is ",
@@ -327,7 +430,7 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         needHeliport: "To make Intel Wi-Fi work, you will require \"HeliPort\" client on macOS to manage networks. <br><br>You can download the \"HeliPort.app\" from \"Tongfang Hackintosh Utility for mac\" or any other channel.",
         itlwmUnique: "You can only select one of itlwm.kext (for AC9462, AC9560...) and itlwmx.kext (for AX200) ",
         bestPerformance: "CPU Best Performance Mode",
-        bestPerformaceTips: "Enabling CPU best performance mode will remarkably promote the CPU performance, but in the meanwhile it will reduce battery endurance.",
+        bestPerformanceTips: "Enabling CPU best performance mode will remarkably promote the CPU performance, but in the meanwhile it will reduce battery endurance.",
 
 
         update: 'Update',
@@ -384,7 +487,111 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         voiceOverDone: "VoiceOver package downloaded.",
         accessibility: "Accessibility Mode(VoiceOver)",
         bootChime: "Enable Boot Chime",
-        accessibilityDescription: "【Accessiblity Mode】 is designed for those who have trouble reading the screen text. Enable Accessibility Mode will instruct you with voice when you boot OpenCore, and disable OpenCore GUI. Are you still want to enable it?",
+        accessibilityDescription: "【Accessiblity Mode】 is designed for those who have trouble reading the screen text. Enable Accessibility Mode will instruct you with voice when you boot OpenCore, and disable OpenCore GUI.",
+
+        // guidance
+        stepIndicate: "$1 / $2",
+        getReady: "Welcome",
+        customizeHardware: "Hardware",
+        setSMBIOS: "Set SMBIOS",
+        generate: "Generate Config",
+        finish: "Done",
+
+        checkComponentVersion: "Check Component Version",
+        readLicense: "Read License",
+        pleaseReadLicense: "Before using the config provided by 'hasee-tongfang-macos', please read the following statement:",
+        license:
+`<h3>No Commercial Use</h3>
+<p><b>Commercial use of the config and its *derivatives* is prohibited. </b>This includes but not limited to:
+</p>
+<ul>
+    <li>Sell the config provided by this repo at any price. </li>
+    <li>Redistribute the config provided by this repo and provide paid download service.</li>
+</ul>
+
+<h3>About Derivatives</h3>
+<p>If you are creating a new config which is based on this config, your product must also be free for all users.</p>
+<p>You should reserve the copyright and credit statement when you create a new config which is based on this config for other model.</p>
+
+<h3>Free of any Responsibilities</h3>
+<p>Authors and contributors are not guaranteed for any damage of your device.</p>`,
+        nextAndAgree: "If you have read and agreed the license, click \"Next\".",
+        latestConfigVersion: "Latest config version",
+        intelVersion: "Intel driver package",
+        voiceoverVersion: "VoiceOver package",
+        updateable: "Require update",
+        goDownload: "Go to download",
+        optional: "(Optional)",
+        currentModel: "Current selected model / barebone",
+        macOSversion: "Choose a macOS version you want to install:",
+        internetConnection: "Choose wireless card vendor:",
+        appleWireless: "Apple Wireless Card",
+        appleWirelessModels: "e.g. BCM94360CS2, BCM943602CS...",
+        broadcomWireless: "Dell Wireless Card",
+        broadcomWirelessModels: "e.g. DW1830, DW1560, DW1820A...",
+        intelWireless: "Intel Wireless Card",
+        intelWirelessModels: "e.g. Intel AC9462, AC9560, AX200 ...",
+        usbRNDIS: "Android USB Tethering",
+        innerScreenResolution: "Choose laptop resolution:",
+        specialHardware: "Make settings for special hardwares:",
+        disableIncompatibleDescription: "Enable this option if you have a NVMe that is not compatible with macOS (e.g. Samsung PM981(a) / Micron 2200s). Leave this option unchecked if you don't have one of them.",
+        nvmeFixDescription: "Enable this option if your NVMe SSD temperature is abnormal in macOS.",
+        gucDescription: "Loading Apple GuC firmware can promote the performance of Intel UHD Graphics, but will cause sleep wake failure on some devices.",
+        bigSurNotSupport4K: "4K display is currently unavailable in macOS 11.0 Big Sur.",
+        useAirportItlwm: "Use AirportItlwm",
+        useAirportItlwmDescription: "Use macOS IO80211 interface rather than HeliPort to connect to network and bring location and Hand-off feature. Note that AirportItlwm does not support iPhone/iPad hotspot now.",
+        setSMBIOSInfo: "Set SMBIOS information",
+        SMBIOSInfoSource: "Current SMBIOS information source",
+        leaveItAsIsIfYouDontKnow: "leave them as is if you don't know their functions.",
+        personalize: "Personalize",
+        readyToGenerate: "Ready to generate config",
+        confirmYourChoose: "Confirm your choice",
+        YourModel: "Your model / barebone is",
+        YourOSToBeInstalled: "You are going to install",
+        YourWirelessCard: "Your wireless network card vendor is",
+        YourResolution: "Your laptop screen resolution is",
+        addition: "with ",
+        nativeItlwm: "using AirportItlwm",
+        heliportItlwm: "you will need HeliPort client to manage network",
+        YouDisabledNVMe: "disabled the NVMe SSD in m.2 slot 1",
+        YouEnabledNVMeFix: "enabled NVMeFix",
+        YouEnabledGuC: "loaded Apple GuC firmware",
+        YouEnabledCPUBestPerformance: "CPU mode is best performance mode",
+        YouEnabledAccessibility: "enabled VoiceOver picker assist",
+        clickToGenerate: "Is this OK? If yes, select a download source and click \"Get the latest config\"! ",
+        cannotDownloadTitle: "Having trouble?",
+        diskName: "Disk Name",
+        diskIndex: "Disk ID",
+        diskSize: "Disk Size",
+        confirmToReplace: "Are you sure to copy EFI files to $1 (Disk ID: $2)?",
+        copyComplete: "EFI copied！<br>*Previous version of EFI has been backed up to EFI/OC-Backup.",
+        intelNotDownloaded: "Intel driver package not downloaded, you need to downad Intel drivers before generate EFI.",
+        accessibilityNotDownloaded: "VoiceOver package not downloaded.",
+        conflictDetected: "Invalid options detected",
+        resolveConflict: "It looks like we have some problems. We need to resolve them before generate config:",
+        prevStep: "Previous",
+        nextStep: "Next",
+
+        dashboard: "Dashboard",
+        deviceInfo: "Device Info",
+        resourceUsage: "System Resource Usage",
+        cpuTemperature: "CPU Temperature",
+        cpuUtilization: "CPU Utilization",
+        memoryUtilization: "Memory Utilization",
+        storageUtilization: "Storage Utilization",
+        realModel: "Real Model",
+        computerName: "Computer Name",
+        osVersion: "macOS Version",
+        batteryInfo: "Battery",
+        batteryNotInstalled: "Battery not installed",
+        charging: "Charging",
+        setOwnerInfo: "Set owner info",
+        ownerName: "Owner name",
+        ownerAvatar: "Owner avatar url",
+        morning: "Good morning",
+        noon: "Hello",
+        afternoon: "Good afternoon",
+        evening: "Good evening"        
     }
 };
 

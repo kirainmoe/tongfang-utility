@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Alert, message } from 'antd';
+import { Alert } from 'antd';
 
 import str from "../resource/string";
 import config from "../config";
 import makeAlert from "../utils/makeAlert";
+
+import { isAssistDownloaded } from "../utils/env";
 
 import '../styles/Update.styl';
 
@@ -38,10 +40,10 @@ export default class Update extends Component {
         isForceUpdate: res.forceUpdate >= config.build
       });
 
-      message.info(str("discontinued"));
+      // message.info(str("discontinued"));
 
       if (res.build <= config.build) {
-        if (!this.isAssistDownloaded() || !(await this.checkAssistUpdate()))
+        if (!isAssistDownloaded() || !(await this.checkAssistUpdate()))
           this.downloadAssistPackage();
         if (window.location.href.includes("voiceover"))
           this.downloadVoiceOverPackage();
@@ -51,19 +53,6 @@ export default class Update extends Component {
 
   componentDidMount() {
     this.getRemoteVersion();
-  }
-
-  isAssistDownloaded() {
-    const fs = window.electron.fs();
-    const userDir = window.electron.getUserDir();
-
-    if (fs.existsSync(`${userDir}/.tfu/itlwm.kext`)
-      && fs.existsSync(`${userDir}/.tfu/itlwmx.kext`)
-      && fs.existsSync(`${userDir}/.tfu/IntelBluetoothFirmware.kext`)
-      && fs.existsSync(`${userDir}/.tfu/version.json`)) {
-        return true;
-    }
-    return false;
   }
 
   async checkAssistUpdate() {
@@ -113,7 +102,6 @@ export default class Update extends Component {
     
     try {
       window.electron.rmdir(`${userDir}/.tfu/itlwm.kext`);
-      window.electron.rmdir(`${userDir}/.tfu/itlwmx.kext`);
       window.electron.rmdir(`${userDir}/.tfu/IntelBluetoothFirmware.kext`);
       window.electron.rmdir(`${userDir}/.tfu/IntelBluetoothInjector.kext`);
       fs.unlinkSync(`${userDir}/.tfu/version.json`);
@@ -121,7 +109,7 @@ export default class Update extends Component {
 
     if (!fs.existsSync(savePath))
       fs.mkdirSync(savePath);      
-    const filenames = ["itlwm.kext", "itlwmx.kext", "IntelBluetoothFirmware"];
+    const filenames = ["itlwm.kext", "AirportItlwm-Catalina.kext", "AirportItlwm-BigSur.kext", "IntelBluetoothFirmware"];
 
     for (let index = 0; index < filenames.length; index++) {
       const file = filenames[index];

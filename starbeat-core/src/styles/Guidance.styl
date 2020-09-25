@@ -1,0 +1,261 @@
+.configure
+    width: 100%
+    height: 100%
+    overflow-y: hidden
+    padding: 40px 25px 0px 25px
+
+    .ant-btn-link
+        height: auto
+        padding: 0px
+
+    .page-title
+        font-size: 22px
+    .oc-logo
+        position: absolute
+        top: 40px
+        right: 20px
+
+    .configure-guidance
+        margin-top: 10px
+        .ant-steps-item-title
+            font-size: 12px
+
+        .guidance-content
+            margin-top: 30px
+            .content-title
+                font-size: 20px
+                margin-top: 20px
+            .content-container
+                margin: 0px 40px
+            .step-tips
+                margin: 0px
+                color: #999
+        /* step 1 */
+        // license
+        .license
+            .license-content
+                width: 100%
+                height: 220px
+                overflow-y: auto
+                margin: 10px 0px
+                padding: 10px
+                border: 1px dashed #e9e9e9
+                background: #fafafa
+        // version
+        .version-info
+            p
+                width: 50%
+                margin: 4px 0px
+            .version-title
+                font-weight: bold
+            display: flex
+            justify-content: space-between
+            flex-wrap: wrap
+        
+        /* step 2 */
+        .model-name
+            color: #0170fe    
+        .model-filter
+            margin: 0px 30px 10px 30px
+        .model-lists
+            display: flex
+            height: 350px
+            overflow-y: scroll
+            flex-wrap: wrap
+            justify-content: space-between
+            border: 1px dashed #e9e9e9
+            padding: 0px 20px
+            margin: 10px 30px 0px 30px
+            p
+                width: 100% 
+            .brand-title
+                width: 100%
+            .model-select-item
+                width: 30%
+                height: 80px
+                padding: 10px
+                background: darken(#fafafa, 1%)
+                margin: 10px
+                display: inline-flex
+                flex-wrap: wrap
+                justify-content: center
+                align-items: center
+                text-align: center
+                transition: .3s all ease-in-out
+                cursor: pointer
+                font-size: 12px
+                &.true
+                    background: #eeffff
+                    color: #0170fe
+                &:hover
+                    background: darken(#eee, 10%)
+                .model-tag
+                    width: calc(100% - 60px)
+                .model-image
+                    width: 50px
+                    height: 50px
+                    margin-right: 10px
+        /* step 3 */ 
+        .customize
+            .content-title
+                font-size: 18px
+                margin: 10px 0px
+        .os-select, .resolution-select, .personalize-settings
+            display: flex
+            justify-content: flex-start
+            .ps-item
+                font-size: 12px
+            .os-item, .resolution-item, .ps-item
+                width: 240px
+                height: 40px
+                line-height: 40px
+                padding: 0px 10px
+                background: #eee
+                border-radius: 40px
+                cursor: pointer
+                display: flex
+                align-items: center
+                margin-right: 20px
+                transition: .3s all ease-in-out
+                img
+                    width: 30px
+                    height: 30px
+                    border-radius: 100%
+                    margin-right: 10px
+                &.disabled
+                    background: #f5f5f5
+                    color: rgba(0,0,0,.25)
+                    cursor:  default
+                    svg path
+                        fill: rgba(0,0,0,.25)
+                    &:hover
+                        background: #f5f5f5
+                        color: rgba(0,0,0,.25)
+                &.true
+                    background: #1890ff
+                    color: #fff
+                &:hover
+                    background: #eeffff
+                    color: #000
+            .resolution-item
+                text-align: center
+            svg
+                width: 30px
+                height: 30px
+                margin-right: 10px
+
+        .internet-select, .special-hardware
+            display: flex
+            justify-content: flex-start
+            .wcard-item, .hardware-item
+                width: 250px
+                height: 40px
+                display: flex
+                font-size: 12px
+                align-items: center
+                padding: 0px 8px
+                background: #eee
+                text-align: center 
+                border-radius: 40px
+                cursor: pointer
+                margin-right: 5px
+                transition: .3s all ease-in-out
+                &.apple svg path, &.usb svg path, &.nvmefix svg path
+                    fill: #000
+                &.true
+                    background: #1890ff
+                    color: #fff
+                &:hover
+                    background: #eeffff
+                    color: #000                    
+                svg
+                    width: 20px
+                    height: 20px
+                    margin-right: 10px
+        /* step 4 */
+        .smbios-container
+            margin: 10px 20px
+            .smbios-input div
+                margin: 10px 0px
+        /* step 5 */
+        .small-text
+            font-size: 12px
+        .confirm-info
+            li
+                margin: 8px 0px
+            .confirm-item
+                font-weight: bold
+            .confirm-value
+                color: #008dff
+        .resolve-conflict
+            ul li
+                color: #820014
+                margin: 10px 0px
+        .select-source
+            width: 100%
+            padding: 0px 20px
+            display: flex
+            margin-top: 10px
+            .source-item
+                @extend .internet-select .wcard-item
+                svg
+                    width: 20px
+                    height: 20px
+                    path
+                        fill: #000
+                &.bitbucket.true
+                    background: #0054c6
+                &.github.true
+                    background: #00869f
+                &.jsdelivr.true
+                    background: #fd4945
+        .generate-page
+            text-align: center
+            p
+                width: 100%
+                text-align: center
+                margin-top: 30px
+            width: 100%
+            height: 500px
+            padding: 60px 0px
+            align-items: center
+            flex-wrap: wrap
+        // success
+        .result-success
+            .result-logo
+                text-align: center
+                padding: 20px
+                svg
+                    width: 80px
+                    height: 80px
+            .success-instruction
+                ul li
+                    margin: 10px 20px 10px 0px
+            .esp-lists
+                width: 100%
+                display: flex
+                justify-content: center
+                .esp-item
+                    margin: 0px 20px
+                    cursor: pointer
+                    .esp-tag
+                        font-size: 12px
+                        margin: 0px
+                    svg
+                        width: 50px
+                        height: 50px
+                        path
+                            transition: .3s all ease-in-out
+                    &:hover
+                        svg path:first-child
+                            fill: darken(#7E86C6, 10%)                        
+
+        // actions
+        .actions-button
+            position: absolute
+            bottom: 20px
+            left: 0px
+            width: 100%
+            text-align: center
+            .ant-btn
+                margin: 0px 20px
