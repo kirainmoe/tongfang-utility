@@ -141,7 +141,7 @@ export default class Configure extends Component {
     if (!window.electron.isMac()) return "catalina";
     const cp = window.require("child_process"),
       output = cp.execSync("sw_vers").toString();
-    if (output.indexOf("11.0")) return "bigsur";
+    if (output.indexOf("11.0") >= 0) return "bigsur";
     return "catalina";
   }
 

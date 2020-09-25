@@ -240,7 +240,7 @@ export default class Dashboard extends Component {
     if (!window.electron.isMac()) return "Unknown";
     const cp = window.require("child_process"),
       output = cp.execSync("sw_vers").toString();
-    if (output.indexOf("11.0")) return "macOS 11.0 Big Sur";
+    if (output.indexOf("11.0") >= 0) return "macOS 11.0 Big Sur";
     return "macOS 10.15 Catalina";
   }
 
