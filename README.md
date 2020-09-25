@@ -6,7 +6,7 @@
 
 Tongfang Hackintosh Utility (同方黑苹果助手) 3.0, 全新的同方模具笔记本黑苹果工具箱。
 
-[蓝奏云下载地址](https://www.lanzous.com/b0ephfc4d) / [下载地址2](https://wwa.lanzous.com/b0ephfc4d)，提取密码：`1919810`
+[蓝奏云下载地址](https://www.lanzous.com/b0ephfc4d) / [下载地址2](https://wwa.lanzous.com/b0ephfc4d)，提取密码：`1f1e33`
 
 ## 功能简介
 
