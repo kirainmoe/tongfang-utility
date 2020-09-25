@@ -20,6 +20,8 @@ before_build:
   - cd c:\project\starbeat-core
   - yarn install
   - cd c:\project\starbeat-client
+  - del package.json
+  - rename package-windows.json package.json
   - yarn install
   - cd c:\project
   - yarn install

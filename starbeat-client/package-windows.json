@@ -1,0 +1,39 @@
+{
+  "name": "tongfang-hackintosh-utility",
+  "version": "2.0.0",
+  "description": "Tongfang Hackintosh Utils",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=development electron index.js",
+    "postinstall": "electron-rebuild --force",
+    "rebuild": "electron-rebuild --force",
+    "pack:macos": "cross-env NODE_ENV=production electron-packager . 'Tongfang Hackintosh Utility' --platform=darwin --arch=x64 --out=../release --app-version=2.0 --overwrite --icon=./app.icns",
+    "pack:win": "cross-env NODE_ENV=production electron-packager . \"Tongfang Hackintosh Utility\" --platform=win32 --arch=x64 --out=../release --app-version=2.0 --overwrite --icon=./app.ico"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirainmoe/project-starbeat.git"
+  },
+  "author": "Yume Maruyama",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kirainmoe/project-starbeat/issues"
+  },
+  "homepage": "https://github.com/kirainmoe/project-starbeat#readme",
+  "dependencies": {
+    "adm-zip": "^0.4.14",
+    "cross-env": "^7.0.0",
+    "electron": "^8.2.4",
+    "electron-packager": "^14.2.1",
+    "electron-rebuild": "^1.10.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "global": "^4.4.0",
+    "minimist": "^1.2.3",
+    "node-fetch": "^2.6.0",
+    "node-hid": "^1.2.0",
+    "node-uuid": "^1.4.8",
+    "sudo-prompt": "^9.1.1"
+  },
+  "devDependencies": {}
+}
