@@ -96,7 +96,7 @@ export default class Configure extends Component {
       remoteIntelVersion: false,
 
       // step 2
-      laptop: laptop === null ? navigator.language === "zh-CN" ? 7 : 0 : Number(laptop),
+      laptop: laptop === null ? navigator.language === "zh-CN" ? 8 : 0 : Number(laptop),
       selectingModel: false,
 
       // step 3
