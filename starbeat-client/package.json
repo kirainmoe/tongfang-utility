@@ -31,7 +31,7 @@
     "global": "^4.4.0",
     "macstats": "^3.1.1",
     "minimist": "^1.2.3",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "node-hid": "^1.2.0",
     "node-uuid": "^1.4.8",
     "sudo-prompt": "^9.1.1"
