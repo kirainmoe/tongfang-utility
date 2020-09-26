@@ -234,6 +234,7 @@ export default class Toolbox extends Component {
                 {str("installTongfangFnDaemonDescription")}
                 ({this.getFnDaemonState()})
               </p>
+              <p>(Credit: @Goshin)</p>
             </div>
           </div>
         </div>
