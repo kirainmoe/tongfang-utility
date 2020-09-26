@@ -83,7 +83,7 @@ export default class Configure extends Component {
     }
 
     let laptop = getNVRAMValue("efi-model");
-    if (laptop.length === 1) {
+    if (laptop && laptop.length === 1) {
       laptop = laptop.charCodeAt();
     }
 
