@@ -82,7 +82,10 @@ export default class Configure extends Component {
       smbiosGenerated = true;
     }
 
-    const laptop = getNVRAMValue("efi-model");
+    let laptop = getNVRAMValue("efi-model");
+    if (laptop.length === 1) {
+      laptop = laptop.charCodeAt();
+    }
 
     this.state = {
       currentStep: 0,
@@ -509,7 +512,8 @@ export default class Configure extends Component {
     if (this.state.currentStep === 1) {
       const current = this.selectModel.querySelector(".true");
       const lists = this.selectModel.querySelector(".model-lists");
-      lists.scrollTop = Math.max(0, current.offsetTop - lists.offsetTop - 20);
+      if (current && lists)
+        lists.scrollTop = Math.max(0, current.offsetTop - lists.offsetTop - 20);
     }
   }
 

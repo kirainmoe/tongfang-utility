@@ -118,8 +118,11 @@ export default class Dashboard extends Component {
   }
 
   getRealModel() {
-    const modelId = getNVRAMValue("efi-model");
+    let modelId = getNVRAMValue("efi-model");
     if (modelId === null) return str("unknown");
+    if (modelId.length === 1) {
+      modelId = modelId.charCodeAt();
+    }
     return this.models[Number(modelId)];
   }
 
