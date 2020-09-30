@@ -78,8 +78,8 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       case "GJ5CN64":
       case "GI5CN54":
         deleteUIAC(`SSDT-UIAC-${barebones[options.laptop]}.aml`);
-        plist.setAllKexts(["VoodooPS2", "VoodooI2C", "VoodooGPIO"], false);
-        plist.setKext("VoodooPS2Controller_Rehabman", true);
+        plist.setAllKexts(["VoodooI2C", "VoodooGPIO"], false);
+        plist.setKext("VoodooPS2Controller.kext/Contents/PlugIns/VoodooInput", true);
         plist.setSSDT("SSDT-USTP", false);
         break;
       case "GK7CP6R":

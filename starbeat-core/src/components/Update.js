@@ -102,6 +102,8 @@ export default class Update extends Component {
     
     try {
       window.electron.rmdir(`${userDir}/.tfu/itlwm.kext`);
+      window.electron.rmdir(`${userDir}/.tfu/AirportItlwm-Catalina.kext`);
+      window.electron.rmdir(`${userDir}/.tfu/AirportItlwm-BigSur.kext`);
       window.electron.rmdir(`${userDir}/.tfu/IntelBluetoothFirmware.kext`);
       window.electron.rmdir(`${userDir}/.tfu/IntelBluetoothInjector.kext`);
       fs.unlinkSync(`${userDir}/.tfu/version.json`);
