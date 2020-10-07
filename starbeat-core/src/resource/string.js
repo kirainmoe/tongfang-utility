@@ -83,7 +83,7 @@ export const strings = {
         getLatest: "获取最新配置文件",
         downloadWait: "正在下载，请等待",
         generating: "正在生成 EFI...",
-        cannotDownload: "点此查看无法正常下载的解决方案",
+        cannotDownload: "下载时遇到问题？",
         cannotDownloadSolution: `
         <p>如果由于各种原因无法下载配置文件，请尝试以下解决方案：</p>
         <ul>
@@ -269,7 +269,7 @@ export const strings = {
         YouEnabledGuC: "加载了核显的 Apple GuC 固件",
         YouEnabledCPUBestPerformance: "CPU 模式设置为性能模式",
         YouEnabledAccessibility: "开启了引导时的无障碍语音提示并关闭了图形界面",
-        clickToGenerate: "确认上述选项无误后，请点击\"生成\"来下载或生成当前机型的配置文件。如果下载配置文件时遇到问题，请",
+        clickToGenerate: "确认上述选项无误后，请点击\"生成\"来下载或生成当前机型的配置文件。",
         cannotDownloadTitle: "无法完成下载？",
         diskName: "分区名称",
         diskIndex: "分区描述符",
@@ -302,7 +302,8 @@ export const strings = {
         morning: "早上好",
         noon: "中午好",
         afternoon: "下午好",
-        evening: "晚上好"
+        evening: "晚上好",
+        appDirCleared: "<p>已清除下载缓存，请重新启动程序后再尝试更新。</p><p>如果仍然无法完成下载，请尝试自行删除当前用户目录下的隐藏文件夹 .tfu。</p>"
     },
     en: {
         config: "Configuration",
@@ -591,7 +592,8 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         morning: "Good morning",
         noon: "Hello",
         afternoon: "Good afternoon",
-        evening: "Good evening"        
+        evening: "Good evening",
+        appDirCleared: "App Cache cleared, please restart app and retry. If still stuck on download progress, please remove ~/.tfu directory manually."   
     }
 };
 

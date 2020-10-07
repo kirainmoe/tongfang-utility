@@ -354,7 +354,7 @@ export default class Configure extends Component {
           fs.mkdirSync(bootFolderPath);
         }
 
-        const hasWindows = fs.existsSync(path.join(EFIFolderPath, "Microsoft"));
+        const hasWindows = fs.existsSync(path.join(EFIFolderPath, "Microsoft")) || fs.execSync(path.join(bootFolderPath, "OpenCore.efi"));
         if (hasWindows) {
           fs.writeFileSync(
             path.join(bootFolderPath, "OpenCore.efi"),
@@ -979,12 +979,6 @@ export default class Configure extends Component {
                       </div>
                       <p className="step-tips" style={{ marginTop: 10 }}>
                           {str("clickToGenerate")}
-                          <Button
-                            onClick={() => this.toggleOption("showCannotDownloadSolution")}
-                            type="link"
-                          >
-                            {str("cannotDownload")}.
-                          </Button>
                         </p>
                     </React.Fragment>
                   );
