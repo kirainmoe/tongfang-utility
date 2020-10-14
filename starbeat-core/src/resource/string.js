@@ -303,7 +303,8 @@ export const strings = {
         noon: "中午好",
         afternoon: "下午好",
         evening: "晚上好",
-        appDirCleared: "<p>已清除下载缓存，请重新启动程序后再尝试更新。</p><p>如果仍然无法完成下载，请尝试自行删除当前用户目录下的隐藏文件夹 .tfu。</p>"
+        appDirCleared: "<p>已清除下载缓存，请重新启动程序后再尝试更新。</p><p>如果仍然无法完成下载，请尝试自行删除当前用户目录下的隐藏文件夹 .tfu。</p>",
+        screen144Hz: "如果你的笔记本内屏是 144Hz 刷新率，请选择此项。此选项仅能让你不会卡在 IOConsoleUsers 无法进入系统，不代表你可以在 macOS 下正常使用 144Hz 刷新率。"
     },
     en: {
         config: "Configuration",
@@ -593,7 +594,8 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         noon: "Hello",
         afternoon: "Good afternoon",
         evening: "Good evening",
-        appDirCleared: "App Cache cleared, please restart app and retry. If still stuck on download progress, please remove ~/.tfu directory manually."   
+        appDirCleared: "App Cache cleared, please restart app and retry. If still stuck on download progress, please remove ~/.tfu directory manually.",
+        screen144Hz: "If you have a 144Hz monitor, consider enable this option to escape from sticking in IOConsoleUsers."
     }
 };
 

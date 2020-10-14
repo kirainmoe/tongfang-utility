@@ -38,8 +38,6 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       `${workspace}/OC/Credits.md`,
       () => {}
     );
-    await sleep(500);
-    window.electron.rmdir(`${workspace}/OpenCore`);
 
     // move accessibility voiceover package
     if (options.accessibility) {
@@ -96,7 +94,44 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
         options.appleGuC = true;
         plist.setACPIPatch("RTC: enable", true);
         break;
+      
+      // 7th gen
+      case "GJ5KN64":
+      case "GJ5KN6A":
+        plist.setSSDT("SSDT-UIAC", false);
+        plist.setSSDT("SSDT-PMC", false);
+        plist.setSSDT("SSDT-USTP", false);
+        plist.setAllKexts(["VoodooI2C", "VoodooGPIO", "USBInjectAll"], false);
+        plist.setKext("VoodooPS2Controller.kext/Contents/PlugIns/VoodooInput", true);
+        await window.electron.copyDir(
+          `${workspace}/OpenCore/${extractPath}/Compat/Kexts/USBPorts.kext`,
+          `${workspace}/OC/Kexts/USBPorts.kext`
+        );
+        await window.electron.copyDir(
+          `${workspace}/OpenCore/${extractPath}/Compat/Kexts/SATA-200-series-unsupported.kext`,
+          `${workspace}/OC/Kexts/SATA-200-series-unsupported.kext`
+        );
+        await window.electron.copyDir(
+          `${workspace}/OpenCore/${extractPath}/Compat/Kexts/AHCI_3rdParty_SATA.kext`,
+          `${workspace}/OC/Kexts/AHCI_3rdParty_SATA.kext`
+        );
+        fs.unlinkSync(`${workspace}/OC/ACPI/SSDT-PNLF.aml`);
+        fs.renameSync(`${workspace}/OpenCore/${extractPath}/Compat/ACPI/SSDT-PNLF.aml`, `${workspace}/OC/ACPI/SSDT-PNLF.aml`);
+        plist.addKextToEnd('USBPorts', 'USB mapping for 7th gen devices', false, true);
+        plist.addKextToEnd('AHCI_3rdParty_SATA', '200 series motherboard SATA patching', false, true);
+        plist.addKextToEnd('SATA-200-series-unsupported', '200 series motherboard SATA patching', false, true);
+        plist.setValue('Booter/Quirks/DevirtualiseMmio', false);
+        plist.setValue('Booter/Quirks/DiscardHibernateMap', false);
+        plist.setValue('Booter/Quirks/SyncRuntimePermissions', false);
+        plist.setValue('Booter/Quirks/SetupVirtualMap', true);
+        plist.deleteProperties("PciRoot(0x0)/Pci(0x1f,0x3)", "device-id");
+        plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,ig-platform-id", new Uint8Array([0, 0, 0x16, 0x19]));
+        plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "device-id", new Uint8Array([0x16, 0x19, 0, 0]));
+        plist.setBootArg("lilucpu=8 -disablegfxfirmware");
+        break;
     }
+
+    await sleep(1000);
 
     // wireless card
     switch (options.wirelessCard) {
@@ -173,6 +208,15 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       plist.setKext("CPUFriendDataProvider_Performance.kext", true);
     }
 
+    if (options.resolution === "1080p144") {
+      plist.setProperties(
+        "PciRoot(0x0)/Pci(0x2,0x0)",
+        "enable-dpcd-max-link-rate-fix",
+        new Uint8Array([1, 0, 0, 0])
+      );
+      plist.setBootArg("-igfxmlr");
+    }
+
     if (options.resolution === "4k") {
       plist.setProperties(
         "PciRoot(0x0)/Pci(0x2,0x0)",
@@ -207,7 +251,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     plist.setValue("PlatformInfo/Generic/SystemSerialNumber", options.sn);
     plist.setValue("PlatformInfo/Generic/MLB", options.mlb);
     plist.setValue("PlatformInfo/Generic/SystemUUID", options.smuuid);
-    
+
     // record model info
     plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/efi-model", options.laptop);
 
@@ -215,11 +259,15 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/prev-lang:kbd", "en-US:0");
     }
 
-    window.electron.writeFile(path.join(path.join(workspace, "OC"), "config.plist"), plist.buildPlist());
+    window.electron.writeFile(
+      path.join(path.join(workspace, "OC"), "config.plist"),
+      plist.buildPlist()
+    );
     fs.unlinkSync(path.join(workspace, "OpenCore.zip"));
+    window.electron.rmdir(`${workspace}/OpenCore`);
     return true;
   } catch (err) {
-    console.err(err);
+    console.error(err);
     return false;
   }
 };

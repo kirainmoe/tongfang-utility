@@ -378,7 +378,7 @@ const electronCompatLayer = () => {
         return false;
     };
 
-    const generateMacSerial = () => {
+    const generateMacSerial = (model = 43) => {
         let macserial;
         const remote = require("electron").remote;
 
@@ -395,7 +395,7 @@ const electronCompatLayer = () => {
         if (!isWin()) macserial = macserial.replace(/ /g, "\\ ");
 
         const uuidGen = require("node-uuid");
-        const output = exec(macserial + " --model 43 --generate --num 1").toString();
+        const output = exec(macserial + ` --model ${model} --generate --num 1`).toString();
         let uuid = uuidGen.v4();
 
         if (isWin()) {
@@ -403,12 +403,17 @@ const electronCompatLayer = () => {
             if (wmic.uuid) uuid = wmic.uuid;
         }
 
-        const res = output.split("|");
+        const res = output.split("|"),
+            presetModels = {
+                40: "MacBookPro14,3",
+                41: "MacBookPro15,1",
+                43: "MacBookPro15,3",
+            }
         return {
-            model: "MacBookPro15,3",
-            sn: res[0],
+            model: presetModels[model],
+            sn: res[0].trim(),
             mlb: res[1].trim(),
-            smuuid: uuid.toUpperCase(),
+            smuuid: uuid.trim().toUpperCase(),
         };
     };
 

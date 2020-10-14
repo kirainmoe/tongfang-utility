@@ -65,6 +65,20 @@ export default class Plist {
         });
     }
 
+    addKextToEnd(name, comment = '', executable = true, plistPath = true) {
+        const item = {
+            Arch: 'Any',
+            BundlePath: name + '.kext',
+            Comment: comment,
+            Enabled: true,
+            MaxKernel: '',
+            MinKernel: '',
+            ExecutablePath: !executable ? '' : executable === true ? `Contents/MacOS/${name}` : executable,
+            PlistPath: !plistPath ? '' : plistPath === true ? `Contents/Info.plist` : plistPath 
+        };
+        this.json.Kernel.Add.push(item);
+    }
+
     setAllKexts(names, status) {
         names.forEach(name => this.setKext(name, status));
     }

@@ -41,7 +41,7 @@ export default class Lab extends Component {
                                     }}
                                     onClick={() =>
                                         this.openPage(
-                                            "http://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/HeliPort.app.zip"
+                                            "https://github.com/OpenIntelWireless/HeliPort/releases"
                                         )
                                     }
                                 ></div>

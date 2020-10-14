@@ -102,6 +102,8 @@ export default class Dashboard extends Component {
 
   getSMBIOSModel(model) {
     switch (model) {
+      case "MacBookPro14,3":
+        return "MacBook Pro 15-inch, 2017";
       case "MacBookPro15,1":
         return "MacBook Pro 15-inch, 2018";
       case "MacBookPro15,2":

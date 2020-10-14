@@ -1,6 +1,6 @@
 export default {
-    version: "3.0.1",
-    build: 2010070,
+    version: "3.0.2",
+    build: 2010140,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -44,6 +44,10 @@ export default {
                 {
                     model: "Tongfang GK5CP6V / GK5CP5V (9th gen)",
                     barebone: "GK5CP6V"
+                },
+                {
+                    model: "Tongfang GJ5KN64 / GJ5KN6A (7th gen)",
+                    barebone: "GJ5KN64"
                 }          
             ]
         },        
@@ -182,7 +186,17 @@ export default {
                     model: "神舟战神 Z7M-KP5GH",
                     barebone: "GI5CN54",
                     image: "kp7gc.jpg"
-                }
+                },
+                {
+                    model: "神舟战神 Z7-KP7GT",
+                    barebone: "GJ5KN64",
+                    image: "kp7gc.jpg"
+                },   
+                {
+                    model: "神舟战神 Z7-KP7D2",
+                    barebone: "GJ5KN64",
+                    image: "kp7gc.jpg"
+                },                    
             ]
         },
         {
@@ -218,7 +232,7 @@ export default {
                     model: "炫龙 T2Ti",
                     barebone: "GI5CN54",
                     image: "kp7gc.jpg"
-                },                                        
+                },                                                                       
             ]
         },
         {
