@@ -69,4 +69,4 @@ Feel free.
 
 ## 许可协议
 
-Tongfang Hackintosh Utility (Project: STAR BEAT!) 基于 MIT 协议开源。
+Tongfang Hackintosh Utility 基于 MIT 协议开源。

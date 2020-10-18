@@ -43,11 +43,16 @@ yarn pack:macos
 
 ## Screenshots
 
-<img src="https://i.loli.net/2020/02/29/LRDhgZYP3bq5lBs.png" alt="keyboard" width="500px">
+![QQ20201018-215225@2x.png](https://i.loli.net/2020/10/18/uodx7WRiCcSTmjP.png)
 
-<a href="https://sm.ms/image/iPlXRYDmSf2BcVo" target="_blank"><img src="https://i.loli.net/2020/02/29/iPlXRYDmSf2BcVo.png" width="500px"></a>
+![QQ20201018-215252@2x.png](https://i.loli.net/2020/10/18/QR3dvBLaSDzJ9Nw.png)
 
-<a href="https://sm.ms/image/2gH3pFmIokYOEub" target="_blank"><img src="https://i.loli.net/2020/02/29/2gH3pFmIokYOEub.png" width="500px"></a>
+![QQ20201018-215245@2x.png](https://i.loli.net/2020/10/18/7thdWVrwfuQpvoi.png)
+
+![QQ20201018-215304@2x.png](https://i.loli.net/2020/10/18/Losqj2yWgafBzxV.png)
+
+
+![QQ20201018-215310@2x.png](https://i.loli.net/2020/10/18/xcX9LpF8NPCBRse.png)
 
 ## Tech Stack
 
