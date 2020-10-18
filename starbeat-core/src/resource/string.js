@@ -93,7 +93,7 @@ export const strings = {
         `,
         generateEFI: "从本地文件生成 EFI",
         successInfo:
-            "已将最新 OpenCore 配置文件下载到当前用户桌面的 `Tongfang_EFI` 文件夹中。请将桌面的 Tongfang_EFI/BOOT 和 Tongfang_EFI/OC 复制到 U 盘或硬盘中。",
+            "已将最新 OpenCore 配置文件下载到配置文件目录（默认是桌面）的 `Tongfang_EFI` 文件夹中。请将配置文件目录下的 Tongfang_EFI/BOOT 和 Tongfang_EFI/OC 复制到 U 盘或硬盘中。",
         successInstructionUSB:
             "对于 U 盘引导用户：请将 BOOT 和 OC 文件夹复制到 U 盘 ESP 分区的 EFI/BOOT 和 EFI/OC 下。",
         successInstructionHD:
@@ -148,27 +148,18 @@ export const strings = {
         updateRequired: '为防止出现兼容性问题，Tongfang Hackintosh Utility 需要更新，即将为你跳转到更新页面。',
 
         labRemind: '提醒：实验室的功能可能是不稳定的，仅供尝鲜使用，并且后期可能会删除部分功能。',
-        intelWifi: '智能驱动 Intel WiFi',
-        intelWifiDescription: '下载并自动生成来自 @zxystd 的 Intel WiFi 驱动。',
-        intelWifiRemind: '请注意，此驱动仅能够连接 WEP/WPA2 加密的网络，且需要预先写入 SSID 和密码（目前支持最多4组网络名和密码）；并且暂时不支持隔空投送等基于 IO80211 的功能。' +
-          '加载完成后，请查看设置 => 网络中是否出现新的"以太网"接口。如果没有出现，说明固件上传失败，请先关机断电几分钟后再试。',
         downloadStatus: '下载状态',
         undownloaded: '未下载，前往下载',
         downloaded: '已下载',
-        clickToDownload: '点击下载 itlwm.kext',
-        successAndRefersh: '下载成功',
         loadStatus: '加载状态',
         loaded: '已加载',
         unloaded: '未加载',
         loadSuccess: '加载成功，请查看设置 => 网络中是否出现新的"以太网"接口。如果没有出现，说明固件上传失败，请先关机断电几分钟后再试。',
         unloadSuccess: '卸载成功。',
         unsuccess: '未成功',
-        notDownloaded: '未找到 itlwm.kext，请先点击上面的下载按钮。',
-        loadKext: '加载驱动',
-        unloadKext: '卸载驱动（更换网络前需要先卸载）',
-        useHeliport: '若要使用 Intel Wi-Fi，推荐在下载配置文件时勾选 “添加 Intel 无线网卡驱动”，并在 macOS 下使用 HeliPort 客户端管理无线网络。',
-        downloadHeliport: '点击下面的图标可以下载 HeliPort 客户端；如果使用 HeliPort 无法联网，请尝试将电脑断电几分钟后，重新启动尝试联网。',
-        continueUse: '新版 itlwm 不再支持填写 SSID 和密码驱动，请下载 HeliPort 使用。',
+
+        downloadHeliport: '下载 HeliPort',
+        downloadHeliportDescription: '下载 Intel 无线网卡联网管理客户端（请先使用其它方式联网下载）。',
         continue: '继续使用',
         downloadingAssistPackage: "正在下载驱动拓展包，请稍等，视网络环境不同，这可能需要几分钟的时间...",
         downloadDone: '拓展包下载完成。',
@@ -304,7 +295,19 @@ export const strings = {
         afternoon: "下午好",
         evening: "晚上好",
         appDirCleared: "<p>已清除下载缓存，请重新启动程序后再尝试更新。</p><p>如果仍然无法完成下载，请尝试自行删除当前用户目录下的隐藏文件夹 .tfu。</p>",
-        screen144Hz: "如果你的笔记本内屏是 144Hz 刷新率，请选择此项。此选项仅能让你不会卡在 IOConsoleUsers 无法进入系统，不代表你可以在 macOS 下正常使用 144Hz 刷新率。"
+        screen144Hz: "如果你的笔记本内屏是 144Hz 刷新率，请选择此项。此选项仅能让你不会卡在 IOConsoleUsers 无法进入系统，不代表你可以在 macOS 下正常使用 144Hz 刷新率。",
+
+        setting: "设置",
+        efiDownloadPath: "配置文件下载位置",
+        appPath: "应用目录位置",
+        defauleEFIDownloadPath: "默认会将配置文件下载到桌面。",
+        defaultAppPath: "默认设置为用户目录下的 .tfu 文件夹用于下载驱动包等，请不要将其设置为桌面或含有其它文件的重要目录。",
+        selectPath: "选择其它路径",
+        restoreDefaultPath: "还原默认值",
+        saveSetting: "保存设置",
+        settingApplied: "设置已生效~",
+        pathSetting: "下载路径设置",
+        pathSettingDescription: "如果你遇到无法下载配置文件/驱动包或下载时进度条不走的问题，请尝试选择其它下载路径。"
     },
     en: {
         config: "Configuration",
@@ -397,7 +400,7 @@ export const strings = {
         `,
         generateEFI: "Generate from local file",
         successInfo:
-            "Successfully downloaded the latest OC config to ~/Desktop/Tongfang_EFI. Please copy `BOOT` and `OC` folder to ESP.",
+            "Successfully downloaded the latest OC config to [Config Download Path(default is ~/Desktop)]/Tongfang_EFI. Please copy `BOOT` and `OC` folder to ESP.",
         successInstructionUSB:
             "For users booting from USB flash: Copy `BOOT` and `OC` folder to `EFI/BOOT` and `EFI/OC` in your ESP. ",
         successInstructionHD:
@@ -448,8 +451,6 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
 
         labRemind: 'Warning: Features in this lab can be unstable, use at your own risk. Some features may be removed in the future release.',
         intelWifi: 'Intel WiFi',
-        intelWifiDescription: 'Download and generate Intel WiFi kexts by @zxystd.',
-        intelWifiRemind: 'Notes: This kext can only connect to WEP/WPA2 encrypted network and requires to predict SSID/password (at most 4 pairs). And the features based on IO80211 like Airdrop are not available.',
         downloadStatus: 'Download status',
         undownloaded: 'Not downloaded',
         downloaded: 'Downloaded',
@@ -458,16 +459,8 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         loadStatus: 'Load status',
         loaded: 'Loaded',
         unloaded: 'Unloaded',
-        loadSuccess: 'Loading itlwm.kext successfully, please check if a new Ethernet interface appears in System Preference Setting. If it doesn\'t appear, please completely showdown your laptop, reboot in a few minutes and try again.',
-        unloadSuccess: 'itlwm.kext unloaded',
-        unsuccess: 'Failed',
-        notDownloaded: 'itlwm.kext not found, please download it first.',
-        loadKext: 'Load Kext',
-        unloadKext: 'Unload Kext (before switching network)',
-        useHeliport: 'If you want to connect to network via an Intel Wi-Fi card, it is recommended to inject driver to config directly by checking "Intel Wi-Fi support" in "Configuration" page, and use "HeliPort.app" client to manage wireless networks on macOS.',
-        downloadHeliport: 'Click the following icon to download "HeliPort.app" client. If HeliPort is not working, please completely shut down the laptop and try again.',
-        continueUse: '',
-        continue: 'Continue',
+        downloadHeliport: 'Download HeliPort',
+        downloadHeliportDescription: 'Download HeliPort.app for Intel wireless card.',
 
         failedToConnectServer: "Failed to connect to the update server, some download sources will be unavailable.",
         discontinued: "Tongfang Hackintosh Project will be discontinued after the release of macOS Big Sur due to personal reasons. Community support will be stopped in the meanwhile. Thanks for the support of all users.",
@@ -595,7 +588,19 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         afternoon: "Good afternoon",
         evening: "Good evening",
         appDirCleared: "App Cache cleared, please restart app and retry. If still stuck on download progress, please remove ~/.tfu directory manually.",
-        screen144Hz: "If you have a 144Hz monitor, consider enable this option to escape from sticking in IOConsoleUsers."
+        screen144Hz: "If you have a 144Hz monitor, consider enable this option to escape from sticking in IOConsoleUsers.",
+
+        setting: "Setting",
+        efiDownloadPath: "Config Download Path",
+        appPath: "App Path",
+        defauleEFIDownloadPath: "Default download path is ~/Desktop.",
+        defaultAppPath: "Default app path is ~/.tfu. **DO NOT SET THIS TO ANY IMPORTANT PATH**(like Desktop and so on)!",
+        selectPath: "Select path",
+        restoreDefaultPath: "Restore default",
+        saveSetting: "Save",
+        settingApplied: "Setting applied.",
+        pathSetting: "Download Path Setting",
+        pathSettingDescription: "Change the following pathes if you cannot finish the download."        
     }
 };
 

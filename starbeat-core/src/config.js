@@ -1,12 +1,11 @@
 export default {
-    version: "3.0.2",
-    build: 2010140,
+    version: "3.0.3",
+    build: 2010180,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
     fnDaemonUrl:
         "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/install_daemon.sh",
-    itlwmUrl: 'https://api-aliyun.kirainmoe.com:2333/itlwm.zip',
 
     supported_machine: [
         {

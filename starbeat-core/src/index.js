@@ -14,14 +14,30 @@ import ConfigureGuidance from './components/ConfigureGuidance';
 import Update from './components/Update';
 import About from './components/About';
 import CompatCheck from './components/CompatCheck';
+import Setting from "./components/Setting";
 import TopButton from './components/TopButton';
 
 try {
     const fs = window.electron.fs();
     const userDir =  window.electron.getUserDir();
+    const initLocalStorage = () => {
+        if (localStorage.getItem("tfu-download-path") === null) {
+            let downloadPath  =`${userDir}/Desktop`;
+            if (window.electron.isWin())
+                downloadPath = downloadPath.replace(/\//g, "\\");
+            localStorage.setItem("tfu-download-path", downloadPath);
+        }
+        if (localStorage.getItem("tfu-app-path") === null) {
+            let appPath = `${userDir}/.tfu`;
+            if (window.electron.isWin())
+                appPath = appPath.replace(/\//g, "\\");
+            localStorage.setItem("tfu-app-path", appPath);
+        }
+    };
 
-    if (!fs.existsSync(`${userDir}/.tfu`)) {
-        fs.mkdirSync(`${userDir}/.tfu`);
+    initLocalStorage();
+    if (!fs.existsSync(localStorage.getItem("tfu-app-path"))) {
+        fs.mkdirSync(localStorage.getItem("tfu-app-path"));
     }
     
     render(
@@ -51,6 +67,9 @@ try {
                     </Route>                
                     <Route path="/about" exact>
                         <About />
+                    </Route>
+                    <Route path="/setting" exact>
+                        <Setting />
                     </Route>
                     <Route path="/compatCheck" exact>
                         <CompatCheck />

@@ -55,9 +55,9 @@ export default class Update extends Component {
   }
 
   async cleanTongfangUserDir() {
-    const userDir = window.electron.getUserDir() + "/.tfu";
+    const userDir = localStorage.getItem("tfu-app-path");
     if (window.electron.isMac()) {
-      window.electron.sudoExec("rm -rf ~/.tfu", async () => {
+      window.electron.sudoExec(`rm -rf ${userDir}`, async () => {
         await makeAlert(str("appDirCleared"));
         window.close();
       });
@@ -70,8 +70,9 @@ export default class Update extends Component {
 
   async checkAssistUpdate() {
     const fs = window.require("fs");
-    const userDir = window.electron.getUserDir(),
-      versionFile = `${userDir}/.tfu/version.json`;
+    const userDir = localStorage.getItem("tfu-app-path"),
+      separator = window.electron.isWin() ? "\\" : "/",
+      versionFile = `${userDir}${separator}version.json`;
     if (!fs.existsSync(versionFile)) return false;
     const version = fs.readFileSync(versionFile).toString();
     let remote = null;
@@ -85,11 +86,11 @@ export default class Update extends Component {
 
   async downloadVoiceOverPackage() {
     const path = window.require("path");
-    const userDir = window.electron.getUserDir(),
-      savePath = path.join(userDir, ".tfu");
+    const separator = window.electron.isWin() ? "\\" : "/",
+      savePath = localStorage.getItem("tfu-app-path");
 
     try {
-      window.electron.rmdir(`${userDir}/.tfu/Audio`);
+      window.electron.rmdir(`${savePath}${separator}Audio`);
     } catch (err) {}
 
     await this.setState({
@@ -109,16 +110,16 @@ export default class Update extends Component {
   async downloadAssistPackage() {
     const path = window.require("path"),
       fs = window.require("fs");
-    const userDir = window.electron.getUserDir(),
-      savePath = path.join(userDir, ".tfu");
+    const separator = window.electron.isWin() ? "\\" : "/",
+      savePath = localStorage.getItem("tfu-app-path");
 
     try {
-      window.electron.rmdir(`${userDir}/.tfu/itlwm.kext`);
-      window.electron.rmdir(`${userDir}/.tfu/AirportItlwm-Catalina.kext`);
-      window.electron.rmdir(`${userDir}/.tfu/AirportItlwm-BigSur.kext`);
-      window.electron.rmdir(`${userDir}/.tfu/IntelBluetoothFirmware.kext`);
-      window.electron.rmdir(`${userDir}/.tfu/IntelBluetoothInjector.kext`);
-      fs.unlinkSync(`${userDir}/.tfu/version.json`);
+      window.electron.rmdir(`${savePath}${separator}itlwm.kext`);
+      window.electron.rmdir(`${savePath}${separator}AirportItlwm-Catalina.kext`);
+      window.electron.rmdir(`${savePath}${separator}AirportItlwm-BigSur.kext`);
+      window.electron.rmdir(`${savePath}${separator}IntelBluetoothFirmware.kext`);
+      window.electron.rmdir(`${savePath}${separator}IntelBluetoothInjector.kext`);
+      fs.unlinkSync(`${savePath}${separator}version.json`);
     } catch (err) {}
 
     if (!fs.existsSync(savePath)) fs.mkdirSync(savePath);

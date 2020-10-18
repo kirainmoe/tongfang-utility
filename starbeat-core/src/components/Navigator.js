@@ -13,7 +13,8 @@ import ConfigUpdate from "../icons/ConfigUpdate";
 import Tools from "../icons/Tools";
 import Update from "../icons/Update";
 import CompatCheck from "../icons/CompatCheck";
-import Lab from "../icons/Lab";
+import SettingIcon from "../icons/Setting";
+// import Lab from "../icons/Lab";
 
 const logo = require("../resource/logo.png");
 
@@ -24,8 +25,9 @@ class Navigator extends Component {
     config: [2, 1],
     tools: [3, -10],
     compatCheck: [-10, 2],
-    lab: [4, -10],
-    update: [5, 3],
+    // lab: [4, -10],
+    setting: [4, 3],
+    update: [5, 4],
     about: [-10, -10],
   };
 
@@ -43,7 +45,7 @@ class Navigator extends Component {
 
     this.state = {
       topDist: 100 + this.calcDist(props.location.pathname),
-      theme: presetTheme ? presetTheme : 'default'
+      theme: presetTheme ? presetTheme : "default",
     };
   }
 
@@ -63,53 +65,33 @@ class Navigator extends Component {
 
         {window.electron.isMac() && (
           <Popover content={str("dashboard")} placement="right">
-            <NavLink
-              onClick={() => this.switchTo("dashboard")}
-              className="nav-link"
-              to="/dashboard"
-              aria-label={str("dashboard")}
-            >
+            <NavLink onClick={() => this.switchTo("dashboard")} className="nav-link" to="/dashboard" aria-label={str("dashboard")}>
               <Dashboard />
             </NavLink>
           </Popover>
         )}
 
         <Popover content={str("keyboardLight")} placement="right">
-          <NavLink
-            onClick={() => this.switchTo("keyboard")}
-            className="nav-link"
-            to="/keyboard"
-            aria-label={str("keyboardLight")}
-          >
+          <NavLink onClick={() => this.switchTo("keyboard")} className="nav-link" to="/keyboard" aria-label={str("keyboardLight")}>
             <Keyboard />
           </NavLink>
         </Popover>
 
         <Popover content={str("config")} placement="right">
-          <NavLink
-            onClick={() => this.switchTo("config")}
-            className="nav-link config-update"
-            to="/config"
-            aria-label={str("config")}
-          >
+          <NavLink onClick={() => this.switchTo("config")} className="nav-link config-update" to="/config" aria-label={str("config")}>
             <ConfigUpdate />
           </NavLink>
         </Popover>
 
         {window.electron.isMac() && (
           <Popover content={str("tools")} placement="right">
-            <NavLink
-              onClick={() => this.switchTo("tools")}
-              className="nav-link"
-              to="/tools"
-              aria-label={str("tools")}
-            >
+            <NavLink onClick={() => this.switchTo("tools")} className="nav-link" to="/tools" aria-label={str("tools")}>
               <Tools />
             </NavLink>
           </Popover>
         )}
 
-        {window.electron.isMac() && (
+        {/* {window.electron.isMac() && (
           <Popover content={str("lab")} placement="right">
             <NavLink
               onClick={() => this.switchTo("lab")}
@@ -120,28 +102,24 @@ class Navigator extends Component {
               <Lab />
             </NavLink>
           </Popover>
-        )}
+        )} */}
 
         {navigator.language === "zh-CN" && window.electron.isWin() && (
           <Popover content={str("compatCheck")} placement="right">
-            <NavLink
-              onClick={() => this.switchTo("compatCheck")}
-              className="nav-link"
-              to="/compatCheck"
-              aria-label={str("compatCheck")}
-            >
+            <NavLink onClick={() => this.switchTo("compatCheck")} className="nav-link" to="/compatCheck" aria-label={str("compatCheck")}>
               <CompatCheck />
             </NavLink>
           </Popover>
         )}
 
+        <Popover content={str("setting")} placement="right">
+          <NavLink onClick={() => this.switchTo("setting")} className="nav-link" to="/setting" aria-label={str("setting")}>
+            <SettingIcon />
+          </NavLink>
+        </Popover>
+
         <Popover content={str("update")} placement="right">
-          <NavLink
-            onClick={() => this.switchTo("update")}
-            className="nav-link"
-            to="/update"
-            aria-label={str("update")}
-          >
+          <NavLink onClick={() => this.switchTo("update")} className="nav-link" to="/update" aria-label={str("update")}>
             <Update />
           </NavLink>
         </Popover>

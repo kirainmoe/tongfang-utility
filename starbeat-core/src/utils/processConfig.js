@@ -11,8 +11,7 @@ const sleep = (time = 0) => {
 const processConfig = async (workspace, saveFile, barebones, options) => {
   const path = window.require("path"),
     fs = window.require("fs"),
-    userDir = window.electron.getUserDir(),
-    extPath = path.join(userDir, ".tfu");
+    extPath = localStorage.getItem("tfu-app-path");
 
   try {
     // extract OpenCore.zip
@@ -145,8 +144,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
           ["AirportBrcmFixup", "BrcmBluetoothInjector", "BrcmFirmwareData", "BrcmPatchRAM3"],
           true
         );
-        if (navigator.language === "zh-CN") plist.setBootArg("brcmfx-country=CN");
-        else plist.setBootArg("brcmfx-country=#a");
+        plist.setBootArg("brcmfx-country=#a");
         break;
       case "intel":
       default:

@@ -8,7 +8,7 @@ import str from "../resource/string";
 import makeAlert from "../utils/makeAlert";
 import { Sleep, HIDPI, KextCache } from "../icons/Toolbox";
 import { Shortcut } from "../icons/Shortcut";
-import WindowsIcon from '../icons/Windows';
+import WindowsIcon from "../icons/Windows";
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
@@ -33,45 +33,48 @@ export default class Toolbox extends Component {
     super(props);
     this.state = {
       status: "idle",
-      operation: ""
+      operation: "",
     };
   }
 
   async fixSleep() {
     await this.setState({
       status: "performing",
-      operation: str("fixSleep")
+      operation: str("fixSleep"),
     });
-    window.electron.sudoExec( 'sh -c "$(curl -fsSL ' + conf.optimizeUrl + ')"',
+    window.electron.sudoExec(
+      'sh -c "$(curl -fsSL ' + conf.optimizeUrl + ')"',
       async (err, stdout) => {
         await this.setState({
           status: "success",
-          operation: "..."
+          operation: "...",
         });
 
         setTimeout(() => this.setState({ status: "idle" }), 5000);
       }
     );
-
   }
 
   async enableHiDPI() {
     await this.setState({
       status: "performing",
-      operation: str("hiDPI")
+      operation: str("hiDPI"),
     });
 
     const fs = window.electron.fs();
-    if (fs.existsSync("/Library/Displays/Contents/Resources/Overrides/backup")) {
-      await makeAlert(str('hiDPIEnabled'), true)
+    if (
+      fs.existsSync("/Library/Displays/Contents/Resources/Overrides/backup")
+    ) {
+      await makeAlert(str("hiDPIEnabled"), true)
         .then(() => {
-          window.electron.sudoExec('echo 2 | sh -c "$(curl -fsSL ' + conf.HiDPIUrl + ')"',
-            async(err, stdout) => {
+          window.electron.sudoExec(
+            'echo 2 | sh -c "$(curl -fsSL ' + conf.HiDPIUrl + ')"',
+            async (err, stdout) => {
               await this.setState({
                 status: "success",
-                operation: "..."
+                operation: "...",
               });
-              
+
               setTimeout(() => this.setState({ status: "idle" }), 5000);
             }
           );
@@ -82,15 +85,16 @@ export default class Toolbox extends Component {
       return;
     }
 
-    await makeAlert(str('onlyForBOE0747'));
+    await makeAlert(str("onlyForBOE0747"));
 
-    window.electron.sudoExec('echo 1 | sh -c "$(curl -fsSL ' + conf.HiDPIUrl + ')"',
-      async(err, stdout) => {
+    window.electron.sudoExec(
+      'echo 1 | sh -c "$(curl -fsSL ' + conf.HiDPIUrl + ')"',
+      async (err, stdout) => {
         await this.setState({
           status: "success",
-          operation: "..."
+          operation: "...",
         });
-        
+
         setTimeout(() => this.setState({ status: "idle" }), 5000);
       }
     );
@@ -100,14 +104,14 @@ export default class Toolbox extends Component {
     this.setState(
       {
         status: "performing",
-        operation: str("kextCache")
+        operation: str("kextCache"),
       },
       () => {
         window.electron.sudoExec("kextcache -i /", (err, stdout) => {
           this.setState(
             {
               status: "success",
-              operation: "..."
+              operation: "...",
             },
             () => {
               setTimeout(() => this.setState({ status: "idle" }), 5000);
@@ -120,18 +124,19 @@ export default class Toolbox extends Component {
 
   getFnDaemonState() {
     try {
-      const haveBin = window.electron.exec('ls /usr/local | grep bin');
-      if (!haveBin)
-        return str('state') + ":" + str('notInstalled');
-        
-      const ouput = window.electron.exec('ls /Library/LaunchAgents | grep io.github');
-      if (ouput !== '') {
-        return str('state') + ":" + str('installed');
+      const haveBin = window.electron.exec("ls /usr/local | grep bin");
+      if (!haveBin) return str("state") + ":" + str("notInstalled");
+
+      const ouput = window.electron.exec(
+        "ls /Library/LaunchAgents | grep io.github"
+      );
+      if (ouput !== "") {
+        return str("state") + ":" + str("installed");
       } else {
-        return str('state') + ":" + str('notInstalled');
+        return str("state") + ":" + str("notInstalled");
       }
     } catch (e) {
-      return str('state') + ":" + str('notInstalled');
+      return str("state") + ":" + str("notInstalled");
     }
   }
 
@@ -139,7 +144,7 @@ export default class Toolbox extends Component {
     this.setState(
       {
         status: "performing",
-        operation: str("installTongfangFnDaemon")
+        operation: str("installTongfangFnDaemon"),
       },
       () => {
         window.electron.sudoExec(
@@ -148,97 +153,137 @@ export default class Toolbox extends Component {
             this.setState(
               {
                 status: "success",
-                operation: "..."
+                operation: "...",
               },
-              () => {
-                setTimeout(() => this.setState({ status: "idle" }), 5000);
-              }
+              () => setTimeout(() => this.setState({ status: "idle" }), 5000)
             );
           }
         );
       }
-    );        
+    );
+  }
+
+  openPage(url) {
+    window.electron.openPage(url);
   }
 
   render() {
     const isMac = window.electron.isMac;
-    if (!isMac())
-      return <ToolboxOnWin />
-    else 
-    return (
-      <div className="toolbox">
-        <h3 className="page-title">{str("tools")}</h3>
-        <p className="tools-description">{str("toolsDescription")}</p>
+    const heliIcon = require("../resource/heliport.png");
+    if (!isMac()) return <ToolboxOnWin />;
+    else
+      return (
+        <div className="toolbox">
+          <h3 className="page-title">{str("tools")}</h3>
+          <p className="tools-description">{str("toolsDescription")}</p>
 
-        <div
-          className="indicator"
-          style={this.state.status !== "performing" ? { display: "none" } : null}
-        >
-          <Spin indicator={antIcon} />
+          <div
+            className="indicator"
+            style={
+              this.state.status !== "performing" ? { display: "none" } : null
+            }
+          >
+            <Spin indicator={antIcon} />
+          </div>
+
+          <Alert
+            message={str("success")}
+            description={str("successDescription")}
+            type="success"
+            showIcon
+            style={this.state.status !== "success" ? { display: "none" } : null}
+          />
+
+          <Alert
+            message={this.state.operation}
+            description={str("pleaseWait")}
+            type="info"
+            showIcon
+            style={
+              this.state.status !== "performing" ? { display: "none" } : null
+            }
+          />
+
+          <div className="toolbox-actions">
+            <div
+              className="action-block"
+              id="sleep"
+              onClick={() => this.fixSleep()}
+            >
+              <div className="action-icon">
+                <Sleep />
+              </div>
+              <div className="action-label">
+                <h3>{str("fixSleep")}</h3>
+                <p>{str("fixSleepDescription")}</p>
+              </div>
+            </div>
+
+            <div
+              className="action-block"
+              id="hidpi"
+              onClick={() => this.enableHiDPI()}
+            >
+              <div className="action-icon">
+                <HIDPI />
+              </div>
+              <div className="action-label">
+                <h3>{str("hiDPI")}</h3>
+                <p>{str("hiDPIDescription")}</p>
+              </div>
+            </div>
+
+            <div
+              className="action-block"
+              id="kextcache"
+              onClick={() => this.rebuildKextCache()}
+            >
+              <div className="action-icon">
+                <KextCache />
+              </div>
+              <div className="action-label">
+                <h3>{str("kextCache")}</h3>
+                <p>{str("kextCacheDescription")}</p>
+              </div>
+            </div>
+
+            <div
+              className="action-block"
+              id="kextcache"
+              onClick={() => this.installTongfangFnDaemon()}
+            >
+              <div className="action-icon">
+                <Shortcut />
+              </div>
+              <div className="action-label">
+                <h3>{str("installTongfangFnDaemon")}</h3>
+                <p style={{ margin: 0 }}>
+                  {str("installTongfangFnDaemonDescription")}(
+                  {this.getFnDaemonState()})
+                </p>
+                <p style={{ margin: 5, color: "#888" }}>(Credit: @Goshin)</p>
+              </div>
+            </div>
+
+            <div
+              className="action-block"
+              id="kextcache"
+              onClick={() =>
+                this.openPage(
+                  "https://github.com/OpenIntelWireless/HeliPort/releases"
+                )
+              }
+            >
+              <div className="action-icon">
+                <img alt={str("downloadHeliport")} width={"120px"} style={{ marginTop: -15 }} src={heliIcon} />
+              </div>
+              <div className="action-label">
+                <h3>{str("downloadHeliport")}</h3>
+                <p>{str("downloadHeliportDescription")}</p>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <Alert
-          message={str("success")}
-          description={str("successDescription")}
-          type="success"
-          showIcon
-          style={this.state.status !== "success" ? { display: "none" } : null}
-        />
-
-        <Alert
-          message={this.state.operation}
-          description={str("pleaseWait")}
-          type="info"
-          showIcon
-          style={this.state.status !== "performing" ? { display: "none" } : null}
-        />
-
-        <div className="toolbox-actions">
-          <div className="action-block" id="sleep" onClick={() => this.fixSleep()}>
-            <div className="action-icon">
-              <Sleep />
-            </div>
-            <div className="action-label">
-              <h3>{str("fixSleep")}</h3>
-              <p>{str("fixSleepDescription")}</p>
-            </div>
-          </div>
-
-          <div className="action-block" id="hidpi" onClick={() => this.enableHiDPI()}>
-            <div className="action-icon">
-              <HIDPI />
-            </div>
-            <div className="action-label">
-              <h3>{str("hiDPI")}</h3>
-              <p>{str("hiDPIDescription")}</p>
-            </div>
-          </div>
-
-          <div className="action-block" id="kextcache" onClick={() => this.rebuildKextCache()}>
-            <div className="action-icon">
-              <KextCache />
-            </div>
-            <div className="action-label">
-              <h3>{str("kextCache")}</h3>
-              <p>{str("kextCacheDescription")}</p>
-            </div>
-          </div>
-
-          <div className="action-block" id="kextcache" onClick={() => this.installTongfangFnDaemon()}>
-            <div className="action-icon">
-              <Shortcut />
-            </div>
-            <div className="action-label">
-              <h3>{str("installTongfangFnDaemon")}</h3>
-              <p>
-                {str("installTongfangFnDaemonDescription")}
-                ({this.getFnDaemonState()})
-              </p>
-              <p>(Credit: @Goshin)</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+      );
   }
 }

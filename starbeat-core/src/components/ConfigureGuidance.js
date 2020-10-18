@@ -339,7 +339,9 @@ export default class Configure extends Component {
     const path = window.require("path"),
       fs = window.require("fs"),
       mountPoint = "/tmp/tongfang-efi",
-      savePath = window.electron.getUserDir() + "/Desktop/Tongfang_EFI";
+      downloadPath = localStorage.getItem("tfu-download-path"),
+      separator = window.electron.isWin() ? "\\" : "/";
+    const savePath = downloadPath + `${separator}Tongfang_EFI`;
 
     await makeAlert(`${info}`, true).then(() => {
       window.electron.mountESP(index, mountPoint, async () => {
@@ -430,7 +432,9 @@ export default class Configure extends Component {
   configExists() {
     try {
       const fs = window.require("fs");
-      const savePath = window.electron.getUserDir() + "/Desktop/Tongfang_EFI";
+      const downloadPath = localStorage.getItem("tfu-download-path"),
+        separator = window.electron.isWin() ? "\\" : "/";
+      const savePath = downloadPath + `${separator}Tongfang_EFI`;
       const saveFile = savePath + "/OpenCore.zip";
 
       return fs.existsSync(saveFile);
@@ -457,7 +461,9 @@ export default class Configure extends Component {
 
   // 下载
   async downloadLatest() {
-    const savePath = window.electron.getUserDir() + "/Desktop/Tongfang_EFI";
+    const downloadPath = localStorage.getItem("tfu-download-path"),
+      separator = window.electron.isWin() ? "\\" : "/";
+    const savePath = downloadPath + `${separator}Tongfang_EFI`;
     const saveFile = savePath + "/OpenCore.zip";
     const fs = window.electron.fs();
 

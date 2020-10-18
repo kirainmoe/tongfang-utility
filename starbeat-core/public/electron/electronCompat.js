@@ -245,67 +245,75 @@ const electronCompatLayer = () => {
 
     const getWMIC = () => {
         const cp = require("child_process");
-        const res = cp.execSync('wmic csproduct').toString(),
-            tmp = res.split("\n");
-        let wmic = "";
+        try {
+            const res = cp.execSync('wmic csproduct').toString(),
+                tmp = res.split("\n");
+            let wmic = "";
 
-        for (let i = 0; i < tmp.length; i++) {
-            if (tmp[i].indexOf("SKUNumber") >= 0) {
-                wmic = tmp[i + 1];
-                break;
+            for (let i = 0; i < tmp.length; i++) {
+                if (tmp[i].indexOf("SKUNumber") >= 0) {
+                    wmic = tmp[i + 1];
+                    break;
+                }
             }
-        }
-        wmic = wmic.replace(/\s\s+/g, "/");
+            wmic = wmic.replace(/\s\s+/g, "/");
 
-        const smbiosinfo = wmic.split("/");
-        return {
-            sn: smbiosinfo[2],
-            model: smbiosinfo[3],
-            uuid: smbiosinfo[4],
-        };
+            const smbiosinfo = wmic.split("/");
+            return {
+                sn: smbiosinfo[2],
+                model: smbiosinfo[3],
+                uuid: smbiosinfo[4],
+            };
+        } catch(err) {
+            return false;
+        }
     };
 
     const parseWMIC = (cmd) => {
-        const cp = require('child_process');
-        const res = cp.execSync(`wmic ${cmd}`).toString().split('\n');
+        try {
+            const cp = require('child_process');
+            const res = cp.execSync(`wmic ${cmd}`).toString().split('\n');
 
-        if (!res.length)
-            return undefined;
+            if (!res.length)
+                return undefined;
 
-        let keys = [], lastIndex = 0, i = 0;
-        while (i < res[0].length) {
-            while (res[0][i] === ' ') {
-                if (res[0][lastIndex] !== ' ') {
-                    keys.push({
-                        name: res[0].substr(lastIndex, i - lastIndex),
-                        from: lastIndex
-                    });
+            let keys = [], lastIndex = 0, i = 0;
+            while (i < res[0].length) {
+                while (res[0][i] === ' ') {
+                    if (res[0][lastIndex] !== ' ') {
+                        keys.push({
+                            name: res[0].substr(lastIndex, i - lastIndex),
+                            from: lastIndex
+                        });
+                    }
+                    lastIndex = i + 1;
+                    i++;
                 }
-                lastIndex = i + 1;
                 i++;
             }
-            i++;
-        }
 
-        const answer = [];
+            const answer = [];
 
-        for (let i = 1; i < res.length; i++) {
-            if (res[i].trim().length === 0)
-                continue;
-            const cur = {};
-            for (let j = 0; j < keys.length; j++) {
-                const key = keys[j],
-                    ends = (j === keys.length - 1) ? res[i].length : keys[j+1].from;
-                const value = res[i].substr(key.from, ends - key.from);
-                cur[key.name] = value.trim();
+            for (let i = 1; i < res.length; i++) {
+                if (res[i].trim().length === 0)
+                    continue;
+                const cur = {};
+                for (let j = 0; j < keys.length; j++) {
+                    const key = keys[j],
+                        ends = (j === keys.length - 1) ? res[i].length : keys[j+1].from;
+                    const value = res[i].substr(key.from, ends - key.from);
+                    cur[key.name] = value.trim();
+                }
+                answer.push(cur);
             }
-            answer.push(cur);
-        }
 
-        return {
-            key: keys,
-            result: answer
-        };
+            return {
+                key: keys,
+                result: answer
+            };
+        } catch(err) {
+            return false;
+        }
     };
 
     const copyDir = (src, dist, callback) => {
@@ -400,7 +408,7 @@ const electronCompatLayer = () => {
 
         if (isWin()) {
             const wmic = getWMIC();
-            if (wmic.uuid) uuid = wmic.uuid;
+            if (wmic && wmic.uuid) uuid = wmic.uuid;
         }
 
         const res = output.split("|"),

@@ -173,7 +173,7 @@ export default class Dashboard extends Component {
         const tmp = item.replace(/\s+/g, " ").replace(/\./g, "").split(": ");
         results[tmp[0]] = (Number(tmp[1]) * 4096) / 1024 / 1024;
       }
-      const free = results["Pages free"] + results["Pages purgeable"],
+      const free = results["Pages free"] + results["Pages purgeable"] + results["Pages wired down"],
         total =
           results["Pages free"] +
           results["Pages active"] +
