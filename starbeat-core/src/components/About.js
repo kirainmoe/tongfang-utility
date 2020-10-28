@@ -78,14 +78,14 @@ export default class About extends Component {
               <div>
                 <li>
                   Tongfang Hackintosh Utility 的大部分图标来自{" "}
-                  <Button type="link" onClick={() => this.openPage("https://www.iconfont.cn")}>
+                  <Button style={{ padding: 0 }} type="link" onClick={() => this.openPage("https://www.iconfont.cn")}>
                     iconfont
                   </Button>
                   ，在此向提供图标的设计师表示感谢。
                 </li>
                 <li>
                   Tongfang Hackintosh Utility 的更新和分发服务器由{" "}
-                  <Button type="link" onClick={() => this.openPage("https://corelink.io")}>
+                  <Button style={{ padding: 0 }} type="link" onClick={() => this.openPage("https://console-cloud.piave.net/")}>
                     CoreLink Global Communication
                   </Button>{" "}
                   提供，在此表示感谢。

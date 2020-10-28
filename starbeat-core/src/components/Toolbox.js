@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, Spin, Icon } from "antd";
+import { Alert } from "antd";
 
 import "../styles/Toolbox.styl";
 
@@ -10,7 +10,6 @@ import { Sleep, HIDPI, KextCache } from "../icons/Toolbox";
 import { Shortcut } from "../icons/Shortcut";
 import WindowsIcon from "../icons/Windows";
 
-const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class ToolboxOnWin extends Component {
   render() {
@@ -183,7 +182,6 @@ export default class Toolbox extends Component {
               this.state.status !== "performing" ? { display: "none" } : null
             }
           >
-            <Spin indicator={antIcon} />
           </div>
 
           <Alert
