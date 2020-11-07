@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Progress, Input, Modal } from "antd";
+import { createHashHistory } from "history";
+import { Progress, Input, Modal, Button } from "antd";
 
 import config from "../config";
 import str from "../resource/string";
@@ -21,7 +22,7 @@ export default class Dashboard extends Component {
     green: "#b7eb8f",
     pink: "#ff85c0",
     purple: "#d3adf7",
-    'h1f1e33': '#1f1e33'
+    h1f1e33: "#1f1e33",
   };
   count = 0;
   usageRecord = [];
@@ -122,10 +123,8 @@ export default class Dashboard extends Component {
   getRealModel() {
     let modelId = getNVRAMValue("efi-model");
     if (modelId === null) return str("unknown");
-    if (modelId.length === 1) {
-      modelId = modelId.charCodeAt();
-    }
-    return this.models[Number(modelId)];
+    if (modelId.indexOf("model-") === -1) return false;
+    return this.models[Number(modelId.replace("model-", ""))];
   }
 
   getCPUTempature() {
@@ -174,11 +173,7 @@ export default class Dashboard extends Component {
         results[tmp[0]] = (Number(tmp[1]) * 4096) / 1024 / 1024;
       }
       const free = results["Pages free"] + results["Pages purgeable"] + results["Pages wired down"],
-        total =
-          results["Pages free"] +
-          results["Pages active"] +
-          results["Pages inactive"] +
-          results["Pages wired down"];
+        total = results["Pages free"] + results["Pages active"] + results["Pages inactive"] + results["Pages wired down"];
       return {
         memoryUsed: total - free,
         memoryTotal: total,
@@ -193,11 +188,7 @@ export default class Dashboard extends Component {
 
   getStorageUsage() {
     try {
-      const ret = this.exec("df -h ~")
-        .split("\n")[1]
-        .replace(/\s+/g, " ")
-        .split(" ")[4]
-        .replace("%", "");
+      const ret = this.exec("df -h ~").split("\n")[1].replace(/\s+/g, " ").split(" ")[4].replace("%", "");
       return ret;
     } catch (e) {
       return 0;
@@ -227,7 +218,7 @@ export default class Dashboard extends Component {
     if (!this.state.owner || !this.state.owner.length) {
       return str("setOwnerInfo");
     }
-    const currentTime = (new Date()).getHours(),
+    const currentTime = new Date().getHours(),
       time =
         currentTime >= 5 && currentTime < 12
           ? "morning"
@@ -236,9 +227,7 @@ export default class Dashboard extends Component {
           : currentTime < 18
           ? "afternoon"
           : "evening";
-      return  (
-        `${str(time)}, ${this.state.owner}`
-      );
+    return `${str(time)}, ${this.state.owner}`;
   }
 
   determineOSVersion() {
@@ -274,7 +263,8 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    const memPercent = Math.floor((this.state.memoryUsed / this.state.memoryTotal) * 100);
+    const memPercent = Math.floor((this.state.memoryUsed / this.state.memoryTotal) * 100),
+      realModel = this.getRealModel();
     return (
       <div className="dashboard">
         <Modal
@@ -321,7 +311,13 @@ export default class Dashboard extends Component {
             </p>
             <p className="device-info-item">
               <span>{str("realModel")}：</span>
-              {this.getRealModel()}
+              {realModel ? (
+                realModel
+              ) : (
+                <Button onClick={() => createHashHistory().push("/config")} style={{ padding: 0 }} type="link">
+                  {str("requestEFIUpdate")}
+                </Button>
+              )}
             </p>
             <p className="device-info-item">
               <span>{str("osVersion")}：</span>
@@ -383,9 +379,7 @@ export default class Dashboard extends Component {
 
             <p className="battery-percentage">
               {this.state.installed
-                ? `${this.state.percentage}% ${
-                    this.state.charging ? " (" + str("charging") + ") " : ""
-                  }`
+                ? `${this.state.percentage}% ${this.state.charging ? " (" + str("charging") + ") " : ""}`
                 : str("batteryNotInstalled")}
             </p>
           </div>

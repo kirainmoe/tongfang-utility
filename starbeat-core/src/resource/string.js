@@ -51,6 +51,8 @@ export const strings = {
         ToolboxCannotRunningOnWinDescription:
             "工具箱中的功能仅用于优化在 macOS 系统下的使用体验，无法在 Windows / Linux 平台上使用。",
         onlyForBOE0747: "提示：一键开启 HiDPI 功能仅适用于搭载京东方 BOE0747 15.6' 屏幕的设备，如果你手动更换过屏幕或你的原厂屏幕不是此型号，那么可能会开启失败。命令执行完成后请重启电脑，并在显示器设置中调节分辨率为 1424x802.",
+        enrollSeedProgram: "加入开发者种子计划",
+        enrollSeedProgramDescription: "一键注册 Apple 开发者种子计划，以便能够提前获取到测试版系统更新（需要重启）。",
 
         configure: "配置文件",
         configureDescription: "管理、更新和定制 OpenCore 配置文件。",
@@ -296,6 +298,8 @@ export const strings = {
         evening: "晚上好",
         appDirCleared: "<p>已清除下载缓存，请重新启动程序后再尝试更新。</p><p>如果仍然无法完成下载，请尝试自行删除当前用户目录下的隐藏文件夹 .tfu。</p>",
         screen144Hz: "如果你的笔记本内屏是 144Hz 刷新率，请选择此项。此选项仅能让你不会卡在 IOConsoleUsers 无法进入系统，不代表你可以在 macOS 下正常使用 144Hz 刷新率。",
+        updateLog: "更新内容",
+        requestEFIUpdate: "需要更新 EFI",
 
         setting: "设置",
         efiDownloadPath: "配置文件下载位置",
@@ -359,6 +363,8 @@ export const strings = {
         successDescription: "Done.",
         ToolboxCannotRunningOnWinDescription: "Toolbox can only be used on macOS.",
         onlyForBOE0747: "Warning: This option is for the BOE0747 15.6' monitor. If your laptop does not have this model of monitor, this function may not work properly.",
+        enrollSeedProgram: "Enroll Seed Program",
+        enrollSeedProgramDescription: "Enroll Apple Developer Seed Program to get the latest macOS Beta release (need restart).",
 
         configure: "Configuration",
         configureDescription: "Manage, update and customize OpenCore config.",
@@ -564,6 +570,7 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         accessibilityNotDownloaded: "VoiceOver package not downloaded.",
         conflictDetected: "Invalid options detected",
         resolveConflict: "It looks like we have some problems. We need to resolve them before generate config:",
+        updateLog: "What's New",
         prevStep: "Previous",
         nextStep: "Next",
 
@@ -589,6 +596,7 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         evening: "Good evening",
         appDirCleared: "App Cache cleared, please restart app and retry. If still stuck on download progress, please remove ~/.tfu directory manually.",
         screen144Hz: "If you have a 144Hz monitor, consider enable this option to escape from sticking in IOConsoleUsers.",
+        requestEFIUpdate: "Require Update",
 
         setting: "Setting",
         efiDownloadPath: "Config Download Path",

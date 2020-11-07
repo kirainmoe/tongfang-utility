@@ -93,6 +93,7 @@ export default class Configure extends Component {
       latestVersion: "Unknown",
       localIntelVersion: isAssistDownloaded(),
       voiceoverStatus: isVoiceOverDownloaded(),
+      updateLog: '',
       remoteIntelVersion: false,
 
       // step 2
@@ -167,6 +168,7 @@ export default class Configure extends Component {
         } else
           this.setState({
             latestVersion: data.latestDev,
+            updateLog: navigator.language === "zh-CN" ? data.updateLog : data.updateLogEn,
             jsdelivrUrl: `${config.download_url.jsdelivr}-${data.latestDev}.zip`,
             downloadSource: "jsdelivr",
           });
@@ -506,6 +508,10 @@ export default class Configure extends Component {
     });
   }
 
+  showUpdateLog() {
+    makeAlert(this.state.updateLog);
+  }
+
   nextPage() {
     this.setState(
       {
@@ -594,7 +600,8 @@ export default class Configure extends Component {
                 <div className="version-info content-container">
                   <p className="version-item">
                     <span className="version-title">{str("latestConfigVersion")}</span>：{" "}
-                    {this.state.latestVersion}
+                    {this.state.latestVersion}{" "}
+                    (<Button type="link" onClick={() => this.showUpdateLog()}>{str("updateLog")}</Button>)
                   </p>
                   <p className="version-item">
                     <span className="version-title">{str("localVersion")}</span>：{" "}

@@ -251,7 +251,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     plist.setValue("PlatformInfo/Generic/SystemUUID", options.smuuid);
 
     // record model info
-    plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/efi-model", options.laptop);
+    plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/efi-model", `model-${options.laptop}`);
 
     if (navigator.language !== "zh-CN") {
       plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/prev-lang:kbd", "en-US:0");
