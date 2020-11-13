@@ -80,8 +80,8 @@ export default class Configure extends Component {
     }
 
     let laptop = getNVRAMValue("efi-model");
-    if (laptop && laptop.length === 1) {
-      laptop = laptop.charCodeAt();
+    if (laptop && laptop.indexOf("model-") >= 0) {
+      laptop = laptop.replace("model-", "").trim();
     }
 
     this.state = {
@@ -362,14 +362,14 @@ export default class Configure extends Component {
           fs.existsSync(path.join(EFIFolderPath, "Microsoft")) ||
           fs.existsSync(path.join(bootFolderPath, "OpenCore.efi"));
         if (hasWindows) {
-          fs.writeFileSync(
-            path.join(bootFolderPath, "OpenCore.efi"),
-            `${savePath}/BOOT/BOOTx64.efi`
+          fs.copyFileSync(
+            `${savePath}/BOOT/BOOTx64.efi`,
+            path.join(bootFolderPath, "OpenCore.efi")
           );
         } else {
-          fs.writeFileSync(
-            path.join(bootFolderPath, "BOOTx64.efi"),
-            `${savePath}/BOOT/BOOTx64.efi`
+          fs.copyFileSync(
+            `${savePath}/BOOT/BOOTx64.efi`,
+            path.join(bootFolderPath, "BOOTx64.efi")
           );
         }
 
