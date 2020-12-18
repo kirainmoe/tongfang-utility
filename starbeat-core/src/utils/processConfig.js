@@ -190,7 +190,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     if (options.accessibility) plist.setValue("Misc/Boot/PickerMode", "Builtin");
     if (!options.bootChime && !options.accessibility) {
       plist.setValue("Misc/Boot/PickerAudioAssist", false);
-      plist.setValue("UEFI/Audio/PlayChime", false);
+      plist.setValue("UEFI/Audio/PlayChime", "");
       plist.setValue("UEFI/Audio/AudioSupport", false);
       plist.deleteValue("UEFI/Drivers/4");
     }
@@ -239,7 +239,11 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-stolenmem");
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
       plist.setValue("NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale", new Uint8Array([2]));
-      plist.setBootArg("-cdfon -igfxmlr");
+      if (options.osVersion === "bigsur") {
+        plist.setBootArg("-igfxmlr -igfxmpc");
+      } else {
+        plist.setBootArg("-cdfon -igfxmlr");
+      }
     }
 
     if (options.appleGuC) plist.setBootArg("igfxfw=2");

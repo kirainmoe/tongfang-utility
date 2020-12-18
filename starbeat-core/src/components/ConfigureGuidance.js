@@ -307,6 +307,14 @@ export default class Configure extends Component {
     return res;
   }
 
+  setOpt(key, value) {
+    const state = {
+      ...this.state,
+    };
+    state[key] = value;
+    this.setState(state);
+  }
+
   // 渲染 SMBIOS 修改界面
   getSMBIOSInfo() {
     return (
@@ -454,7 +462,13 @@ export default class Configure extends Component {
       downloadSpeed: 0,
     });
 
+    const downloadPath = localStorage.getItem("tfu-download-path"),
+      separator = window.electron.isWin() ? "\\" : "/";
+    const savePath = downloadPath + `${separator}Tongfang_EFI`;
+    const saveFile = savePath + "/OpenCore.zip";
+
     if (this.state.downloadSource !== "local") await this.downloadLatest();
+    else await this.processEFI(saveFile, savePath);
   }
 
   updatePercent(progress, downloadSpeed) {
@@ -754,17 +768,12 @@ export default class Configure extends Component {
                       (this.barebones[this.state.laptop] === "GJ5CN64" ||
                         this.barebones[this.state.laptop] === "GI5CN54") && (
                         <p key={2}>{str("requirement4k")}</p>
-                      ),
-                      this.state.osVersion === "bigsur" && (
-                        <p key={3}>{str("bigSurNotSupport4K")}</p>
-                      ),
+                      )
                     ]}
                   >
                     <div
-                      className={`resolution-item ${
-                        this.state.osVersion === "bigsur" ? "disabled" : ""
-                      } ${this.state.resolution === "4k"}`}
-                      onClick={() => this.state.osVersion !== "bigsur" && this.setResolution("4k")}
+                      className={`resolution-item ${this.state.resolution === "4k"}`}
+                      onClick={() => this.setResolution("4k")}
                     >
                       <UHD />
                       <span>3840 × 2160 (4K, UHD)</span>
