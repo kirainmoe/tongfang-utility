@@ -240,7 +240,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
       plist.setValue("NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale", new Uint8Array([2]));
       if (options.osVersion === "bigsur") {
-        plist.setBootArg("-igfxmlr -igfxmpc");
+        plist.setBootArg("-cdfon -igfxmlr -igfxmpc");
       } else {
         plist.setBootArg("-cdfon -igfxmlr");
       }
