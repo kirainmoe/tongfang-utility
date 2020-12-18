@@ -206,14 +206,15 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       plist.setKext("CPUFriendDataProvider_Performance.kext", true);
     }
 
-    if (options.resolution === "1080p144") {
-      plist.setProperties(
-        "PciRoot(0x0)/Pci(0x2,0x0)",
-        "enable-dpcd-max-link-rate-fix",
-        new Uint8Array([1, 0, 0, 0])
-      );
-      plist.setBootArg("-igfxmlr");
-    }
+    // WhateverGreen 1.4.6 break this, but using 1080p@60Hz should work
+    // if (options.resolution === "1080p144") {
+    //   plist.setProperties(
+    //     "PciRoot(0x0)/Pci(0x2,0x0)",
+    //     "enable-dpcd-max-link-rate-fix",
+    //     new Uint8Array([1, 0, 0, 0])
+    //   );
+    //   plist.setBootArg("-igfxmlr");
+    // }
 
     if (options.resolution === "4k") {
       plist.setProperties(

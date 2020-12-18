@@ -1,6 +1,6 @@
 export default {
-    version: "3.0.8",
-    build: 2012181,
+    version: "3.0.9",
+    build: 2012182,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
