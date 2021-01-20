@@ -134,18 +134,26 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
 
     // wireless card
     switch (options.wirelessCard) {
+      // 白果原装无线网卡只需要 AirportBrcmFixup.kext，不需要注入蓝牙驱动；正确注入 USB 端口信息即可驱动
+      // 部分白果卡非国行，需要加入 brcmfx-country=#a 开启全部频段
       case "apple":
         plist.setKext("AirportBrcmFixup", true);
         if (navigator.language === "zh-CN") plist.setBootArg("brcmfx-country=CN");
         else plist.setBootArg("brcmfx-country=#a");
         break;
+
+      // 博通（戴尔）的卡需要 AirportBrcmFixup.kext 和蓝牙固件上传驱动
       case "broadcom":
         plist.setAllKexts(
           ["AirportBrcmFixup", "BrcmBluetoothInjector", "BrcmFirmwareData", "BrcmPatchRAM3"],
           true
         );
-        plist.setBootArg("brcmfx-country=#a");
+        // 部分 DW1560 网卡如果使用 brcmfx-country=#a 会导致网速变慢
+        // plist.setBootArg("brcmfx-country=#a");
         break;
+
+      // Intel 网卡需要 IntelBluetoothFirmware.kext 和 itlwm.kext
+      // 如果开启原生接口驱动则使用 AirportItlwm.kext
       case "intel":
       default:
         window.electron.copyDir(
@@ -206,45 +214,16 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       plist.setKext("CPUFriendDataProvider_Performance.kext", true);
     }
 
-    // WhateverGreen 1.4.6 break this, but using 1080p@60Hz should work
-    // if (options.resolution === "1080p144") {
-    //   plist.setProperties(
-    //     "PciRoot(0x0)/Pci(0x2,0x0)",
-    //     "enable-dpcd-max-link-rate-fix",
-    //     new Uint8Array([1, 0, 0, 0])
-    //   );
-    //   plist.setBootArg("-igfxmlr");
-    // }
-
     if (options.resolution === "4k") {
-      plist.setProperties(
-        "PciRoot(0x0)/Pci(0x2,0x0)",
-        "enable-dpcd-max-link-rate-fix",
-        new Uint8Array([1, 0, 0, 0])
-      );
-      plist.setProperties(
-        "PciRoot(0x0)/Pci(0x2,0x0)",
-        "framebuffer-con1-alldata",
-        new Uint8Array([1, 5, 9, 0, 0, 4, 0, 0, 135, 1, 0, 0])
-      );
       plist.setProperties(
         "PciRoot(0x0)/Pci(0x2,0x0)",
         "framebuffer-unifiedmem",
         new Uint8Array([0, 0, 0, 192])
       );
-      plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-enable");
-      plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con0-pipe");
-      plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con1-pipe");
-      plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-enable");
-      plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-con2-pipe");
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-stolenmem");
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
       plist.setValue("NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale", new Uint8Array([2]));
-      if (options.osVersion === "bigsur") {
-        plist.setBootArg("-cdfon -igfxmlr -igfxmpc");
-      } else {
-        plist.setBootArg("-cdfon -igfxmlr");
-      }
+      plist.setBootArg("-cdfon -igfxmpc");
     }
 
     if (options.appleGuC) plist.setBootArg("igfxfw=2");
@@ -260,6 +239,18 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
 
     if (navigator.language !== "zh-CN") {
       plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/prev-lang:kbd", "en-US:0");
+    }
+
+    // set background
+    if (options.customBackground) {
+      const isICNS = options.backgroundFile.path.endsWith(".icns"),
+        backgroundPath = options.backgroundFile.path;
+      // console.log(backgroundPath);
+      if (isICNS) {
+        fs.copyFileSync(backgroundPath, `${workspace}/OC/Resources/Image/Background.icns`);
+      } else {
+        window.electron.convertPNGtoICNS(backgroundPath, `${workspace}/OC/Resources/Image/Background.icns`);
+      }
     }
 
     window.electron.writeFile(

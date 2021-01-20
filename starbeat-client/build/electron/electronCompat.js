@@ -28,8 +28,14 @@ const electronCompatLayer = () => {
         const fs = require("fs"),
             util = require("util"),
             streamPipeline = util.promisify(require("stream").pipeline);
+        const header = new Headers();
+        header.append('pragma', 'no-cache');
+        header.append('cache-control', 'no-cache');
         fetch = require("node-fetch");
-        const resp = await fetch(url);
+        const resp = await fetch(url, {
+            headers: header,
+            cache: "no-cache"
+        });
         await streamPipeline(resp.body, fs.createWriteStream(savePath));
     };
 
@@ -208,6 +214,10 @@ const electronCompatLayer = () => {
             "/build/static/js/2.chunk.js",
             "/build/static/js/main.chunk.js",
             "/build/static/js/runtime-main.js",
+            "/wasm-png/wasm_png_bg.wasm",
+            "/wasm-png/wasm_png.js",
+            "/wasm-png/wasm_png_bg.wasm.d.ts",
+            "/wasm-png/wasm_png.d.ts",
         ];
 
         const updateSpecificFile = (index, version) => {
@@ -241,6 +251,37 @@ const electronCompatLayer = () => {
                 });
         };
         updateSpecificFile(0, version);
+    };
+
+    const convertPNGtoICNS = (filePath, targeetPath) => {
+        const fs =  require("fs");
+        const png = require("electron").remote.require("./wasm-png/wasm_png");
+
+        console.log(png);
+        const originalImg = fs.readFileSync(filePath);
+        const imageFHD = png.resize(originalImg, 1920, 1080, 4);
+        const imageUHD = png.resize(originalImg, 3840, 2160, 4);
+        
+        const fileSize = Buffer.alloc(4),
+            fhdSize = Buffer.alloc(4),
+            uhdSize = Buffer.alloc(4);
+    
+        fileSize.writeInt32BE(24 + imageFHD.length + imageUHD.length);
+        fhdSize.writeInt32BE(imageFHD.length + 8);
+        uhdSize.writeInt32BE(imageUHD.length + 8);
+    
+        const icnsContent = Buffer.concat([
+            Buffer.from([0x69, 0x63, 0x6e, 0x73]),
+            fileSize,
+            Buffer.from([0x69, 0x63, 0x30, 0x37]),
+            fhdSize,
+            imageFHD,
+            Buffer.from([0x69, 0x63, 0x31, 0x33]),
+            uhdSize,
+            imageUHD,       
+        ]);
+        const res = fs.writeFileSync(targeetPath, icnsContent);
+        console.log("File generated: " +  targeetPath);
     };
 
     const getWMIC = () => {
@@ -450,7 +491,8 @@ const electronCompatLayer = () => {
         selfUpdate,
         getMacSerial,
         generateMacSerial,
-        parseWMIC
+        parseWMIC,
+        convertPNGtoICNS
     };
 };
 

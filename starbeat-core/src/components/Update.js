@@ -147,6 +147,9 @@ export default class Update extends Component {
 
     const downloadUrl = "https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json",
       saveFile = path.join(savePath, "version.json");
+    try {
+      fs.unlinkSync(saveFile);
+    } catch(err) {}
     await window.electron.normalDownload(downloadUrl, saveFile);
 
     this.setState({ status: 5 });

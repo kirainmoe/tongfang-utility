@@ -1,7 +1,20 @@
 import React, { Component } from "react";
 import { createHashHistory } from "history";
-import { Popover, Steps, Progress, Input, Button, message, Modal } from "antd";
-import { CloudDownloadOutlined, FormatPainterOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  Popover,
+  Steps,
+  Progress,
+  Input,
+  Button,
+  message,
+  Modal,
+  Switch,
+} from "antd";
+import {
+  CloudDownloadOutlined,
+  FormatPainterOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 
 import str from "../resource/string";
 import config from "../config";
@@ -93,11 +106,16 @@ export default class Configure extends Component {
       latestVersion: "Unknown",
       localIntelVersion: isAssistDownloaded(),
       voiceoverStatus: isVoiceOverDownloaded(),
-      updateLog: '',
+      updateLog: "",
       remoteIntelVersion: false,
 
       // step 2
-      laptop: laptop === null ? (navigator.language === "zh-CN" ? 9 : 0) : Number(laptop),
+      laptop:
+        laptop === null
+          ? navigator.language === "zh-CN"
+            ? 9
+            : 0
+          : Number(laptop),
       selectingModel: false,
 
       // step 3
@@ -116,6 +134,8 @@ export default class Configure extends Component {
       // step 4
       ...smbios,
       smbiosGenerated,
+      customBackground: false,
+      backgroundFile: null,
 
       // step 5
       jsdelivrUrl: false,
@@ -168,7 +188,10 @@ export default class Configure extends Component {
         } else
           this.setState({
             latestVersion: data.latestDev,
-            updateLog: navigator.language === "zh-CN" ? data.updateLog : data.updateLogEn,
+            updateLog:
+              navigator.language === "zh-CN"
+                ? data.updateLog
+                : data.updateLogEn,
             jsdelivrUrl: `${config.download_url.jsdelivr}-${data.latestDev}.zip`,
             downloadSource: "jsdelivr",
           });
@@ -191,8 +214,13 @@ export default class Configure extends Component {
         this.state.remoteIntelVersion !== this.state.localIntelVersion)
     ) {
       return (
-        <Button type={"link"} onClick={() => createHashHistory().push("/update?target=assist")}>
-          {this.state.localIntelVersion ? str("updateable") : str("undownloaded")}
+        <Button
+          type={"link"}
+          onClick={() => createHashHistory().push("/update?target=assist")}
+        >
+          {this.state.localIntelVersion
+            ? str("updateable")
+            : str("undownloaded")}
         </Button>
       );
     }
@@ -203,7 +231,10 @@ export default class Configure extends Component {
   getVoiceoverStatus() {
     if (!this.state.voiceoverStatus)
       return (
-        <Button type="link" onClick={() => createHashHistory().push("/update?voiceover")}>
+        <Button
+          type="link"
+          onClick={() => createHashHistory().push("/update?voiceover")}
+        >
           {str("goDownload")} {str("optional")}
         </Button>
       );
@@ -222,7 +253,10 @@ export default class Configure extends Component {
       checkResult.push(
         <li className="conflict-item" key={"intel"}>
           {str("intelNotDownloaded")}
-          <Button type={"link"} onClick={() => createHashHistory().push("/update?assist")}>
+          <Button
+            type={"link"}
+            onClick={() => createHashHistory().push("/update?assist")}
+          >
             {str("goDownload")}
           </Button>
         </li>
@@ -233,7 +267,10 @@ export default class Configure extends Component {
       checkResult.push(
         <li className="conflict-item" key={"voiceOver"}>
           {str("accessibilityNotDownloaded")}
-          <Button type={"link"} onClick={() => createHashHistory().push("/update?voiceover")}>
+          <Button
+            type={"link"}
+            onClick={() => createHashHistory().push("/update?voiceover")}
+          >
             {str("goDownload")}
           </Button>
         </li>
@@ -278,10 +315,13 @@ export default class Configure extends Component {
             onClick={() => {
               let nextState = {
                 laptop: tmp,
-                selectingModel: false
+                selectingModel: false,
               };
               this.setState(nextState);
-              if (this.barebones[tmp] === "GJ5KN64" && this.state.smbiosGenerated)
+              if (
+                this.barebones[tmp] === "GJ5KN64" &&
+                this.state.smbiosGenerated
+              )
                 this.reGenerateSMBIOS(40);
             }}
           >
@@ -321,15 +361,24 @@ export default class Configure extends Component {
       <div className="smbios-input">
         <div>
           <label>{str("smbiosModel")}</label>
-          <Input onChange={(v) => this.setOpt("model", v.target.value)} value={this.state.model} />
+          <Input
+            onChange={(v) => this.setOpt("model", v.target.value)}
+            value={this.state.model}
+          />
         </div>
         <div>
           <label>{str("smbiosSN")}</label>
-          <Input onChange={(v) => this.setOpt("sn", v.target.value)} value={this.state.sn} />
+          <Input
+            onChange={(v) => this.setOpt("sn", v.target.value)}
+            value={this.state.sn}
+          />
         </div>
         <div>
           <label>{str("smbiosMLB")}</label>
-          <Input onChange={(v) => this.setOpt("mlb", v.target.value)} value={this.state.mlb} />
+          <Input
+            onChange={(v) => this.setOpt("mlb", v.target.value)}
+            value={this.state.mlb}
+          />
         </div>
         <div>
           <label>{str("smbiosSmUUID")}</label>
@@ -344,7 +393,9 @@ export default class Configure extends Component {
 
   // 自动复制 EFI 到 ESP 分区
   async replaceEFI(index, name) {
-    const info = str("confirmToReplace").replace("$1", name).replace("$2", index);
+    const info = str("confirmToReplace")
+      .replace("$1", name)
+      .replace("$2", index);
 
     const path = window.require("path"),
       fs = window.require("fs"),
@@ -381,8 +432,10 @@ export default class Configure extends Component {
           );
         }
 
-        if (fs.existsSync(OCBackupFolderPath)) window.electron.rmdir(OCBackupFolderPath);
-        if (fs.existsSync(OCFolderPath)) fs.renameSync(OCFolderPath, OCBackupFolderPath);
+        if (fs.existsSync(OCBackupFolderPath))
+          window.electron.rmdir(OCBackupFolderPath);
+        if (fs.existsSync(OCFolderPath))
+          fs.renameSync(OCFolderPath, OCBackupFolderPath);
 
         window.electron.copyDir(`${savePath}/OC`, OCFolderPath);
 
@@ -400,12 +453,15 @@ export default class Configure extends Component {
     const items = [];
     esp.forEach((part, index) => {
       const name = part.name.length > 2 ? part.name : "Untitled";
-      const partInfo = `${str("diskName")}: ${name}，${str("diskSize")}: ${part.size}，${str(
-        "diskIndex"
-      )}: ${part.index}`;
+      const partInfo = `${str("diskName")}: ${name}，${str("diskSize")}: ${
+        part.size
+      }，${str("diskIndex")}: ${part.index}`;
       items.push(
         <Popover content={partInfo} key={index}>
-          <div className="esp-item" onClick={() => this.replaceEFI(part.index, name)}>
+          <div
+            className="esp-item"
+            onClick={() => this.replaceEFI(part.index, name)}
+          >
             <Disk />
             <p className="esp-tag">{name}</p>
           </div>
@@ -427,11 +483,15 @@ export default class Configure extends Component {
   // 重新生成 SMBIOS
   reGenerateSMBIOS(r = undefined) {
     try {
-      const model = r ? r : this.barebones[this.state.laptop] === "GJ5KN64" ? 40 : 43;
+      const model = r
+        ? r
+        : this.barebones[this.state.laptop] === "GJ5KN64"
+        ? 40
+        : 43;
       let smbios = window.electron.generateMacSerial(model);
       this.setState({
         ...smbios,
-        smbiosGenerated: true
+        smbiosGenerated: true,
       });
     } catch (err) {
       console.log(err);
@@ -514,7 +574,12 @@ export default class Configure extends Component {
       progress: 100,
     });
 
-    const result = await processConfig(savePath, saveFile, this.barebones, this.state);
+    const result = await processConfig(
+      savePath,
+      saveFile,
+      this.barebones,
+      this.state
+    );
     await this.setState({
       generateStatus: result,
       currentStep: this.state.currentStep + 1,
@@ -543,8 +608,17 @@ export default class Configure extends Component {
     if (this.state.currentStep === 1) {
       const current = this.selectModel.querySelector(".true");
       const lists = this.selectModel.querySelector(".model-lists");
-      if (current && lists) lists.scrollTop = Math.max(0, current.offsetTop - lists.offsetTop - 20);
+      if (current && lists)
+        lists.scrollTop = Math.max(0, current.offsetTop - lists.offsetTop - 20);
     }
+  }
+
+  handleFileSelect(e) {
+    if (e.target.files.length === 0) return;
+    console.log(e.target.files[0]);
+    this.setState({
+      backgroundFile: e.target.files[0],
+    });
   }
 
   setOSVersion = (v) => this.setState({ osVersion: v });
@@ -571,24 +645,36 @@ export default class Configure extends Component {
               __html: str("cannotDownloadSolution"),
             }}
           />
-          <div className="download-lists" style={{ fontSize: 12, color: "#999" }}>
+          <div
+            className="download-lists"
+            style={{ fontSize: 12, color: "#999" }}
+          >
             {this.state.latestDev !== "Unknown" && (
               <li style={{ width: "100%" }}>
                 JSDelivr: <br />
-                <Button type="link" onClick={() => this.openPage(`${this.state.jsdelivrUrl}`)}>
+                <Button
+                  type="link"
+                  onClick={() => this.openPage(`${this.state.jsdelivrUrl}`)}
+                >
                   {`${this.state.jsdelivrUrl}`}
                 </Button>
               </li>
             )}
             <li>
               GitHub: <br />
-              <Button type="link" onClick={() => this.openPage(config.download_url.github)}>
+              <Button
+                type="link"
+                onClick={() => this.openPage(config.download_url.github)}
+              >
                 {config.download_url.github}
               </Button>
             </li>
             <li>
               BitBucket <br />
-              <Button type="link" onClick={() => this.openPage(config.download_url.bitbucket)}>
+              <Button
+                type="link"
+                onClick={() => this.openPage(config.download_url.bitbucket)}
+              >
                 {config.download_url.bitbucket}
               </Button>
             </li>
@@ -610,24 +696,33 @@ export default class Configure extends Component {
           <div className="guidance-content">
             {this.state.currentStep === 0 && (
               <div className="prepare">
-                <h1 className="content-title">{str("checkComponentVersion")}</h1>
+                <h1 className="content-title">
+                  {str("checkComponentVersion")}
+                </h1>
                 <div className="version-info content-container">
                   <p className="version-item">
-                    <span className="version-title">{str("latestConfigVersion")}</span>：{" "}
-                    {this.state.latestVersion}{" "}
-                    (<Button type="link" onClick={() => this.showUpdateLog()}>{str("updateLog")}</Button>)
+                    <span className="version-title">
+                      {str("latestConfigVersion")}
+                    </span>
+                    ： {this.state.latestVersion} (
+                    <Button type="link" onClick={() => this.showUpdateLog()}>
+                      {str("updateLog")}
+                    </Button>
+                    )
                   </p>
                   <p className="version-item">
-                    <span className="version-title">{str("localVersion")}</span>：{" "}
-                    {getCurrentVersionFromNVRAM()}
+                    <span className="version-title">{str("localVersion")}</span>
+                    ： {getCurrentVersionFromNVRAM()}
                   </p>
                   <p className="version-item">
-                    <span className="version-title">{str("intelVersion")}</span>：
-                    {this.getIntelStatus()}
+                    <span className="version-title">{str("intelVersion")}</span>
+                    ：{this.getIntelStatus()}
                   </p>
                   <p className="version-item">
-                    <span className="version-title">{str("voiceoverVersion")}</span>：
-                    {this.getVoiceoverStatus()}
+                    <span className="version-title">
+                      {str("voiceoverVersion")}
+                    </span>
+                    ：{this.getVoiceoverStatus()}
                   </p>
                 </div>
 
@@ -644,12 +739,17 @@ export default class Configure extends Component {
             )}
 
             {this.state.currentStep === 1 && (
-              <div className="select-model" ref={(ref) => (this.selectModel = ref)}>
+              <div
+                className="select-model"
+                ref={(ref) => (this.selectModel = ref)}
+              >
                 <h1 className="content-title">{str("selectModel")}</h1>
                 <div className="model-filter">
                   <h4>
                     {str("currentModel")}：
-                    <span className="model-name">{this.models[this.state.laptop]}</span>
+                    <span className="model-name">
+                      {this.models[this.state.laptop]}
+                    </span>
                   </h4>
                   <Input
                     onChange={(v) => this.handleSearch(v)}
@@ -667,7 +767,10 @@ export default class Configure extends Component {
                 <div className="os-select">
                   <div
                     onClick={() => this.setOSVersion("catalina")}
-                    className={"os-item catalina " + (this.state.osVersion === "catalina")}
+                    className={
+                      "os-item catalina " +
+                      (this.state.osVersion === "catalina")
+                    }
                     aria-label={`macOS 10.15 Catalina ${
                       this.state.osVersion === "catalina" ? "已选中" : ""
                     }`}
@@ -680,7 +783,9 @@ export default class Configure extends Component {
                       this.setOSVersion("bigsur");
                       this.setResolution("1080p");
                     }}
-                    className={"os-item bigsur " + (this.state.osVersion === "bigsur")}
+                    className={
+                      "os-item bigsur " + (this.state.osVersion === "bigsur")
+                    }
                     aria-label={`macOS 11.0 Big Sur ${
                       this.state.osVersion === "bigsur" ? "已选中" : ""
                     }`}
@@ -695,7 +800,9 @@ export default class Configure extends Component {
                   <Popover content={str("appleWirelessModels")}>
                     <div
                       onClick={() => this.setWirelessCard("apple")}
-                      className={`wcard-item apple ${this.state.wirelessCard === "apple"}`}
+                      className={`wcard-item apple ${
+                        this.state.wirelessCard === "apple"
+                      }`}
                       aria-label={`${str("appleWireless")} ${
                         this.state.wirelessCard === "apple" ? "已选中" : ""
                       }`}
@@ -707,7 +814,9 @@ export default class Configure extends Component {
                   <Popover content={str("broadcomWirelessModels")}>
                     <div
                       onClick={() => this.setWirelessCard("broadcom")}
-                      className={`wcard-item broadcom ${this.state.wirelessCard === "broadcom"}`}
+                      className={`wcard-item broadcom ${
+                        this.state.wirelessCard === "broadcom"
+                      }`}
                       aria-label={`${str("broadcomWireless")} ${
                         this.state.wirelessCard === "broadcom" ? "已选中" : ""
                       }`}
@@ -719,7 +828,9 @@ export default class Configure extends Component {
                   <Popover content={str("intelWirelessModels")}>
                     <div
                       onClick={() => this.setWirelessCard("intel")}
-                      className={`wcard-item intel ${this.state.wirelessCard === "intel"}`}
+                      className={`wcard-item intel ${
+                        this.state.wirelessCard === "intel"
+                      }`}
                       aria-label={`${str("intelWireless")} ${
                         this.state.wirelessCard === "intel" ? "已选中" : ""
                       }`}
@@ -731,17 +842,23 @@ export default class Configure extends Component {
                   <div
                     onClick={() => this.toggleOption("rndis")}
                     className={`wcard-item usb ${this.state.rndis}`}
-                    aria-label={`${str("usbRNDIS")} ${this.state.rndis ? "已选中" : ""}`}
+                    aria-label={`${str("usbRNDIS")} ${
+                      this.state.rndis ? "已选中" : ""
+                    }`}
                   >
                     <USB />
                     <span>{str("usbRNDIS")}</span>
                   </div>
                 </div>
 
-                <h1 className="content-title">{str("innerScreenResolution")}</h1>
+                <h1 className="content-title">
+                  {str("innerScreenResolution")}
+                </h1>
                 <div className="resolution-select">
                   <div
-                    className={`resolution-item ${this.state.resolution === "1080p"}`}
+                    className={`resolution-item ${
+                      this.state.resolution === "1080p"
+                    }`}
                     onClick={() => this.setResolution("1080p")}
                     aria-label={`1920 × 1080, 60Hz ${
                       this.state.resolution === "1080p" ? "已选中" : ""
@@ -752,7 +869,9 @@ export default class Configure extends Component {
                   </div>
                   <Popover content={str("screen144Hz")}>
                     <div
-                      className={`resolution-item ${this.state.resolution === "1080p144"}`}
+                      className={`resolution-item ${
+                        this.state.resolution === "1080p144"
+                      }`}
                       onClick={() => this.setResolution("1080p144")}
                       aria-label={`1920 × 1080, 144Hz ${
                         this.state.resolution === "1080p144" ? "已选中" : ""
@@ -768,11 +887,13 @@ export default class Configure extends Component {
                       (this.barebones[this.state.laptop] === "GJ5CN64" ||
                         this.barebones[this.state.laptop] === "GI5CN54") && (
                         <p key={2}>{str("requirement4k")}</p>
-                      )
+                      ),
                     ]}
                   >
                     <div
-                      className={`resolution-item ${this.state.resolution === "4k"}`}
+                      className={`resolution-item ${
+                        this.state.resolution === "4k"
+                      }`}
                       onClick={() => this.setResolution("4k")}
                     >
                       <UHD />
@@ -860,20 +981,11 @@ export default class Configure extends Component {
             )}
 
             {this.state.currentStep === 3 && (
-              <div className="smbios-set">
-                <h1 className="content-title">{str("setSMBIOSInfo")}</h1>
-                <p className="step-tips">
-                  {str("SMBIOSInfoSource")}：
-                  {this.state.smbiosGenerated
-                    ? str("getSMBIOSFromGeneration")
-                    : str("getSMBIOSFromSystem")}
-                  ，{str("leaveItAsIsIfYouDontKnow")}
-                </p>
-                <div className="smbios-container">
-                  {this.getSMBIOSInfo()}
-
-                  <div style={{ textAlign: "center", marginTop: 20 }}>
-                    <Popover placement="bottom" content={str("regenerate")}>
+              <div className="personalize">
+                <div className="smbios-set">
+                  <h1 className="content-title">{str("setSMBIOSInfo")}</h1>
+                  <div className="smbios-regen-button">
+                    <Popover placement="left" content={str("regenerate")}>
                       <Button
                         aria-label={str("regenerate")}
                         size="large"
@@ -886,6 +998,49 @@ export default class Configure extends Component {
                       </Button>
                     </Popover>
                   </div>
+                  <p className="step-tips">
+                    {str("SMBIOSInfoSource")}：
+                    {this.state.smbiosGenerated
+                      ? str("getSMBIOSFromGeneration")
+                      : str("getSMBIOSFromSystem")}
+                    ，{str("leaveItAsIsIfYouDontKnow")}
+                  </p>
+                  <div className="smbios-container">{this.getSMBIOSInfo()}</div>
+                </div>
+
+                <div className="set-background">
+                  <h1 className="content-title">{str("setBackground")}</h1>
+                  <p className="step-tips">{str("setBackgroundDescription")}</p>
+                  <div className="custom-bg-button">
+                    <label>{str("useCustomBackground")}</label>
+                    <Switch
+                      defaultChecked={this.state.customBackground}
+                      onChange={(v) => this.setState({ customBackground: v })}
+                    />
+                  </div>
+                  {this.state.customBackground && (
+                    <div className="custom-bg-input">
+                      <input
+                        type="file"
+                        ref={(ref) => (this.fileInput = ref)}
+                        style={{ display: "none" }}
+                        onChange={(e) => this.handleFileSelect(e)}
+                        accept=".png,.icns"
+                      />
+                      <Button
+                        onClick={() => this.fileInput.click()}
+                        shape="round"
+                      >
+                        {str("selectBackgroundImage")}
+                      </Button>
+                      {this.state.backgroundFile !== null && (
+                        <p className="selected-file-name">
+                          {str("selectedImage")}:{" "}
+                          {this.state.backgroundFile.path}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -896,10 +1051,14 @@ export default class Configure extends Component {
                 <ul className="confirm-info">
                   <li>
                     <span className="confirm-item">{str("YourModel")}: </span>
-                    <span className="confirm-value">{this.models[this.state.laptop]}</span>
+                    <span className="confirm-value">
+                      {this.models[this.state.laptop]}
+                    </span>
                   </li>
                   <li>
-                    <span className="confirm-item">{str("YourOSToBeInstalled")}: </span>
+                    <span className="confirm-item">
+                      {str("YourOSToBeInstalled")}:{" "}
+                    </span>
                     <span className="confirm-value">
                       {this.state.osVersion === "catalina"
                         ? "macOS 10.15 Catalina"
@@ -909,14 +1068,19 @@ export default class Configure extends Component {
                   {(this.barebones[this.state.laptop] === "GJ5CN64" ||
                     this.barebones[this.state.laptop] === "GI5CN54") &&
                     this.state.resolution === "4k" && (
-                      <p className="step-tips small-text">{str("requirement4k")}</p>
+                      <p className="step-tips small-text">
+                        {str("requirement4k")}
+                      </p>
                     )}
                   <li>
-                    <span className="confirm-item">{str("YourWirelessCard")}: </span>
+                    <span className="confirm-item">
+                      {str("YourWirelessCard")}:{" "}
+                    </span>
                     <span className="confirm-value">
                       {(() => {
                         let display = "";
-                        if (this.state.wirelessCard === "apple") display += str("appleWireless");
+                        if (this.state.wirelessCard === "apple")
+                          display += str("appleWireless");
                         else if (this.state.wirelessCard === "broadcom")
                           display += str("broadcomWireless");
                         else if (this.state.wirelessCard === "intel")
@@ -929,13 +1093,16 @@ export default class Configure extends Component {
                             ")";
 
                         if (this.state.rndis)
-                          display += ", " + str("addition") + " " + str("usbRNDIS");
+                          display +=
+                            ", " + str("addition") + " " + str("usbRNDIS");
                         return display;
                       })()}
                     </span>
                   </li>
                   <li>
-                    <span className="confirm-item">{str("YourResolution")}: </span>
+                    <span className="confirm-item">
+                      {str("YourResolution")}:{" "}
+                    </span>
                     <span className="confirm-value">
                       {this.state.resolution === "1080p"
                         ? "1920 x 1080 (1080p)"
@@ -946,7 +1113,8 @@ export default class Configure extends Component {
                   </li>
 
                   {(() => {
-                    if (!this.state.disableNVMe && !this.state.NVMeFix) return null;
+                    if (!this.state.disableNVMe && !this.state.NVMeFix)
+                      return null;
                     let display = "",
                       flag = false;
                     if (this.state.disableNVMe) {
@@ -963,7 +1131,8 @@ export default class Configure extends Component {
                   })()}
 
                   {(() => {
-                    if (!this.state.appleGuC && !this.state.cpuBestPerformance) return null;
+                    if (!this.state.appleGuC && !this.state.cpuBestPerformance)
+                      return null;
                     let display = "",
                       flag = false;
                     if (this.state.appleGuC) {
@@ -971,7 +1140,9 @@ export default class Configure extends Component {
                       flag = true;
                     }
                     if (this.state.cpuBestPerformance)
-                      display += (flag ? ", " : "") + str("YouEnabledCPUBestPerformance");
+                      display +=
+                        (flag ? ", " : "") +
+                        str("YouEnabledCPUBestPerformance");
                     return (
                       <li>
                         <span className="confirm-value">{display}</span>
@@ -981,7 +1152,9 @@ export default class Configure extends Component {
 
                   {this.state.accessibility && (
                     <li>
-                      <span className="confirm-value">{str("YouEnabledAccessibility")}</span>
+                      <span className="confirm-value">
+                        {str("YouEnabledAccessibility")}
+                      </span>
                     </li>
                   )}
                 </ul>
@@ -990,13 +1163,17 @@ export default class Configure extends Component {
                   const conflict = this.checkOptions();
                   return conflict.length ? (
                     <div className="resolve-conflict">
-                      <h1 className="content-title">{str("conflictDetected")}</h1>
+                      <h1 className="content-title">
+                        {str("conflictDetected")}
+                      </h1>
                       <p className="step-tips">{str("resolveConflict")}</p>
                       <ul>{conflict}</ul>
                     </div>
                   ) : (
                     <React.Fragment>
-                      <h1 className="content-title">{str("readyToGenerate")}</h1>
+                      <h1 className="content-title">
+                        {str("readyToGenerate")}
+                      </h1>
                       <p className="step-tips">{str("downloadSource")}</p>
                       <div className="select-source">
                         <div
@@ -1010,7 +1187,9 @@ export default class Configure extends Component {
                         </div>
                         <div
                           onClick={() => this.setDownloadSource("github")}
-                          className={`source-item github ${this.state.downloadSource === "github"}`}
+                          className={`source-item github ${
+                            this.state.downloadSource === "github"
+                          }`}
                         >
                           <GitHub />
                           {str("downloadFromGitHub")}
@@ -1029,7 +1208,9 @@ export default class Configure extends Component {
                         {this.configExists() && (
                           <div
                             onClick={() => this.setDownloadSource("local")}
-                            className={`source-item local ${this.state.downloadSource === "local"}`}
+                            className={`source-item local ${
+                              this.state.downloadSource === "local"
+                            }`}
                           >
                             <Laptop />
                             {str("generateEFI")}
@@ -1045,39 +1226,43 @@ export default class Configure extends Component {
               </div>
             )}
 
-            {this.state.operation === "generating" && this.state.currentStep === 4 && (
-              <div className="generate-page">
-                <Progress
-                  type="circle"
-                  percent={this.state.progress}
-                  status="active"
-                  strokeColor={{
-                    "0%": "#108ee9",
-                    "100%": "#87d068",
-                  }}
-                  style={{
-                    margin: "0 auto",
-                  }}
-                />
-                <p style={{ fontSize: 18 }}>
-                  <LoadingOutlined />
-                  <span style={{ marginLeft: 10 }}>
-                    {this.state.generateStep === "download"
-                      ? str("downloadWait") + ` (${this.state.downloadSpeed} KB/s)`
-                      : str("generating")}
-                    ...
-                  </span>
-                </p>
-                <p>
-                  <Button
-                    onClick={() => this.toggleOption("showCannotDownloadSolution")}
-                    type="link"
-                  >
-                    {str("cannotDownload")}
-                  </Button>
-                </p>
-              </div>
-            )}
+            {this.state.operation === "generating" &&
+              this.state.currentStep === 4 && (
+                <div className="generate-page">
+                  <Progress
+                    type="circle"
+                    percent={this.state.progress}
+                    status="active"
+                    strokeColor={{
+                      "0%": "#108ee9",
+                      "100%": "#87d068",
+                    }}
+                    style={{
+                      margin: "0 auto",
+                    }}
+                  />
+                  <p style={{ fontSize: 18 }}>
+                    <LoadingOutlined />
+                    <span style={{ marginLeft: 10 }}>
+                      {this.state.generateStep === "download"
+                        ? str("downloadWait") +
+                          ` (${this.state.downloadSpeed} KB/s)`
+                        : str("generating")}
+                      ...
+                    </span>
+                  </p>
+                  <p>
+                    <Button
+                      onClick={() =>
+                        this.toggleOption("showCannotDownloadSolution")
+                      }
+                      type="link"
+                    >
+                      {str("cannotDownload")}
+                    </Button>
+                  </p>
+                </div>
+              )}
 
             {this.state.currentStep === 5 && this.state.generateStatus && (
               <div className="result-success">
@@ -1087,16 +1272,29 @@ export default class Configure extends Component {
                     <Success />
                   </div>
 
-                  <div className="success-instruction" role={"alert"} aria-atomic={true}>
+                  <div
+                    className="success-instruction"
+                    role={"alert"}
+                    aria-atomic={true}
+                  >
                     <p>{str("successInfo")}</p>
                     <ul>
-                      <li className="success-item">{str("successInstructionUSB")}</li>
-                      <li className="success-item">{str("successInstructionHD")}</li>
-                      <li className="success-item">{str("deleteBeforeReplace")}</li>
+                      <li className="success-item">
+                        {str("successInstructionUSB")}
+                      </li>
+                      <li className="success-item">
+                        {str("successInstructionHD")}
+                      </li>
+                      <li className="success-item">
+                        {str("deleteBeforeReplace")}
+                      </li>
                       {navigator.language === "zh-CN" && (
                         <li className="success-item">
                           仍然不知道如何安装/替换？请参考
-                          <Button onClick={() => this.openPage(biliPageLink)} type="link">
+                          <Button
+                            onClick={() => this.openPage(biliPageLink)}
+                            type="link"
+                          >
                             教学视频
                           </Button>
                           的演示。
@@ -1110,14 +1308,16 @@ export default class Configure extends Component {
               </div>
             )}
 
-            {(this.state.operation === "choose" || this.state.operation === "success") && (
+            {(this.state.operation === "choose" ||
+              this.state.operation === "success") && (
               <div className="actions-button">
                 {this.state.currentStep > 0 && this.state.currentStep < 5 && (
                   <Button
                     shape="round"
                     onClick={() =>
-                      this.setState({ currentStep: this.state.currentStep - 1 }, () =>
-                        this.handlePageChange()
+                      this.setState(
+                        { currentStep: this.state.currentStep - 1 },
+                        () => this.handlePageChange()
                       )
                     }
                   >
@@ -1132,11 +1332,17 @@ export default class Configure extends Component {
                     onClick={() => this.generateEFI()}
                   >
                     <CloudDownloadOutlined />
-                    {this.state.downloadSource === "local" ? str("generateEFI") : str("getLatest")}
+                    {this.state.downloadSource === "local"
+                      ? str("generateEFI")
+                      : str("getLatest")}
                   </Button>
                 )}
                 {this.state.currentStep < this.steps.length - 2 && (
-                  <Button shape="round" type="primary" onClick={() => this.nextPage()}>
+                  <Button
+                    shape="round"
+                    type="primary"
+                    onClick={() => this.nextPage()}
+                  >
                     {str("nextStep")}
                   </Button>
                 )}

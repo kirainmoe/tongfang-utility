@@ -194,7 +194,7 @@ export const strings = {
         stepIndicate: "$1 / $2",
         getReady: "欢迎",
         customizeHardware: "定制配置文件",
-        setSMBIOS: "设置识别信息",
+        setSMBIOS: "个性化",
         generate: "生成配置文件",
         finish: "完成",
 
@@ -275,6 +275,11 @@ export const strings = {
         resolveConflict: "看起来您似乎选择了某些无效的选项。在生成 EFI 之前，请解决以下问题：",
         prevStep: "上一步",
         nextStep: "下一步",
+        setBackground: "设置引导界面背景",
+        setBackgroundDescription: "选择一张图片作为 OpenCore 引导程序的背景。由于 opencanopy 只能解析 256 色图片，为了保证效果，请自行裁切分辨率为 1920x1080 或 3840x2160，并避免使用颜色过于鲜艳、过渡色明显的图片。仅支持 png 或打包好的 icns 格式图片。",
+        useCustomBackground: "启用自定义背景",
+        selectBackgroundImage: "选择背景图片",
+        selectedImage: "已选择的图片",
 
         dashboard: "仪表盘",
         deviceInfo: "设备信息",
@@ -494,7 +499,7 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         stepIndicate: "$1 / $2",
         getReady: "Welcome",
         customizeHardware: "Hardware",
-        setSMBIOS: "Set SMBIOS",
+        setSMBIOS: "Personalization",
         generate: "Generate Config",
         finish: "Done",
 

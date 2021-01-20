@@ -67,7 +67,7 @@ export default class CompatCheck extends Component {
         const espStatus = this.getESPInfo();
         const wirelessStatus = this.getWirelessCardModel();
         const boardStatus = this.getBoardModel();
-        const uefiStatus = this.getUEFIBootStatus();
+        const uefiStatus = 1;
         return {
             ssdStatus,
             espStatus,
@@ -200,14 +200,14 @@ export default class CompatCheck extends Component {
     }
 
     getUEFIBootStatus() {
-        const cp = window.require("child_process");
-        const res = cp.execSync("bcdedit /enum").toString();
-        
-        if (!res)
-            return 0;
-        if (res.toLowerCase().includes("bootmgfw.efi") || res.toLowerCase().includes("winload.efi"))
-            return 1;
-        return 0;
+        window.electron.sudoExec("bcdedit /enum", (err, output) => {
+            if (!output)
+                this.setState({ uefiStatus: 0 });
+            if (output.toLowerCase().includes("bootmgfw.efi") || output.toLowerCase().includes("winload.efi"))
+                this.setState({ uefiStatus: 1 });
+            else
+                this.setState({ uefiStatus: 0 });
+        });
     }
 
     render() {
