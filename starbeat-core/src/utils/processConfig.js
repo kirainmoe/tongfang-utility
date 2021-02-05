@@ -228,6 +228,10 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
 
     if (options.appleGuC) plist.setBootArg("igfxfw=2");
     if (options.NVMeFix) plist.setKext("NVMeFix", true);
+    if (options.useCompatACPI) {
+      plist.setKext("SMCBatteryManager", false);
+      plist.setKext("ACPIBatteryManager", true);
+    }
 
     plist.setValue("PlatformInfo/Generic/SystemProductName", options.model);
     plist.setValue("PlatformInfo/Generic/SystemSerialNumber", options.sn);
@@ -245,11 +249,10 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     if (options.customBackground) {
       const isICNS = options.backgroundFile.path.endsWith(".icns"),
         backgroundPath = options.backgroundFile.path;
-      // console.log(backgroundPath);
       if (isICNS) {
         fs.copyFileSync(backgroundPath, `${workspace}/OC/Resources/Image/Background.icns`);
       } else {
-        window.electron.convertPNGtoICNS(backgroundPath, `${workspace}/OC/Resources/Image/Background.icns`);
+        window.electron.convertPNGtoICNS(backgroundPath, `${workspace}/OC/Resources/Image/Background.icns`, workspace);
       }
     }
 

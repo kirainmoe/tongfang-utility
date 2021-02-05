@@ -116,7 +116,7 @@
                 display: flex
                 align-items: center
                 margin-right: 20px
-                transition: .3s all ease-in-out
+                transition: .3s background ease-in-out, .3s flex ease-in-out
                 img
                     width: 30px
                     height: 30px
@@ -172,6 +172,11 @@
                     width: 20px
                     height: 20px
                     margin-right: 10px
+        .personalize-settings
+            .ps-item:nth-last-child(4), .ps-item:nth-last-child(4) ~ .ps-item
+                font-size: 10px
+                line-height: 16px
+                text-align: center
         /* step 4 */
         .set-background
             position: relative

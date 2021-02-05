@@ -31,6 +31,7 @@ import {
 } from "../utils/env";
 import processConfig from "../utils/processConfig";
 
+import Battery from "../icons/Battery";
 import Bitbucket from "../icons/Bitbucket";
 import GitHub from "../icons/GitHub";
 import JSDelivr from "../icons/JSDelivr";
@@ -130,6 +131,7 @@ export default class Configure extends Component {
       disableNVMe: hasParam("-nvme-disabled"),
       appleGuC: hasParam("igfxfw=2"),
       useAirportItlwm: false,
+      useCompatACPI: !isKextLoaded("SMCBatteryManager"),
 
       // step 4
       ...smbios,
@@ -162,7 +164,7 @@ export default class Configure extends Component {
     if (!window.electron.isMac()) return "catalina";
     const cp = window.require("child_process"),
       output = cp.execSync("sw_vers").toString();
-    if (output.indexOf("11.0") >= 0) return "bigsur";
+    if (output.indexOf("11.") >= 0) return "bigsur";
     return "catalina";
   }
 
@@ -947,7 +949,7 @@ export default class Configure extends Component {
                   </Popover>
                 </div>
 
-                <h1 className="content-title">{str("personalize")}</h1>
+                <h1 className="content-title">{str("specialSetting")}</h1>
                 <div className="personalize-settings">
                   <div
                     onClick={() => this.toggleOption("bootChime")}
@@ -963,6 +965,15 @@ export default class Configure extends Component {
                     >
                       <Accessibility />
                       <span>{str("accessibility")}</span>
+                    </div>
+                  </Popover>
+                  <Popover content={str("useLegacyBatteryDriverDescription")}>
+                    <div
+                      onClick={() => this.toggleOption("useCompatACPI")}
+                      className={`ps-item ${this.state.useCompatACPI}`}
+                    >
+                      <Battery />
+                      <span>{str("useLegacyBatteryDriver")}</span>
                     </div>
                   </Popover>
                   {this.state.wirelessCard === "intel" && (

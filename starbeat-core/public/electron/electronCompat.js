@@ -253,35 +253,34 @@ const electronCompatLayer = () => {
         updateSpecificFile(0, version);
     };
 
-    const convertPNGtoICNS = (filePath, targeetPath) => {
-        const fs =  require("fs");
-        const png = require("electron").remote.require("./wasm-png/wasm_png");
+    const convertPNGtoICNS = (filePath, targetPath, tmpPath) => {
+        const fs =  require("fs"),
+            cp = require("child_process"),
+            png = require("electron").remote.require("./wasm-png/wasm_png");
 
-        console.log(png);
         const originalImg = fs.readFileSync(filePath);
         const imageFHD = png.resize(originalImg, 1920, 1080, 4);
         const imageUHD = png.resize(originalImg, 3840, 2160, 4);
+
+        fs.writeFileSync(`${tmpPath}/Background.1x.tmp.png`, imageFHD);
+        fs.writeFileSync(`${tmpPath}/Background.2x.tmp.png`, imageUHD);
+
+        let icnspack;
+        const remote = require("electron").remote;
+        const p = remote.app.getAppPath();
+        if (isMac()) {
+            icnspack = p + "/icnspack/icnspack";
+        } else
+        icnspack = isWin()
+                ? '"' + p + '\\icnspack\\icnspack.exe"'
+                : "";
+
+        if (!isWin()) icnspack = icnspack.replace(/ /g, "\\ ");
         
-        const fileSize = Buffer.alloc(4),
-            fhdSize = Buffer.alloc(4),
-            uhdSize = Buffer.alloc(4);
-    
-        fileSize.writeInt32BE(24 + imageFHD.length + imageUHD.length);
-        fhdSize.writeInt32BE(imageFHD.length + 8);
-        uhdSize.writeInt32BE(imageUHD.length + 8);
-    
-        const icnsContent = Buffer.concat([
-            Buffer.from([0x69, 0x63, 0x6e, 0x73]),
-            fileSize,
-            Buffer.from([0x69, 0x63, 0x30, 0x37]),
-            fhdSize,
-            imageFHD,
-            Buffer.from([0x69, 0x63, 0x31, 0x33]),
-            uhdSize,
-            imageUHD,       
-        ]);
-        const res = fs.writeFileSync(targeetPath, icnsContent);
-        console.log("File generated: " +  targeetPath);
+        cp.execSync(`${icnspack} ${targetPath} ${tmpPath}/Background.1x.tmp.png ${tmpPath}/Background.2x.tmp.png`);
+        fs.unlinkSync(`${tmpPath}/Background.1x.tmp.png`);
+        fs.unlinkSync(`${tmpPath}/Background.2x.tmp.png`);
+        
     };
 
     const getWMIC = () => {
