@@ -203,10 +203,11 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       plist.deleteValue("UEFI/Drivers/4");
     }
 
+    // macOS Big Sur 必须将 csr-active-config 设置成 00000000，否则无法检测到 macOS 更新
     if (options.osVersion === "bigsur")
       plist.setValue(
         "NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/csr-active-config",
-        new Uint8Array([119, 0, 0, 0])
+        new Uint8Array([0, 0, 0, 0])
       );
 
     if (options.cpuBestPerformance) {

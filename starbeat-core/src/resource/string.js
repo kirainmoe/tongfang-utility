@@ -99,7 +99,7 @@ export const strings = {
         successInstructionUSB:
             "对于 U 盘引导用户：请将 BOOT 和 OC 文件夹复制到 U 盘 ESP 分区的 EFI/BOOT 和 EFI/OC 下。",
         successInstructionHD:
-            "对于硬盘引导用户：请将 OC 文件夹复制到硬盘 ESP 分区的 EFI/OC 下，在 Windows 中使用 DiskGenius 或其它软件添加 UEFI 启动项指向 EFI/OC/Bootstrap/Bootstrap.efi （请注意不是指向 EFI/OC/OpenCore.efi）。",
+            "对于硬盘引导用户：请将 OC 文件夹复制到硬盘 ESP 分区的 EFI/OC 下，在 Windows 中使用 DiskGenius 或其它软件添加 UEFI 启动项指向 EFI/OC/OpenCore.efi 。",
         deleteBeforeReplace: "如果 ESP 分区中已存在 OC 文件夹，请先将其删除之后再替换。如果你正在使用 macOS, 点击下面的图标可以快速复制到硬盘 / U 盘上的 ESP 分区。",
         backward: "我知道了，这就去和苹果对线",
         requirement4k:
@@ -420,7 +420,7 @@ export const strings = {
         successInstructionUSB:
             "For users booting from USB flash: Copy `BOOT` and `OC` folder to `EFI/BOOT` and `EFI/OC` in your ESP. ",
         successInstructionHD:
-            "For users booting from hard disk: copy OC` folder to `EFI/OC` in your ESP, then add a boot entry pointing to `EFI/OC/Bootstrap/Bootstrap.efi`. ",
+            "For users booting from hard disk: copy OC` folder to `EFI/OC` in your ESP, then add a boot entry pointing to `EFI/OC/OpenCore.efi`. ",
         deleteBeforeReplace: "If `EFI/OC` has already existed in your ESP, please delete it before copy. If you are using macOS, you can quickly copy EFI files to ESP by clicking the following icons.",
         backward: "Having fun hackintoshing!",
         youAreUsing: "You are using ",
@@ -584,6 +584,11 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         updateLog: "What's New",
         prevStep: "Previous",
         nextStep: "Next",
+        setBackground: "Set Bootloeader Background",
+        setBackgroundDescription: "Select an image of size 1920*1080 or 3840*2160 and set the image as bootloader background. PNG and ICNS formats are supported.",
+        useCustomBackground: "Enable custom Background",
+        selectBackgroundImage: "Select an Image..",
+        selectedImage: "Selected file",
 
         dashboard: "Dashboard",
         deviceInfo: "Device Info",
