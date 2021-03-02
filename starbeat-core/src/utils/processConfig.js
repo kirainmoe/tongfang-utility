@@ -218,13 +218,28 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     if (options.resolution === "4k") {
       plist.setProperties(
         "PciRoot(0x0)/Pci(0x2,0x0)",
-        "framebuffer-unifiedmem",
-        new Uint8Array([0, 0, 0, 192])
+        "enable-dpcd-max-link-rate-fix",
+        new Uint8Array([1, 0, 0, 0])
+      );
+      plist.setProperties(
+        "PciRoot(0x0)/Pci(0x2,0x0)",
+        "enable-hdmi20",
+        new Uint8Array([1, 0, 0, 0])
+      );      
+      plist.setProperties(
+        "PciRoot(0x0)/Pci(0x2,0x0)",
+        "enable-max-pixel-clock-override",
+        new Uint8Array([1, 0, 0, 0])
+      );      
+      plist.setProperties(
+        "PciRoot(0x0)/Pci(0x2,0x0)",
+        "dpcd-max-link-rate",
+        new Uint8Array([20, 0, 0, 0])
       );
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-stolenmem");
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
+
       plist.setValue("NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale", new Uint8Array([2]));
-      plist.setBootArg("-cdfon -igfxmpc");
     }
 
     if (options.appleGuC) plist.setBootArg("igfxfw=2");
