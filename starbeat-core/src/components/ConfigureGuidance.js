@@ -318,6 +318,7 @@ export default class Configure extends Component {
               let nextState = {
                 laptop: tmp,
                 selectingModel: false,
+                resolution: tmp === 46 ? "1080p144" : this.state.resolution
               };
               this.setState(nextState);
               if (
@@ -783,7 +784,6 @@ export default class Configure extends Component {
                   <div
                     onClick={() => {
                       this.setOSVersion("bigsur");
-                      this.setResolution("1080p");
                     }}
                     className={
                       "os-item bigsur " + (this.state.osVersion === "bigsur")

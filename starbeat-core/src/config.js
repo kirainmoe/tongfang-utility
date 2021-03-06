@@ -1,6 +1,6 @@
 export default {
-    version: "3.1.3",
-    build: 2103020,
+    version: "3.1.4",
+    build: 2103060,
 
     optimizeUrl: "https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh",
     HiDPIUrl: "https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh",
@@ -249,7 +249,7 @@ export default {
                     image: "z2air.jpg"
                 },
                 {
-                    model: "机械革命 Z2-G 系列 (9 代)",
+                    model: "机械革命 Z2-G / Z2 Air 系列 (9 代)",
                     barebone: "GK5CP6Z",
                     image: "z2.jpg"
                 },                
