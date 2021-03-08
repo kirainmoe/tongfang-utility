@@ -130,11 +130,6 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
         break;
     }
 
-    // special for Z2 Air-G
-    if (options.laptop === 46) {
-      options.resolution = "1080p144";
-    }
-
     await sleep(1000);
 
     // wireless card
@@ -230,7 +225,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       ["framebuffer-con2-pipe", [18, 0, 0, 0]]
     ];
 
-    if (options.resolution === "4k" || options.resolution === "1080p144") {
+    if (options.resolution === "4k" || (options.resolution === "1080p144" && options.osVersion === "bigsur")) {
       iGPUProperties.forEach(item => {
         plist.setProperties(
           "PciRoot(0x0)/Pci(0x2,0x0)",
