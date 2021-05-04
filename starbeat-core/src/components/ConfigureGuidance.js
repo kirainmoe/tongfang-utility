@@ -62,6 +62,14 @@ const biliPageLink = "https://www.bilibili.com/video/BV1uJ411Y77y";
 
 const { Step } = Steps;
 
+const sleep = (time = 0) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
 export default class Configure extends Component {
   barebones = [];
   brandTag = [];
@@ -318,7 +326,7 @@ export default class Configure extends Component {
               let nextState = {
                 laptop: tmp,
                 selectingModel: false,
-                resolution: tmp === 46 ? "1080p144" : this.state.resolution
+                resolution: tmp === 46 ? "1080p144" : this.state.resolution,
               };
               this.setState(nextState);
               if (
@@ -472,7 +480,11 @@ export default class Configure extends Component {
       );
     });
 
-    return <div className="esp-lists">{items}</div>;
+    return (
+      <div ref={(ref) => (this.espList = ref)} className="esp-lists anim-hidden">
+        {items}
+      </div>
+    );
   }
 
   // 处理搜索
@@ -583,11 +595,19 @@ export default class Configure extends Component {
       this.barebones,
       this.state
     );
-    await this.setState({
-      generateStatus: result,
-      currentStep: this.state.currentStep + 1,
-      operation: "success",
-    });
+
+    this.genPage.classList.add("fade-out");
+
+    await sleep(300);
+
+    await this.setState(
+      {
+        generateStatus: result,
+        currentStep: this.state.currentStep + 1,
+        operation: "success",
+      },
+      () => this.handlePageChange()
+    );
   }
 
   showUpdateLog() {
@@ -613,6 +633,18 @@ export default class Configure extends Component {
       const lists = this.selectModel.querySelector(".model-lists");
       if (current && lists)
         lists.scrollTop = Math.max(0, current.offsetTop - lists.offsetTop - 20);
+    }
+    if (this.state.currentStep === 2 && this.state.laptop === 46) {
+      makeAlert(str("tipsForZ2AirG"));
+    }
+    if (this.state.currentStep === 5) {
+      (async () => {
+        this.successIcon.classList.add("fade-in");
+        await sleep(300);
+        this.successTitle.classList.add("fade-in");
+        this.successDesc.classList.add("fade-in");
+        this.espList.classList.add('fade-in');
+      })();
     }
   }
 
@@ -883,6 +915,26 @@ export default class Configure extends Component {
                       <span>1920 × 1080 (144Hz)</span>
                     </div>
                   </Popover>
+
+                  {this.state.laptop === 46 && (
+                    <Popover content={str("tipsForZ2AirG")}>
+                      <div
+                        className={`resolution-item ${
+                          this.state.resolution === "1080p144sol2"
+                        }`}
+                        onClick={() => this.setResolution("1080p144sol2")}
+                        aria-label={`1920 × 1080, 144Hz 方案 2 ${
+                          this.state.resolution === "1080p144" ? "已选中" : ""
+                        }`}
+                      >
+                        <Hz />
+                        <span>
+                          1920 × 1080 <br /> (144Hz, 方案2)
+                        </span>
+                      </div>
+                    </Popover>
+                  )}
+
                   <Popover
                     content={[
                       <p key={1}>{str("dontCheck4kIfNotRequire")}</p>,
@@ -1239,7 +1291,10 @@ export default class Configure extends Component {
 
             {this.state.operation === "generating" &&
               this.state.currentStep === 4 && (
-                <div className="generate-page">
+                <div
+                  className="generate-page"
+                  ref={(ref) => (this.genPage = ref)}
+                >
                   <Progress
                     type="circle"
                     percent={this.state.progress}
@@ -1277,16 +1332,25 @@ export default class Configure extends Component {
 
             {this.state.currentStep === 5 && this.state.generateStatus && (
               <div className="result-success">
-                <h1 className="content-title">{str("success")}</h1>
+                <h1
+                  className="content-title anim-hidden"
+                  ref={(ref) => (this.successTitle = ref)}
+                >
+                  {str("success")}
+                </h1>
                 <div className="result-content">
-                  <div className="result-logo">
+                  <div
+                    className="result-logo anim-hidden"
+                    ref={(ref) => (this.successIcon = ref)}
+                  >
                     <Success />
                   </div>
 
                   <div
-                    className="success-instruction"
+                    className="success-instruction anim-hidden"
                     role={"alert"}
                     aria-atomic={true}
+                    ref={(ref) => (this.successDesc = ref)}
                   >
                     <p>{str("successInfo")}</p>
                     <ul>

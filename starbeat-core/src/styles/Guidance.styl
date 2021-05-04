@@ -172,6 +172,11 @@
                     width: 20px
                     height: 20px
                     margin-right: 10px
+        .resolution-select
+            .resolution-item:nth-last-child(4), .resolution-item:nth-last-child(4) ~ .resolution-item
+                font-size: 10px
+                line-height: 16px
+                text-align: center                    
         .personalize-settings
             .ps-item:nth-last-child(4), .ps-item:nth-last-child(4) ~ .ps-item
                 font-size: 10px
@@ -297,3 +302,15 @@
             text-align: center
             .ant-btn
                 margin: 0px 20px
+
+.fade-out
+    transition: .3s all ease-out
+    opacity: 0!important
+
+.fade-in
+    opacity: 1!important
+    transition: .3s all ease-out
+
+.anim-hidden
+    opacity: 0
+    transition: .3s all ease-out

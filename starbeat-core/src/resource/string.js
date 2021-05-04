@@ -306,6 +306,7 @@ export const strings = {
         evening: "晚上好",
         appDirCleared: "<p>已清除下载缓存，请重新启动程序后再尝试更新。</p><p>如果仍然无法完成下载，请尝试自行删除当前用户目录下的隐藏文件夹 .tfu。</p>",
         screen144Hz: "如果你的笔记本内屏是 144Hz 刷新率，请选择此项。此选项仅能让你不会卡在 IOConsoleUsers 无法进入系统，不代表你可以在 macOS 下正常使用 144Hz 刷新率。",
+        tipsForZ2AirG: "请注意：机械革命 Z2 Air-G 型号 (144Hz 版本) 可能由于出厂批次不同，导致部分用户可能需要选择 1920 × 1080 (144Hz, 方案 2) 才能进入系统。如果你使用此机型、且默认方案无法进入系统（具体表现为 -v 跑码卡在 IOConsoleUser gIOScreenLockState 3.. 及其之后），请尝试使用方案 2。并且请在操作前，备份当前能正常引导 macOS 的 EFI.",
         updateLog: "更新内容",
         requestEFIUpdate: "需要更新 EFI",
 

@@ -220,7 +220,9 @@ export default class Dashboard extends Component {
     }
     const currentTime = new Date().getHours(),
       time =
-        currentTime >= 5 && currentTime < 12
+        currentTime >= 0 && currentTime <= 5
+          ? "evening"
+          : currentTime >= 5 && currentTime < 12
           ? "morning"
           : currentTime >= 12 && currentTime < 13
           ? "noon"
