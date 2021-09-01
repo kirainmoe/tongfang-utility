@@ -1,0 +1,26 @@
+# macOS / Windows Cache File
+.DS_Store
+Thumbs.db
+
+# Node Modules
+node_modules/
+
+# Build Output Directory
+/dist
+*.tsbuildinfo
+
+# Logs
+*.log
+
+
+# Runtime
+pids
+*.pid
+*.pid.lock
+
+# Editor Config
+/.vscode
+/.idea
+
+# ESLint Cache
+.eslintcache
