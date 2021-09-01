@@ -2,7 +2,7 @@
 
 @kirainmoe's front-end boilerplate 2021.
 
-## Tech Stack
+# Tech Stack
 
 - Framework: React 17
 - Toolchains: 
@@ -23,7 +23,7 @@
 - Optimizations:
   - Loadable Component
 
-## Scripts
+# Scripts
 
 ### Installing Dependencies
 
@@ -43,7 +43,7 @@ yarn dev
 yarn build
 ```
 
-## Project Structure
+# Project Structure
 
 ```
 ├── dist            // webppack build output dir
@@ -68,8 +68,7 @@ yarn build
 └── yarn.lock
 ```
 
-## Development Guide
 
-## Credit
+# Credit
 
 This boilerplate was inspired from and referred to this article: [Guide: TypeScript + React Engineering in 2021](https://zhuanlan.zhihu.com/p/403970666)
