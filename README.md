@@ -82,7 +82,8 @@ yarn build
 
 - Each component should have its own directory in `src/components`. 
 - Child components should also have their own directory in `src/component/ParentComponents`.
-- This boilerplate integrates `styled-components` and `LESS`. Choose one of your favorites to write styles.
+- This boilerplate integrates `styled-components` and `LESS`. Choose one of your favorites to write styles (I use styled-component).
+- Use `@loadable/component` to decrease webpack bundle size [(example)](https://github.com/kirainmoe/aki-boilerplate/blob/main/src/components/Counter/index.ts).
 
 ### Redux
 
@@ -97,6 +98,11 @@ yarn build
 - Webpack configs are in `scripts/webpack` directory.
 - If you want to add general options / loaders / plugins, edit `scripts/webpack/webpack.common.config.js`.
 - `webpack-dev-server` listens on `localhost:3000` default.
+
 # Credit
 
 This boilerplate was inspired from and referred to this article: [Guide: TypeScript + React Engineering in 2021](https://zhuanlan.zhihu.com/p/403970666)
+
+# License
+
+There is no limit for this boilerplate. Do whatever you want to do.
