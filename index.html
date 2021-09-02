@@ -8,5 +8,8 @@
   </head>
   <body>
     <div id="root"></div>
+    <% if (htmlWebpackPlugin.options.env === 'Vite') { %>
+      <script type="module" src="./src/index.tsx"></script>
+    <% } %>
   </body>
 </html>

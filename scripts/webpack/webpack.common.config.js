@@ -32,7 +32,7 @@ module.exports = {
   },
 
   output: {
-    filename: '[name].js',
+    filename: 'assets/[name].js',
     path: path.resolve(__dirname, '../../dist'),
     publicPath: '/',
     clean: true,
@@ -69,7 +69,7 @@ module.exports = {
         loader: require.resolve("url-loader"),
         options: {
           limit: 8192,
-          name: "static/media/[name].[ext]",
+          name: "assets/[name].[ext]",
         },
       },
     ]
@@ -85,8 +85,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: packageJson.title || 'React App',
-      baseUrl: packageJson.baseUrl || './',
-      template: 'public/index.html',
+      baseUrl: packageJson.base || './',
+      template: 'index.html',
     }),
   ],
 
