@@ -2,7 +2,7 @@
 
 This is @kirainmoe's front-end boilerplate 2021.
 
-Say goodbye to `create-react-app`!
+Farewell to `create-react-app`!
 
 # Tech Stack
 
@@ -10,6 +10,7 @@ Say goodbye to `create-react-app`!
 - Toolchains: 
   - TypeScript 4.4.2
   - Webpack 5
+  - Vite 2
   - ESLint
   - Prettier
 - Git:
@@ -33,16 +34,24 @@ Say goodbye to `create-react-app`!
 yarn install
 ```
 
-### Start a Dev Server
+### Starting a Dev Server
 
 ```sh
+# using webpack 5
 yarn dev
+
+# using Vite
+yarn dev:vite
 ```
 
-### Build
+### Making a Build
 
-```
+```sh
+# using webpack 5
 yarn build
+
+# using Vite
+yarn build:vite
 ```
 
 # Project Structure
@@ -52,6 +61,7 @@ yarn build
 ├── public          // dev-server public root
 │   └── index.html
 ├── scripts
+│   ├── vite        // Vite configs
 │   └── webpack     // webpack configs (dev, prod)
 ├── src
 │   ├── actions     // redux actions here
@@ -74,9 +84,9 @@ yarn build
 ### Where to Start?
 
 - Clone this repo
-- Edit `name`, `author`, `repo`, `title` and other fields in `package.json`
-- Install dependencies
-- Run `yarn dev` to start a  webpack dev-server
+- Edit `name`, `author`, `repo` and other fields in `package.json`
+- Run `yarn install` to install dependencies
+- Run `yarn dev` or `yarn dev:vite` to start a  webpack dev-server
 
 ### Creating a Comopnent
 
@@ -97,11 +107,24 @@ yarn build
 
 - Webpack configs are in `scripts/webpack` directory.
 - If you want to add general options / loaders / plugins, edit `scripts/webpack/webpack.common.config.js`.
-- `webpack-dev-server` listens on `localhost:3000` default.
+- `webpack-dev-server` listens on `localhost:3000` by default. Change `devServer` in `package.json` to specify another port.
+
+### Vite
+
+- Vite config is in `scripts/vite` diretory.
+- Vite uses ES Module to construct an application. It is faster than webpack, but only works on modern browsers.
+- Dev server listens on `localhost:3000` by default. Change `devServer` in `package.json` to specify another port.
+
+# Options in `package.json`
+
+- `base` : Application base URL. Assets will be loaded from `[base]/[name].[ext]`. Default value is `/`.
+- `title` : Default page title.
+- `copyfiles` : Files to copy to dist when making a build. This field is valid for webpack only.
+- `devServer` : Development server options (host, port).
 
 # Credit
 
-This boilerplate was inspired from and referred to this article: [Guide: TypeScript + React Engineering in 2021](https://zhuanlan.zhihu.com/p/403970666)
+This boilerplate was inspired from and referred to this article: [Guide: TypeScript + React Engineering in 2021](https://zhuanlan.zhihu.com/p/403970666).
 
 # License
 

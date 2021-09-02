@@ -14,11 +14,16 @@
     "prepare": "husky install",
     "dev:vite": "vite --config scripts/vite/vite.config.js",
     "build:vite": "tsc && vite build --config scripts/vite/vite.config.js",
-    "serve:vite": "vite preview"
+    "serve:vite": "vite preview",
+    "start:vite": "yarn dev:vite"
   },
   "base": "/",
   "title": "Aki Boilerplate",
   "copyfiles": [],
+  "devServer": {
+    "host": "127.0.0.1",
+    "port": 3000
+  },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",

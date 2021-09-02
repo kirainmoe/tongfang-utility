@@ -1,7 +1,9 @@
 // webpack.dev.config.js
+const path = require('path');
 const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common.config');
+const packageJson = require(path.resolve(__dirname, '../../package.json'));
 
 /* react hot reload */
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
@@ -32,7 +34,7 @@ module.exports = merge(common, {
     compress: false,
     historyApiFallback: true,
     hot: true,
-    port: process.env.DEV_SERVER_PORT || 3000,
+    port: (packageJson.devServer && packageJson.devServer.port) || 3000,
   },
 
   plugins: [

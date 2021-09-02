@@ -10,7 +10,7 @@ import { injectHtml } from "vite-plugin-html";
 
 export default defineConfig({
   base: packageJson.base || './',
-  
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "../../src"),
@@ -28,6 +28,11 @@ export default defineConfig({
 
   esbuild: {
     jsxInject: "import React from 'react';"
+  },
+
+  server: {
+    host: (packageJson.devServer && packageJson.devServer.host) || '127.0.0.1',
+    port: (packageJson.devServer && packageJson.devServer.port) || 3000,
   },
 
   plugins: [
