@@ -13,10 +13,19 @@ module.exports = merge(common, {
   mode: 'production',
 
   plugins: [
-    packageJson.copyfiles && packageJson.copyfiles.length
-      ? new CopyWebpackPlugin({
-          patterns: packageJson.copyfiles,
-        })
-      : null,
-  ].filter(plugin => plugin !== null),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "public/**/*", 
+          to: "./",
+          globOptions: {
+            dot: false,
+            gitignore: true,
+          },
+          noErrorOnMissing: true,
+        },
+        ...packageJson.copyfiles,
+      ],
+    }),
+  ],
 });
