@@ -93,7 +93,7 @@ yarn build:vite
 - Each component should have its own directory in `src/components`. 
 - Child components should also have their own directory in `src/component/ParentComponents`.
 - This boilerplate integrates `styled-components` and `LESS`. Choose one of your favorites to write styles (I use styled-component).
-- Use `@loadable/component` to decrease webpack bundle size [(example)](https://github.com/kirainmoe/aki-boilerplate/blob/main/src/components/Counter/index.ts).
+- Use `@loadable/component` to decrease bundle size and split codes into modules. [(example)](https://github.com/kirainmoe/aki-boilerplate/blob/main/src/components/Counter/index.ts).
 
 ### Redux
 

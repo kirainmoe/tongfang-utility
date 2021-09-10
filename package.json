@@ -24,6 +24,7 @@
     "host": "127.0.0.1",
     "port": 3000
   },
+  "proxy": {},
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
@@ -55,6 +56,7 @@
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "lint-staged": "^11.1.2",
+    "mini-css-extract-plugin": "^2.2.2",
     "prettier": "^2.3.2",
     "react-refresh": "^0.10.0",
     "react-refresh-typescript": "^2.0.2",
@@ -63,10 +65,12 @@
     "ts-loader": "^9.2.5",
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "typescript": "^4.4.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.1",
     "vite": "^2.5.3",
     "vite-plugin-html": "^2.1.0",
     "webpack": "^5.51.1",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.1.0",
     "webpack-merge": "^5.8.0",

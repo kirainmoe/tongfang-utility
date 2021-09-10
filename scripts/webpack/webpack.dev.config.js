@@ -35,6 +35,7 @@ module.exports = merge(common, {
     historyApiFallback: true,
     hot: true,
     port: (packageJson.devServer && packageJson.devServer.port) || 3000,
+    proxy: packageJson.proxy || {},
   },
 
   plugins: [

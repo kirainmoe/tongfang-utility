@@ -20,9 +20,13 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 // HTML template support
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// Extract CSS into single file Plugin
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 /* Loader Test RegExp */
 const typescriptRegex = /\.tsx?$/;
 const lessRegex = /\.less?$/;
+const cssRegex = /\.css$/;
 const nodeModulesRegex = /node_modules/;
 
 /* Webpack Base Config */
@@ -56,17 +60,23 @@ module.exports = {
         },
       },
       {
-        test: lessRegex,
-        exclude: nodeModulesRegex,
+        test: cssRegex,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader, 
+          'css-loader'
+        ],
+      },
+      {
+        test: lessRegex,
+        use: [
+          MiniCssExtractPlugin.loader, 
           'css-loader',
           'less-loader',
         ],
       },
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-        loader: require.resolve("url-loader"),
+        loader: 'url-loader',
         options: {
           limit: 8192,
           name: "assets/[name].[ext]",
@@ -88,6 +98,7 @@ module.exports = {
       baseUrl: packageJson.base || './',
       template: 'index.html',
     }),
+    new MiniCssExtractPlugin(),
   ],
 
   optimization: {
