@@ -320,7 +320,10 @@ export const strings = {
         saveSetting: "保存设置",
         settingApplied: "设置已生效~",
         pathSetting: "下载路径设置",
-        pathSettingDescription: "如果你遇到无法下载配置文件/驱动包或下载时进度条不走的问题，请尝试选择其它下载路径。"
+        pathSettingDescription: "如果你遇到无法下载配置文件/驱动包或下载时进度条不走的问题，请尝试选择其它下载路径。",
+
+        errorOccurred: '发生了错误...',
+        errorOccurredDescription: '程序发生了错误，请与开发者联系，并提供以下错误详情。',
     },
     en: {
         config: "Configuration",
@@ -625,7 +628,10 @@ If you installed Samsung PM981(a), Micron 2200s or other NVMe drives that are no
         saveSetting: "Save",
         settingApplied: "Setting applied.",
         pathSetting: "Download Path Setting",
-        pathSettingDescription: "Change the following pathes if you cannot finish the download."        
+        pathSettingDescription: "Change the following pathes if you cannot finish the download.",
+        
+        errorOccurred: 'Oops!',
+        errorOccurredDescription: 'There was something wrong with the application. Please contact the developer and provide the following error logs:',
     }
 };
 

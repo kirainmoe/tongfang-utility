@@ -18,8 +18,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     window.electron.unzip(saveFile, path.join(workspace, "OpenCore"));
     let extractPath;
     fs.readdirSync(`${workspace}/OpenCore`).forEach((path) => {
-      if (path.indexOf("ayamita") >= 0 || path.indexOf("hasee-tongfang-macos") >= 0)
-        extractPath = path;
+      if (path.indexOf("ayamita") >= 0 || path.indexOf("hasee-tongfang-macos") >= 0) extractPath = path;
       else extractPath = ``;
     });
 
@@ -32,18 +31,14 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     await fs.rename(`${workspace}/OpenCore/${extractPath}/BOOT`, `${workspace}/BOOT`, () => {});
     await fs.rename(`${workspace}/OpenCore/${extractPath}/OC`, `${workspace}/OC`, () => {});
     await sleep(500);
-    await fs.rename(
-      `${workspace}/OpenCore/${extractPath}/Docs/Credits.md`,
-      `${workspace}/OC/Credits.md`,
-      () => {}
-    );
+    await fs.rename(`${workspace}/OpenCore/${extractPath}/Docs/Credits.md`, `${workspace}/OC/Credits.md`, () => {});
 
     // move accessibility voiceover package
-    if (options.accessibility) {
-      window.electron.rmdir(`${workspace}/OC/Resources/Audio`);
-      await sleep(500);
-      window.electron.copyDir(path.join(extPath, "Audio"), `${workspace}/OC/Resources/Audio`);
-    }
+    // if (options.accessibility) {
+    //   window.electron.rmdir(`${workspace}/OC/Resources/Audio`);
+    //   await sleep(500);
+    //   window.electron.copyDir(path.join(extPath, "Audio"), `${workspace}/OC/Resources/Audio`);
+    // }
 
     // modify configs
     const OCPath = path.join(workspace, "OC");
@@ -55,8 +50,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     const deleteUIAC = (reserve) => {
       const files = fs.readdirSync(ACPIPath);
       files.forEach((file) => {
-        if (file.includes("SSDT-UIAC") && file !== reserve)
-          fs.unlinkSync(path.join(ACPIPath, file));
+        if (file.includes("SSDT-UIAC") && file !== reserve) fs.unlinkSync(path.join(ACPIPath, file));
       });
       fs.renameSync(path.join(ACPIPath, reserve), path.join(ACPIPath, "SSDT-UIAC.aml"));
     };
@@ -93,7 +87,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
         options.appleGuC = true;
         plist.setACPIPatch("RTC: enable", true);
         break;
-      
+
       // 7th gen
       case "GJ5KN64":
       case "GJ5KN6A":
@@ -115,14 +109,17 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
           `${workspace}/OC/Kexts/AHCI_3rdParty_SATA.kext`
         );
         fs.unlinkSync(`${workspace}/OC/ACPI/SSDT-PNLF.aml`);
-        fs.renameSync(`${workspace}/OpenCore/${extractPath}/Compat/ACPI/SSDT-PNLF.aml`, `${workspace}/OC/ACPI/SSDT-PNLF.aml`);
-        plist.addKextToEnd('USBPorts', 'USB mapping for 7th gen devices', false, true);
-        plist.addKextToEnd('AHCI_3rdParty_SATA', '200 series motherboard SATA patching', false, true);
-        plist.addKextToEnd('SATA-200-series-unsupported', '200 series motherboard SATA patching', false, true);
-        plist.setValue('Booter/Quirks/DevirtualiseMmio', false);
-        plist.setValue('Booter/Quirks/DiscardHibernateMap', false);
-        plist.setValue('Booter/Quirks/SyncRuntimePermissions', false);
-        plist.setValue('Booter/Quirks/SetupVirtualMap', true);
+        fs.renameSync(
+          `${workspace}/OpenCore/${extractPath}/Compat/ACPI/SSDT-PNLF.aml`,
+          `${workspace}/OC/ACPI/SSDT-PNLF.aml`
+        );
+        plist.addKextToEnd("USBPorts", "USB mapping for 7th gen devices", false, true);
+        plist.addKextToEnd("AHCI_3rdParty_SATA", "200 series motherboard SATA patching", false, true);
+        plist.addKextToEnd("SATA-200-series-unsupported", "200 series motherboard SATA patching", false, true);
+        plist.setValue("Booter/Quirks/DevirtualiseMmio", false);
+        plist.setValue("Booter/Quirks/DiscardHibernateMap", false);
+        plist.setValue("Booter/Quirks/SyncRuntimePermissions", false);
+        plist.setValue("Booter/Quirks/SetupVirtualMap", true);
         plist.deleteProperties("PciRoot(0x0)/Pci(0x1f,0x3)", "device-id");
         plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "AAPL,ig-platform-id", new Uint8Array([0, 0, 0x16, 0x19]));
         plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "device-id", new Uint8Array([0x16, 0x19, 0, 0]));
@@ -144,10 +141,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
 
       // 博通（戴尔）的卡需要 AirportBrcmFixup.kext 和蓝牙固件上传驱动
       case "broadcom":
-        plist.setAllKexts(
-          ["AirportBrcmFixup", "BrcmBluetoothInjector", "BrcmFirmwareData", "BrcmPatchRAM3"],
-          true
-        );
+        plist.setAllKexts(["AirportBrcmFixup", "BrcmBluetoothInjector", "BrcmFirmwareData", "BrcmPatchRAM3"], true);
         // 部分 DW1560 网卡如果使用 brcmfx-country=#a 会导致网速变慢
         // plist.setBootArg("brcmfx-country=#a");
         break;
@@ -167,10 +161,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
         plist.setKext("IntelBluetooth", true);
 
         if (!options.useAirportItlwm) {
-          window.electron.copyDir(
-            path.join(extPath, "itlwm.kext"),
-            `${workspace}/OC/Kexts/itlwm.kext`
-          );
+          window.electron.copyDir(path.join(extPath, "itlwm.kext"), `${workspace}/OC/Kexts/itlwm.kext`);
           plist.setKext("itlwm.kext", true);
         } else {
           if (options.osVersion === "catalina") {
@@ -179,12 +170,18 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
               `${workspace}/OC/Kexts/AirportItlwm-Catalina.kext`
             );
             plist.setKext("AirportItlwm-Catalina", true);
-          } else {
+          } else if (options.osVersion === "bigsur") {
             window.electron.copyDir(
               path.join(extPath, "AirportItlwm-BigSur.kext"),
               `${workspace}/OC/Kexts/AirportItlwm-BigSur.kext`
             );
             plist.setKext("AirportItlwm-BigSur", true);
+          } else if (options.osVersion === "monterey") {
+            window.electron.copyDir(
+              path.join(extPath, "AirportItlwm-Monterey.kext"),
+              `${workspace}/OC/Kexts/AirportItlwm-Monterey.kext`
+            );
+            plist.setKext("AirportItlwm-Monterey", true);
           }
         }
         break;
@@ -204,11 +201,8 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
     }
 
     // macOS Big Sur 必须将 csr-active-config 设置成 00000000，否则无法检测到 macOS 更新
-    if (options.osVersion === "bigsur")
-      plist.setValue(
-        "NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/csr-active-config",
-        new Uint8Array([0, 0, 0, 0])
-      );
+    if (options.osVersion === "bigsur" || options.osVersion === "monterey")
+      plist.setValue("NVRAM/Add/7C436110-AB2A-4BBB-A880-FE41995C9F82/csr-active-config", new Uint8Array([0, 0, 0, 0]));
 
     if (options.cpuBestPerformance) {
       plist.setKext("CPUFriendDataProvider.kext", false);
@@ -222,35 +216,22 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       ["framebuffer-con1-enable", [1, 0, 0, 0]],
       ["framebuffer-con1-pipe", [18, 0, 0, 0]],
       ["framebuffer-con2-enable", [1, 0, 0, 0]],
-      ["framebuffer-con2-pipe", [18, 0, 0, 0]]
+      ["framebuffer-con2-pipe", [18, 0, 0, 0]],
     ];
 
-    if (options.resolution === "4k" || (options.resolution === "1080p144sol2" && options.osVersion === "bigsur")) {
-      iGPUProperties.forEach(item => {
-        plist.setProperties(
-          "PciRoot(0x0)/Pci(0x2,0x0)",
-          item[0],
-          new Uint8Array(item[1])
-        );
+    if (
+      options.resolution === "4k" ||
+      (options.resolution === "1080p144sol2" && (options.osVersion === "bigsur" || options.osVersion === "monterey"))
+    ) {
+      iGPUProperties.forEach((item) => {
+        plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", item[0], new Uint8Array(item[1]));
       });
     }
 
     if (options.resolution === "4k") {
-      plist.setProperties(
-        "PciRoot(0x0)/Pci(0x2,0x0)",
-        "enable-hdmi20",
-        new Uint8Array([1, 0, 0, 0])
-      );
-      plist.setProperties(
-        "PciRoot(0x0)/Pci(0x2,0x0)",
-        "enable-max-pixel-clock-override",
-        new Uint8Array([1, 0, 0, 0])
-      );      
-      plist.setProperties(
-        "PciRoot(0x0)/Pci(0x2,0x0)",
-        "dpcd-max-link-rate",
-        new Uint8Array([20, 0, 0, 0])
-      );
+      plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "enable-hdmi20", new Uint8Array([1, 0, 0, 0]));
+      plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "enable-max-pixel-clock-override", new Uint8Array([1, 0, 0, 0]));
+      plist.setProperties("PciRoot(0x0)/Pci(0x2,0x0)", "dpcd-max-link-rate", new Uint8Array([20, 0, 0, 0]));
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-stolenmem");
       plist.deleteProperties("PciRoot(0x0)/Pci(0x2,0x0)", "framebuffer-fbmem");
 
@@ -287,10 +268,7 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
       }
     }
 
-    window.electron.writeFile(
-      path.join(path.join(workspace, "OC"), "config.plist"),
-      plist.buildPlist()
-    );
+    window.electron.writeFile(path.join(path.join(workspace, "OC"), "config.plist"), plist.buildPlist());
     fs.unlinkSync(path.join(workspace, "OpenCore.zip"));
     window.electron.rmdir(`${workspace}/OpenCore`);
     return true;

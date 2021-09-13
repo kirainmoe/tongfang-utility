@@ -76,11 +76,13 @@ export default class Update extends Component {
     if (!fs.existsSync(versionFile)) return false;
     const version = fs.readFileSync(versionFile).toString();
     let remote = null;
-    await fetch("https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json", {
+    await fetch("https://api.kirainmoe.com/drivers/version.json", {
       cache: "no-cache",
     })
       .then((res) => res.text())
       .then((res) => (remote = res));
+    console.log(remote, version);
+    return true;
     return remote === version;
   }
 
@@ -117,6 +119,7 @@ export default class Update extends Component {
       window.electron.rmdir(`${savePath}${separator}itlwm.kext`);
       window.electron.rmdir(`${savePath}${separator}AirportItlwm-Catalina.kext`);
       window.electron.rmdir(`${savePath}${separator}AirportItlwm-BigSur.kext`);
+      window.electron.rmdir(`${savePath}${separator}AirportItlwm-Monterey.kext`);
       window.electron.rmdir(`${savePath}${separator}IntelBluetoothFirmware.kext`);
       window.electron.rmdir(`${savePath}${separator}IntelBluetoothInjector.kext`);
       fs.unlinkSync(`${savePath}${separator}version.json`);
@@ -127,6 +130,7 @@ export default class Update extends Component {
       "itlwm.kext",
       "AirportItlwm-Catalina.kext",
       "AirportItlwm-BigSur.kext",
+      "AirportItlwm-Monterey.kext",
       "IntelBluetoothFirmware",
     ];
 
@@ -137,7 +141,7 @@ export default class Update extends Component {
         log: this.state.log + "Downloading file " + file + " ...\n",
       });
 
-      const downloadUrl = "https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/" + file + ".zip",
+      const downloadUrl = "https://api.kirainmoe.com/drivers/" + file + ".zip",
         saveFile = path.join(savePath, file + ".zip");
 
       await window.electron.normalDownload(downloadUrl, saveFile);
@@ -145,7 +149,7 @@ export default class Update extends Component {
       window.electron.unzip(saveFile, savePath);
     }
 
-    const downloadUrl = "https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json",
+    const downloadUrl = "https://api.kirainmoe.com/drivers/version.json",
       saveFile = path.join(savePath, "version.json");
     try {
       fs.unlinkSync(saveFile);

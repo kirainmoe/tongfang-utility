@@ -191,7 +191,7 @@ export default class CompatCheck extends Component {
             return 3;
         }
         for (const item of this.infos.biosInfo.result) {
-            if (item.SerialNumber.startsWith("GK") || item.SerialNumber.startsWith("GJ5CN") || item.SerialNumber.startsWith("GI5"))
+            if (item.SerialNumber.startsWith("GK") || item.SerialNumber.startsWith("GJ5CN") || item.SerialNumber.startsWith("GI5") || item.SerialNumber.startsWith("42"))
                 return 0;
             if (item.SerialNumber.startsWith("C02"))
                 return 1;

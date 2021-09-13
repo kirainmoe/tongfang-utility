@@ -36,7 +36,12 @@ export default class Dashboard extends Component {
       this.macstat = null;
     }
 
-    let smbios = window.electron.getMacSerial();
+    let smbios;
+    try {
+      smbios = window.electron.getMacSerial();
+    } catch(err) {
+      
+    }
     this.prepareLaptopsList();
 
     this.state = {
@@ -128,7 +133,7 @@ export default class Dashboard extends Component {
   }
 
   getCPUTempature() {
-    if (this.macstat) return this.macstat.getCpuDataSync().temperature;
+    if (this.macstat) return Math.ceil(this.macstat.getCpuDataSync().temperature);
     return null;
   }
 
@@ -236,6 +241,7 @@ export default class Dashboard extends Component {
     if (!window.electron.isMac()) return "Unknown";
     const cp = window.require("child_process"),
       output = cp.execSync("sw_vers").toString();
+    if (output.indexOf("12.") >= 0) return "macOS 12 Monterey";
     if (output.indexOf("11.") >= 0) return "macOS 11 Big Sur";
     if (output.indexOf("10.15") >= 0) return "macOS 10.15 Catalina";
     if (output.indexOf("10.14") >= 0) return "macOS 10.14 Mojave";

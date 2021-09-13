@@ -46,7 +46,7 @@ import Disable from "../icons/Disable";
 import Chipset from "../icons/Chipset";
 import SSD from "../icons/SSD";
 import Bootchime from "../icons/Bootchime";
-import Accessibility from "../icons/Accessibility";
+// import Accessibility from "../icons/Accessibility";
 import Graphics from "../icons/Graphics";
 import Shortcut from "../icons/Shortcut";
 import Laptop from "../icons/Laptop";
@@ -56,7 +56,9 @@ import "../styles/Guidance.styl";
 
 const opencore = require("../resource/opencore.png"),
   catalina = require("../resource/macOS/catalina.jpg"),
-  bigsur = require("../resource/macOS/bigsur.jpg");
+  bigsur = require("../resource/macOS/bigsur.jpg"),
+  monterey = require("../resource/macOS/monterey.jpg");
+
 
 const biliPageLink = "https://www.bilibili.com/video/BV1uJ411Y77y";
 
@@ -139,7 +141,7 @@ export default class Configure extends Component {
       disableNVMe: hasParam("-nvme-disabled"),
       appleGuC: hasParam("igfxfw=2"),
       useAirportItlwm: false,
-      useCompatACPI: !isKextLoaded("SMCBatteryManager"),
+      useCompatACPI: isKextLoaded("SmartBattery"),
 
       // step 4
       ...smbios,
@@ -173,6 +175,7 @@ export default class Configure extends Component {
     const cp = window.require("child_process"),
       output = cp.execSync("sw_vers").toString();
     if (output.indexOf("11.") >= 0) return "bigsur";
+    if (output.indexOf("12.") >= 0) return "monterey";
     return "catalina";
   }
 
@@ -202,14 +205,16 @@ export default class Configure extends Component {
               navigator.language === "zh-CN"
                 ? data.updateLog
                 : data.updateLogEn,
-            jsdelivrUrl: `${config.download_url.jsdelivr}-${data.latestDev}.zip`,
+            jsdelivrUrl: `${config.download_url.jsdelivr}-${data.latestDev}.js`,
             downloadSource: "jsdelivr",
           });
       })
       .catch((err) => {
+        console.log(err);
         message.error(str("failedToConnectServer"));
       });
-    fetch("https://cdn.jsdelivr.net/gh/kirainmoe/jsdelivr/version.json", {
+
+    fetch("https://api.kirainmoe.com/drivers/version.json", {
       cache: "no-cache",
     })
       .then((res) => res.text())
@@ -273,19 +278,19 @@ export default class Configure extends Component {
       );
     }
 
-    if (this.state.accessibility && !this.state.voiceoverStatus) {
-      checkResult.push(
-        <li className="conflict-item" key={"voiceOver"}>
-          {str("accessibilityNotDownloaded")}
-          <Button
-            type={"link"}
-            onClick={() => createHashHistory().push("/update?voiceover")}
-          >
-            {str("goDownload")}
-          </Button>
-        </li>
-      );
-    }
+    // if (this.state.accessibility && !this.state.voiceoverStatus) {
+    //   checkResult.push(
+    //     <li className="conflict-item" key={"voiceOver"}>
+    //       {str("accessibilityNotDownloaded")}
+    //       <Button
+    //         type={"link"}
+    //         onClick={() => createHashHistory().push("/update?voiceover")}
+    //       >
+    //         {str("goDownload")}
+    //       </Button>
+    //     </li>
+    //   );
+    // }
 
     return checkResult;
   }
@@ -753,12 +758,12 @@ export default class Configure extends Component {
                     <span className="version-title">{str("intelVersion")}</span>
                     ：{this.getIntelStatus()}
                   </p>
-                  <p className="version-item">
+                  {/* <p className="version-item">
                     <span className="version-title">
                       {str("voiceoverVersion")}
                     </span>
                     ：{this.getVoiceoverStatus()}
-                  </p>
+                  </p> */}
                 </div>
 
                 <h1 className="content-title">{str("readLicense")}</h1>
@@ -820,12 +825,27 @@ export default class Configure extends Component {
                     className={
                       "os-item bigsur " + (this.state.osVersion === "bigsur")
                     }
-                    aria-label={`macOS 11.0 Big Sur ${
+                    aria-label={`macOS 11 Big Sur ${
                       this.state.osVersion === "bigsur" ? "已选中" : ""
                     }`}
                   >
                     <img src={bigsur} alt="Big Sur Logo" />
-                    <span>macOS 11.0 Big Sur</span>
+                    <span>macOS 11 Big Sur</span>
+                  </div>
+
+                  <div
+                    onClick={() => {
+                      this.setOSVersion("monterey");
+                    }}
+                    className={
+                      "os-item monterey " + (this.state.osVersion === "monterey")
+                    }
+                    aria-label={`macOS 12 Monterey ${
+                      this.state.osVersion === "monterey" ? "已选中" : ""
+                    }`}
+                  >
+                    <img src={monterey} alt="Monterey Logo" />
+                    <span>macOS 12 Monterey</span>
                   </div>
                 </div>
 
@@ -1010,7 +1030,7 @@ export default class Configure extends Component {
                     <Bootchime />
                     <span>{str("bootChime")}</span>
                   </div>
-                  <Popover content={str("accessibilityDescription")}>
+                  {/* <Popover content={str("accessibilityDescription")}>
                     <div
                       onClick={() => this.toggleOption("accessibility")}
                       className={`ps-item ${this.state.accessibility}`}
@@ -1018,7 +1038,7 @@ export default class Configure extends Component {
                       <Accessibility />
                       <span>{str("accessibility")}</span>
                     </div>
-                  </Popover>
+                  </Popover> */}
                   <Popover content={str("useLegacyBatteryDriverDescription")}>
                     <div
                       onClick={() => this.toggleOption("useCompatACPI")}
@@ -1125,7 +1145,7 @@ export default class Configure extends Component {
                     <span className="confirm-value">
                       {this.state.osVersion === "catalina"
                         ? "macOS 10.15 Catalina"
-                        : "macOS 11.0 Big Sur"}
+                        : this.state.osVersion === 'bigsur' ? "macOS 11 Big Sur" : 'macOS 12 Monterey'}
                     </span>
                   </li>
                   {(this.barebones[this.state.laptop] === "GJ5CN64" ||
