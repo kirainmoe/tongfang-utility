@@ -141,7 +141,11 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
 
       // 博通（戴尔）的卡需要 AirportBrcmFixup.kext 和蓝牙固件上传驱动
       case "broadcom":
-        plist.setAllKexts(["AirportBrcmFixup", "BrcmBluetoothInjector", "BrcmFirmwareData", "BrcmPatchRAM3"], true);
+        if (options.osVersion !== 'monterey') {
+          plist.setAllKexts(["AirportBrcmFixup", "BrcmBluetoothInjector", "BrcmFirmwareData", "BrcmPatchRAM3"], true);
+        } else {
+          plist.setAllKexts(["AirportBrcmFixup", "BlueToolFixup", "BrcmFirmwareData", "BrcmPatchRAM3"], true);
+        }
         // 部分 DW1560 网卡如果使用 brcmfx-country=#a 会导致网速变慢
         // plist.setBootArg("brcmfx-country=#a");
         break;
@@ -158,7 +162,13 @@ const processConfig = async (workspace, saveFile, barebones, options) => {
           path.join(extPath, "IntelBluetoothInjector.kext"),
           `${workspace}/OC/Kexts/IntelBluetoothInjector.kext`
         );
-        plist.setKext("IntelBluetooth", true);
+        if (options.osVersion !== 'monterey')
+          plist.setKext("IntelBluetooth", true);
+        else {
+          plist.setKext("IntelBluetoothFirmware", true);
+          plist.setKext("BlueToolFixup", true);
+        }
+
 
         if (!options.useAirportItlwm) {
           window.electron.copyDir(path.join(extPath, "itlwm.kext"), `${workspace}/OC/Kexts/itlwm.kext`);

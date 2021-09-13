@@ -81,8 +81,6 @@ export default class Update extends Component {
     })
       .then((res) => res.text())
       .then((res) => (remote = res));
-    console.log(remote, version);
-    return true;
     return remote === version;
   }
 

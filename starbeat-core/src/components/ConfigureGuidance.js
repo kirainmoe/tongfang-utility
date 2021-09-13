@@ -141,7 +141,7 @@ export default class Configure extends Component {
       disableNVMe: hasParam("-nvme-disabled"),
       appleGuC: hasParam("igfxfw=2"),
       useAirportItlwm: false,
-      useCompatACPI: isKextLoaded("SmartBattery"),
+      useCompatACPI: false,
 
       // step 4
       ...smbios,
