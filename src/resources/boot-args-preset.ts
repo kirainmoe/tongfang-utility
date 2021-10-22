@@ -1,0 +1,26 @@
+const bootArgsPreset = [
+  '-v',
+  '-x',
+  'keepsyms=1',
+  'debug=0x100',
+  'npci=0x2000',
+  '-lilubetaall',
+  '-wegbeta',
+  '-wegoff',
+  '-alcbeta',
+  '-alcoff',
+  'alcid=<layout>',
+  '-hbfx-dump-nvram',
+  '-hbfxoff',
+  '-igfxfw=2',
+  '-cdfon',
+  '-igfxmlr',
+  '-igfxblr',
+  'igfxonln=1',
+  'igfxrpsc=1',
+  '-disablegfxfirmware',
+  'brcmfx-country=CN',
+  'brcmfx-country=#a',
+];
+
+export default bootArgsPreset;

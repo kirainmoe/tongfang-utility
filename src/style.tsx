@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import 'antd/dist/antd.min.css';
+
 // Global CSS styles
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -10,6 +12,8 @@ export const GlobalStyle = createGlobalStyle`
     width: 100vw;
     height: 100vh;
     margin: 0;
+
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", "WenQuanYi Micro Hei", Tahoma, Arial;
   }
 `;
 

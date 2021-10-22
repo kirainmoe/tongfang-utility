@@ -1,15 +1,9 @@
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
+import { createContext } from "react";
 
-import reducer from "reducers";
-import rootSaga from 'sagas';
+import RootStore from "./root-store";
 
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+const store = new RootStore();
 
-sagaMiddleware.run(rootSaga);
-
-export type AppState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const RootStoreContext = createContext(store);
 
 export default store;

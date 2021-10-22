@@ -21,6 +21,8 @@ export default defineConfig({
       "resources": path.resolve(__dirname, "../../src/resources"),
       "sagas": path.resolve(__dirname, "../../src/sagas"),
       "stores": path.resolve(__dirname, "../../src/stores"),
+      "services": path.resolve(__dirname, "../../src/services"),
+      "workers": path.resolve(__dirname, "../../src/workers"),
       "types": path.resolve(__dirname, "../../src/types"),
       "utils": path.resolve(__dirname, "../../src/utils"),
     },
