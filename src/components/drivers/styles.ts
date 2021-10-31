@@ -1,4 +1,4 @@
-import { Select } from 'antd';
+import { Select } from '@arco-design/web-react';
 import styled from "styled-components";
 
 export interface StyledSelectProps {
@@ -18,8 +18,8 @@ export const DownloadSelectContainer = styled.div`
   display: flex;
   justify-content: space-around;
 
-  .ant-btn {
-    margin: 10px 0;
+  .download-btn, .delete-btn {
+    margin: 10px 0 10px 10px;
   }
 `;
 
@@ -27,4 +27,10 @@ export const DownloadingProgressIndicator = styled.div`
   margin: 20px 0;
   color: #888;
   font-size: 12px;
+`;
+
+export const ActionButtonGroup = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 `;

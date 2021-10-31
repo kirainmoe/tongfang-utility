@@ -1,4 +1,5 @@
-import { Popover, Progress } from 'antd';
+import { Popover } from '@arco-design/web-react';
+import { Progress } from 'antd';
 import useSetInterval from 'common/hooks/use-set-interval';
 import BlockTitle from 'components/common/block-title';
 import { LiquidGraph } from 'components/common/liquid-graph';
@@ -132,7 +133,7 @@ function ResourceMonitor() {
           <Progress
             type="dashboard"
             percent={Math.floor(cpuUtil)}
-            style={{ height: 120, marginTop: -5, transform: `scale(0.95)` }}
+            style={{ height: 120, marginTop: -5, transform: `scale(0.95)`, }}
           />
           <span className="chart-item-tag" style={{ marginTop: -8 }}>
             {t('DASHBOARD_CPU_UTILIZATION')}
@@ -172,7 +173,7 @@ function ResourceMonitor() {
             <Progress
               type="dashboard"
               percent={Math.floor(total === 0 ? 0 : (used / total) * 100)}
-              style={{ height: 120, marginTop: -5, transform: `scale(0.95)` }}
+              style={{ height: 120, marginTop: -5, transform: `scale(0.95)`, }}
             />
             <span className="chart-item-tag" style={{ marginTop: -8 }}>
               {t('DASHBOARD_MEM_UTILIZATION')}

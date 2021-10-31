@@ -1,4 +1,4 @@
-import { message, Progress } from 'antd';
+import { Message, Progress } from '@arco-design/web-react';
 import { MainContentContainer } from 'components/common/style';
 import { observer } from 'mobx-react';
 import { useContext, useEffect, useState } from 'react';
@@ -43,7 +43,7 @@ function Processing() {
       setProgress,
     })
     .catch(err => {
-      message.error(err.toString());
+      Message.error(err.toString());
     });
   }, [app, config, ui]);
 
@@ -52,13 +52,13 @@ function Processing() {
       <ProcessingContainer>
         <Progress
           type="circle"
-          strokeColor={{
+          color={{
             '0%': '#108ee9',
             '100%': '#87d068',
           }}
           percent={progress}
-          status="active"
           width={150}
+          strokeWidth={10}
           style={{ width: '100%', textAlign: 'center' }}
         />
         <StepIndicator>

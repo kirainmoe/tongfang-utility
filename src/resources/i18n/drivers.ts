@@ -8,6 +8,9 @@ const driversTranslation = {
   DRIVERS_SET_DEFAULT_VERSION_SUCCESS: ['设置默认驱动版本成功！', 'Set default driver version successfully.'],
   DRIVERS_FILE_INDEX: ['第 :index 个，共 :total 个文件', ':index / :total'],
   DRIVERS_CLEAR_CACHE: ['清空已下载缓存', 'Clear Download Cache'],
+  DRIVERS_SURE_DELETE: ['确定要删除此版本吗？', 'Are you sure to delete this version?'],
+  DRIVERS_DELETE_SUCCESS: ['驱动删除成功！', 'Drivers were deleted.'],
+  DRIVERS_DOWNLOAD_CANCEL: ['取消下载', 'Cancel Download'],
 };
 
 export default driversTranslation;

@@ -182,6 +182,7 @@ function Generate() {
 
       {cannotNextReason && (
         <>
+          <div style={{ marginTop: 20 }} />
           <BlockTitle title={t('GENERATE_CANNOT_NEXT')} />
           <p style={{ color: '#888', fontSize: 12, margin: '8px 0' }}>
             {t('GENERATE_CANNOT_NEXT_DESCRIPTION')}

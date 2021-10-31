@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { Dropdown, Form, Input, Menu, Select, Switch, Modal } from 'antd';
+import { Dropdown, Form, Input, Menu, Select, Switch, Modal } from '@arco-design/web-react';
 
 import BlockTitle from 'components/common/block-title';
 import { MainContentContainer } from 'components/common/style';
@@ -8,7 +8,6 @@ import t from 'resources/i18n';
 import { PlatformData, PlatformString } from 'resources/smbios/smbios-list';
 import { DescriptionBlock, ImagePathContainer, StyledBootArgsSelect, StyledForm } from './style';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { useForm } from 'antd/lib/form/Form';
 import { getModelNameBySN } from 'services/get-model-name-by-sn';
 import { generateSNAndMLB } from 'services/generate-sn-and-mlb';
 import { getSMBIOSInfo } from 'services/get-smbios-info';
@@ -19,7 +18,7 @@ import ActionButtons from 'components/common/action-buttons';
 import { v4 } from 'uuid';
 import bootArgsPreset from 'resources/boot-args-preset';
 
-const { Item } = Form;
+const { Item, useForm } = Form;
 const { Option } = Select;
 const { confirm } = Modal;
 
@@ -166,7 +165,7 @@ function Personalize() {
         <span style={{ marginRight: 10, color: '#888' }}>
           {t('PERSONALIZE_SMBIOS_CURRENT_SOURCE')}: {getSMBIOSSourceTag()}
         </span>
-        <Dropdown overlay={menu}>
+        <Dropdown droplist={menu}>
           <More
             theme="outline"
             size="16"
@@ -175,14 +174,14 @@ function Personalize() {
           />
         </Dropdown>
       </BlockTitle>
-      <StyledForm form={form} labelCol={{ span: 4 }}>
+      <StyledForm form={form} labelCol={{ span: 4 }} size="small">
         <Item
           label={t('PERSONALIZE_SMBIOS_MODEL')}
-          name="model"
+          field="model"
           required
           initialValue={defaultModelIndex}
         >
-          <Select onSelect={(v) => onSelectModel(v as number)}>
+          <Select onChange={(v) => onSelectModel(v as number)}>
             {PlatformData.map(([name, sn], index) => (
               <Option key={index} value={index}>
                 {name} - {getModelNameBySN(sn)}
@@ -191,15 +190,15 @@ function Personalize() {
           </Select>
         </Item>
 
-        <Item label={t('PERSONALIZE_SMBIOS_SN')} name="sn" required>
+        <Item label={t('PERSONALIZE_SMBIOS_SN')} field="sn" required>
           <Input />
         </Item>
 
-        <Item label={t('PERSONALIZE_SMBIOS_MLB')} name="mlb" required>
+        <Item label={t('PERSONALIZE_SMBIOS_MLB')} field="mlb" required>
           <Input />
         </Item>
 
-        <Item label={t('PERSONALIZE_SMBIOS_SMUUID')} name="smuuid" required>
+        <Item label={t('PERSONALIZE_SMBIOS_SMUUID')} field="smuuid" required>
           <Input />
         </Item>
       </StyledForm>

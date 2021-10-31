@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import t from 'resources/i18n';
 import { BluetoothIcon, MotherboardIcon, WiFiIcon } from 'resources/icons';
 import { ComponentVersionContainer, ComponentVersionItem } from './style';
-import { Modal, notification, Table, Tag } from 'antd';
+import { Modal, Table, Tag, Notification } from '@arco-design/web-react';
 import { EFIReleasePayload } from 'types/efi-release';
 import getEfiReleases from 'services/get-efi-releases';
 import { openInfoModal } from 'utils/open-modal';
@@ -44,7 +44,7 @@ const efiReleaseTableColumns = [
       const typeString = [t('STABLE'), t('BETA'), t('ALPHA'), t('NIGHTLY'), t('LOCAL_VERSION')][
         releaseType
       ];
-      const typeColor = ['green', 'geekblue', 'orange', 'volcano', 'blue'][releaseType];
+      const typeColor = ['green', 'arcoblue', 'orange', 'volcano', 'magenta'][releaseType];
       return <Tag color={typeColor}>{typeString}</Tag>;
     },
   },
@@ -88,9 +88,9 @@ function Welcome() {
     const selected = releaseList[selectedRow[0]];
     // check utility version
     if (selected.required_utility_build > appConfig.build) {
-      notification.warn({
-        message: t('CONFIG_UTILITY_VERSION_NOT_SATISFIED')!,
-        description: (
+      Notification.warning({
+        title: t('CONFIG_UTILITY_VERSION_NOT_SATISFIED')!,
+        content: (
           <>
             <p>
               {t('CONFIG_UTILITY_VERSION_NOT_SATISFIED_CONTENT')!
@@ -128,7 +128,7 @@ function Welcome() {
       const shouldContinueWithRisk = await(
         new Promise((resolve) => {
           confirm({
-            title: t('CONFIG_BUILD_FILE_HASH_NOT_MATCH'),
+            title: ` ${t('CONFIG_BUILD_FILE_HASH_NOT_MATCH')}`,
             icon: <ExclamationCircleOutlined />,
             content: t('CONFIG_BUILD_FILE_HASH_NOT_MATCH_CONTENT'),
             onOk() {
@@ -201,12 +201,11 @@ function Welcome() {
       <BlockTitle title={t('WELCOME_EFI_RELEASE_LIST')!} />
       <Table
         columns={efiReleaseTableColumns}
-        dataSource={releaseList.map((release, id) => ({
+        data={releaseList.map((release, id) => ({
           id,
           ...release,
         }))}
         loading={isFetching}
-        size="small"
         scroll={{ y: 200 }}
         rowKey="id"
         rowSelection={{

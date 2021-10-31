@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 import 'antd/dist/antd.min.css';
+import '@arco-design/web-react/dist/css/arco.css';
 
 // Global CSS styles
 export const GlobalStyle = createGlobalStyle`

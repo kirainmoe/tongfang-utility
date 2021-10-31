@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from 'react';
-import { Tabs } from 'antd';
+import { Tabs } from '@arco-design/web-react';
 import cn from 'classnames';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -143,15 +143,15 @@ function ModelSelector() {
       <BlockTitle title={t('CONFIG_STEP_SELECT_MODEL')!} />
       
       <SearchInput
-        onChange={(e) => setConndition(e.target.value.toLocaleLowerCase())}
+        onChange={(v) => setConndition(v.toLocaleLowerCase())}
         placeholder={t('SELECT_MODEL_FILTER_INPUT')!}
       />
       
-      <ModelSelectorTab defaultActiveKey="by-vendor" tabPosition="top">
-        <TabPane tab={t('SELECT_MODEL_BY_VENDOR')} key="by-vendor">
+      <ModelSelectorTab defaultActiveTab="by-vendor" tabPosition="top">
+        <TabPane title={t('SELECT_MODEL_BY_VENDOR')} key="by-vendor">
           {renderModelItems(modelsGroupByVendor, true)}
         </TabPane>
-        <TabPane tab={t('SELECT_MODEL_BY_BAREBONES')} key="by-barebones">
+        <TabPane title={t('SELECT_MODEL_BY_BAREBONES')} key="by-barebones">
           {renderModelItems(modelsGroupByBarebone, false)}
         </TabPane>
       </ModelSelectorTab>

@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "antd";
+import { Button, Tooltip } from "@arco-design/web-react";
 import { LinkButton, MainContentContainer } from "components/common/style";
 import { observer } from "mobx-react-lite";
 import { useContext, useState } from "react";
@@ -18,7 +18,7 @@ function Done() {
     const payload: React.ReactNode[] = t('DONE_SUCCESS_TIPS').split(':');
     const efiDownloadPath = pathJoin(app.downloadPath, 'Tongfang_EFI');
     payload[1] = (
-      <Tooltip title={efiDownloadPath} key={1}>
+      <Tooltip content={efiDownloadPath} key={1}>
         <LinkButton onClick={() => openDirectory(efiDownloadPath)}>
           {payload[1]}
         </LinkButton>

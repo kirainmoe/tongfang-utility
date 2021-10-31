@@ -31,7 +31,7 @@ export default class ConfigStore {
   rootStore: RootStore;
 
   /** 当前步骤 */
-  step: number = 0;
+  step: number = 1;
 
   /** 是否从本地生成 */
   isLocal: boolean = false;
@@ -58,11 +58,11 @@ export default class ConfigStore {
   }
 
   prevStep() {
-    this.step = this.step === 0 ? 0 : this.step - 1;
+    this.step = this.step <= 1 ? 1 : this.step - 1;
   }
 
   nextStep() {
-    this.step = this.step < 5 ? this.step + 1 : this.step;
+    this.step = this.step < 6 ? this.step + 1 : this.step;
   }
 
   setSelected(selectedEFI: EFIReleasePayload) {

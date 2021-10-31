@@ -14,5 +14,5 @@ export default async function readNVRAM(key: string): Promise<string | null> {
     return null;
   }
 
-  return lines[0].split('\t')[1].trim();
+  return lines[0].split('\t')[1].trim().replace(/%00/g, '');
 }

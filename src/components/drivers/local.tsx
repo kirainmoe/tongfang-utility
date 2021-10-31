@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
-import { message, Select } from "antd";
+import { Message, Select } from "@arco-design/web-react";
 import ActionButtons from "components/common/action-buttons";
 import BlockTitle from "components/common/block-title";
 import { useContext, useEffect, useState } from "react";
@@ -27,7 +27,7 @@ function LocalTab() {
     app.setDefaultDriverVersion('wifi', defaultWiFiVersion);
     app.setDefaultDriverVersion('bluetooth', defaultBluetoothVersion);
     
-    message.success(t('DRIVERS_SET_DEFAULT_VERSION_SUCCESS'));
+    Message.success(t('DRIVERS_SET_DEFAULT_VERSION_SUCCESS'));
   };
 
   const onDelete = () => {

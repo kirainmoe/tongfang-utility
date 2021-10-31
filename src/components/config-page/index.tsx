@@ -1,4 +1,4 @@
-import { Steps } from "antd";
+import { Steps } from "@arco-design/web-react";
 import ContentPage from "components/common/content-page";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
@@ -34,6 +34,8 @@ function ConfigPage() {
       description={t('CONFIG_PAGE_DESCRIPTION')}
     >
       <Steps
+        type="arrow"
+        size="small"
         current={step}
         onChange={(nextStep) =>
           (process.env.NODE_ENV === 'development' || step >= nextStep) &&
@@ -45,12 +47,12 @@ function ConfigPage() {
         ))}
       </Steps>
 
-      {step === 0 && <Welcome />}
-      {step === 1 && <ModelSelector />}
-      {step === 2 && <Customize />}
-      {step === 3 && <Personalize />}
-      {step === 4 && <Generate />}
-      {step === 5 && <Done />}
+      {step === 1 && <Welcome />}
+      {step === 2 && <ModelSelector />}
+      {step === 3 && <Customize />}
+      {step === 4 && <Personalize />}
+      {step === 5 && <Generate />}
+      {step === 6 && <Done />}
 
       <ConfigPageStyles />
     </ContentPage>

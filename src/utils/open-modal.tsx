@@ -1,4 +1,4 @@
-import { Modal } from "antd"
+import { Modal } from "@arco-design/web-react";
 
 export const openInfoModal = (title: string, content: string) => {
   Modal.info({

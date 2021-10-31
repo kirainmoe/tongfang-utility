@@ -1,4 +1,4 @@
-import { Form, Input, Tabs, Select } from "antd";
+import { Form, Input, Tabs, Select } from "@arco-design/web-react";
 import styled, { createGlobalStyle } from "styled-components";
 
 export const ConfigPageStyles = createGlobalStyle`
@@ -61,9 +61,10 @@ export const SearchInput = styled(Input)`
 
 export const ModelSelectorTab = styled(Tabs)`
   height: 360px;
-  overflow: hidden;
-  .ant-tabs-tabpane {
+  .arco-tabs-content {
+    width: calc(100% - 20px);
     height: 320px;
+    margin: 0 0px 0 20px;
     overflow: auto;
   }
 `;
@@ -128,7 +129,7 @@ export const CustomizeGroup = styled.div`
 
 // Personalize
 export const StyledForm = styled(Form)`
-  margin: 10px 0 20px 0;
+  margin: 10px 0 10px 0;
   .ant-form-item {
     margin: 0 0 10px;
   }
@@ -159,7 +160,6 @@ export const DescriptionBlock = styled.div`
 // Generate
 export const ListContainer = styled.ul`
   margin: 10px;
-  min-height: 200px;
   
   .title {
     font-weight: 500;

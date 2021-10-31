@@ -30,15 +30,18 @@ pub fn read_zip_file_content(filepath: &str, filename: &str) -> Result<String, S
   let mut file_content: String = String::default();
   archive
     .by_name(filename)
-    .unwrap()
+    .or(Err(format!("Read file {} from archive failed!", &filename)))?
     .read_to_string(&mut file_content)
     .or(Err(format!("Read file {} from archive failed.", &filename)))?;
   Ok(file_content)
 }
 
 #[tauri::command]
-pub fn extract_to(filepath: &str, extract_path: &str) {
-  let file = fs::File::open(&filepath).unwrap();
-  let mut archive = zip::ZipArchive::new(file).unwrap();
-  archive.extract(&extract_path).unwrap();
+pub fn extract_to(filepath: &str, extract_path: &str) -> Result<(), String> {
+  let file = fs::File::open(&filepath)
+    .or(Err(format!("Extract file {} failed!", &filepath)))?;
+  let mut archive = zip::ZipArchive::new(file)
+    .or(Err(format!("Extract file {} failed!", &filepath)))?;
+  archive.extract(&extract_path).or(Err(format!("Extract file {} failed!", &filepath)))?;
+  Ok(())
 }

@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api";
 import { copyFile, removeDir, renameFile } from "@tauri-apps/api/fs";
-import { message, Modal } from "antd";
+import { Message, Modal } from "@arco-design/web-react";
 import { useEffect, useState } from "react";
 import t from "resources/i18n";
 import { DiskIcon } from "resources/icons";
@@ -77,7 +77,7 @@ function ESPModal({ downloadPath, visible, setVisible }: ESPModalProps) {
         dst: ocPath,
       });
 
-      message.success(t('DONE_REPLACE_ESP_SUCCESS'));
+      Message.success(t('DONE_REPLACE_ESP_SUCCESS'));
       setVisible(false);
     } catch (err) {
       console.error(err);

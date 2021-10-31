@@ -1,5 +1,6 @@
 import { Tooltip } from "antd";
 import cn from "classnames";
+import { darken } from "polished";
 import styled from "styled-components";
 
 export interface CustomizeOptionProps {
@@ -12,16 +13,16 @@ export interface CustomizeOptionProps {
 
 const CustomizeOptionContainer = styled.div`
   border-radius: 30px;
-  background: #eee;
+  background: #e5f3fe;
   font-size: 0.75rem;
   padding: 3px 2px;
   transition: .25s all ease-out;
   cursor: pointer;
   &:hover {
-    background: #f1ffff;
+    background: ${darken(0.1, '#e5f3fe')};
   }
   &.active {
-    background: #4091f7;
+    background: #0060f7;
     color: #ffffff;
   }
   & > div {

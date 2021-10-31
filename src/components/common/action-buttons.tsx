@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button } from "@arco-design/web-react";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import t from "resources/i18n";

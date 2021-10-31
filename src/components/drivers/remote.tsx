@@ -1,7 +1,13 @@
 import { invoke } from '@tauri-apps/api';
 import { listen } from '@tauri-apps/api/event';
 import { removeDir, removeFile, renameFile } from '@tauri-apps/api/fs';
-import { Button, Progress, notification } from 'antd';
+import {
+  Button,
+  Progress,
+  Notification,
+  Modal,
+  Message,
+} from '@arco-design/web-react';
 import BlockTitle from 'components/common/block-title';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
@@ -12,7 +18,12 @@ import { RootStoreContext } from 'stores';
 import { DriverList, DriverPayload } from 'types/drivers';
 import ensurePathExists from 'utils/ensure-path-exists';
 import pathJoin from 'utils/path-join';
-import { DownloadingProgressIndicator, DownloadSelectContainer, StyledSelect } from './styles';
+import {
+  DownloadingProgressIndicator,
+  DownloadSelectContainer,
+  StyledSelect,
+  ActionButtonGroup,
+} from './styles';
 
 const { Option } = StyledSelect;
 
@@ -127,11 +138,14 @@ function RemoteTab() {
 
         const extractBasePath = (contents as string[])[0];
         const entryPath = pathJoin(versionPath, kexts.os);
-        const kextRealPath = pathJoin(entryPath,  kexts.name);
+        const kextRealPath = pathJoin(entryPath, kexts.name);
 
         if (extractBasePath.endsWith('.kext')) {
           await ensurePathExists(entryPath);
-          await renameFile(pathJoin(versionPath, extractBasePath), kextRealPath);
+          await renameFile(
+            pathJoin(versionPath, extractBasePath),
+            kextRealPath
+          );
         } else {
           await renameFile(pathJoin(versionPath, extractBasePath), entryPath);
         }
@@ -145,8 +159,8 @@ function RemoteTab() {
       unlisten();
       refreshLocalDrivers();
     } catch (err) {
-      notification.error({
-        message: err as string,
+      Notification.error({
+        content: err as string,
       });
 
       setDownloadingIndex(0);
@@ -155,13 +169,53 @@ function RemoteTab() {
     }
   };
 
+  const handleDelete = async (
+    category: 'wifi' | 'bluetooth',
+    index: number
+  ) => {
+    Modal.confirm({
+      title: t('DRIVERS_SURE_DELETE'),
+      onOk: async () => {
+        try {
+          const item = remoteDriversList[category][index];
+          const driverPath = pathJoin(
+            app.appPath,
+            'drivers',
+            `intel-${category}`
+          );
+          const versionPath = pathJoin(
+            driverPath,
+            `${item.version}-${item.build}-${item.type}`
+          );
+
+          await removeDir(versionPath, {
+            recursive: true,
+          });
+
+          Message.success(t('DRIVERS_DELETE_SUCCESS'));
+          refreshLocalDrivers();
+        } catch (err) {
+          Notification.error({
+            content: err as string,
+          });
+        }
+      },
+    });
+  };
+
+  const handleCancel = () => {
+    setDownloadingIndex(0);
+    setDownloadingTotal(0);
+    setIsDownloading(false);
+  };
+
   return (
     <>
       <BlockTitle title={t('DRIVERS_INTEL_WIFI')} />
       <DownloadSelectContainer>
         <StyledSelect
           defaultValue={0}
-          minWidth={85}
+          minWidth={70}
           onChange={(v) => selectWiFiIndex(v as number)}
         >
           {remoteDriversList.wifi.map((item, key) => (
@@ -172,11 +226,26 @@ function RemoteTab() {
           ))}
         </StyledSelect>
         <Button
+          className="download-btn"
           type="primary"
           disabled={isDownloading}
           onClick={() => handleDownload('wifi', wifiIndex)}
         >
           {t('DOWNLOAD')}
+        </Button>
+
+        <Button
+          className="delete-btn"
+          type="primary"
+          status="danger"
+          disabled={
+            !remoteDriversList.wifi[wifiIndex]
+              ? true
+              : !isDownloaded('wifi', remoteDriversList.wifi[wifiIndex])
+          }
+          onClick={() => handleDelete('wifi', wifiIndex)}
+        >
+          {t('DELETE')}
         </Button>
       </DownloadSelectContainer>
 
@@ -184,7 +253,7 @@ function RemoteTab() {
       <DownloadSelectContainer>
         <StyledSelect
           defaultValue={0}
-          minWidth={85}
+          minWidth={70}
           onChange={(v) => selectBluetoothIndex(v as number)}
         >
           {remoteDriversList.bluetooth.map((item, key) => (
@@ -194,12 +263,31 @@ function RemoteTab() {
             </Option>
           ))}
         </StyledSelect>
+
         <Button
+          className="download-btn"
           type="primary"
           disabled={isDownloading}
           onClick={() => handleDownload('bluetooth', bluetoothIndex)}
         >
           {t('DOWNLOAD')}
+        </Button>
+
+        <Button
+          className="delete-btn"
+          type="primary"
+          status="danger"
+          disabled={
+            !remoteDriversList.bluetooth[bluetoothIndex]
+              ? true
+              : !isDownloaded(
+                  'bluetooth',
+                  remoteDriversList.bluetooth[bluetoothIndex]
+                )
+          }
+          onClick={() => handleDelete('bluetooth', bluetoothIndex)}
+        >
+          {t('DELETE')}
         </Button>
       </DownloadSelectContainer>
 
@@ -215,21 +303,27 @@ function RemoteTab() {
                 )
               : 0
           }
-          status="active"
+          animation={true}
         />
         {isDownloading && (
-          <span>
-            <span className="downloading-tag">{t('DOWNLOADING')} </span>
-            <span className="downloading-file-url">{downloadingFile}</span>
-            <span className="downloading-progress">... {progress}% </span>
-            <span className="downloading-total-files">
-              (
-              {t('DRIVERS_FILE_INDEX')
-                .replace(':index', String(downloadingIndex))
-                .replace(':total', String(downloadingTotal))}
-              )
+          <>
+            <span>
+              <span className="downloading-tag">{t('DOWNLOADING')} </span>
+              <span className="downloading-file-url">{downloadingFile}</span>
+              <span className="downloading-progress">... {progress}% </span>
+              <span className="downloading-total-files">
+                (
+                {t('DRIVERS_FILE_INDEX')
+                  .replace(':index', String(downloadingIndex))
+                  .replace(':total', String(downloadingTotal))}
+                )
+              </span>
             </span>
-          </span>
+
+            <ActionButtonGroup>
+              <Button>{t('DRIVERS_DOWNLOAD_CANCEL')}</Button>
+            </ActionButtonGroup>
+          </>
         )}
       </DownloadingProgressIndicator>
     </>
