@@ -1,7 +1,7 @@
 {
   "package": {
     "productName": "Tongfang Utility",
-    "version": "0.1.0"
+    "version": "4.0.0"
   },
   "build": {
     "distDir": "../dist",
@@ -47,7 +47,13 @@
       }
     },
     "updater": {
-      "active": false
+      "active": true,
+      "endpoints": [
+        "http://localhost:9000/update/{{target}}/{{current_version}}?server=local",
+        "https://utility.kirainmoe.com/update/{{target}}/{{current_version}}?server=rinco",
+        "https://eine.kirainmoe.com:1900/update/{{target}}/{{current_version}}?server=eine"
+      ],
+      "dialog": false
     },
     "allowlist": {
       "fs": {

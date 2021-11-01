@@ -9,7 +9,7 @@ const globalTranslation = {
 
   VERSION: ['版本', 'Version'],
   RELEASE_ID: ['打包 ID', 'Release ID'],
-  BASED_OC_VERSION: ['OpenCore 版本', 'Based OpenCore Version'],
+  BASED_OC_VERSION: ['OpenCore 版本', 'OpenCore Version'],
   RELEASE_TYPE: ['版本类别', 'Release Type'],
   RELEASE_NOTE: ['更新日志', 'Release Note'],
 

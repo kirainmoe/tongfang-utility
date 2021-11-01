@@ -18,6 +18,8 @@ const CustomizeOptionContainer = styled.div`
   padding: 3px 2px;
   transition: .25s all ease-out;
   cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   &:hover {
     background: ${darken(0.1, '#e5f3fe')};
   }

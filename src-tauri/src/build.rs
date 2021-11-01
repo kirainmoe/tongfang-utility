@@ -1,8 +1,10 @@
 extern crate cc;
 
 fn main() {
-  println!("cargo:rustc-link-lib=framework=IOKit");
-
+  if cfg!(target_os = "macos") {
+    println!("cargo:rustc-link-lib=framework=IOKit");
+  }
+  
   cc::Build::new()
     .file("src/smc/smc.c")
     .compile("libsmc.a");

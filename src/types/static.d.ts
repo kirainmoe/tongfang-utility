@@ -33,6 +33,12 @@ declare module '*.webp' {
     export default src;
 }
 
+
+declare module '*?raw' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.svg' {
   import * as React from 'react';
 

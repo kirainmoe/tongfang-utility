@@ -8,8 +8,19 @@ export default function TitleBar() {
   const tauriWindow = getCurrent();
   const [isMaximized, setIsMaximized] = useState(false);
 
-  const startDrag = () => tauriWindow.startDragging();
-  const closeWindow = () => tauriWindow.close();
+  const startDrag = (e: React.MouseEvent) => {
+    if ((e.target as HTMLDivElement).tagName !== 'DIV') {
+      (e.target as HTMLDivElement).click();
+    }
+    
+    e.stopPropagation();
+    e.preventDefault();
+    tauriWindow.startDragging();
+  };
+
+  const closeWindow = () => {
+    tauriWindow.close();
+  };
   const minimizeWindow = () => tauriWindow.minimize();
   const maximizeWindow = () => {
     isMaximized ? tauriWindow.setSize(DEFAULT_WINDOW_SIZE) : tauriWindow.maximize();

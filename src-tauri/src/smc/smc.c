@@ -22,6 +22,7 @@
 #define BUILDING_NODE_EXTENSION
 #endif
 
+#if __APPLE__
 #include <IOKit/IOKitLib.h>
 #include <stdio.h>
 #include <string.h>
@@ -226,3 +227,10 @@ int fan_rpm(int fanNumber) {
   SMCClose();
   return rpm;
 }
+#endif
+
+#ifdef _WIN32
+double temperature() {
+  return 0;
+}
+#endif

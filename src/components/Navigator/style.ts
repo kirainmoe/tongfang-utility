@@ -40,21 +40,21 @@ export const NavigatorContainer = styled.div<NavigatorContainerProps>`
       margin-top: 0px;
     }
     svg {
-      margin-top: 10px;
+      margin-top: 15px;
     }
     /* font-size: 12px; */
   }
 
   .navigator-button.active svg,
   .navigator-button:hover svg {
-    /* margin-top: 10px; */
+    /* margin-top: 15px; */
   }
 `;
 
 export const NavigatorButtonContainer = styled(NavLink)`
-  width: 60px;
-  height: 60px;
-  margin: 10px auto;
+  width: 70px;
+  height: 70px;
+  margin: 5px auto;
 
   display: block;
 
@@ -62,12 +62,12 @@ export const NavigatorButtonContainer = styled(NavLink)`
   overflow: hidden;
 
   position: relative;
-  border-radius: 10px;
+  border-radius: 8px;
 
   svg {
     width: 25px;
     height: 25px;
-    margin-top: 20px;
+    margin-top: 30px;
     transition: .25s all ease-out;
   }
 
@@ -91,4 +91,13 @@ export const NavigatorLogo = styled.img`
 
   margin: 10px auto;
   margin-bottom: 20px;
+`;
+
+export const NavigatorUserAvatar = styled.img`
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  border-radius: 50%;
 `;

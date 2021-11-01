@@ -7,7 +7,11 @@ export default class UIStore {
 
   public theme: Theme = Arco;
 
-  public language: string = window.navigator.language;
+  public language: string = this.getDefaultUILanguage();
+
+  private getDefaultUILanguage() {
+    return localStorage.getItem('tfu-app-language') || window.navigator.language.toLowerCase();
+  }
 
   constructor(root: RootStore) {
     this.rootStore = root;
@@ -36,6 +40,7 @@ export default class UIStore {
 
   public setUILanguage(language: string) {
     this.language = language;
+    localStorage.setItem('tfu-app-language', language);
   }
 
 }

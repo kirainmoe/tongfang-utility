@@ -164,7 +164,12 @@ function Welcome() {
           <span>
             <b>{t('WELCOME_CURRENT_EFI_VERSION')}</b>
           </span>
-          <p>{app.currentEFIVersion || t('UNKNOWN')}</p>
+          <p>
+            {app.currentEFIVersion ||
+              (app.platform === 'windows'
+                ? t('WELCOME_ON_WINDOWS')
+                : t('UNKNOWN'))}
+          </p>
         </ComponentVersionItem>
 
         <ComponentVersionItem onClick={() => history.push('/drivers')}>
@@ -173,13 +178,11 @@ function Welcome() {
             <b>{t('WELCOME_INTEL_WIFI_VERSION')}</b>
           </span>
           <p className="version">
-            {app.defaultDriverVersion.wifi !== 'null' 
-              ? app.defaultDriverVersion.wifi 
+            {app.defaultDriverVersion.wifi !== 'null'
+              ? app.defaultDriverVersion.wifi
               : t('NOT_SPEFICIED')}
           </p>
-          <p className="action">
-            {t('WELCOME_MANAGE_VERSION')}
-          </p>
+          <p className="action">{t('WELCOME_MANAGE_VERSION')}</p>
         </ComponentVersionItem>
 
         <ComponentVersionItem onClick={() => history.push('/drivers')}>
@@ -188,13 +191,11 @@ function Welcome() {
             <b>{t('WELCOME_INTEL_BLUETOOTH_VERSION')}</b>
           </span>
           <p className="version">
-            {app.defaultDriverVersion.bluetooth !== 'null' 
-              ? app.defaultDriverVersion.bluetooth 
+            {app.defaultDriverVersion.bluetooth !== 'null'
+              ? app.defaultDriverVersion.bluetooth
               : t('NOT_SPEFICIED')}
           </p>
-          <p className="action">
-            {t('WELCOME_MANAGE_VERSION')}
-          </p>          
+          <p className="action">{t('WELCOME_MANAGE_VERSION')}</p>
         </ComponentVersionItem>
       </ComponentVersionContainer>
 

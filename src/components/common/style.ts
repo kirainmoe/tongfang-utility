@@ -60,3 +60,7 @@ export const LinkButton = styled(Button)`
 LinkButton.defaultProps = {
   type: 'link',
 };
+
+export const RightContentContainer = styled.div`
+  text-align: right;
+`;

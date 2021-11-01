@@ -7,33 +7,33 @@ export default function getRemoteDrivers(): Promise<DriverList> {
         {
           name: 'intel-wifi',
           version: '2.1.0',
-          build: 'dc62349',
+          build: '3aab4a6',
           type: DriverReleaseType.DEV,
           kexts: [
             {
               name: 'AirportItlwm.kext',
               os: 'mojave',
-              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/AirportItlwm-Mojave-v2.1.0-DEBUG-alpha-dc62349.zip',
+              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/AirportItlwm-Mojave-v2.1.0-DEBUG-alpha-3aab4a6.zip',
             },
             {
               name: 'AirportItlwm.kext',
               os: 'catalina',
-              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/AirportItlwm-Catalina-v2.1.0-DEBUG-alpha-dc62349.zip',
+              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/AirportItlwm-Catalina-v2.1.0-DEBUG-alpha-3aab4a6.zip',
             },
             {
               name: 'AirportItlwm.kext',
               os: 'bigsur',
-              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/AirportItlwm-Big_Sur-v2.1.0-DEBUG-alpha-dc62349.zip',
+              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/AirportItlwm-Big_Sur-v2.1.0-DEBUG-alpha-3aab4a6.zip',
             },
             {
               name: 'AirportItlwm.kext',
               os: 'monterey',
-              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/AirportItlwm-Monterey-v2.1.0-DEBUG-alpha-dc62349.zip',
+              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/AirportItlwm-Monterey-v2.1.0-DEBUG-alpha-3aab4a6.zip',
             },
             {
               name: 'itlwm.kext',
               os: 'general',
-              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/itlwm-v2.1.0-DEBUG-alpha-dc62349.zip',
+              download_url: 'https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0-alpha/itlwm-v2.1.0-DEBUG-alpha-3aab4a6.zip',
             }
           ],
           release_date: new Date(),

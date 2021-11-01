@@ -321,7 +321,7 @@ function RemoteTab() {
             </span>
 
             <ActionButtonGroup>
-              <Button>{t('DRIVERS_DOWNLOAD_CANCEL')}</Button>
+              <Button onClick={handleCancel}>{t('DRIVERS_DOWNLOAD_CANCEL')}</Button>
             </ActionButtonGroup>
           </>
         )}

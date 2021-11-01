@@ -1,11 +1,13 @@
+cargo-features = ["resolver"]
+
 [package]
-name = "app"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+name = "tongfang-utility"
+version = "4.0.0-beta"
+description = "A Utility built for hackintoshing Tongfang Laptops"
+authors = ["Yume Akiyama"]
 license = ""
 repository = ""
-default-run = "app"
+default-run = "tongfang-utility"
 edition = "2018"
 build = "src/build.rs"
 
@@ -18,7 +20,7 @@ cc = "1.0"
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.0.0-beta.8", features = ["dialog-open", "fs-all", "os-all", "path-all", "shell-execute", "window-all"] }
+tauri = { version = "1.0.0-beta.8", features = ["dialog-open", "fs-all", "os-all", "path-all", "shell-execute", "updater", "window-all"] }
 libc = "0.2"
 image = { version = "0.23", default-features = false, features = ["png"] }
 png = "0.16"
@@ -27,6 +29,7 @@ color-thief = "0.2"
 zip = "0.5"
 reqwest = { version = "0.11.4", features = ["stream"] }
 futures-util = "0.3.17"
+hidapi = "1.2.6"
 
 [features]
 default = [ "custom-protocol" ]

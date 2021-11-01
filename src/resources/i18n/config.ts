@@ -27,10 +27,11 @@ const configPageTranslation = {
   WELCOME_CHECK_COMPONENT_VERSION: ['检查组件版本', 'Component Version'],
   WELCOME_CURRENT_EFI_VERSION: ['当前引导 EFI 版本', 'Current EFI Version'],
   WELCOME_INTEL_WIFI_VERSION: ['Intel Wi-Fi 驱动版本', 'Intel Wi-Fi Driver Version'],
-  WELCOME_INTEL_BLUETOOTH_VERSION: ['Intel 蓝牙驱动版本', 'Intel Bluetooth Driver Version'],
+  WELCOME_INTEL_BLUETOOTH_VERSION: ['Intel 蓝牙驱动版本', 'Bluetooth Driver Version'],
   WELCOME_EFI_RELEASE_LIST: ['EFI 版本列表', 'EFI Release List'],
   WELCOME_READ_RELEASE_NOTE: ['查看详情..', 'Detail..'],
   WELCOME_MANAGE_VERSION: ['管理版本..', 'Manage..'],
+  WELCOME_ON_WINDOWS: ['未知 (Windows 环境)', 'Unknown (on Windows)'],
 
   SELECT_MODEL_FILTER_INPUT: ['搜索机型 / 模具 / 制造商...', 'Search model / barebone / vendor...'],
   SELECT_MODEL_BY_VENDOR: ['按制造商分类', 'Group by vendor'],
@@ -82,6 +83,7 @@ const configPageTranslation = {
   PERSONALIZE_DOWNLOAD_FROM: ['从 :downloadSourceName 下载', 'Download from :downloadSourceName'],
   PERSONALIZE_SET_BOOT_ARGS: ['自定义引导参数', 'Custom Boot Args'],
   PERSONALIZE_SET_BOOT_ARGS_PLACEHOLDER: ['自定义 macOS 引导参数。如果你不知道这是什么，留空即可；这是一个高级选项，请不要乱选乱填。', 'Leave it blank if you don\'t know what is this.'],
+  PERSONALIZE_ONLY_SMUUID_ON_WINDOWS: ['提示：Windows 环境仅能够获取 SMUUID，其它参数仍为随机生成或上次使用的值。', 'Note: Only SMUUID will be read on Windows.'],
 
   GENERATE_ENSURE_OPTIONS: ['确认你的选择', 'Verify Your Choice'],
   GENERATE_CHOSEN_MODEL: ['你选择的机型（模具）：', 'Model (Barebone): '],

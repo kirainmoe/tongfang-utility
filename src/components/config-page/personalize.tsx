@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { Dropdown, Form, Input, Menu, Select, Switch, Modal } from '@arco-design/web-react';
+import { Dropdown, Form, Input, Menu, Select, Switch, Modal, Message } from '@arco-design/web-react';
 
 import BlockTitle from 'components/common/block-title';
 import { MainContentContainer } from 'components/common/style';
@@ -11,6 +11,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { getModelNameBySN } from 'services/get-model-name-by-sn';
 import { generateSNAndMLB } from 'services/generate-sn-and-mlb';
 import { getSMBIOSInfo } from 'services/get-smbios-info';
+import { getWmicInfo } from 'services/get-wmic-info';
 import { More } from '@icon-park/react';
 import { RootStoreContext } from 'stores';
 import { open } from '@tauri-apps/api/dialog';
@@ -35,7 +36,7 @@ function Personalize() {
   const [source, setSMBIOSSource] = useState(SMBIOSSource.ReadFromSystem);
 
   const [form] = useForm();
-  const { config } = useContext(RootStoreContext);
+  const { app, config } = useContext(RootStoreContext);
 
   // 默认 SMBIOS model
   const defaultModelIndex = (() => {
@@ -62,19 +63,30 @@ function Personalize() {
 
   // 从系统读取并填写 SMBIOS 信息
   const readAndFill = useCallback(async () => {
-    const smbios = await getSMBIOSInfo();
-    if (smbios) {
-      form.setFieldsValue({
-        model: PlatformString.indexOf(smbios.model),
-        sn: smbios.serial_number,
-        mlb: smbios.mlb,
-        smuuid: smbios.system_uuid,
-      });
-      setSMBIOSSource(SMBIOSSource.ReadFromSystem);
-      return true;
+    if (app.platform === 'macos') {
+      const smbios = await getSMBIOSInfo();
+      if (smbios) {
+        form.setFieldsValue({
+          model: PlatformString.indexOf(smbios.model),
+          sn: smbios.serial_number,
+          mlb: smbios.mlb,
+          smuuid: smbios.system_uuid,
+        });
+        setSMBIOSSource(SMBIOSSource.ReadFromSystem);
+        return true;
+      }
+    } else if (app.platform === 'windows') {
+      Message.warning(t('PERSONALIZE_ONLY_SMUUID_ON_WINDOWS'));
+      const wmicInfo = await getWmicInfo();
+      if (wmicInfo.uuid) {
+        form.setFieldsValue({
+          smuuid: wmicInfo.uuid,
+        });
+        return false;
+      }
     }
     return false;
-  }, [form]);
+  }, [app, form]);
 
   const onSelectModel = useCallback(async (index: number) => {
     await generateAndFill(index);
@@ -224,7 +236,9 @@ function Personalize() {
 
       <BlockTitle title={t('PERSONALIZE_SET_BOOT_ARGS')} />
       <StyledBootArgsSelect
-        mode="tags"
+        mode="multiple"
+        allowCreate={true}
+        allowClear={true}
         onChange={(v) => config.setBootArgs((v as any).join(' '))}
         placeholder={t('PERSONALIZE_SET_BOOT_ARGS_PLACEHOLDER')}
         defaultValue={config.bootArgs.length ? config.bootArgs.split(' ') : []}

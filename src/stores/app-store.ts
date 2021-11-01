@@ -17,7 +17,7 @@ export default class AppStore {
 
   constructor(root: RootStore) {
     this.rootStore = root;
-    makeAutoObservable(root);
+    makeAutoObservable(this);
 
     this.getPathConfig();
     this.getPlatform();
@@ -47,6 +47,16 @@ export default class AppStore {
       appPath: this.appPath,
       downloadPath: this.downloadPath,
     };
+  }
+
+  setDownloadPath(path: string) {
+    this.downloadPath = path;
+    localStorage.setItem('tfu-download-path', path);
+  }
+
+  setAppPath(path: string) {
+    this.appPath = path;
+    localStorage.setItem('tfu-app-path', path);
   }
 
   async getDefaultAppPath() {

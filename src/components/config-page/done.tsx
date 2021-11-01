@@ -80,7 +80,7 @@ function Done() {
         <Button
           style={{ margin: 10 }}
           type="primary"
-          onClick={() => config.setStep(0)}
+          onClick={() => config.setStep(1)}
         >
           {t('DONE_BACK_TO_HOME')}
         </Button>
