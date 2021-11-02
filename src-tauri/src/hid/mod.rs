@@ -26,6 +26,7 @@ fn connect_ite_device() -> Result<HidDevice, String> {
   let api = hidapi::HidApi::new()
     .or(Err(format!("Cannot create HID instance!")))?;
 
+
   let (vendor_id, product_id): (u16, u16) = (0x048D, 0xCE00);
   let mut has_product = false;
 

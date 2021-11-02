@@ -1,5 +1,5 @@
 import { render } from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import GlobalStyle from './style';
@@ -20,6 +20,7 @@ import UpdatePage from 'components/update';
 import { registerErrorTracker } from 'utils/error-tracker';
 
 function App() {
+  const { app } = store;
   return (
     <RootStoreContext.Provider value={store}>
       <GlobalStyle />
@@ -34,6 +35,7 @@ function App() {
         <Route path="/compatibility-check" component={CompatibilityCheckPage} />
         <Route path="/preference" component={SettingPage} />
         <Route path="/update" component={UpdatePage} />
+        <Redirect exact path="/" to={app.platform === 'windows' ? '/configuration' : '/dashboard'} />
       </BrowserRouter>
     </RootStoreContext.Provider>
   );

@@ -22,7 +22,7 @@ export const AppLogoAndNameContainer = styled.div`
 
 export const LicenseFieldContainer = styled.div`
   padding: 20px;
-  height: 400px;
+  height: 360px;
   overflow-y: auto;
   background: #fafafa;
 `;

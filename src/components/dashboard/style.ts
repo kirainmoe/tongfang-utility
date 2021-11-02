@@ -59,13 +59,18 @@ export const DeviceInfoItemContainer = styled.div`
     width: 80px;
     font-weight: 500;
     margin-right: 20px;
+    line-height: 20px;
+    vertical-align: top;
   }
   span.value {
     display: inline-block;
     max-width: 300px;
+    line-height: 20px;
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-left: 10px;
+    vertical-align: top;
   }
 `;
 

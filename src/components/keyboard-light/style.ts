@@ -32,7 +32,7 @@ export const KeyboardLightItemContainer = styled.div`
   }
 
   .color-picker {
-    margin-bottom: -30px;
+    margin-bottom: -40px;
     transition: .25s all ease-out;
   }
 
@@ -165,7 +165,7 @@ export const ColorPickerItemContainer = styled.div<ColorPickerItemProps>`
 
 
   input {
-    display: none;
+    visibility: hidden;
   }
 `;
 

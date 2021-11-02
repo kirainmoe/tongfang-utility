@@ -86,7 +86,7 @@ function KeyboardLight() {
     ]
   );
   const [disabled, setDisabled] = useState(
-    tryParse(localStorage.getItem('tfu-kbl-disabled'), (v: string) => v === 'true') || false
+    tryParse(localStorage.getItem('tfu-kbl-disabled'), (v: string) => v === 'true') || true
   );
   const [brightnessIndex, setBrightnessIndex] = useState(
     tryParse(localStorage.getItem('tfu-kbl-brightness-index'), Number) || 2
@@ -108,63 +108,66 @@ function KeyboardLight() {
       return;
     }
 
-    switch (currentMode) {
-      case 'KBL_FIXED_COLOR':
-        for (let i = 0; i < fixedColorSeries.length; i++) {
-          const [r, g, b] = fixedColorSeries[i];
-
-          invoke('set_mono_color', {
-            r,
-            g,
-            b,
-            block: i + 1,
+    (async() => {
+      switch (currentMode) {
+        case 'KBL_FIXED_COLOR':
+          for (let i = 0; i < fixedColorSeries.length; i++) {
+            const [r, g, b] = fixedColorSeries[i];
+  
+            await invoke('set_mono_color', {
+              r,
+              g,
+              b,
+              block: i + 1,
+              brightness: brightness[brightnessIndex],
+              save: 1,
+            }).catch((err) => Message.error(err));
+          }
+          break;
+  
+        case 'KBL_BREATH':
+          await invoke('set_breathing', {
+            brightness: brightness[brightnessIndex],
+            speed: speeds[speedIndex],
+            save: 1,
+          }).catch((err) => Message.error(err));
+          break;
+  
+        case 'KBL_WAVE':
+          await invoke('set_wave', {
+            brightness: brightness[brightnessIndex],
+            speed: speeds[speedIndex],
+            direction: 0,
+            save: 1,
+          }).catch((err) => Message.error(err));
+          break;
+  
+        case 'KBL_RAINBOW':
+          await invoke('set_rainbow', {
             brightness: brightness[brightnessIndex],
             save: 1,
           }).catch((err) => Message.error(err));
-        }
-        break;
+          break;
+  
+        case 'KBL_FLASH':
+          await invoke('set_flashing', {
+            brightness: brightness[brightnessIndex],
+            speed: speeds[speedIndex],
+            direction: 0,
+            save: 1,
+          }).catch((err) => Message.error(err));
+          break;
+  
+        case 'KBL_GRADIENT':
+          await invoke('set_gradient', {
+            brightness: brightness[brightnessIndex],
+            speed: speeds[speedIndex],
+            save: 1,
+          }).catch((err) => Message.error(err));
+          break;
+      }  
+    })();
 
-      case 'KBL_BREATH':
-        invoke('set_breathing', {
-          brightness: brightness[brightnessIndex],
-          speed: speeds[speedIndex],
-          save: 1,
-        }).catch((err) => Message.error(err));
-        break;
-
-      case 'KBL_WAVE':
-        invoke('set_wave', {
-          brightness: brightness[brightnessIndex],
-          speed: speeds[speedIndex],
-          direction: 0,
-          save: 1,
-        }).catch((err) => Message.error(err));
-        break;
-
-      case 'KBL_RAINBOW':
-        invoke('set_rainbow', {
-          brightness: brightness[brightnessIndex],
-          save: 1,
-        }).catch((err) => Message.error(err));
-        break;
-
-      case 'KBL_FLASH':
-        invoke('set_flashing', {
-          brightness: brightness[brightnessIndex],
-          speed: speeds[speedIndex],
-          direction: 0,
-          save: 1,
-        }).catch((err) => Message.error(err));
-        break;
-
-      case 'KBL_GRADIENT':
-        invoke('set_gradient', {
-          brightness: brightness[brightnessIndex],
-          speed: speeds[speedIndex],
-          save: 1,
-        }).catch((err) => Message.error(err));
-        break;
-    }
   }, [disabled, currentMode, fixedColorSeries, brightnessIndex, speedIndex]);
 
   const handleToggleKeyboardLight = (v: boolean) => {
