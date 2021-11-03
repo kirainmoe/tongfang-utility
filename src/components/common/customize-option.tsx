@@ -47,6 +47,12 @@ const CustomizeOptionContainer = styled.div`
     svg {
       margin: 5px;
     }
+    span {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin: 5px 8px;
+    }
   }
   .label-container {
     line-height: 30px;

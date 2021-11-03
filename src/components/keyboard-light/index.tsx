@@ -86,7 +86,7 @@ function KeyboardLight() {
     ]
   );
   const [disabled, setDisabled] = useState(
-    tryParse(localStorage.getItem('tfu-kbl-disabled'), (v: string) => v === 'true') || true
+    tryParse(localStorage.getItem('tfu-kbl-disabled'), (v: string) => v === 'true') || false
   );
   const [brightnessIndex, setBrightnessIndex] = useState(
     tryParse(localStorage.getItem('tfu-kbl-brightness-index'), Number) || 2

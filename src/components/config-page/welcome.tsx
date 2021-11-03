@@ -69,16 +69,16 @@ function Welcome() {
   const [selectedRow, setSelectedRow] = useState<any>([0]);
   const history = useHistory();
 
-  const { app, config } = useContext(RootStoreContext);
+  const { app, user, config } = useContext(RootStoreContext);
 
   useEffect(() => {
-    getEfiReleases().then((payload) => {
+    getEfiReleases(user.isBetaProgram ? 2 : 0).then((payload) => {
       setReleaseList(payload);
       setIsFetching(false);
     });
 
     getSMBIOSInfo()
-  }, []);
+  }, [user]);
 
   const onNext = async () => {
     if (!releaseList.length) {
@@ -87,7 +87,7 @@ function Welcome() {
 
     const selected = releaseList[selectedRow[0]];
     // check utility version
-    if (selected.required_utility_build > appConfig.build) {
+    if (selected.require_utility_build > appConfig.build) {
       Notification.warning({
         title: t('CONFIG_UTILITY_VERSION_NOT_SATISFIED')!,
         content: (
@@ -95,10 +95,10 @@ function Welcome() {
             <p>
               {t('CONFIG_UTILITY_VERSION_NOT_SATISFIED_CONTENT')!
                 .replace(':efi_version', selected.version)
-                .replace(':utility_version', selected.required_utility_version)
+                .replace(':utility_version', selected.require_utility_version)
                 .replace(
                   ':utility_build',
-                  selected.required_utility_build.toString()
+                  selected.require_utility_build.toString()
                 )
                 .replace(':local_utility_version', appConfig.version)
                 .replace(':local_utility_build', appConfig.build.toString())}

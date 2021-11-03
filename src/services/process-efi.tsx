@@ -1,7 +1,13 @@
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { invoke } from '@tauri-apps/api';
 import { listen } from '@tauri-apps/api/event';
-import { readBinaryFile, readDir, readTextFile, removeDir, removeFile, writeFile } from '@tauri-apps/api/fs';
+import {
+  readDir,
+  readTextFile,
+  removeDir,
+  removeFile,
+  writeFile,
+} from '@tauri-apps/api/fs';
 import { Modal } from 'antd';
 import { ProcessStages } from 'components/config-page/processing';
 import md5 from 'md5';
@@ -15,7 +21,6 @@ import pathJoin from 'utils/path-join';
 import { Buffer } from 'buffer';
 import isNumeric from 'utils/is-numeric';
 import UIStore from 'stores/ui-store';
-import { remove } from 'mobx';
 
 if (!window.Buffer) {
   (window as any).Buffer = Buffer;
@@ -55,18 +60,30 @@ export default async function processEFI({
     const unlisten = await listen('download-progress-update', (event) => {
       type NewType = ProgressUpdatePayload;
 
-      const { downloaded_size, total_size }: NewType =
+      const { downloaded_size }: NewType =
         event.payload as ProgressUpdatePayload;
-      setProgress(Math.floor((downloaded_size / total_size) * 100));
+      setProgress(Math.floor((downloaded_size / (config.selectedEFI?.size || downloaded_size)) * 100));
     });
 
     // 下载 EFI 文件
     setStage(ProcessStages.DOWNLOAD);
-    !config.isLocal &&
-      (await invoke('download_remote_file', {
-        url: config.downloadSourceUrl,
-        savePath,
-      }));
+
+    if (!config.isLocal) {
+      try {
+        await invoke('download_remote_file', {
+          url: config.downloadSourceUrl,
+          savePath,
+        });
+      } catch (err) {
+        console.warn('Download failed, trying directly get...', err);
+
+        await invoke('download_without_progress', {
+          url: config.downloadSourceUrl,
+          savePath,
+        });
+      }
+    }
+    setProgress(100);
 
     // 解压
     setStage(ProcessStages.UNZIP);
@@ -103,7 +120,7 @@ export default async function processEFI({
 
     // 检查文件哈希值
     const buildFileContent = await readTextFile(
-      pathJoin(extractPath, 'build.yml')
+      pathJoin(extractRootPath, 'build.yml')
     );
     const hashOfBuildFile = md5(buildFileContent);
 
@@ -111,6 +128,12 @@ export default async function processEFI({
       config.selectedEFI?.build_yaml_hash &&
       hashOfBuildFile !== config.selectedEFI?.build_yaml_hash
     ) {
+      console.log(
+        'Hash differs: ',
+        config.selectedEFI?.build_yaml_hash,
+        hashOfBuildFile
+      );
+
       const shouldContinueWithRisk = await new Promise((resolve) => {
         confirm({
           title: t('CONFIG_BUILD_FILE_HASH_NOT_MATCH'),
@@ -121,7 +144,7 @@ export default async function processEFI({
         });
       });
       if (!shouldContinueWithRisk) {
-        config.setStep(0);
+        config.setStep(1);
         return;
       }
     }
@@ -247,22 +270,21 @@ export default async function processEFI({
         if (action.type === 'set-device-properties') {
           const addItem = (item: any) => {
             opencoreConfig.DeviceProperties.Add[action.path][item.key]! =
-            (() => {
-              switch (item.valueType) {
-                case 'DATA':
-                  return new Uint8Array([item.value].flat());
-                case 'STRING':
-                case 'NUMBER':
-                  return item.value;
-              }
-            })();
+              (() => {
+                switch (item.valueType) {
+                  case 'DATA':
+                    return new Uint8Array([item.value].flat());
+                  case 'STRING':
+                  case 'NUMBER':
+                    return item.value;
+                }
+              })();
           };
 
           if (action.key !== undefined && action.value !== undefined) {
             addItem(action);
           } else if (action.pairs) {
-            for (const item of action.pairs)
-              addItem(item);
+            for (const item of action.pairs) addItem(item);
           }
         }
 
@@ -303,6 +325,9 @@ export default async function processEFI({
       config.SMBIOSInfo.sn;
     opencoreConfig.PlatformInfo.Generic.SystemUUID = config.SMBIOSInfo.smuuid;
 
+    // 保存 SMBIOS
+    localStorage.setItem('tfu-efi-smbios', JSON.stringify(config.SMBIOSInfo));
+
     // 设置自定义引导参数
     opencoreConfig.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'][
       'boot-args'
@@ -332,8 +357,7 @@ export default async function processEFI({
     if (config.simplifyConfig) {
       const isContain = (name: string, pattern: string[]) => {
         for (const temp of pattern) {
-          if (temp.includes(name))
-            return true;
+          if (temp.includes(name)) return true;
         }
         return false;
       };
@@ -343,9 +367,11 @@ export default async function processEFI({
       opencoreConfig.Kernel.Add = opencoreConfig.Kernel.Add.filter(
         (item: any) => item.Enabled === true
       );
-      const enabledKextNames = opencoreConfig.Kernel.Add.map((item: any) => item.BundlePath);
+      const enabledKextNames = opencoreConfig.Kernel.Add.map(
+        (item: any) => item.BundlePath
+      );
       for (const kext of kextsList) {
-        const name = kext.name as string; 
+        const name = kext.name as string;
         if (!isContain(name, enabledKextNames)) {
           await removeDir(kext.path, { recursive: true });
         }
@@ -356,17 +382,29 @@ export default async function processEFI({
       opencoreConfig.ACPI.Add = opencoreConfig.ACPI.Add.filter(
         (item: any) => item.Enabled === true
       );
-      const enabledACPINames = opencoreConfig.ACPI.Add.map((item: any) => item.Path);
+      const enabledACPINames = opencoreConfig.ACPI.Add.map(
+        (item: any) => item.Path
+      );
       for (const acpi of acpiList) {
-        const name = acpi.name as string; 
+        const name = acpi.name as string;
         if (!isContain(name, enabledACPINames)) {
           await removeFile(acpi.path);
         }
       }
     }
 
+    // 设置 vendor, product 信息
+    opencoreConfig.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'][
+      'laptop-vendor'
+    ] = ` ${config.vendor}`;
+    opencoreConfig.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'][
+      'laptop-product'
+    ] = ` ${config.product}`;
+
     // 保存 config.plist
-    const configString = plist.build(opencoreConfig).replace(/<data\/>/g, '<data></data>');
+    const configString = plist
+      .build(opencoreConfig)
+      .replace(/<data\/>/g, '<data></data>');
     await writeFile({
       path: pathJoin(efiDownloadPath, 'OC', 'config.plist'),
       contents: configString,

@@ -49,9 +49,9 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "http://localhost:9000/update/{{target}}/{{current_version}}?server=local",
-        "https://utility.kirainmoe.com/update/{{target}}/{{current_version}}?server=rinco",
-        "https://eine.kirainmoe.com:1900/update/{{target}}/{{current_version}}?server=eine"
+        "http://localhost:9000/api/utility/update/{{target}}/{{current_version}}",
+        "https://utility-rinco.kirainmoe.com/api/utility/update/{{target}}/{{current_version}}",
+        "https://utility-eine.kirainmoe.com:1900/api/utility/update/{{target}}/{{current_version}}"
       ],
       "dialog": false
     },

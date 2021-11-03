@@ -1,5 +1,6 @@
 import { platform } from '@tauri-apps/api/os';
 import { desktopDir, homeDir } from '@tauri-apps/api/path';
+import { DownloadServer, DOWNLOAD_MIRROR_DOMAINS } from 'common/constants';
 import { makeAutoObservable } from 'mobx';
 import ensurePathExists from 'utils/ensure-path-exists';
 import pathJoin from 'utils/path-join';
@@ -15,16 +16,24 @@ export default class AppStore {
 
   platform: string | null = null;
 
+  downloadMirror: DownloadServer = DownloadServer.RINCO;
+
   constructor(root: RootStore) {
     this.rootStore = root;
     makeAutoObservable(this);
 
     this.getPathConfig();
     this.getPlatform();
+    this.getMirror();
+  }
+
+  setPlatform(platform: string) {
+    this.platform = platform;
   }
 
   async getPlatform() {
-    this.platform = await platform();
+    const pf = await platform();
+    this.setPlatform(pf);
   }
 
   async getPathConfig() {
@@ -49,6 +58,14 @@ export default class AppStore {
     };
   }
 
+  getMirror() {
+    this.downloadMirror = (localStorage.getItem('tfu-app-mirror') || DownloadServer.RINCO) as DownloadServer;
+  }
+
+  getMirroredUrl(uri: string) {
+    return `${DOWNLOAD_MIRROR_DOMAINS[this.downloadMirror]}${uri}`;
+  }
+
   setDownloadPath(path: string) {
     this.downloadPath = path;
     localStorage.setItem('tfu-download-path', path);
@@ -57,6 +74,11 @@ export default class AppStore {
   setAppPath(path: string) {
     this.appPath = path;
     localStorage.setItem('tfu-app-path', path);
+  }
+
+  setDownloadMirror(server: DownloadServer) {
+    this.downloadMirror = server;
+    localStorage.setItem('tfu-app-mirror', server);
   }
 
   async getDefaultAppPath() {

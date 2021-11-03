@@ -15,6 +15,7 @@ const settingTranslations = {
     'Default app path is ~/.tfu. Do not set it to any directory containing important files.',
   ],
   SETTING_LANGUAGE: ['语言设置', 'Language'],
+  SETTING_MIRROR: ['服务器镜像设置', 'Server Mirror'],
   SETTING_CHOOSE_OTHER_PATH: ['选择其它路径', 'Choose other path'],
   SETTING_RESTORE_DEFAULT_PATH: ['恢复默认值', 'Restore default path'],
   SETTING_APPLY: ['应用设置', 'Apply'],

@@ -1,4 +1,4 @@
-import { Button, Modal, Notification, Progress, Space } from '@arco-design/web-react';
+import { Button, Message, Modal, Notification, Space } from '@arco-design/web-react';
 import appConfig from 'common/appconfig';
 import ContentPage from 'components/common/content-page';
 import { CenterAlignContainer } from 'components/config-page/style';
@@ -8,27 +8,28 @@ import t from 'resources/i18n';
 import { RootStoreContext } from 'stores';
 import { emit, listen } from '@tauri-apps/api/event';
 import { UpdateNotes, UpdateTips, VersionInfo } from './style';
-import { getCurrent } from '@tauri-apps/api/window';
+import { relaunch } from '@tauri-apps/api/process';
+
+let globalNotificationId = '';
 
 export function UpdatePage() {
   const { update } = useContext(RootStoreContext);
-  const [updateProgress, setUpdateProgress] = useState(0);
   const [updating, setUpdating] = useState(false);
 
   const handleUpdate = async () => {
     setUpdating(true);
-    await listen("tauri://update-status", function (res) {
+    Notification.remove(globalNotificationId);
+
+    await listen('tauri://update-status', function (res) {
       if ((res.payload as any).status === 'DONE') {
         Modal.success({
           title: t('UPDATE_FINISHED'),
           content: t('UPDATE_RESTART_TO_APPLY'),
           onOk() {
-            const window = getCurrent();
-            window.close();
-          }
+            relaunch();
+          },
         });
       }
-      console.log("New status: ", res);
     });
     await emit('tauri://update-install');
   };
@@ -39,9 +40,9 @@ export function UpdatePage() {
 
   useEffect(() => {
     if (update.requireUpdate) {
-      const id = `${+new Date()}`;
+      globalNotificationId = `${+new Date()}`;
       Notification.info({
-        id,
+        id: globalNotificationId,
         title: t('UPDATE_NEW_VERSION_AVAILABLLE'),
         content: t('UPDATE_NEW_VERSION_DESCRIPTION')
           .replace('$localVersion', appConfig.version)
@@ -50,16 +51,23 @@ export function UpdatePage() {
           .replace('$remoteBuild', update.remoteAppBuild!.toString()),
         btn: (
           <Space>
-            <Button disabled={updating} onClick={() => Notification.remove(id)}>
+            <Button onClick={() => Notification.remove(globalNotificationId)}>
               {t('UPDATE_LATER')}
             </Button>
-            <Button onClick={() => handleUpdate()} type="primary">{t('UPDATE_NOW')}</Button>
+            <Button onClick={() => handleUpdate()} type="primary">
+              {t('UPDATE_NOW')}
+            </Button>
           </Space>
         ),
       });
     }
   }, [update.requireUpdate, update.remoteAppBuild, update.remoteAppVersion]);
 
+  useEffect(() => {
+    if (update.isRequestError) {
+      Message.error(t('UPDATE_NETWORK_ERROR'));
+    }
+  }, [update.isRequestError]);
 
   return (
     <ContentPage title={t('UPDATE_TITLE')}>
@@ -73,7 +81,9 @@ export function UpdatePage() {
         <div>
           <b>{t('UPDATE_REMOTE_VERSION')}：</b>
           <span>
-            {update.requireUpdate === null
+            {update.isRequestError
+              ? t('UPDATE_CANNOT_FETCH_LATEST_VERSION')
+              : update.requireUpdate === null
               ? t('UPDATE_FETCHING')
               : update.requireUpdate === true
               ? `${update.remoteAppVersion} (build ${update.remoteAppBuild})`
@@ -84,15 +94,20 @@ export function UpdatePage() {
 
       <UpdateTips>
         {update.requireUpdate && t('UPDATE_NEW_VERSION_TIPS')}
+        {update.isRequestError && t('UPDATE_NETWORK_ERROR')}
       </UpdateTips>
 
       <UpdateNotes>{update.releaseNote}</UpdateNotes>
 
-      <Progress percent={updateProgress} />
-
       <CenterAlignContainer style={{ marginTop: 20 }}>
         {update.requireUpdate && (
-          <Button onClick={handleUpdate} disabled={updating} status="success" type="primary">
+          <Button
+            loading={updating}
+            onClick={handleUpdate}
+            disabled={updating}
+            status="success"
+            type="primary"
+          >
             {updating ? t('UPDATE_UPDATING') : t('UPDATE_NOW')}
           </Button>
         )}

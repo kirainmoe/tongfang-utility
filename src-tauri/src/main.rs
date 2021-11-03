@@ -17,7 +17,7 @@ use cmd::macos_sudo_exec;
 use hid::{set_mono_color, set_breathing, set_wave, set_rainbow, set_flashing, set_gradient, disable_keyboard_light};
 use fileutil::{file_exists, copy_dir};
 use imageutil::{resize_png, create_icns};
-use network::download_remote_file;
+use network::{download_remote_file, download_without_progress};
 use smc::get_temperature;
 use smc::battery::get_battery_info;
 use resource::cpu::get_cpu_utilization;
@@ -46,6 +46,7 @@ fn main() {
       list_zip_contents,
       read_zip_file_content,
       download_remote_file,
+      download_without_progress,
       extract_to,
       copy_dir,
       create_icns,

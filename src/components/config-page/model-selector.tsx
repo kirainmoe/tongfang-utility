@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Tabs } from '@arco-design/web-react';
 import cn from 'classnames';
 import { toJS } from 'mobx';
@@ -23,6 +23,7 @@ import {
   SearchInput,
   SelectedModelTag,
 } from './style';
+import readNVRAM from 'utils/read-nvram';
 
 const { TabPane } = Tabs;
 
@@ -31,6 +32,24 @@ function ModelSelector() {
   const [condition, setConndition] = useState<string>('');
   const models = config.yamlInfo?.['support-models'];
   const list = toJS(models)!;
+
+  useEffect(() => {
+    (async() => {
+      if (!list || !list.length) {
+        return;
+      }
+      const vendor = await readNVRAM('laptop_vendor');
+      const product = await readNVRAM('laptop_product');
+      if (vendor && product) {
+        for (let idx = 0; idx < list.length; idx++) {
+          if (list[idx].vendor === vendor && list[idx].product === product) {
+            config.setModelIndex(idx);
+            break;
+          }
+        }
+      }
+    })();
+  }, [list, config]);
 
   const modelsGroupByVendor = useMemo(() => {
     if (!list?.length) {

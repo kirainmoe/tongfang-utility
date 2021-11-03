@@ -51,6 +51,22 @@ function Personalize() {
     }
   })();
 
+  // 从 localStorage 读取 SMBIOS 信息
+  const readFromLocalStorageAndFill = useCallback(() => {
+    const info = localStorage.getItem('tfu-efi-smbios');
+    if (!info) {
+      return false;
+    }
+    try {
+      const smbios = JSON.parse(info);
+      form.setFieldsValue(smbios);
+      setSMBIOSSource(SMBIOSSource.LastGenerated);
+      return true;
+    } catch(err) {
+      return false;
+    }
+  }, [form]);
+
   // 随机生成并填写 SMBIOS 信息
   const generateAndFill = useCallback(async (index: number) => {
     const { sn, mlb } = await generateSNAndMLB(index);
@@ -165,15 +181,17 @@ function Personalize() {
 
   useEffect(() => {
     (async () => {
-      if (!await readAndFill()) {
+      if (!await readAndFill()) {}
+      else if (!readFromLocalStorageAndFill()) {}
+      else {
         onSelectModel(defaultModelIndex); // generate
       }
     })();
-  }, [defaultModelIndex, onSelectModel, readAndFill]);
+  }, [defaultModelIndex, onSelectModel, readAndFill, readFromLocalStorageAndFill]);
 
   return (
     <MainContentContainer>
-      <BlockTitle title={t('PERSONALIZE_SMBIOS')} tips="有病吧">
+      <BlockTitle title={t('PERSONALIZE_SMBIOS')} tips={t('PERSONALIZE_SMBIOS_DESCRIPTION')}>
         <span style={{ marginRight: 10, color: '#888' }}>
           {t('PERSONALIZE_SMBIOS_CURRENT_SOURCE')}: {getSMBIOSSourceTag()}
         </span>
@@ -186,7 +204,7 @@ function Personalize() {
           />
         </Dropdown>
       </BlockTitle>
-      <StyledForm form={form} labelCol={{ span: 4 }} size="small">
+      <StyledForm form={form} labelCol={{ span: 5 }} size="small">
         <Item
           label={t('PERSONALIZE_SMBIOS_MODEL')}
           field="model"

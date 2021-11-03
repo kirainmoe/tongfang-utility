@@ -15,7 +15,7 @@ export const getTemperatureDashboardOption = (data: number) => {
         },
         pointer: {
           itemStyle: {
-            color: 'auto',
+            color: 'inherit',
           },
         },
         axisTick: {
@@ -35,14 +35,14 @@ export const getTemperatureDashboardOption = (data: number) => {
           },
         },
         axisLabel: {
-          color: 'auto',
+          color: 'inherit',
           distance: 40,
           fontSize: 20,
         },
         detail: {
           valueAnimation: true,
           formatter: '{value} °C',
-          color: 'auto',
+          color: 'inherit',
         },
         data: [
           {

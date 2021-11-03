@@ -67,7 +67,7 @@ const configPageTranslation = {
     '重置 SmUUID 可能会导致使用 OpenCore 引导 Windows 时激活丢失、macOS 下软件识别码重置等问题，请确认是否要重置 SmUUID.',
     'Reseting SmUUID may cause the activation lost on Windows and software identifier lost on macOS. Are you sure to reset SmUUID?',
   ],
-  PERSONALIZE_SMBIOS_CURRENT_SOURCE: ['当前 SMBIOS 来源', 'Current SMBIOS source:'],
+  PERSONALIZE_SMBIOS_CURRENT_SOURCE: ['当前 SMBIOS 来源', 'Current SMBIOS source'],
   PERSONALIZE_SMBIOS_READ_FROM_CURRENT_SYSTEM: ['从当前系统读取', 'Read from system'],
   PERSONALIZE_SMBIOS_AUTO_GENERATED: ['随机生成', 'Randomly generated'],
   PERSONALIZE_SMBIOS_MANUALLY_MODIFIED: ['手动修改', 'Manual'],
@@ -84,6 +84,10 @@ const configPageTranslation = {
   PERSONALIZE_SET_BOOT_ARGS: ['自定义引导参数', 'Custom Boot Args'],
   PERSONALIZE_SET_BOOT_ARGS_PLACEHOLDER: ['自定义 macOS 引导参数。如果你不知道这是什么，留空即可；这是一个高级选项，请不要乱选乱填。', 'Leave it blank if you don\'t know what is this.'],
   PERSONALIZE_ONLY_SMUUID_ON_WINDOWS: ['提示：Windows 环境仅能够获取 SMUUID，其它参数仍为随机生成或上次使用的值。', 'Note: Only SMUUID will be read on Windows.'],
+  PERSONALIZE_SMBIOS_DESCRIPTION: [
+    'SMBIOS 是设备的识别信息。一般地，我们尽量确保每台设备有全网唯一的 SMBIOS 信息，并且不和真正的 Mac 撞号。如果 macOS 提示你设备受到企业管理，则说明生成的序列号与真正的 Mac 冲突，请重新生成 SMBIOS 信息。',
+    'SMBIOS information is used to identity a device. Formally, we should make this info unique all over the world, and avoid the conflict with a real Mac.',
+  ],
 
   GENERATE_ENSURE_OPTIONS: ['确认你的选择', 'Verify Your Choice'],
   GENERATE_CHOSEN_MODEL: ['你选择的机型（模具）：', 'Model (Barebone): '],

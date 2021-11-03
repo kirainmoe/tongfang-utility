@@ -16,7 +16,8 @@
     "build:vite": "tsc && vite build --config scripts/vite/vite.config.js",
     "serve:vite": "vite preview",
     "start:vite": "yarn dev:vite",
-    "tauri": "tauri"
+    "tauri": "tauri",
+	"pack": "./bin/build.sh"
   },
   "base": "/",
   "title": "Tongfang Utility",
@@ -67,6 +68,7 @@
     "prettier": "^2.3.2",
     "react-refresh": "^0.10.0",
     "react-refresh-typescript": "^2.0.2",
+    "rollup-plugin-analyzer": "^4.0.0",
     "style-loader": "^3.2.1",
     "styled-components": "^5.3.1",
     "ts-loader": "^9.2.5",
@@ -90,7 +92,7 @@
     "@loadable/component": "^5.15.0",
     "@tauri-apps/api": "^1.0.0-beta.8",
     "antd": "^4.16.13",
-    "axios": "^0.21.4",
+    "axios": "^0.24.0",
     "buffer": "^6.0.3",
     "classnames": "^2.3.1",
     "echarts": "^5.2.1",

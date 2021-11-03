@@ -13,7 +13,7 @@ export const UpdateTips = styled.div`
 `;
 
 export const UpdateNotes = styled.div`
-  height: 380px;
+  height: 420px;
   background: #f8f8f8;
   margin: 20px 0;
   padding: 20px;

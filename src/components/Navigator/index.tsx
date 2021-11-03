@@ -4,19 +4,30 @@ import { Link } from 'react-router-dom';
 
 import { RootStoreContext } from 'stores';
 
-import { NavigatorContainer, NavigatorLogo, NavigatorUserAvatar } from './style';
+import {
+  NavigatorContainer,
+  NavigatorLogo,
+  NavigatorUserAvatar,
+} from './style';
 
 import NavigatorButton from './navigator-button';
 
 import t from 'resources/i18n';
 
-import { AppleIcon, CompatCheck, DashboardIcon, KeyboardIcon, SettingIcon, UpdateIcon } from 'resources/icons';
+import {
+  AppleIcon,
+  CompatCheck,
+  DashboardIcon,
+  KeyboardIcon,
+  SettingIcon,
+  Toolkit,
+  UpdateIcon,
+} from 'resources/icons';
 
 import AppLogo from 'resources/images/TongfangUtility.png';
-import UserAvatar from 'resources/images/Avatar.jpg';
 
 function Navigator() {
-  const { app, ui } = useContext(RootStoreContext);
+  const { app, ui, user } = useContext(RootStoreContext);
 
   return (
     <NavigatorContainer
@@ -49,6 +60,14 @@ function Navigator() {
           icon={<KeyboardIcon />}
         />
 
+        {app.platform === 'macos' && (
+          <NavigatorButton
+            title={t('NAVIGATOR_TOOLKIT')!}
+            to="/toolkit"
+            icon={<Toolkit />}
+          />
+        )}
+
         {app.platform === 'windows' && (
           <NavigatorButton
             title={t('NAVIGATOR_COMPAT_CHECK')}
@@ -70,7 +89,8 @@ function Navigator() {
         />
 
         <NavigatorUserAvatar
-          src={UserAvatar}
+          onClick={() => user.toggleUserPanel()}
+          src={user.avatarUrl}
           alt="User Avatar"
         />
       </div>

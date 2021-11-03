@@ -1,0 +1,35 @@
+<svg style="transform: scale(1.1); text-align:center;" class="thumb" width="120" height="60" viewBox="0,0,600,300" xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns1="http://www.inkscape.org/namespaces/inkscape" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+  <defs></defs>
+  <g transform="matrix(3.3486,0,0,3.3486,-123.4039,23.2186)">
+    <g transform="matrix(0.013,-0.3714,0.3714,0.013,100.2484,69.5185)">
+      <svg width="187.0337218024264" height="186.77" viewBox="-5.131860901213205,-5,187.0337218024264,186.77" class="thumb">
+        <defs>
+          <linearGradient x1="0" y1="0.5" x2="1" y2="0.5" id="linearGradientSkg8qv2xp4">
+            <stop offset="0%" stop-color="#009aab" stop-opacity="0.67"></stop>
+            <stop offset="100%" stop-color="#009aab" stop-opacity="0.67"></stop>
+          </linearGradient>
+        </defs>
+        <g></g>
+        <g></g>
+        <g>	
+          <circle cx="60" cy="60" r="60" fill="url('#linearGradientSkg8qv2xp4')" stroke="none" style=""></circle>
+        </g>
+      </svg>
+    </g>
+    <g transform="matrix(0.013,-0.3714,0.3714,0.013,119.2484,69.5185)">
+      <svg width="187.0337218024264" height="186.77" viewBox="-5.131860901213205,-5,187.0337218024264,186.77" class="thumb">
+        <defs>
+          <linearGradient x1="0" y1="0.5" x2="1" y2="0.5" id="linearGradientSkg8qv2xpa">
+            <stop offset="0%" stop-color="#2acadb" stop-opacity="0.65"></stop>
+            <stop offset="100%" stop-color="#2acadb" stop-opacity="0.65"></stop>
+          </linearGradient>
+        </defs>
+        <g></g>
+        <g></g>
+        <g>
+          <circle cx="60" cy="60" r="60" fill="url('#linearGradientSkg8qv2xpa')" stroke="none" style=""></circle>
+        </g>
+      </svg>
+    </g>
+  </g>
+</svg>

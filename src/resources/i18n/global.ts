@@ -23,11 +23,17 @@ const globalTranslation = {
   JSDELIVR: ['jsDelivr', 'jsDelivr'],
   GITHUB: ['GitHub', 'GitHub'],
   BITBUCKET: ['BitBucket', 'BitBucket'],
+  LOCAL: ['本地开发服务器', 'Local dev server'],
+  RINCO: ['服务器 "Rinco"', 'Server "Rinco"'],
+  EINE: ['服务器 "Eine"', 'Server "Eine"'],
 
   APPLY: ['应用', 'Apply'],
   OK: ['好', 'OK'],
   CANCEL: ['取消', 'Cancel'],
   DELETE: ['删除', 'Delete'],
+
+  SUCCESS: ['成功', 'Success'],
+  FAILED: ['失败', 'Failed'],
 };
 
 export default globalTranslation;

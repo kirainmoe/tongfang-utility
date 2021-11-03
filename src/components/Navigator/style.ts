@@ -94,10 +94,20 @@ export const NavigatorLogo = styled.img`
 `;
 
 export const NavigatorUserAvatar = styled.img`
+  box-sizing: content-box;
+
+  border: 2px solid transparent;
   width: 40px;
   height: 40px;
   position: absolute;
   left: 20px;
   bottom: 20px;
   border-radius: 50%;
+  cursor: pointer;
+
+  transition: .1s all ease-out;
+
+  &:hover {
+    border: 2px solid #3c83dc;
+  }
 `;

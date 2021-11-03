@@ -11,7 +11,13 @@ import {
   SettingActionContainer,
 } from './style';
 import t from 'resources/i18n';
-import { Button, Form, Input, Message, Space } from '@arco-design/web-react';
+import {
+  Button,
+  Form,
+  Input,
+  Message,
+  Space,
+} from '@arco-design/web-react';
 import { observer } from 'mobx-react';
 import { RightContentContainer } from 'components/common/style';
 

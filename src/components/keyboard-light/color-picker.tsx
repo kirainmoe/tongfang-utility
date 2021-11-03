@@ -61,6 +61,7 @@ export function ColorPicker({ defaultValue, onChange }: ColorPickerProps) {
     <ColorPickerContainer>
       {colorSeries.map((series, index) => (
         <ColorPickerItem
+          key={index}
           defaultValue={series}
           onChange={(v) => changeColorSeries(index, v)}
         />

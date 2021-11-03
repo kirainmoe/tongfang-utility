@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { checkUpdate } from "../../node_modules/@tauri-apps/api/updater";
+import { checkUpdate } from "@tauri-apps/api/updater";
 import RootStore from "./root-store";
 
 export interface UpdateManifestBody {
@@ -23,9 +23,11 @@ export default class UpdateStore {
   public requireUpdate: boolean | null = null;
   public manifest: UpdateManifestBody | undefined = undefined;
   public releaseNote: string | null = null;
+  public isRequestError: boolean = false;
 
   public resetRequireUpdate() {
     this.requireUpdate = null;
+    this.isRequestError = false;
   }
 
   public setUpdateStatus(shouldUpdate: boolean, manifest: UpdateManifestBody | undefined) {
@@ -39,9 +41,17 @@ export default class UpdateStore {
     }
   }
 
+  public setNetworkError() {
+    this.isRequestError = true;
+  }
+
   public async checkUpdate() {
     this.resetRequireUpdate();
-    const { shouldUpdate, manifest } = await checkUpdate();
-    this.setUpdateStatus(shouldUpdate, manifest);
+    try {
+      const { shouldUpdate, manifest } = await checkUpdate();
+      this.setUpdateStatus(shouldUpdate, manifest);
+    } catch(err) {
+      this.setNetworkError();
+    }
   }
 }

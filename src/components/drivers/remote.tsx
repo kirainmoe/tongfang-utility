@@ -166,6 +166,7 @@ function RemoteTab() {
       setDownloadingIndex(0);
       setDownloadingTotal(0);
       setIsDownloading(false);
+      refreshLocalDrivers();
     }
   };
 

@@ -11,13 +11,15 @@ export const updateTranslations = {
   ],
   UPDATE_NOW: ['立即更新', 'Update Now'],
   UPDATE_LATER: ['稍后提醒', 'Remind me Later'],
-  UPDATE_UPDATING: ['正在更新...', 'Updating...'],
+  UPDATE_UPDATING: ['正在更新，请不要离开此页面或关闭程序...', 'Updating...'],
   UPDATE_NEW_VERSION_TIPS: [
     '有新版本的同方助手可用，推荐更新到最新版以获取更好的体验。',
     'New version of Tongfang Utility is available. Please consider update to the latest version.',
   ],
   UPDATE_FINISHED: ['更新成功完成', 'Update Finished'],
   UPDATE_RESTART_TO_APPLY: ['重新启动同方助手以应用更改。', 'Restart Tongfang Utility to apply change.'],
+  UPDATE_CANNOT_FETCH_LATEST_VERSION: ['无法获取远程版本', 'Failedd to fetch latest version'],
+  UPDATE_NETWORK_ERROR: ['当前网络环境不好或无更新服务器在线，无法获取更新信息。', 'A network error is occurred. Cannot fetch update metadata.'],
 };
 
 export default updateTranslations;

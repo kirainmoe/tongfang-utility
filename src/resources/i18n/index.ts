@@ -9,6 +9,9 @@ import settings from './settings';
 import about from './about';
 import keyboardLight from './keyboard-light';
 import update from './update';
+import toolkit from './toolkit';
+import status from './status';
+import userpanel from './userpanel';
 
 import store from 'stores';
 
@@ -23,6 +26,9 @@ const translations: { [key: string]: string[]; } = {
   ...about,
   ...keyboardLight,
   ...update,
+  ...toolkit,
+  ...status,
+  ...userpanel,
   ...global,
 };
 

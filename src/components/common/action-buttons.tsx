@@ -61,12 +61,12 @@ function ActionButtons({
       <ChildContainer>
         {children}
       </ChildContainer>
-      {(config.step > 0 || canPrev) && (
+      {(config.step > 1) && (
         <StyledButton onClick={handleClickPrev} loading={prevLoading} disabled={!canPrev}>
           {prevText || t('CONFIG_PREV_STEP')}
         </StyledButton>
       )}
-      {(config.step < 5 || canNext) && (
+      {(config.step < 6) && (
         <StyledButton onClick={handleClickNext} type="primary" loading={nextLoading} disabled={!canNext}>
           {nextText || t('CONFIG_NEXT_STEP')}
         </StyledButton>

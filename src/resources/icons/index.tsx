@@ -29,3 +29,6 @@ export * from './setting';
 export * from './update';
 export * from './keyboard';
 export * from './keyboard-modes';
+export * from './toolkit';
+export * from './donate-channel';
+export * from './toolkit-icons';

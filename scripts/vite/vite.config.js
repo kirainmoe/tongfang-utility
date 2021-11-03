@@ -7,6 +7,7 @@ import packageJson from "../../package.json";
 import { defineConfig } from "vite";
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import { injectHtml } from "vite-plugin-html";
+import analyze from 'rollup-plugin-analyzer';
 
 export default defineConfig({
   base: packageJson.base || './',
@@ -51,4 +52,10 @@ export default defineConfig({
       },
     }),
   ],
+
+  build: {
+    rollupOptions: {
+      plugins: [analyze()],
+    },
+  },
 });
