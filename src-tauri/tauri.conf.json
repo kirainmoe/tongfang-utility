@@ -50,8 +50,9 @@
       "active": true,
       "endpoints": [
         "http://localhost:9000/api/utility/update/{{target}}/{{current_version}}",
-        "https://utility-rinco.kirainmoe.com/api/utility/update/{{target}}/{{current_version}}",
-        "https://utility-eine.kirainmoe.com:1900/api/utility/update/{{target}}/{{current_version}}"
+        "https://utility-rinco.kirainmoe.com:30000/api/utility/update/{{target}}/{{current_version}}",
+        "https://utility-eine.kirainmoe.com:1900/api/utility/update/{{target}}/{{current_version}}",
+        "https://utility-akane.kirainmoe.com/api/utility/update/{{target}}/{{current_version}}"
       ],
       "dialog": false
     },

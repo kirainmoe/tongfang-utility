@@ -35,7 +35,6 @@ function SettingCommon() {
         </Select>
       </Item>
 
-
       <BlockTitle title={t('SETTING_MIRROR')} />
       <Item
         field="download-mirror"
@@ -45,7 +44,10 @@ function SettingCommon() {
         <Select>
           <Option value="rinco">🍁 Rinco (Piave Cloud)</Option>
           <Option value="eine">🎩 Eine (Tencent Cloud)</Option>
-          <Option value="local">💻 Local (Dev)</Option>
+          <Option value="akane">🍷 Akane (Cloudflare)</Option>
+          {process.env.NODE_ENV === 'development' && (
+            <Option value="local">💻 Local (Dev)</Option>
+          )}
         </Select>
       </Item>
 

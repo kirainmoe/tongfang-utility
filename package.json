@@ -17,7 +17,7 @@
     "serve:vite": "vite preview",
     "start:vite": "yarn dev:vite",
     "tauri": "tauri",
-	"pack": "./bin/build.sh"
+    "bundle": "./bin/build.sh"
   },
   "base": "/",
   "title": "Tongfang Utility",

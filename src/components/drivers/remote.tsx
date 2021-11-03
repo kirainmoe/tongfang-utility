@@ -140,7 +140,7 @@ function RemoteTab() {
         const entryPath = pathJoin(versionPath, kexts.os);
         const kextRealPath = pathJoin(entryPath, kexts.name);
 
-        if (extractBasePath.endsWith('.kext')) {
+        if (extractBasePath.endsWith('.kext') || extractBasePath.endsWith('.kext/')) {
           await ensurePathExists(entryPath);
           await renameFile(
             pathJoin(versionPath, extractBasePath),

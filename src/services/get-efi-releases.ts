@@ -13,14 +13,18 @@ export default function getEfiReleases(featureGate: number = EFIReleaseType.STAB
     setTimeout(async () => {
       let payload: EFIReleasePayload[] = [];
 
-      await (
-        axios.get(store.app.getMirroredUrl(`api/efi/release?feature_gate=${featureGate}`))
-          .then(res => {
-            if (res.data.code === 0) {
-              payload = payload.concat(res.data.payload);
-            }
-          })
-      );
+      try {
+        await (
+          axios.get(store.app.getMirroredUrl(`api/efi/release?feature_gate=${featureGate}`))
+            .then(res => {
+              if (res.data.code === 0) {
+                payload = payload.concat(res.data.payload);
+              }
+            })
+        );
+      } catch(err) {
+        console.error(err);
+      }
 
       // 检测本地 EFI
       const localZipPath = pathJoin(store.app.downloadPath, 'Tongfang_EFI', 'EFI.zip');
@@ -59,7 +63,7 @@ export default function getEfiReleases(featureGate: number = EFIReleaseType.STAB
             }
           }
         } catch(err) {
-          reject(err);
+          console.error(err);
         }
       }
 

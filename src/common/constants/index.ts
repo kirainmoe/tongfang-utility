@@ -14,12 +14,14 @@ export enum DownloadServer {
   LOCAL = "local",
   EINE = "eine",
   RINCO = "rinco",
+  AKANE = 'akane',
 }
 
 export const DOWNLOAD_MIRROR_DOMAINS = {
   local: 'http://localhost:9000/',
-  rinco: 'https://utility-rinco.kirainmoe.com/',
+  rinco: 'https://utility-rinco.kirainmoe.com:30000/',
   eine: 'https://utility-eine.kirainmoe.com:1900/',
+  akane: 'https://utility-akane.kirainmoe.com/',
 };
 
 export enum FnDaemonInstallStatus {
