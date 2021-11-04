@@ -35,17 +35,13 @@ after_build:
   - ps: cd c:\project
   - ps: $version =  (cat .\src-tauri\tauri.conf.json | ConvertFrom-Json).package.version
   - ps: cp ".\src-tauri\target\release\bundle\msi\Tongfang Utility_${version}_x64.msi" ".\Tongfang-Utility.msi"
-  - ps: cp ".\src-tauri\target\release\bundle\msi\Tongfang Utility_${version}_x64.msi.zip" ".\Tongfang-Utility-update.msi.zip"
+  - ps: cp ".\src-tauri\target\release\bundle\msi\Tongfang Utility_${version}_x64.msi.zip" ".\Tongfang-Utility.msi.zip"
 artifacts:
-  - path: .\Tongfang-Utility.msi
-    name: setup
-  - path: .\Tongfang-Utility-update.msi.zip
+  - path: .\Tongfang-Utility.msi.zip
     name: updater
 deploy:
   - provider: GitHub
-    artifact: 
-      - setup
-      - updater
+    artifact: updater
     draft: false
     prerelease: false
     force_update: true
