@@ -10,6 +10,8 @@ jobs:
     - rust: nightly
   fast_finish: true
 install:
+  - nvm install 17
+  - nvm use 17
   - cargo -V
   - npm install -g yarn
   - yarn
