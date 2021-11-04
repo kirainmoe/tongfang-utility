@@ -10,9 +10,6 @@ jobs:
     - rust: nightly
   fast_finish: true
 install:
-  - curl --proto '=https' --tlsv1.2 -sSf https://rsproxy.cn/rustup-init.sh > rustup-init.sh
-  - chmod -R 755 ./rustup-init.sh
-  - ./rustup-init.sh --default-host x86_64-unknown-linux-gnu --default-toolchain nightly
   - npm install -g yarn
   - yarn
 script:
