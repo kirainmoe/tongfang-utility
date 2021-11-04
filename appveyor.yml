@@ -1,0 +1,56 @@
+max_jobs: 1
+version: v2-{build}-for-windows
+skip_branch_with_pr: true
+skip_non_tags: true
+environment:
+  matrix:
+    - nodejs_version: "17"
+platform:
+  - x64
+image: Visual Studio 2019
+init:
+  - git config --global core.autocrlf input
+matrix:
+  allow_failures:
+    - channel: nightly
+clone_folder: c:\project
+cache:
+  - node_modules
+install:
+  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) $env:PLATFORM
+  - npm install -g yarn
+  - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
+  - rustup-init -yv --default-toolchain %channel% --default-host %target%
+  - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
+  - rustc -vV
+  - cargo -vV  
+  - rustup toolchain install nightly
+before_build:
+  - cd c:\project
+  - yarn install
+build_script:
+  - yarn build:vite
+  - yarn tauri build
+after_build:
+  - ps: cd c:\project
+  - ps: $version =  (cat .\src-tauri\tauri.conf.json | ConvertFrom-Json).package.version
+  - ps: cp ".\src-tauri\target\release\bundle\msi\Tongfang Utility_${version}_x64.msi" ".\Tongfang-Utility.msi"
+  - ps: cp ".\src-tauri\target\release\bundle\msi\Tongfang Utility_${version}_x64.msi.zip" ".\Tongfang-Utility-update.msi.zip"
+artifacts:
+  - path: .\Tongfang-Utility.msi
+    name: setup
+  - path: .\Tongfang-Utility-update.msi.zip
+    name: updater
+deploy:
+  - provider: GitHub
+    artifact: 
+      - setup
+      - updater
+    draft: false
+    prerelease: false
+    force_update: true
+    on:
+      branch: v4
+      APPVEYOR_REPO_TAG: true
+    auth_token:
+      secure: hCeYMHCYlNMskb+nhK5TcbzquabXYRgrWjlQD9R2bCimADhVae3Rkz9SqWp2sJV2
