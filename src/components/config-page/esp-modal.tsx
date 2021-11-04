@@ -45,6 +45,8 @@ function ESPModal({ downloadPath, visible, setVisible }: ESPModalProps) {
       if (!mountResult) {
         return;
       }
+      console.log('[log] mount ESP success.');
+
       const efiPath = pathJoin(mountPoint, 'EFI');
       const bootPath = pathJoin(efiPath, 'BOOT');
       const ocPath = pathJoin(efiPath, 'OC');
@@ -64,18 +66,29 @@ function ESPModal({ downloadPath, visible, setVisible }: ESPModalProps) {
         pathJoin(bootPath, bootEfiFileName)
       );
 
+      console.log('[log] copy BOOTx64.efi OK.');
+
       const hasBackup = await fileExists(backupPath);
+      console.log(backupPath);
       if (hasBackup) {
         await removeDir(backupPath, { recursive: true });
       }
+      
+      console.log('[log] old backup removed.');
       const hasOC = await fileExists(ocPath);
       if (hasOC) {
         await renameFile(ocPath, backupPath);
       }
+      
+      console.log(pathJoin(downloadPath, 'Tongfang_EFI', 'OC'), ocPath);
+
       await invoke('copy_dir', {
         src: pathJoin(downloadPath, 'Tongfang_EFI', 'OC'),
         dst: ocPath,
       });
+
+      console.log('[log] copy OpenCore directory OK.');
+
 
       Message.success(t('DONE_REPLACE_ESP_SUCCESS'));
       setVisible(false);

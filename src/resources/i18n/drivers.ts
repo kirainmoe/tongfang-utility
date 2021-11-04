@@ -11,6 +11,7 @@ const driversTranslation = {
   DRIVERS_SURE_DELETE: ['确定要删除此版本吗？', 'Are you sure to delete this version?'],
   DRIVERS_DELETE_SUCCESS: ['驱动删除成功！', 'Drivers were deleted.'],
   DRIVERS_DOWNLOAD_CANCEL: ['取消下载', 'Cancel Download'],
+  DRIVER_CLEAR_CACHE_CONFIRM: ['确定要删除所有已经下载的驱动缓存吗？', 'Are you sure to clear all downloaded drivers cache?'],
 };
 
 export default driversTranslation;

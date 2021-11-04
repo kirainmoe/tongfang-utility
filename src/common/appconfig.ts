@@ -1,7 +1,7 @@
 const appConfig = {
   appName: 'Tongfang Utility',
-  version: '4.0.0-beta',
-  build: 2111030,
+  version: '4.0.1',
+  build: 2111040,
 };
 
 export default appConfig;

@@ -51,6 +51,7 @@ export default class UpdateStore {
       const { shouldUpdate, manifest } = await checkUpdate();
       this.setUpdateStatus(shouldUpdate, manifest);
     } catch(err) {
+      console.log(err);
       this.setNetworkError();
     }
   }

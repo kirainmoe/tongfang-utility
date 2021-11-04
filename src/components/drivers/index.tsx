@@ -13,7 +13,7 @@ function DriversPage() {
   return (
     <ContentPage title={t('DRIVERS_MANAGE_DRIVER')} enableOnBack={true}>
       <MainContentContainer>
-        <Tabs defaultActiveKey="local">
+        <Tabs defaultActiveKey="local" destroyInactiveTabPane={true}>
           <TabPane tab={t('DRIVERS_LOCAL_DOWNLOADED')} key="local">
             <LocalTab />
           </TabPane>

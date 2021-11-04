@@ -54,4 +54,8 @@ const Component = observer(App);
 
 registerErrorTracker();
 
+if (localStorage.getItem('tfu-release-debug')) {
+  (window as any).eruda.init();
+}
+
 render(<Component />, document.getElementById('root'));

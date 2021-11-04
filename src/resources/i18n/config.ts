@@ -123,6 +123,7 @@ const configPageTranslation = {
   PROCESSING_PROCESS_CONFIG: ['正在处理引导配置文件', 'Processing Bootloader Config'],
   PROCESSING_PARSE_IMAGE: ['正在转换引导背景格式', 'Transforming Format for Background Image'],
   PROCESSING_CLEAN_UP: ['正在清理临时文件', 'Cleaning Up'],
+  PROCESSING_PROCESS_ERROR: ['生成 EFI 文件失败，发生未知错误', 'Failed to generate config, unknown error occureed'],
 
   DONE_SUCCESS: ['成功', 'Success'],
   DONE_SUCCESS_TIPS: [

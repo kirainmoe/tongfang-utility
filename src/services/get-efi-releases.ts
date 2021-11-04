@@ -32,6 +32,8 @@ export default function getEfiReleases(featureGate: number = EFIReleaseType.STAB
         path: localZipPath,
       });
 
+      console.log('Local version is detected.');
+
       if (isExistLocalVersion) {
         try {
           const fileList: string[] = await invoke('list_zip_contents', {

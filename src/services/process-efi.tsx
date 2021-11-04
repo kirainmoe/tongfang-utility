@@ -2,6 +2,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { invoke } from '@tauri-apps/api';
 import { listen } from '@tauri-apps/api/event';
 import {
+  copyFile,
   readDir,
   readTextFile,
   removeDir,
@@ -10,8 +11,8 @@ import {
 } from '@tauri-apps/api/fs';
 import { Modal } from 'antd';
 import { ProcessStages } from 'components/config-page/processing';
-import md5 from 'md5';
 import plist from 'plist';
+import md5 from 'md5';
 import t from 'resources/i18n';
 import AppStore from 'stores/app-store';
 import ConfigStore from 'stores/config-store';
@@ -21,6 +22,8 @@ import pathJoin from 'utils/path-join';
 import { Buffer } from 'buffer';
 import isNumeric from 'utils/is-numeric';
 import UIStore from 'stores/ui-store';
+import { fileExists } from 'utils/file-exists';
+import { toPlist } from 'utils/build-xml';
 
 if (!window.Buffer) {
   (window as any).Buffer = Buffer;
@@ -50,6 +53,8 @@ export default async function processEFI({
 }: ProcessEFIProps) {
   try {
     // 确认文件夹存在
+    console.log('stage: ensure file exists');
+
     const efiDownloadPath = pathJoin(app.downloadPath, 'Tongfang_EFI');
     const savePath = pathJoin(efiDownloadPath, 'EFI.zip');
     const extractPath = pathJoin(efiDownloadPath, 'EFI');
@@ -62,10 +67,16 @@ export default async function processEFI({
 
       const { downloaded_size }: NewType =
         event.payload as ProgressUpdatePayload;
-      setProgress(Math.floor((downloaded_size / (config.selectedEFI?.size || downloaded_size)) * 100));
+      setProgress(
+        Math.floor(
+          (downloaded_size / (config.selectedEFI?.size || downloaded_size)) *
+            100
+        )
+      );
     });
 
     // 下载 EFI 文件
+    console.log('stage: download efi archive');
     setStage(ProcessStages.DOWNLOAD);
 
     if (!config.isLocal) {
@@ -86,7 +97,13 @@ export default async function processEFI({
     setProgress(100);
 
     // 解压
+    console.log('stage: un-zip efi archive');
     setStage(ProcessStages.UNZIP);
+
+    if (await fileExists(extractPath)) {
+      await removeDir(extractPath, { recursive: true });
+    }
+
     const filelist: string[] = await invoke('list_zip_contents', {
       filepath: savePath,
     });
@@ -108,6 +125,7 @@ export default async function processEFI({
 
     // 复制文件
     setStage(ProcessStages.COPY_FILES);
+    console.log('stage: copy files');
 
     await invoke('copy_dir', {
       src: pathJoin(extractRootPath, 'BOOT'),
@@ -119,6 +137,7 @@ export default async function processEFI({
     });
 
     // 检查文件哈希值
+    console.log('stage: check hash value');
     const buildFileContent = await readTextFile(
       pathJoin(extractRootPath, 'build.yml')
     );
@@ -150,17 +169,15 @@ export default async function processEFI({
     }
 
     // 处理 config
+    console.log('stage: process config');
     setStage(ProcessStages.PROCESS_CONFIG);
 
     const configPlistFile = await readTextFile(
       pathJoin(efiDownloadPath, 'OC', 'config.plist')
     );
-    console.log(configPlistFile, Buffer);
-    const opencoreConfig: any = plist.parse(configPlistFile);
+    const opencoreConfig = plist.parse(configPlistFile) as any;
 
-    console.log(configPlistFile, opencoreConfig);
-
-    const parseAction = async (item: EFIBuildAction) => {
+    const parseAction = async (opencoreConfig: any, item: EFIBuildAction) => {
       console.log('Test Condition: ', item.test);
 
       // 这里其实应该写一个 lexer + parser 来处理条件的，要不然挺危险的。
@@ -173,6 +190,8 @@ export default async function processEFI({
       if (!condition) {
         return;
       }
+
+      console.log(opencoreConfig);
 
       for (const action of item.action) {
         if (action.type === 'set-kext') {
@@ -204,7 +223,17 @@ export default async function processEFI({
               return false;
             }
             if (i !== paths.length - 1) ref = ref[paths[i]];
-            else ref[paths[i]] = action.value;
+            else
+              ref[paths[i]] = (() => {
+                switch (action.valueType) {
+                  case 'DATA':
+                    return new Uint8Array([action.value].flat());
+                  case 'STRING':
+                  case 'NUMBER':
+                  default:
+                    return action.value;
+                }
+              })();
           }
         }
 
@@ -306,18 +335,31 @@ export default async function processEFI({
       }
 
       if (item.children) {
-        for (const subitem of item.children) await parseAction(subitem);
+        for (const subitem of item.children)
+          await parseAction(opencoreConfig, subitem);
       }
-
-      console.log(opencoreConfig);
     };
 
     const buildActions = config.yamlInfo?.['build-actions']!;
     for (const action of buildActions) {
-      await parseAction(action);
+      await parseAction(opencoreConfig, action);
+    }
+
+    // 处理 SSDT-UIAC
+    console.log('stage: handle usbmap');
+    if (config.usbmap) {
+      const ssdtPath = pathJoin(efiDownloadPath, 'OC', 'ACPI');
+      const originalSSDTPath = pathJoin(ssdtPath, 'SSDT-UIAC.aml');
+      await removeFile(originalSSDTPath);
+      const targetSSDTPath = pathJoin(
+        ssdtPath,
+        `SSDT-UIAC-${config.usbmap}.aml`
+      );
+      await copyFile(targetSSDTPath, originalSSDTPath);
     }
 
     // 设置 SMBIOS
+    console.log('stage: set SMBIOS info');
     opencoreConfig.PlatformInfo.Generic.MLB = config.SMBIOSInfo.mlb;
     opencoreConfig.PlatformInfo.Generic.SystemProductName =
       config.SMBIOSInfo.model;
@@ -334,26 +376,32 @@ export default async function processEFI({
     ] += ` ${config.bootArgs}`;
 
     // 设置背景
+    console.log('stage: set custom background');
     if (config.useCustomBackground) {
-      setStage(ProcessStages.PARSE_IMAGE);
-      // 图片缩放
-      await invoke('create_icns', {
-        input: config.customBackgroundPath,
-        output: pathJoin(
-          efiDownloadPath,
-          'OC',
-          'Resources',
-          'Image',
-          'AmiTech',
-          'Solitary',
-          'Background.icns'
-        ),
-      });
+      try {
+        setStage(ProcessStages.PARSE_IMAGE);
+        // 图片缩放
+        await invoke('create_icns', {
+          input: config.customBackgroundPath,
+          output: pathJoin(
+            efiDownloadPath,
+            'OC',
+            'Resources',
+            'Image',
+            'AmiTech',
+            'Solitary',
+            'Background.icns'
+          ),
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     setStage(ProcessStages.CLEAN_UP);
 
     // 最简化 config
+    console.log('stage: simplify config');
     if (config.simplifyConfig) {
       const isContain = (name: string, pattern: string[]) => {
         for (const temp of pattern) {
@@ -373,7 +421,11 @@ export default async function processEFI({
       for (const kext of kextsList) {
         const name = kext.name as string;
         if (!isContain(name, enabledKextNames)) {
-          await removeDir(kext.path, { recursive: true });
+          try {
+            await removeDir(kext.path, { recursive: true });
+          } catch (err) {
+            await removeFile(kext.path);
+          }
         }
       }
 
@@ -402,9 +454,9 @@ export default async function processEFI({
     ] = ` ${config.product}`;
 
     // 保存 config.plist
-    const configString = plist
-      .build(opencoreConfig)
+    const configString = toPlist(opencoreConfig)
       .replace(/<data\/>/g, '<data></data>');
+
     await writeFile({
       path: pathJoin(efiDownloadPath, 'OC', 'config.plist'),
       contents: configString,
@@ -421,6 +473,7 @@ export default async function processEFI({
     config.nextStep();
   } catch (err) {
     console.error(err);
+    // setStage(ProcessStages.ERROR);
     throw err;
   }
 }

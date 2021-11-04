@@ -7,6 +7,7 @@ export interface KextItem {
   name: string;
   os: string;
   download_url: string;
+  size: number;
 }
 
 export interface DriverPayload {

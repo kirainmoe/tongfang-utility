@@ -178,6 +178,7 @@ export const ProcessingContainer = styled.div`
 `;
 
 export const StepIndicator = styled.h2`
+  widht: 100%;
   font-weight: 500;
   font-size: 20px;
   margin: 40px 0;
@@ -209,6 +210,7 @@ export const DoneTitle = styled.h3`
 `;
 
 export const CenterAlignContainer = styled.div`
+  width: 100%;
   text-align: center;
 `;
 

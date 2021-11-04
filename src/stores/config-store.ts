@@ -111,6 +111,7 @@ export default class ConfigStore {
   product: string | null = null;
   barebone: string | null = null;
   generation: number = 8;
+  usbmap: string | null = null;
 
   setModelIndex(index: number) {
     this.modelIndex = index;
@@ -118,6 +119,7 @@ export default class ConfigStore {
     this.product = this.yamlInfo?.['support-models'][index].product!;
     this.barebone = [this.yamlInfo?.["support-models"][index].barebones!].flat()[0];
     this.generation = this.yamlInfo?.['support-models'][index].generation!;
+    this.usbmap = this.yamlInfo?.["support-models"][index].usbmap || null;
   }
 
   getModel() {

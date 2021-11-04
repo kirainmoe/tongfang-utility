@@ -88,7 +88,8 @@ function RemoteTab() {
   ) => {
     try {
       const unlisten = await listen('download-progress-update', (event) => {
-        const { downloaded_size, total_size }: ProgressUpdatePayload =
+        const total_size = remoteDriversList[category][index].kexts[downloadingIndex].size;
+        const { downloaded_size }: ProgressUpdatePayload =
           event.payload as ProgressUpdatePayload;
         setProgress(Math.floor((downloaded_size / total_size) * 100));
       });

@@ -26,6 +26,7 @@ const globalTranslation = {
   LOCAL: ['本地开发服务器', 'Local dev server'],
   RINCO: ['服务器 "Rinco"', 'Server "Rinco"'],
   EINE: ['服务器 "Eine"', 'Server "Eine"'],
+  AKANE: ['服务器 "Akane"', 'Server "Akane"'],
 
   APPLY: ['应用', 'Apply'],
   OK: ['好', 'OK'],

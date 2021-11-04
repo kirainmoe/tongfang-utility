@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 
@@ -25,9 +25,23 @@ import {
 } from 'resources/icons';
 
 import AppLogo from 'resources/images/TongfangUtility.png';
+import { Message } from '@arco-design/web-react';
 
 function Navigator() {
   const { app, ui, user } = useContext(RootStoreContext);
+  const [clickTime, setClickTime] = useState(0);
+
+  useEffect(() => {
+    if (clickTime === 10) {
+      if (localStorage.getItem('tfu-release-debug')) {
+        localStorage.removeItem('tfu-release-debug');
+        Message.info(t('NAVIGATOR_EXIT_DEVELOPER_MODE'));
+      } else {
+        localStorage.setItem('tfu-release-debug', 'true');
+        Message.info(t('NAVIGATOR_ENTER_DEVELOPER_MODE'));
+      }
+    }
+  }, [clickTime]);
 
   return (
     <NavigatorContainer
@@ -36,7 +50,7 @@ function Navigator() {
       hoverColor={ui.navigatorHoverColor}
     >
       <div>
-        <Link to="/about">
+        <Link to="/about" onClick={() => setClickTime(clickTime + 1)}>
           <NavigatorLogo src={AppLogo} alt="Tongfang Utility Logo" />
         </Link>
 

@@ -35,6 +35,7 @@ export interface ActionButtonsProps {
   canPrev: boolean;
   nextLoading?: boolean;
   prevLoading?: boolean;
+  override?: boolean;
   prevText?: React.ReactNode;
   nextText?: React.ReactNode;
   children?: React.ReactNode;
@@ -50,6 +51,7 @@ function ActionButtons({
   canPrev,
   prevText,
   nextText,
+  override,
 }: ActionButtonsProps) {
   const { config } = useContext(RootStoreContext);
 
@@ -61,12 +63,12 @@ function ActionButtons({
       <ChildContainer>
         {children}
       </ChildContainer>
-      {(config.step > 1) && (
+      {(config.step > 1 || override) && (
         <StyledButton onClick={handleClickPrev} loading={prevLoading} disabled={!canPrev}>
           {prevText || t('CONFIG_PREV_STEP')}
         </StyledButton>
       )}
-      {(config.step < 6) && (
+      {(config.step < 6 || override) && (
         <StyledButton onClick={handleClickNext} type="primary" loading={nextLoading} disabled={!canNext}>
           {nextText || t('CONFIG_NEXT_STEP')}
         </StyledButton>

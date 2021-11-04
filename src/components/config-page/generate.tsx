@@ -145,7 +145,7 @@ function Generate() {
         {(config.disableIncompatibleNVMe || config.enableNVMeFix) && (
           <ListItem
             value={[
-              config.disableIncompatibleNVMe &&
+              config.disableIncompatibleNVMe > 0 &&
                 t('GENERATE_NVME_DISABLED').replace(
                   ':slot',
                   config.disableIncompatibleNVMe.toString()

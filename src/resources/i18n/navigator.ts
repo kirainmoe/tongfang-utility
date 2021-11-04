@@ -6,6 +6,8 @@ const navigatorTranslation = {
   NAVIGATOR_KEYBOARD_LIGHT: ['键盘灯', 'Lighting'],
   NAVIGATOR_TOOLKIT: ['工具箱', 'Toolkit'],
   NAVIGATOR_UPDATE: ['更新', 'Update'],
+  NAVIGATOR_ENTER_DEVELOPER_MODE: ['调试模式已激活', 'Enter Debug Mode'],
+  NAVIGATOR_EXIT_DEVELOPER_MODE: ['调试模式已关闭', 'Leave Debug Mode'],
 };
 
 export default navigatorTranslation;

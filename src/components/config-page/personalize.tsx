@@ -181,8 +181,12 @@ function Personalize() {
 
   useEffect(() => {
     (async () => {
-      if (!await readAndFill()) {}
-      else if (!readFromLocalStorageAndFill()) {}
+      if (await readAndFill()) {
+        return;
+      }
+      else if (readFromLocalStorageAndFill()) {
+        return;
+      }
       else {
         onSelectModel(defaultModelIndex); // generate
       }
