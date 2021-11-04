@@ -36,7 +36,7 @@ export const CheckGridContainer = styled.div`
   grid-column-gap: 20px;
   grid-row-gap: 40px;
 
-  margin-top: 40px;
+  margin: 40px 10px 0 10px;
 `;
 
 export const ResultStatement = styled.div`

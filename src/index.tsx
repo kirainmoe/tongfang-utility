@@ -38,7 +38,12 @@ function App() {
         <Route path="/preference" component={SettingPage} />
         <Route path="/update" component={UpdatePage} />
         <Route path="/toolkit" component={ToolkitPage} />
-        <Redirect exact path="/" to={app.platform === 'windows' ? '/configuration' : '/dashboard'} />
+        {app.platform === 'windows' && (
+          <Redirect exact path="/" to="/configuration" />
+        )}
+        {app.platform === 'macos' && (
+          <Redirect exact path="/" to="/dashboard" />
+        )}
       </BrowserRouter>
       <UserPanel />
     </RootStoreContext.Provider>

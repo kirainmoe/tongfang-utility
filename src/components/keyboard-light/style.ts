@@ -15,7 +15,7 @@ export const KeyboardLightItemContainer = styled.div`
   }
 
   text-align: center;
-  padding: 20px 0;
+  padding: 30px 0;
   cursor: pointer;
   transition: .25s all ease-out;
   border-radius: 8px;
@@ -44,6 +44,31 @@ export const KeyboardLightItemContainer = styled.div`
       margin-bottom: 0;
     }
   }
+
+  &.KBL_GRADIENT.active {
+    background: rgb(211,173,248);
+    color: #fff;
+  }
+
+  &.KBL_FLASH.active {
+    background: rgb(251,219,20);
+    color: #fff;
+  }
+
+  &.KBL_RAINBOW.active {
+    background: #000;
+    color: #fff;
+  }
+
+  &.KBL_WAVE.active {
+    background: rgb(104,195,242);
+    color: #fff;
+  }
+
+  &.KBL_BREATH.active {
+    background: rgb(0,140,54);
+    color: #fff;
+  }
 `;
 
 export const KeyboardLightSwitchContainer = styled.div`
@@ -70,6 +95,7 @@ export const SlideItem = styled.div`
 export const KeyboardContainer = styled.div`
   text-align: center;
   font-family: sans-serif;
+  margin-top: 50px;
 
   .keyboard-group {
     min-width: 50.5%;
