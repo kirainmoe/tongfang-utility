@@ -19,15 +19,15 @@ script:
   - yarn build:vite
   - yarn tauri build
   - export VERSION=$(cat src-tauri/tauri.conf.json | grep version | head -n1 | awk '{ print substr($2, 2, length($2)-2) }')
-  - mv "./src-tauri/target/release/bundle/dmg/Tongfang Utility_"$VERSION"_x64.dmg"  "./Tongfang-Utility.dmg"
-  - mv "./src-tauri/target/release/bundle/macos/Tongfang Utility.app.tar.gz"  "./Tongfang-Utility-update.app.tar.gz"
+  - mv "./src-tauri/target/release/bundle/dmg/Tongfang Utility_"$VERSION"_x64.dmg"  "./Tongfang-Utility-macOS.dmg"
+  - mv "./src-tauri/target/release/bundle/macos/Tongfang Utility.app.tar.gz"  "./Tongfang-Utility-macOS-update.app.tar.gz"
 deploy:
   provider: releases
   api_key:
     secure: EQdzuG45bkUBrWIIHOstXPH0SxVbdE1D7o8NQLh2QHrh9TvRJIiTQizA15gdFzxP6wVtl8rMb94mKeT7t/9+Z9wu5ZkE2UHW7toYozzxIYlEd+0ztrYsRNDPC8Y++tHvfEle5kOlfJIOs+/lSSPqYqpyJuZHh6xKaUZ1+rrVO5IdWI8yhdLjQsuGRsk/OmE3ZdQvWuwBhF1+bSV07MkXIZWlgngbSswHxiM3sC3Wv9ARMtRhHIyTLRgTLD/G+M7HdeomV7Yf3VpBJ4XyQnwp+VeYQXLj4j9HEQLY+F+9Uofb6CMZEFT2Ep4+4F3k/CU01IOdfGgvtNvpjMNrByNYOWEpwYDXZ40BhHrHIZgD5PmU0RFFZqfwnYVcbbV3uH0iRhGoAHLXDgJsKG+9v7p0RhzxXLW54C6r7u2om5UJ3l0U/zw4PlhzOu1MrfQjiYp+eKE8XGSkHTOBk0719PphMEEZg9mfYz+uJ0eyIDk5zB1gVfhPcU9jf0m+CDowfYS2UipFxKl0O7Hijl+XZH76c4NwN+yjEVYyeKk1hS+O9JFc/dy9YBq46JTvbau0mdQJaoRpkRN3+9qIY0QNIYDzY6i8aj5FGk3Fxb++TGPhEuN6WNDQuuloWGYwI2SiVHT2Gxjrse1Qu36b0LdWGuIKXrviDHZnVZvdP834TklzNRE=
   file: 
-    - './Tongfang-Utility.dmg'
-    - './Tongfang-Utility-update.app.tar.gz'
+    - './Tongfang-Utility-macOS.dmg'
+    - './Tongfang-Utility-macOS-update.app.tar.gz'
   skip_cleanup: true
   on:
     tags: true

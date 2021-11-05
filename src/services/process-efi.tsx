@@ -175,6 +175,7 @@ export default async function processEFI({
     const configPlistFile = await readTextFile(
       pathJoin(efiDownloadPath, 'OC', 'config.plist')
     );
+
     const opencoreConfig = plist.parse(configPlistFile) as any;
 
     const parseAction = async (opencoreConfig: any, item: EFIBuildAction) => {
@@ -190,8 +191,6 @@ export default async function processEFI({
       if (!condition) {
         return;
       }
-
-      console.log(opencoreConfig);
 
       for (const action of item.action) {
         if (action.type === 'set-kext') {
@@ -374,6 +373,7 @@ export default async function processEFI({
     opencoreConfig.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'][
       'boot-args'
     ] += ` ${config.bootArgs}`;
+  
 
     // 设置背景
     console.log('stage: set custom background');
@@ -454,8 +454,12 @@ export default async function processEFI({
     ] = ` ${config.product}`;
 
     // 保存 config.plist
-    const configString = toPlist(opencoreConfig)
-      .replace(/<data\/>/g, '<data></data>');
+    const configString = toPlist(opencoreConfig).replace(
+      /<data\/>/g,
+      '<data></data>'
+    );
+
+    console.log(opencoreConfig);
 
     await writeFile({
       path: pathJoin(efiDownloadPath, 'OC', 'config.plist'),

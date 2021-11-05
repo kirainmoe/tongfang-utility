@@ -36,10 +36,13 @@ function Navigator() {
       if (localStorage.getItem('tfu-release-debug')) {
         localStorage.removeItem('tfu-release-debug');
         Message.info(t('NAVIGATOR_EXIT_DEVELOPER_MODE'));
+        (window as any).eruda.destroy();
       } else {
         localStorage.setItem('tfu-release-debug', 'true');
         Message.info(t('NAVIGATOR_ENTER_DEVELOPER_MODE'));
+        (window as any).eruda.init();
       }
+      setClickTime(0);
     }
   }, [clickTime]);
 

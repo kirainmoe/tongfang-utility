@@ -12,7 +12,7 @@ export const UserPanelOuterContainer = styled.div`
 
 export const UserPanelContainer = styled.div`
   width: 300px;
-  height: 100px;
+  height: 120px;
   background: #fafafa;
   position: fixed;
   bottom: 10px;
@@ -54,9 +54,15 @@ export const UserInfoContainer = styled.div`
   }
 
   .join-beta {
-    margin-top: 15px;
+    margin-top: 8px;
     .tag {
       margin-left: 10px;
     }
+  }
+
+  .user-id {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #888;
   }
 `;

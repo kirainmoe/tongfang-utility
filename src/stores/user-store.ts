@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 import RootStore from "./root-store";
 import defaultAvatar from 'resources/images/avatar.png';
+import { v4 } from "uuid";
 
 export default class UserStore {
   public rootStore: RootStore;
@@ -10,9 +11,11 @@ export default class UserStore {
   public nickname: string = localStorage.getItem('tfu-user-nickname') || 'DEFAULT_NICKNAME';
   public isBetaProgram: boolean = localStorage.getItem('tfu-user-is-beta-program') === 'true' || false;
   public showUserPanel: boolean = false;
+  public userIdentifyUUID: string | null = null;
 
   constructor(root: RootStore) {
     this.rootStore = root;
+    this.readUserUUID();
     makeAutoObservable(this);
   }
 
@@ -33,5 +36,21 @@ export default class UserStore {
   public setAvatarUrl(avatar: string) {
     this.avatarUrl = avatar;
     localStorage.setItem('tfu-user-avatar', avatar);
+  }
+
+
+  readUserUUID() {
+    const storagedUUID = localStorage.getItem('tfu-app-user-uuid');
+    if (storagedUUID === null) {
+      this.userIdentifyUUID = v4();
+      localStorage.setItem('tfu-app-user-uuid', this.userIdentifyUUID);
+    } else {
+      this.userIdentifyUUID = storagedUUID;
+    }
+  }
+
+  resetUserUUID() {
+    this.userIdentifyUUID = v4();
+    localStorage.setItem('tfu-app-user-uuid', this.userIdentifyUUID);
   }
 }

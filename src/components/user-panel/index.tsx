@@ -67,7 +67,7 @@ export function UserPanel() {
       }}
     >
       <UserPanelContainer>
-        <Avatar triggerIcon={<IconEdit />} onClick={handleChangeAvatar} size={60}>
+        <Avatar triggerIcon={<IconEdit />} onClick={handleChangeAvatar} size={80}>
           <img src={user.avatarUrl} alt="Avatar" />
         </Avatar>
         <UserInfoContainer>
@@ -94,6 +94,10 @@ export function UserPanel() {
                 </span>
               </>
             )}
+          </div>
+
+          <div className="user-id">
+            {t('USER_ID')}: {user.userIdentifyUUID!.split('-').slice(-1)[0]}
           </div>
 
           <div className="join-beta">

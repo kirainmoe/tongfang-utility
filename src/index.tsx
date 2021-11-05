@@ -2,6 +2,11 @@ import { render } from 'react-dom';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
+
+
+
 import GlobalStyle from './style';
 
 import store, { RootStoreContext } from 'stores';
@@ -18,11 +23,11 @@ import KeyboardLightPage from 'components/keyboard-light';
 import UpdatePage from 'components/update';
 import ToolkitPage from 'components/toolkit';
 import UserPanel from 'components/user-panel';
-
-import { registerErrorTracker } from 'utils/error-tracker';
+import CheckUpdate from 'components/common/check-update';
 
 function App() {
   const { app } = store;
+
   return (
     <RootStoreContext.Provider value={store}>
       <GlobalStyle />
@@ -44,6 +49,7 @@ function App() {
         {app.platform === 'macos' && (
           <Redirect exact path="/" to="/dashboard" />
         )}
+        <CheckUpdate />
       </BrowserRouter>
       <UserPanel />
     </RootStoreContext.Provider>
@@ -52,8 +58,14 @@ function App() {
 
 const Component = observer(App);
 
-registerErrorTracker();
+/* initialize sentry for error-tracing */
+Sentry.init({
+  dsn: "https://ce93986e23904657842e01cb3e5c648b@o1061007.ingest.sentry.io/6051042",
+  integrations: [new Integrations.BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
 
+/* if in debug mode, open eruda */
 if (localStorage.getItem('tfu-release-debug')) {
   (window as any).eruda.init();
 }
