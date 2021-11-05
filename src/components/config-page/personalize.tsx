@@ -59,7 +59,10 @@ function Personalize() {
     }
     try {
       const smbios = JSON.parse(info);
-      form.setFieldsValue(smbios);
+      form.setFieldsValue({
+        ...smbios,
+        model: PlatformString.indexOf(smbios.model),
+      });
       setSMBIOSSource(SMBIOSSource.LastGenerated);
       return true;
     } catch(err) {
