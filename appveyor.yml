@@ -35,7 +35,7 @@ after_build:
   - ps: cd c:\project
   - ps: $version =  (cat .\src-tauri\tauri.conf.json | ConvertFrom-Json).package.version
   - ps: cp ".\src-tauri\target\release\bundle\msi\Tongfang Utility_${version}_x64.msi" ".\Tongfang-Utilit-Windows-installer.msi"
-  - ps: cp ".\src-tauri\target\release\bundle\msi\Tongfang Utility_${version}_x64.msi.zip" ".\Tongfang-Utility-Windows-installer-msi.zip"
+  - ps: cp ".\src-tauri\target\release\bundle\msi\Tongfang Utility_${version}_x64.msi.zip" ".\Tongfang-Utility-Windows-installer.msi.zip"
 artifacts:
   - path: .\Tongfang-Utility-Windows-installer.msi.zip
     name: updater
