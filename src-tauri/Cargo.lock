@@ -3104,11 +3104,7 @@ dependencies = [
 
 [[package]]
 name = "tongfang-utility"
-<<<<<<< HEAD
-version = "4.0.3"
-=======
 version = "4.0.4"
->>>>>>> 5e205b4 (fix: process-efi)
 dependencies = [
  "cc",
  "color-thief",
