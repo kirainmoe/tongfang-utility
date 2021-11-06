@@ -118,7 +118,7 @@ export default async function processEFI({
 
     // 定义路径
     const definedPath = {
-      repoPath: extractPath,
+      repoPath: extractRootPath,
       workspace: efiDownloadPath,
       driverPath: pathJoin(app.appPath, 'drivers'),
     };

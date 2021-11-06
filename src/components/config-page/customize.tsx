@@ -110,6 +110,14 @@ function Customize() {
           active={config.internalMonitorType === InternalMonitorType.FHDHighRefresh}
           onChange={() => config.setInternalMonitorType(InternalMonitorType.FHDHighRefresh)}
         />
+        {config.product === 'Z2 Air-G' && (
+          <CustomizeOption
+            label={`1920 × 1080 (144Hz, ${t('CUSTOMIZE_SCHEME_2')})`}
+            icon={<UHDIcon />}
+            active={config.internalMonitorType === InternalMonitorType.FHDHighRefreshSolution2}
+            onChange={() => config.setInternalMonitorType(InternalMonitorType.FHDHighRefreshSolution2)}
+          />          
+        )}
         <CustomizeOption
           label="3840 × 2160 (UHD)"
           icon={<UHDIcon />}

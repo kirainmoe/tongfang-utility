@@ -68,12 +68,14 @@ function ESPModal({ downloadPath, visible, setVisible }: ESPModalProps) {
 
       console.log('[log] copy BOOTx64.efi OK.');
 
-      const hasBackup = await fileExists(backupPath);
-      console.log(backupPath);
-      if (hasBackup) {
-        await removeDir(backupPath, { recursive: true });
-      }
-      
+      try {
+        const hasBackup = await fileExists(backupPath);
+        console.log(backupPath);
+        if (hasBackup) {
+          await removeDir(backupPath, { recursive: true });
+        }  
+      } catch(err) {}
+
       console.log('[log] old backup removed.');
       const hasOC = await fileExists(ocPath);
       if (hasOC) {

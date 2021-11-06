@@ -54,6 +54,7 @@ const configPageTranslation = {
   CUSTOMIZE_ENABLE_BOOTCHIME: ['启用开机声音', 'Enable boot chime'],
   CUSTOMIZE_DONT_USE_AIRPORTITLWM: ['不使用原生 Intel 驱动', 'Use itlwm instead of AirportItlwm'],
   CUSTOMIZE_SIMPLIFY_CONFIG: ['最简化配置文件', 'Simplify config.plist'],
+  CUSTOMIZE_SCHEME_2: ['方案2', 'Scheme 2'],
 
   PERSONALIZE_SMBIOS: ['SMBIOS 信息', 'SMBIOS'],
   PERSONALIZE_SMBIOS_MODEL: ['SMBIOS 型号', 'SMBIOS Model'],
