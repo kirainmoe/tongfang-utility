@@ -1,0 +1,74 @@
+name: Release
+on:
+  push:
+    branches: [ $default-branch ]
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup Rust environment
+      uses: ATiltedTree/setup-rust@v1.0.4        
+        
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v2.5.0
+      with:
+        node-version: 17.x
+      
+    - name: Install Yarn
+      run: npm install -g yarn
+      
+    - name: Install Dependencies
+      run: yarn
+      
+    - name: Build Front-End
+      run: yarn build:vite
+      
+    - name: Build 
+      run: yarn tauri build
+      
+    - name: Read Utility Version
+      run: echo "VERSION=$(cat src-tauri/tauri.conf.json | grep version | head -n1 | awk '{ print substr($2, 2, length($2)-2) }')" >> $GITHUB_ENV
+    
+    - name: Move DMG Image
+      run: mv "./src-tauri/target/release/bundle/dmg/Tongfang Utility_"$VERSION"_x64.dmg"  "./Tongfang-Utility-macOS.dmg"
+    
+    - name: Move DMG Image
+      run: mv "./src-tauri/target/release/bundle/macos/Tongfang Utility.app.tar.gz"  "./Tongfang-Utility-macOS-update.app.tar.gz"
+      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.token }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+        
+    - name: Upload Artifacts
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_name: Tongfang-Utility-macOS.zip
+        asset_path: ./Tongfang-Utility-macOS.zip
+        asset_content_type: application/zip
+        
+    - name: Upload Artifacts
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_name: Tongfang-Utility-macOS-update.app.tar.gz
+        asset_path: ./Tongfang-Utility-macOS-update.app.tar.gz
+        asset_content_type: application/gzip        
