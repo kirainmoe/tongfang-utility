@@ -17,14 +17,14 @@ import { FnDaemonInstallStatus } from 'common/constants';
 import { Message, Modal, Spin, Notification } from '@arco-design/web-react';
 import {
   checkHiDpiEnabled,
-  checkTongfangFnDaemonIsInstalled,
+  checkTongfangDaemonIsInstalled,
   clearNvram,
   disableHiDpi,
   enableHiDpiBoe,
   enableHiDpiUniversal,
   enrollDeveloperProgram,
   fixSleep,
-  installTongfangFnDaemon,
+  installTongfangDaemon,
 } from 'services/toolkit-services';
 import { openPage } from 'utils/open-directory';
 
@@ -114,7 +114,7 @@ export function ToolkitPage() {
 
   useEffect(() => {
     if (fnDaemonInstallStatus === 'performing') return;
-    checkTongfangFnDaemonIsInstalled().then(setFnDaemonStatus);
+    checkTongfangDaemonIsInstalled().then(setFnDaemonStatus);
   }, [fnDaemonInstallStatus]);
 
   const handleFixSleepClick = async () => {
@@ -186,7 +186,7 @@ export function ToolkitPage() {
   const handleInstallFnDaemon = async () => {
     setFnDaemonInstallStatus('performing');
     setTimeout(() => {
-      installTongfangFnDaemon()
+      installTongfangDaemon()
         .then(() => {
           setFnDaemonInstallStatus('success');
           setTimeout(() => setFnDaemonInstallStatus('none'), 4000);
@@ -249,8 +249,7 @@ export function ToolkitPage() {
 
         <ToolkitItem
           disabled={
-            fnDaemonStatus === FnDaemonInstallStatus.NO_KEXT_DETECTED ||
-            fnDaemonStatus === FnDaemonInstallStatus.INSTALLED
+            fnDaemonStatus === FnDaemonInstallStatus.NO_KEXT_DETECTED
           }
           icon={<FnKeyIcon />}
           title={t('TOOLKIT_INSTALL_FN_DAEMON')}

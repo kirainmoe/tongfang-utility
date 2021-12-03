@@ -18,6 +18,7 @@ import {
   AppleIcon,
   CompatCheck,
   DashboardIcon,
+  FanIcon,
   KeyboardIcon,
   SettingIcon,
   Toolkit,
@@ -76,6 +77,14 @@ function Navigator() {
           to="/keyboard-light"
           icon={<KeyboardIcon />}
         />
+
+        {app.platform === 'macos' && app.supportFanControl && (
+          <NavigatorButton
+            title={t('NAVIGATOR_FAN_CONTROL')}
+            to="/fan-control"
+            icon={<FanIcon />}
+          />
+        )}
 
         {app.platform === 'macos' && (
           <NavigatorButton

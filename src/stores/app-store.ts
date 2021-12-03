@@ -3,6 +3,7 @@ import { desktopDir, homeDir } from '@tauri-apps/api/path';
 import { DownloadServer, DOWNLOAD_MIRROR_DOMAINS } from 'common/constants';
 import { makeAutoObservable } from 'mobx';
 import ensurePathExists from 'utils/ensure-path-exists';
+import { getKextsList } from 'utils/get-kext-list';
 import pathJoin from 'utils/path-join';
 import readNVRAM from 'utils/read-nvram';
 import RootStore from './root-store';
@@ -18,6 +19,8 @@ export default class AppStore {
 
   downloadMirror: DownloadServer = DownloadServer.RINCO;
 
+  supportFanControl: boolean = false;
+
   constructor(root: RootStore) {
     this.rootStore = root;
     makeAutoObservable(this);
@@ -25,6 +28,7 @@ export default class AppStore {
     this.getPathConfig();
     this.getPlatform();
     this.getMirror();
+    this.getFanControlSupport();
   }
 
   setPlatform(platform: string) {
@@ -115,5 +119,19 @@ export default class AppStore {
     if (os === 'macos') {
       this.currentEFIReleaseVersion = await readNVRAM('efi-version');
     }
+  }
+
+  async getFanControlSupport() {
+    const os = await platform();
+    if (os !== 'macos') {
+      this.supportFanControl = false;
+      return;
+    }
+    
+    const list = await getKextsList();
+    const hasEnhancer =
+      list.filter((item) => item.name.includes('com.kirainmoe.TongfangEnhancer'))
+        .length > 0;
+    this.supportFanControl = hasEnhancer;
   }
 }

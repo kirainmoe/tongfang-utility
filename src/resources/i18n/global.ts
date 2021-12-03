@@ -29,6 +29,9 @@ const globalTranslation = {
   AKANE: ['服务器 "Akane"', 'Server "Akane"'],
 
   APPLY: ['应用', 'Apply'],
+  OPERATION: ['操作', 'Operation'],
+  ADD: ['添加', 'Add'],
+  SAVE: ['保存', 'Save'],
   OK: ['好', 'OK'],
   CANCEL: ['取消', 'Cancel'],
   DELETE: ['删除', 'Delete'],

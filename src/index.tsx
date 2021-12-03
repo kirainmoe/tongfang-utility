@@ -20,6 +20,7 @@ import CompatibilityCheckPage from 'components/compatibility-check';
 import SettingPage from 'components/setting';
 import AboutPage from 'components/about';
 import KeyboardLightPage from 'components/keyboard-light';
+import FanControlPage from 'components/fan-control';
 import UpdatePage from 'components/update';
 import ToolkitPage from 'components/toolkit';
 import UserPanel from 'components/user-panel';
@@ -36,6 +37,7 @@ function App() {
         <Navigator />
         <Route path="/about" component={AboutPage} />
         <Route path="/keyboard-light" component={KeyboardLightPage} />
+        <Route path="/fan-control" component={FanControlPage} />
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/configuration" component={ConfigPage} />
         <Route path="/drivers" component={DriversPage} />

@@ -14,7 +14,7 @@ export interface BlockTitleProps {
 function BlockTitle(props: BlockTitleProps) {
   const { ui } = useContext(RootStoreContext);
   return (
-    <BlockTitleContainer borderColor={ui.borderColor}>
+    <BlockTitleContainer className="block-title" borderColor={ui.borderColor}>
       <span>{props.title}</span>
 
       {props.tips && (

@@ -1,4 +1,4 @@
-import { LogicalSize } from "@tauri-apps/api/window";
+import { LogicalSize } from '@tauri-apps/api/window';
 
 export const DEFAULT_WINDOW_SIZE = new LogicalSize(900, 700);
 
@@ -11,9 +11,9 @@ export enum CheckResult {
 }
 
 export enum DownloadServer {
-  LOCAL = "local",
-  EINE = "eine",
-  RINCO = "rinco",
+  LOCAL = 'local',
+  EINE = 'eine',
+  RINCO = 'rinco',
   AKANE = 'akane',
 }
 
@@ -30,8 +30,24 @@ export enum FnDaemonInstallStatus {
   INSTALLED,
 }
 
+export enum FanControlMode {
+  NORMAL,
+  BOOST,
+  MANUAL,
+  INTELLIGENT,
+}
+
+export const FanControlModeStringMap = {
+  [FanControlMode.NORMAL]: 'FAN_CONTROL_MODE_NORMAL',
+  [FanControlMode.INTELLIGENT]: 'FAN_CONTROL_MODE_INTELLIGENT',
+  [FanControlMode.MANUAL]: 'FAN_CONTROL_MODE_MANUAL',
+  [FanControlMode.BOOST]: 'FAN_CONTROL_MODE_BOOST',
+};
+
 export const SLEEP_OPTIMIZE_URL = `https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/sleep.sh`;
 export const BOE_HIDPI_URL = `https://gitee.com/kirainmoe/static-files/raw/master/hidpi.sh`;
 export const UNIVERSAL_HIDPI_URL = `https://cdn.jsdelivr.net/gh/xzhih/one-key-hidpi/hidpi.sh`;
-export const FN_DAEMON_URL = `https://gitee.com/kirainmoe/hasee-tongfang-macos/raw/scripts/install_daemon.sh`;
+export const FN_DAEMON_URL = `https://gitee.com/kirainmoe/static-files/raw/master/enhancer/install_daemon.sh`;
 export const VOLTAGESHIFT_URL = `https://gitee.com/kirainmoe/static-files/raw/master/voltageshift`;
+
+export const FAN_CONFIG_PATH = '/usr/local/etc/fan.config';

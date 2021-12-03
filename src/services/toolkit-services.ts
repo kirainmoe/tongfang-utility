@@ -42,22 +42,22 @@ export async function clearNvram() {
   });
 }
 
-export async function checkTongfangFnDaemonIsInstalled(): Promise<FnDaemonInstallStatus> {
+export async function checkTongfangDaemonIsInstalled(): Promise<FnDaemonInstallStatus> {
   const kexts = await getKextsList();
   const hasKext =
     kexts.filter(
       (kext) =>
-        kext.name.includes('io.github.goshin.TongfangKeyboardUtility') ||
+        kext.name.includes('com.kirainmoe.TongfangEnhancer') ||
         kext.name.includes('VoodooWMI')
     ).length > 0;
   if (!hasKext) {
     return FnDaemonInstallStatus.NO_KEXT_DETECTED;
   }
-  const installed = await fileExists('/Library/LaunchAgents/io.github.goshin.TongfangFnDaemon.plist');
+  const installed = await fileExists('/Library/LaunchAgents/io.github.goshin.and.com.kirainmoe.TongfangEnhancerDaemon.plist');
   return installed ? FnDaemonInstallStatus.INSTALLED : FnDaemonInstallStatus.NOT_INSTALLED;
 }
 
-export async function installTongfangFnDaemon() {
+export async function installTongfangDaemon() {
   return invoke('macos_sudo_exec', {
     command: `bash -c \\"$(curl -fsSL ${FN_DAEMON_URL})\\"`,
   });

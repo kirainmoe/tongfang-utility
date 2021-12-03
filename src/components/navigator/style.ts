@@ -20,7 +20,7 @@ export const NavigatorContainer = styled.div<NavigatorContainerProps>`
   z-index: 150;
 
   /* background: ${props => props.background}; */
-  background: linear-gradient(to bottom, #396ad3, #567ade, #4f84e2);
+  background: linear-gradient(to bottom, #e5eaf0, #e5e5e9, #ece3e5, #e9e3e6, #e4e9ed);
 
   .navigator-button.active, .navigator-button.active:hover {
     /* background: ${props => props.emphasizeColor}; */
@@ -32,7 +32,7 @@ export const NavigatorContainer = styled.div<NavigatorContainerProps>`
 
   .navigator-button:hover {
     background: ${props => props.hoverColor};
-    background: rgba(255, 255, 255, .2);
+    background: rgba(200, 200, 200, .5);
   }
 
   .navigator-button.active , .navigator-button:hover {
@@ -54,7 +54,8 @@ export const NavigatorContainer = styled.div<NavigatorContainerProps>`
 export const NavigatorButtonContainer = styled(NavLink)`
   width: 70px;
   height: 70px;
-  margin: 5px auto;
+  margin: 0 auto;
+  margin-bottom: 2px;
 
   display: block;
 
@@ -75,7 +76,7 @@ export const NavigatorButtonContainer = styled(NavLink)`
     font-size: 10px;
     margin-top: 20px;
     transition: .15s all ease-out;
-    color: #fff;
+    color: #000;
   }
 `;
 

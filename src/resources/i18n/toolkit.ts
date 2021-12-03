@@ -36,17 +36,17 @@ export const toolkitTranslation = {
     'Reset NVRAM to deprecate outdated variable.'
   ],
 
-  TOOLKIT_INSTALL_FN_DAEMON: ['安装快捷键守护程序', 'Install Fn Daemon'],
+  TOOLKIT_INSTALL_FN_DAEMON: ['安装增强功能守护程序', 'Install Enhancer Daemon'],
   TOOLKIT_INSTALL_FN_DAEMON_DESCRIPTION: [
-    '安装同方 Fn 快捷键守护程序，以使 Fn 快捷键和双击开关触摸板功能正常使用 (FnDaemon 由 @Goshin 编写)。',
-    'Install Tongfang Fn Daemon to make Fn key and double-click toggle touchpad work (Credit: @Goshin).',
+    '下载并安装安装同方增强守护程序，以获得更好的 Fn 快捷键支持和散热控制功能功能。',
+    'Install Tongfang Enhancer Daemon to make hotkey and fan control work.',
   ],
   TOOLKIT_FN_DAEMON_NO_KEXT_DETECTED: [
-    '未检测到 TongfangKeyboardUtility 或 VoodooWMI，无法安装 TongfangFnDaemon.',
-    'Both TongfangKeyboardUtility and VoodooWMI are not present. Can not install TongfangFnDaemon.'
+    '未检测到 TongfangEnhancer，无法安装 TongfangEnhancerDaemon.',
+    'TongfangEnhancer is not present. Can not install TongfangEnhancerDaemon.'
   ],
   TOOLKIT_FN_DAEMON_NOT_INSTALLED: ['(状态：未安装)', '(status: not installed)'],
-  TOOLKIT_FN_DAEMON_INSTALLED: ['(状态: 已安装)', '(status: installed)'],
+  TOOLKIT_FN_DAEMON_INSTALLED: ['(状态: 已安装，点击重新安装)', '(status: installed, click to reinstall)'],
   TOOLKIT_DOWNLOAD_HELIPORT: ['下载 HeliPort', 'Download HeliPort'],
   TOOLKIT_DOWNLOAD_HELIPORT_DESCRIPTION: [
     '下载 Intel 无线网卡联网管理客户端 (请先使用有线或 USB 共享等方式联网)。',

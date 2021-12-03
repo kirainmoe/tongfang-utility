@@ -8,6 +8,7 @@ import compatCheck from './compat-check';
 import settings from './settings';
 import about from './about';
 import keyboardLight from './keyboard-light';
+import fanControl from './fan-control';
 import update from './update';
 import toolkit from './toolkit';
 import status from './status';
@@ -25,6 +26,7 @@ const translations: { [key: string]: string[]; } = {
   ...settings,
   ...about,
   ...keyboardLight,
+  ...fanControl,
   ...update,
   ...toolkit,
   ...status,
