@@ -23,9 +23,19 @@ jobs:
       uses: actions/setup-node@v2.5.0
       with:
         node-version: 17.x
+        
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          src-tauri/target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       
     - name: Install Yarn
-      run: npm install -g yarn
+      run: npm install -g yarn      
       
     - name: Install Dependencies
       run: yarn
