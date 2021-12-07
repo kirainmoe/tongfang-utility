@@ -72,9 +72,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_name: Tongfang-Utility-macOS.zip
-        asset_path: ./Tongfang-Utility-macOS.zip
-        asset_content_type: application/zip
+        asset_name: Tongfang-Utility-macOS.dmg
+        asset_path: ./Tongfang-Utility-macOS.dmg
+        asset_content_type: application/octet-stream
         
     - name: Upload Artifacts
       uses: actions/upload-release-asset@v1
