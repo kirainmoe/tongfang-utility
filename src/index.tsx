@@ -62,7 +62,7 @@ const Component = observer(App);
 
 /* initialize sentry for error-tracing */
 Sentry.init({
-  dsn: "https://ce93986e23904657842e01cb3e5c648b@o1061007.ingest.sentry.io/6051042",
+  dsn: "https://4a42e7a4aa624865b97fff6c3ba0c93f@sentry.kirainmoe.com/2",
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
 });
