@@ -17,7 +17,7 @@ jobs:
     - name: Setup Rust environment
       uses: ATiltedTree/setup-rust@v1.0.4      
       with:
-        rust-version: nightly
+        rust-version: stable
         
     - name: Setup Node.js environment
       uses: actions/setup-node@v2.5.0
