@@ -57,14 +57,10 @@ jobs:
       
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.token }}
+      uses: ncipollo/release-action@v1.9.0
       with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
-        draft: false
-        prerelease: false
+        allowUpdates: true
+        token: ${{ secrets.token }}
         
     - name: Upload Artifacts
       uses: actions/upload-release-asset@v1
