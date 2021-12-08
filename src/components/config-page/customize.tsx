@@ -72,24 +72,28 @@ function Customize() {
       <CustomizeGroup>
         <CustomizeOption
           label={t('CUSTOMIZE_WIRELESS_APPLE')}
+          description={t('CUSTOMIZE_DESC_APPLE_WIRELESS')}
           icon={config.wirelessAdapterType === WirelessAdapterType.Apple ? <AppleIcon /> : <AppleBlackIcon />}
           active={config.wirelessAdapterType === WirelessAdapterType.Apple}
           onChange={() => config.setWirelessAdapterType(WirelessAdapterType.Apple)}
         />
         <CustomizeOption
           label={t('CUSTOMIZE_WIRELESS_BROADCOM')}
+          description={t('CUSTOMIZE_DESC_BROADCOM_WIRELESS')}
           icon={<BroadcomIcon />}
           active={config.wirelessAdapterType === WirelessAdapterType.Broadcom}
           onChange={() => config.setWirelessAdapterType(WirelessAdapterType.Broadcom)}
         />
         <CustomizeOption
           label={t('CUSTOMIZE_WIRELESS_INTEL')}
+          description={t('CUSTOMIZE_DESC_INTEL_WIRELESS')}
           icon={config.wirelessAdapterType === WirelessAdapterType.Intel ? <IntelWhiteIcon /> : <IntelIcon />}
           active={config.wirelessAdapterType === WirelessAdapterType.Intel}
           onChange={() => config.setWirelessAdapterType(WirelessAdapterType.Intel)}
         />
         <CustomizeOption
           label={t('CUSTOMIZE_ANDROID_TETHERING')}
+          description={t('CUSTOMIZE_DESC_ANDROID_HORNDIS')}
           icon={config.usbTetheringSupport ? <USBIcon /> : <USBBlackIcon />}
           active={config.usbTetheringSupport}
           onChange={() => config.toggleUSBTetheringSupport()}
@@ -100,19 +104,22 @@ function Customize() {
       <CustomizeGroup>
         <CustomizeOption
           label="1920 × 1080 (60Hz)"
+          description={t('CUSTOMIZE_DESC_1080P')}
           icon={<FHDIcon />}
           active={config.internalMonitorType === InternalMonitorType.FHD}
           onChange={() => config.setInternalMonitorType(InternalMonitorType.FHD)}
         />
         <CustomizeOption
           label="1920 × 1080 (144Hz)"
+          description={t('CUSTOMIZE_DESC_1080P144')}
           icon={<FHDHighRefreshIcon />}
           active={config.internalMonitorType === InternalMonitorType.FHDHighRefresh}
           onChange={() => config.setInternalMonitorType(InternalMonitorType.FHDHighRefresh)}
         />
-        {config.product === 'Z2 Air-G' && (
+        {(config.product === 'Z2 Air-G' || config.product?.includes('Z2-G')) && (
           <CustomizeOption
             label={`1920 × 1080 (144Hz, ${t('CUSTOMIZE_SCHEME_2')})`}
+            description={t('CUSTOMIZE_DESC_1080P144_SCHEME2')}
             icon={<UHDIcon />}
             active={config.internalMonitorType === InternalMonitorType.FHDHighRefreshSolution2}
             onChange={() => config.setInternalMonitorType(InternalMonitorType.FHDHighRefreshSolution2)}
@@ -120,6 +127,7 @@ function Customize() {
         )}
         <CustomizeOption
           label="3840 × 2160 (UHD)"
+          description={t('CUSTOMIZE_DESC_4K')}
           icon={<UHDIcon />}
           active={config.internalMonitorType === InternalMonitorType.UHD}
           onChange={() => config.setInternalMonitorType(InternalMonitorType.UHD)}
@@ -130,24 +138,28 @@ function Customize() {
       <CustomizeGroup>
         <CustomizeOption
           label={t('CUSTOMIZE_DISABLE_NVME')}
+          description={t('CUSTOMIZE_DESC_DISABLE_NVME')}
           icon={<DisableSSDIcon />}
           active={config.disableIncompatibleNVMe > 0}
           onChange={() => config.setDisableIncompatibleNVMe(config.disableIncompatibleNVMe ? 0 : 1)}
         />
         <CustomizeOption
           label={t('CUSTOMIZE_ENABLE_NVMEFIX')}
+          description={t('CUSTOMIZE_DESC_ENABLE_NVMEFIX')}
           icon={<SSDIcon />}
           active={config.enableNVMeFix}
           onChange={() => config.toggleNVMeFix()}
         />
         <CustomizeOption
           label={t('CUSTOMIZE_LOAD_APPLEGUC')}
+          description={t('CUSTOMIZE_DESC_ENABLE_APPLEGUC')}
           icon={<GPUIcon />}
           active={config.enableAppleGuC}
           onChange={() => config.toggleAppleGuC()}
         />
         <CustomizeOption
           label={t('CUSTOMIZE_CPU_BEST_PERFORMANCE')}
+          description={t('CUSTOMIZE_DESC_CPU_BEST_PERFORMACE')}
           icon={<CPUIcon />}
           active={config.cpuPerformanceMode}
           onChange={() => config.toggleCPUPerformaceMode()}
@@ -164,6 +176,7 @@ function Customize() {
         />
         <CustomizeOption
           label={t('CUSTOMIZE_SIMPLIFY_CONFIG')}
+          description={t('CUSTOMIZE_DESC_SIMPLIFY')}
           icon={<ScissorIcon />}
           active={config.simplifyConfig}
           onChange={() => config.toggleSimplifyConfig()}

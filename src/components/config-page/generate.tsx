@@ -124,7 +124,7 @@ function Generate() {
           title={t('GENERATE_NETWORK_METHOD')}
           value={getNetworkMethod()}
         />
-        {!config.useAirportItlwm && (
+        {config.wirelessAdapterType === WirelessAdapterType.Intel && !config.useAirportItlwm && (
           <ListItem
             value={t('GENERATE_NOT_USE_AIRPORTITLWM')}
             type="warning"

@@ -77,7 +77,7 @@ function Welcome() {
       setIsFetching(false);
     });
 
-    getSMBIOSInfo()
+    getSMBIOSInfo();
   }, [user]);
 
   const onNext = async () => {
@@ -112,7 +112,6 @@ function Welcome() {
       return;
     }
     config.setSelected(selected);
-    
 
     setNextLoading(true);
     try {

@@ -28,28 +28,37 @@ import readNVRAM from 'utils/read-nvram';
 const { TabPane } = Tabs;
 
 function ModelSelector() {
-  const { config } = useContext(RootStoreContext);
+  const { app, config } = useContext(RootStoreContext);
   const [condition, setConndition] = useState<string>('');
   const models = config.yamlInfo?.['support-models'];
   const list = toJS(models)!;
 
   useEffect(() => {
     (async() => {
-      if (!list || !list.length) {
-        return;
+      if (!config.restoreConfigFromLocalStorage()) {
+        config.determineBestChoice();
       }
-      const vendor = await readNVRAM('laptop_vendor');
-      const product = await readNVRAM('laptop_product');
-      if (vendor && product) {
-        for (let idx = 0; idx < list.length; idx++) {
-          if (list[idx].vendor === vendor && list[idx].product === product) {
-            config.setModelIndex(idx);
-            break;
+
+      if (app.platform === 'macos') {
+        const vendor = await readNVRAM('laptop-vendor');
+        const product = await readNVRAM('laptop-product');
+        const models = config.yamlInfo?.['support-models'];
+        const list = toJS(models) || [];
+        if (vendor && product) {
+          for (let idx = 0; idx < list.length; idx++) {
+            if (list[idx].vendor === vendor && list[idx].product === product) {
+              config.setModelIndex(idx);
+              break;
+            }
           }
         }
       }
     })();
-  }, [list, config]);
+  }, [app, config]);
+
+  useEffect(() => {
+
+  }, [list, app, config]);
 
   const modelsGroupByVendor = useMemo(() => {
     if (!list?.length) {

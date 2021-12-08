@@ -25,15 +25,24 @@ use resource::memory::get_memory_utilization;
 use resource::disk::get_disk_utilization;
 use macserial::{get_model_name, get_smbios, generate_sn_mlb};
 use ziputil::{list_zip_contents, read_zip_file_content, extract_to};
-use tauri::{Menu, MenuItem, CustomMenuItem};
+use tauri::{Menu, MenuItem, Submenu};
 
 fn main() {
-  let menu = Menu::new()
+  let edit_menu = Menu::new()
+    .add_native_item(MenuItem::SelectAll)
+    .add_native_item(MenuItem::Undo)
+    .add_native_item(MenuItem::Redo)
     .add_native_item(MenuItem::Copy)
     .add_native_item(MenuItem::Paste)
-    .add_native_item(MenuItem::Cut)
+    .add_native_item(MenuItem::Cut);
+
+  let window_menu = Menu::new()
     .add_native_item(MenuItem::Quit)
-    .add_item(CustomMenuItem::new("hide", "Hide"));
+    .add_native_item(MenuItem::Hide);
+
+  let menu = Menu::new()
+    .add_submenu(Submenu::new("Window", window_menu))
+    .add_submenu(Submenu::new("Edit", edit_menu));
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![

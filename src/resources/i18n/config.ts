@@ -47,6 +47,34 @@ const configPageTranslation = {
   CUSTOMIZE_WIRELESS_BROADCOM: ['博通 / 戴尔兼容无线网卡', 'Broadcom / DELL compatible'],
   CUSTOMIZE_WIRELESS_INTEL: ['Intel 无线网卡', 'Intel wireless'],
   CUSTOMIZE_ANDROID_TETHERING: ['Android USB 共享网络', 'Android USB Tethering'],
+  CUSTOMIZE_DESC_APPLE_WIRELESS: [
+    '常见 Mac 原装无线网卡型号为 BCM94360CS2, BCM943602CS, BCM943224PCIEBT2 等。若没有拆机更换过无线网卡请勿选择此项。',
+    'Example: BCM94360CS2, BCM943602CS, BCM943224PCIEBT2, etc.',
+  ],
+  CUSTOMIZE_DESC_BROADCOM_WIRELESS: [
+    '常见博通/戴尔无线网卡型号为：DW1830 (BCM943602BAED), DW1560 (BCM94352Z), DW1820A (BCM94350ZAE) 等。若没有拆机更换过无线网卡请勿选择此项。',
+    'Example: DW1830 (BCM943602BAED), DW1560 (BCM94352Z), DW1820A (BCM94350ZAE), etc.'
+  ],
+  CUSTOMIZE_DESC_INTEL_WIRELESS: [
+    '常见 Intel 无线网卡型号为：AC9462, AC9560, AX200 等，若未拆机更换过网卡请选择此项。',
+    'Example: AC9462, AC9560, AX200, etc.',
+  ],
+  CUSTOMIZE_DESC_ANDROID_HORNDIS: [
+    '是否添加 Android USB 共享网络驱动。如果你是 iPhone 用户，系统已自带 USB 热点功能，直接连接数据线即可。',
+    'Add Android USB tether kext to use USB hotspot. MacOS has native support for iPhone USB hotspot, no kext is needed.',
+  ],
+  CUSTOMIZE_DESC_1080P: ['若你的笔记本内屏分辨率为 1920x1080@60Hz 请选择此项，此选项适合大部分用户。', 'This option is preferred for normal users.'],
+  CUSTOMIZE_DESC_1080P144:  ['若你的笔记本内屏分辨率为 1920x1080@144Hz 请选择此项。', 'This option is preferred for those laptops having high refresh rate monitor.'],
+  CUSTOMIZE_DESC_1080P144_SCHEME2: [
+    '部分机械革命的 144Hz 笔记本（常见 Z2-G, Z2 Air-G）需要使用此方案，否则会卡在 IOConsoleUsers 无法进入 macOS. 如果方案 1 对你的电脑不起作用，请尝试此方案。',
+    'Some laptops with 144Hz monitor does not work on 144Hz scheme 1. If you are encountering this problem, please try scheme 2.',
+  ],
+  CUSTOMIZE_DESC_4K: [
+    '若你的笔记本内屏分辨率为 3820x2160 请选择此项。请注意，根据你更换的 4K 屏幕型号和选择的屏线不同，可能产生部分由 4K 屏幕引起的体验问题。',
+    'This option is preferred for those laptops that upgraded UHD monitors. Note that you may still encounter some experience problems caused by 4K monitor on macOS.',
+  ],
+  CUSTOMIZE_SCHEME_2: ['方案2', 'Scheme 2'],
+
   CUSTOMIZE_DISABLE_NVME: ['屏蔽不兼容的 NVMe 硬盘', 'Disable incompatible NVMe SSD'],
   CUSTOMIZE_ENABLE_NVMEFIX: ['启用 NVMe 电源优化', 'Enable NVMeFix'],
   CUSTOMIZE_LOAD_APPLEGUC: ['加载 Apple GuC 固件', 'Load AppleGuC firmware'],
@@ -54,7 +82,26 @@ const configPageTranslation = {
   CUSTOMIZE_ENABLE_BOOTCHIME: ['启用开机声音', 'Enable boot chime'],
   CUSTOMIZE_DONT_USE_AIRPORTITLWM: ['不使用原生 Intel 驱动', 'Use itlwm instead of AirportItlwm'],
   CUSTOMIZE_SIMPLIFY_CONFIG: ['最简化配置文件', 'Simplify config.plist'],
-  CUSTOMIZE_SCHEME_2: ['方案2', 'Scheme 2'],
+  CUSTOMIZE_DESC_DISABLE_NVME: [
+    '部分固态硬盘 (三星 PM981, 镁光 2200S 等) 与 macOS 无法兼容，会导致 macOS 死机、冻屏或 panic（即使不作为系统盘）, 需要使用 SSDT 屏蔽。请将其插到 1 号 M.2 盘位 (靠近风扇的盘位) 后勾选此项屏蔽。非不兼容硬盘用户请勿选择此项。',
+    'Some SSD models are not compatible with macOS (e.g. Samsung PM981, Micron 2200s, etc.) and will make macOS stuck or panic. If you have these SSD(s) installed, put it in the 1st M.2 slot (adjacent to fan) and check this option.',
+  ],
+  CUSTOMIZE_DESC_ENABLE_NVMEFIX: [
+    '如果你的 NVMe 固态硬盘在 macOS 下发热异常，请勾选此项。',
+    'Enable NVMeFix.kext if your NVMe SSD overheats on macOS.',
+  ],
+  CUSTOMIZE_DESC_ENABLE_APPLEGUC: [
+    '加载 AppleGuC 核显固件可以显著提升 Intel UHD 核芯显卡在 macOS 下的性能，但可能会使部分用户遇到睡眠无法唤醒的问题。',
+    'Load Apple GuC firmware will promote the performance of Intel UHD Graphics. Note that some users may meet the problem of sleep wake failure if enable this.',
+  ],
+  CUSTOMIZE_DESC_CPU_BEST_PERFORMACE: [
+    '显著提升 CPU 的性能，但同时会增大耗电量。',
+    'Promote CPU performace at the sacrifice battery life.',
+  ],
+  CUSTOMIZE_DESC_SIMPLIFY: [
+    '删除配置文件中不加载的 KEXT, SSDT 和 ACPI 补丁，减小产生的 EFI 文件体积。如果你有二次修改 config 的需要，推荐不要选择此项。',
+    'Remove kexts, SSDTs and ACPI patches that are not loaded from config and EFI.',
+  ],
 
   PERSONALIZE_SMBIOS: ['SMBIOS 信息', 'SMBIOS'],
   PERSONALIZE_SMBIOS_MODEL: ['SMBIOS 型号', 'SMBIOS Model'],
@@ -89,6 +136,7 @@ const configPageTranslation = {
     'SMBIOS 是设备的识别信息。一般地，我们尽量确保每台设备有全网唯一的 SMBIOS 信息，并且不和真正的 Mac 撞号。如果 macOS 提示你设备受到企业管理，则说明生成的序列号与真正的 Mac 冲突，请重新生成 SMBIOS 信息。',
     'SMBIOS information is used to identity a device. Formally, we should make this info unique all over the world, and avoid the conflict with a real Mac.',
   ],
+  PERSONALIZE_SMBIOS_SHOULD_NOT_BE_EMPTY: ['SMBIOS 信息不允许为空，请重新生成或填写有效的 SMBIOS 信息。', 'SMBIOS fields should not be empty.'],
 
   GENERATE_ENSURE_OPTIONS: ['确认你的选择', 'Verify Your Choice'],
   GENERATE_CHOSEN_MODEL: ['你选择的机型（模具）：', 'Model (Barebone): '],

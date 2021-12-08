@@ -466,6 +466,9 @@ export default async function processEFI({
       contents: configString,
     });
 
+    // 保存 config 到 localStorage
+    config.saveConfigIntoLocalStorage();
+
     // 删除下载临时文件
     await removeDir(extractPath, { recursive: true });
     await removeFile(savePath);

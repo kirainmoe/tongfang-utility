@@ -1,5 +1,6 @@
 import { CheckResult } from 'common/constants';
 import t from 'resources/i18n';
+import { WirelessAdapterType } from 'stores/config-store';
 import { execute } from 'utils/execute';
 
 export async function checkSolidStateDriveCompatibility() {
@@ -15,18 +16,28 @@ export async function checkSolidStateDriveCompatibility() {
     return {
       state: CheckResult.UNKNOWN,
       description: t('COMPAT_CHECK_SSD_UNKNOWN'),
+      payload: null,
     };
   }
 
-  let checkResult = {
+  let checkResult:  {
+    state: CheckResult,
+    description: string,
+    payload: string | null,
+  } = {
     state: CheckResult.PASSING,
     description: t('COMPAT_CHECK_SSD_PASS'),
+    payload: null,
   };
 
   parsed
     .slice(2)
     .map((item) => item.trim())
     .forEach((model) => {
+      if (checkResult.state !== CheckResult.PASSING) {
+        return;
+      }
+
       if (model.startsWith('MZVLB')) {
         checkResult = {
           state: CheckResult.FAILED,
@@ -34,6 +45,7 @@ export async function checkSolidStateDriveCompatibility() {
             '$1',
             `${t('VENDOR_SAMSUNG')} PM981(a) / PM991`
           ),
+          payload: model,
         };
       }
 
@@ -44,6 +56,7 @@ export async function checkSolidStateDriveCompatibility() {
             '$1',
             `${t('VENDOR_MICRON')} 2200s`
           ),
+          payload: model,
         };
       }
 
@@ -54,6 +67,7 @@ export async function checkSolidStateDriveCompatibility() {
             '$1',
             `${t('VENDOR_SAMSUNG')} PM961`
           ),
+          payload: model,
         };
       }
 
@@ -64,6 +78,7 @@ export async function checkSolidStateDriveCompatibility() {
             '$1',
             `${t('VENDOR_SAMSUNG')} SM961`
           ),
+          payload: model,
         };
       }
 
@@ -74,6 +89,7 @@ export async function checkSolidStateDriveCompatibility() {
             '$1',
             `${t('VENDOR_HP')} EX920`
           ),
+          payload: model,
         };
       }
 
@@ -84,6 +100,7 @@ export async function checkSolidStateDriveCompatibility() {
             '$1',
             `${t('VENDOR_HIVISION')} C2000(L/Pro)`
           ),
+          payload: model,
         };
       }
 
@@ -94,6 +111,7 @@ export async function checkSolidStateDriveCompatibility() {
             '$1',
             `${t('VENDOR_SAMSUNG')} 970 Evo`
           ),
+          payload: model,
         };
       }
     });
@@ -235,6 +253,7 @@ export async function checkWirelessNicCompatibility() {
       return {
         state: CheckResult.PASSING,
         description: t('COMPAT_CHECK_WIRELESS_INTEL'),
+        payload: WirelessAdapterType.Intel,
       };
     }
 
@@ -242,6 +261,7 @@ export async function checkWirelessNicCompatibility() {
       return {
         state: CheckResult.PASSING,
         description: t('COMPAT_CHECK_WIRELESS_APPLE'),
+        payload: WirelessAdapterType.Apple,
       };
     }
 
@@ -250,11 +270,13 @@ export async function checkWirelessNicCompatibility() {
         return {
           state: CheckResult.WARNING,
           description: t('COMPAT_CHECK_WIRELESS_1820A'),
+          payload: WirelessAdapterType.Broadcom,
         };
       }
       return {
         state: CheckResult.PASSING,
         description: t('COMPAT_CHECK_WIRELESS_DELL'),
+        payload: null,
       };
     }
   }
