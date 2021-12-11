@@ -31,3 +31,14 @@ export const SettingActionContainer = styled.div`
   text-align: center;
   width: 100%;
 `;
+
+export const ThemeItemSelectorContainer = styled.div`
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  border: 2px solid #fafafa;
+  border-radius: 50%;
+  margin-top: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+`;

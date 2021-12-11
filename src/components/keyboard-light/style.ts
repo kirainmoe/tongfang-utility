@@ -74,7 +74,7 @@ export const KeyboardLightItemContainer = styled.div`
 export const KeyboardLightSwitchContainer = styled.div`
   position: fixed;
   right:40px;
-  top: 50px;
+  top: 75px;
 `;
 
 export const SlideContainer = styled.div`

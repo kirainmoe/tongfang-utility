@@ -1,5 +1,8 @@
 import { LeftOutlined } from '@ant-design/icons';
+import { observer } from 'mobx-react';
+import { useContext } from 'react';
 import { useHistory } from 'react-router';
+import { RootStoreContext } from 'stores';
 import {
   ContentDescription,
   ContentPageContainer,
@@ -13,18 +16,19 @@ export interface ContentPageProps {
   enableOnBack?: boolean;
 }
 
-export default function ContentPage({
+function ContentPage({
   title,
   description,
   children,
   enableOnBack,
 }: ContentPageProps) {
   const history = useHistory();
+  const { ui } = useContext(RootStoreContext);
 
   return (
     <ContentPageContainer>
       {title && (
-        <ContentPageTitle>
+        <ContentPageTitle color={ui.titleFontColor}>
           {enableOnBack && (
             <LeftOutlined
               style={{ marginRight: '10px', cursor: 'pointer' }}
@@ -34,8 +38,10 @@ export default function ContentPage({
           {title}
         </ContentPageTitle>
       )}
-      <ContentDescription>{description}</ContentDescription>
+      {description && <ContentDescription>{description}</ContentDescription>}
       {children}
     </ContentPageContainer>
   );
 }
+
+export default observer(ContentPage);

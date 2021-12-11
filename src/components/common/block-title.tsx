@@ -1,7 +1,7 @@
 import { Tooltip } from "antd";
 import { observer } from "mobx-react-lite";
-import { useContext } from "react";
-import { RootStoreContext } from "stores";
+// import { useContext } from "react";
+// import { RootStoreContext } from "stores";
 import { Help } from '@icon-park/react';
 import { BlockTitleContainer } from "./style";
 
@@ -12,9 +12,9 @@ export interface BlockTitleProps {
 }
 
 function BlockTitle(props: BlockTitleProps) {
-  const { ui } = useContext(RootStoreContext);
+  // const { ui } = useContext(RootStoreContext);
   return (
-    <BlockTitleContainer className="block-title" borderColor={ui.borderColor}>
+    <BlockTitleContainer className="block-title">
       <span>{props.title}</span>
 
       {props.tips && (

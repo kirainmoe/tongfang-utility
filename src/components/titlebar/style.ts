@@ -3,16 +3,16 @@ import styled from "styled-components";
 
 export const TitleBarContainer = styled.div`
   width: 100vw;
-  height: 30px;
+  height: 50px;
 
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 5px;
   z-index: 200;
 
   user-select: none;
 
-  padding: 4px 10px;
+  padding: 15px 10px;
 `;
 
 export interface TitleBarButtonProps {

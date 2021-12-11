@@ -22,6 +22,7 @@ export const FlexStartContainer = styled.div`
 
 export const DeviceContainer = styled.div`
   width: 360px;
+  margin-top: 5px;
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -82,6 +83,7 @@ export const ResourceMonitorContainer = styled.div`
 `;
 
 export const ChartGrid = styled.div`
+  margin-top: 15px;
   display: grid;
   text-align: center;
   grid-template-columns: repeat(5, 1fr);
@@ -113,7 +115,9 @@ export const ChartItem = styled.div`
 `;
 
 // PowerModeSwitcer
-export const PowerSwitcherContainer = styled.div``;
+export const PowerSwitcherContainer = styled.div`
+  margin-top: 25px;
+`;
 
 export const PowerSwitcherGrids = styled.div`
   display: grid;

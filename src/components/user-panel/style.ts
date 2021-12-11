@@ -15,9 +15,9 @@ export const UserPanelContainer = styled.div`
   height: 120px;
   background: #fafafa;
   position: fixed;
-  bottom: 10px;
+  top: 60px;
   border-radius: 8px;
-  left: 90px;
+  right: 10px;
   z-index: 2000;
   box-shadow: 0px 1px 2px -2px rgba(0, 0, 0, .16),
     0px 3px 6px 0px rgba(0, 0, 0, .12),

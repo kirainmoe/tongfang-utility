@@ -3,28 +3,42 @@ import styled from "styled-components";
 
 export const ContentPageContainer = styled.div`
   width: calc(100vw - 80px);
-  height: 100vh;
+  height: calc(100vh - 50px);
 
-  margin-left: 80px;
-  padding: 30px 30px;
+  padding: 20px 30px;
+  background: #fff;
+
+  position: absolute;
+  top: 50px;
+  left: 80px;
 
   user-select: none;
+
+  border-radius: 10px 0 0 0;
 `;
 
-export const ContentPageTitle = styled.h1`
+export interface ContentPageTitleProps {
+  color: string;
+}
+
+export const ContentPageTitle = styled.h1<ContentPageTitleProps>`
   margin: 10px 0;
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 15px;
+  line-height: 16px;
+  font-weight: 500;
+  position: absolute;
+  top: -42.5px;
+  color: ${props => props.color};
 `;
 
 export const ContentDescription = styled.p`
-  margin: 10px 0 20px 0;
+  margin: 10px 0 15px 0;
   font-size: 14px;
   color: #888;
 `;
 
 export interface BlockTitleContainerProps {
-  borderColor: string;
+  // borderColor: string;
 }
 
 export const BlockTitleContainer = styled.div<BlockTitleContainerProps>`
@@ -48,8 +62,6 @@ export const BlockTitleContainer = styled.div<BlockTitleContainerProps>`
 `;
 
 export const MainContentContainer = styled.div`
-  margin: 20px 0;
-
   position: relative;
 `;
 

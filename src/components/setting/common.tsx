@@ -2,14 +2,38 @@ import useForm from '@arco-design/web-react/es/Form/useForm';
 import { observer } from 'mobx-react';
 import { useContext } from 'react';
 import { RootStoreContext } from 'stores';
-import { SettingActionContainer, StyledForm } from './style';
+import {
+  SettingActionContainer,
+  StyledForm,
+  ThemeItemSelectorContainer,
+} from './style';
 import BlockTitle from 'components/common/block-title';
 import t from 'resources/i18n';
-import { Button, Message, Select } from '@arco-design/web-react';
+import { Button, Message, Select, Tooltip } from '@arco-design/web-react';
 import { DownloadServer } from 'common/constants';
+import themes, { Theme } from 'common/themes';
+import UIStore from 'stores/ui-store';
 
 const { Item } = StyledForm;
 const { Option } = Select;
+
+interface ThemeItemSelectorProps {
+  theme: Theme;
+  ui: UIStore;
+}
+
+function ThemeItemSelector({ theme, ui }: ThemeItemSelectorProps) {
+  return (
+    <Tooltip content={t(theme.nameKey)}>
+      <ThemeItemSelectorContainer
+        style={{
+          background: theme.background,
+        }}
+        onClick={() => ui.setTheme(theme)}
+      />
+    </Tooltip>
+  );
+}
 
 function SettingCommon() {
   const { app, ui } = useContext(RootStoreContext);
@@ -50,6 +74,16 @@ function SettingCommon() {
           )}
         </Select>
       </Item>
+
+      <BlockTitle title={t('SETTING_APPEARANCE')} />
+      <div>
+        {Object.keys(themes).map((themeName) => (
+          <ThemeItemSelector
+            theme={(themes as Record<string, Theme>)[themeName]}
+            ui={ui}
+          />
+        ))}
+      </div>
 
       <SettingActionContainer>
         <Button htmlType="submit" type="primary">

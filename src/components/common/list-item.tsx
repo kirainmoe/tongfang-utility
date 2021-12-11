@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
-import { useContext } from "react";
-import { RootStoreContext } from "stores";
+// import { useContext } from "react";
+// import { RootStoreContext } from "stores";
 import styled from "styled-components";
 
 export interface ListItemProps {
@@ -11,7 +11,7 @@ export interface ListItemProps {
 }
 
 export interface ListItemContainerProps {
-  textColor: string;
+  // textColor: string;
 };
 
 const ListItemContainer = styled.li<ListItemContainerProps>`
@@ -20,7 +20,7 @@ const ListItemContainer = styled.li<ListItemContainerProps>`
     font-weight: bold;
   }
   .value {
-    color: ${props => props.textColor}
+    color: #166ed3;
   }
   .value.warning {
     color: #ff7d00;
@@ -34,9 +34,9 @@ const ListItemContainer = styled.li<ListItemContainerProps>`
 `;
 
 function ListItem({ title, value, type, style }: ListItemProps) {
-  const { ui } = useContext(RootStoreContext);
+  // const { ui } = useContext(RootStoreContext);
   return (
-    <ListItemContainer className={type} textColor={ui.mainColor} style={style}>
+    <ListItemContainer className={type} style={style}>
       <span className="title">{title}</span>
       <span className={`value ${type}`}>{value}</span>
     </ListItemContainer>

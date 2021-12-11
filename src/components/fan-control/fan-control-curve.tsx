@@ -123,20 +123,20 @@ function FanControlCurve() {
           }}
           option={{
             xAxis: {
-              type: 'category',
+              type: 'value',
               data: configTable.map((item) => item.temperature),
               axisLabel: {
                 formatter: (value: number) => `${value}°C`,
               },
             },
             yAxis: {
-              type: 'value',
+              type: 'category',
               name: t('FAN_CONTROL_CONFIG_TABLE_SPEED_LEVEL'),
             },
             series: [
               {
                 data: configTable.map((item) =>
-                  item.mode === FanControlMode.BOOST ? 6 : item.level
+                  [item.temperature, item.mode === FanControlMode.BOOST ? 6 : item.level],
                 ),
                 type: 'line',
                 smooth: true,

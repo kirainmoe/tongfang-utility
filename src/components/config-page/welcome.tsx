@@ -20,47 +20,6 @@ import { useHistory } from 'react-router';
 
 const { confirm } = Modal;
 
-const efiReleaseTableColumns = [
-  {
-    title: t('VERSION'),
-    dataIndex: 'version',
-    key: 'version',
-  },
-  {
-    title: t('RELEASE_ID'),
-    dataIndex: 'build',
-    key: 'build',
-  },
-  {
-    title: t('BASED_OC_VERSION'),
-    dataIndex: 'based_oc_version',
-    key: 'based_oc_version',
-  },
-  {
-    title: t('RELEASE_TYPE'),
-    dataIndex: 'release_type',
-    key: 'release_type',
-    render: (releaseType: number) => {
-      const typeString = [t('STABLE'), t('BETA'), t('ALPHA'), t('NIGHTLY'), t('LOCAL_VERSION')][
-        releaseType
-      ];
-      const typeColor = ['green', 'arcoblue', 'orange', 'volcano', 'magenta'][releaseType];
-      return <Tag color={typeColor}>{typeString}</Tag>;
-    },
-  },
-  {
-    title: t('RELEASE_NOTE'),
-    dataIndex: 'release_note',
-    key: 'release_note',
-    render: (releaseNote: string) => (
-      <LinkButton
-        onClick={() => openInfoModal(t('RELEASE_NOTE')!, releaseNote)}
-      >
-        {t('WELCOME_READ_RELEASE_NOTE')}
-      </LinkButton>
-    ),
-  },
-];
 
 function Welcome() {
   const [isFetching, setIsFetching] = useState(true);
@@ -79,6 +38,49 @@ function Welcome() {
 
     getSMBIOSInfo();
   }, [user]);
+
+  const efiReleaseTableColumns = [
+    {
+      title: t('VERSION'),
+      dataIndex: 'version',
+      key: 'version',
+    },
+    {
+      title: t('RELEASE_ID'),
+      dataIndex: 'build',
+      key: 'build',
+    },
+    {
+      title: t('BASED_OC_VERSION'),
+      dataIndex: 'based_oc_version',
+      key: 'based_oc_version',
+    },
+    {
+      title: t('RELEASE_TYPE'),
+      dataIndex: 'release_type',
+      key: 'release_type',
+      render: (releaseType: number) => {
+        const typeString = [t('STABLE'), t('BETA'), t('ALPHA'), t('NIGHTLY'), t('LOCAL_VERSION')][
+          releaseType
+        ];
+        const typeColor = ['green', 'arcoblue', 'orange', 'volcano', 'magenta'][releaseType];
+        return <Tag color={typeColor}>{typeString}</Tag>;
+      },
+    },
+    {
+      title: t('RELEASE_NOTE'),
+      dataIndex: 'release_note',
+      key: 'release_note',
+      render: (releaseNote: string) => (
+        <LinkButton
+          onClick={() => openInfoModal(t('RELEASE_NOTE')!, releaseNote)}
+        >
+          {t('WELCOME_READ_RELEASE_NOTE')}
+        </LinkButton>
+      ),
+    },
+  ];
+  
 
   const onNext = async () => {
     if (!releaseList.length) {

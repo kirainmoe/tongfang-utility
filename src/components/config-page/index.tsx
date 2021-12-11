@@ -41,6 +41,7 @@ function ConfigPage() {
           (process.env.NODE_ENV === 'development' || step >= nextStep) &&
           config.setStep(nextStep)
         }
+        style={{ marginBottom: 20 }}
       >
         {configSteps.map((step, key) => (
           <Step title={t(step)} key={key} />

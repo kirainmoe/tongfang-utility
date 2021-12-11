@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export interface NavigatorContainerProps {
-  background: string;
-  emphasizeColor: string;
   hoverColor: string;
+  fontColor: string;
+  activeColor: string;
 }
 
 export const NavigatorContainer = styled.div<NavigatorContainerProps>`
@@ -19,20 +19,16 @@ export const NavigatorContainer = styled.div<NavigatorContainerProps>`
   left: 0;
   z-index: 150;
 
-  /* background: ${props => props.background}; */
-  background: linear-gradient(to bottom, #e5eaf0, #e5e5e9, #ece3e5, #e9e3e6, #e4e9ed);
+  margin-top: 10px;
+
+  /* background: linear-gradient(to bottom, #e5eaf0, #e5e5e9, #ece3e5, #e9e3e6, #e4e9ed); */
 
   .navigator-button.active, .navigator-button.active:hover {
-    /* background: ${props => props.emphasizeColor}; */
-    background: rgba(255, 255, 255, .3);
-    /* .title-container {
-      color: #3768d2;
-    } */
+    background: ${props => props.activeColor};
   }
 
   .navigator-button:hover {
     background: ${props => props.hoverColor};
-    background: rgba(200, 200, 200, .5);
   }
 
   .navigator-button.active , .navigator-button:hover {
@@ -45,10 +41,26 @@ export const NavigatorContainer = styled.div<NavigatorContainerProps>`
     /* font-size: 12px; */
   }
 
+  .navigator-button .title-container {
+    color: ${props => props.fontColor};
+  }
+
   .navigator-button.active svg,
   .navigator-button:hover svg {
     /* margin-top: 15px; */
   }
+`;
+
+export interface NavigatorWrapperProps {
+  background: string;
+}
+
+export const NavigatorWrapper = styled.div<NavigatorWrapperProps>`
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+
+  background: ${props => props.background};
 `;
 
 export const NavigatorButtonContainer = styled(NavLink)`
@@ -98,15 +110,18 @@ export const NavigatorUserAvatar = styled.img`
   box-sizing: content-box;
 
   border: 2px solid transparent;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  
   position: absolute;
-  left: 20px;
-  bottom: 20px;
+  right: 10px;
+  top: 7.5px;
+  
   border-radius: 50%;
   cursor: pointer;
 
   transition: .1s all ease-out;
+  z-index: 300;
 
   &:hover {
     border: 2px solid #3c83dc;

@@ -8,6 +8,7 @@ import {
   NavigatorContainer,
   NavigatorLogo,
   NavigatorUserAvatar,
+  NavigatorWrapper,
 } from './style';
 
 import NavigatorButton from './navigator-button';
@@ -48,79 +49,81 @@ function Navigator() {
   }, [clickTime]);
 
   return (
-    <NavigatorContainer
-      background={ui.navigatorColor}
-      emphasizeColor={ui.navigatorActiveColor}
-      hoverColor={ui.navigatorHoverColor}
-    >
-      <div>
-        <Link to="/about" onClick={() => setClickTime(clickTime + 1)}>
-          <NavigatorLogo src={AppLogo} alt="Tongfang Utility Logo" />
-        </Link>
+    <NavigatorWrapper background={ui.background}>
+      <NavigatorContainer
+        activeColor={ui.navigatorItemActive}
+        hoverColor={ui.navigatorItemHover}
+        fontColor={ui.navigatorItemFontColor}
+      >
+        <div>
+          <Link to="/about" onClick={() => setClickTime(clickTime + 1)}>
+            <NavigatorLogo src={AppLogo} alt="Tongfang Utility Logo" />
+          </Link>
 
-        {app.platform === 'macos' && (
+          {app.platform === 'macos' && (
+            <NavigatorButton
+              title={t('NAVIGATOR_DASHBOARD')!}
+              to="/dashboard"
+              icon={<DashboardIcon />}
+            />
+          )}
+
           <NavigatorButton
-            title={t('NAVIGATOR_DASHBOARD')!}
-            to="/dashboard"
-            icon={<DashboardIcon />}
+            title={t('NAVIGATOR_CONFIGURATION')!}
+            to="/configuration"
+            icon={<AppleIcon />}
           />
-        )}
 
-        <NavigatorButton
-          title={t('NAVIGATOR_CONFIGURATION')!}
-          to="/configuration"
-          icon={<AppleIcon />}
-        />
-
-        <NavigatorButton
-          title={t('NAVIGATOR_KEYBOARD_LIGHT')!}
-          to="/keyboard-light"
-          icon={<KeyboardIcon />}
-        />
-
-        {app.platform === 'macos' && app.supportFanControl && (
           <NavigatorButton
-            title={t('NAVIGATOR_FAN_CONTROL')}
-            to="/fan-control"
-            icon={<FanIcon />}
+            title={t('NAVIGATOR_KEYBOARD_LIGHT')!}
+            to="/keyboard-light"
+            icon={<KeyboardIcon />}
           />
-        )}
 
-        {app.platform === 'macos' && (
+          {app.platform === 'macos' && app.supportFanControl && (
+            <NavigatorButton
+              title={t('NAVIGATOR_FAN_CONTROL')}
+              to="/fan-control"
+              icon={<FanIcon />}
+            />
+          )}
+
+          {app.platform === 'macos' && (
+            <NavigatorButton
+              title={t('NAVIGATOR_TOOLKIT')!}
+              to="/toolkit"
+              icon={<Toolkit />}
+            />
+          )}
+
+          {app.platform === 'windows' && (
+            <NavigatorButton
+              title={t('NAVIGATOR_COMPAT_CHECK')}
+              to="/compatibility-check"
+              icon={<CompatCheck />}
+            />
+          )}
+
           <NavigatorButton
-            title={t('NAVIGATOR_TOOLKIT')!}
-            to="/toolkit"
-            icon={<Toolkit />}
+            title={t('NAVIGATOR_PREFERENCE_SETTING')}
+            to="/preference"
+            icon={<SettingIcon />}
           />
-        )}
 
-        {app.platform === 'windows' && (
           <NavigatorButton
-            title={t('NAVIGATOR_COMPAT_CHECK')}
-            to="/compatibility-check"
-            icon={<CompatCheck />}
+            title={t('NAVIGATOR_UPDATE')}
+            to="/update"
+            icon={<UpdateIcon />}
           />
-        )}
+        </div>
+      </NavigatorContainer>
 
-        <NavigatorButton
-          title={t('NAVIGATOR_PREFERENCE_SETTING')}
-          to="/preference"
-          icon={<SettingIcon />}
-        />
-
-        <NavigatorButton
-          title={t('NAVIGATOR_UPDATE')}
-          to="/update"
-          icon={<UpdateIcon />}
-        />
-
-        <NavigatorUserAvatar
-          onClick={() => user.toggleUserPanel()}
-          src={user.avatarUrl}
-          alt="User Avatar"
-        />
-      </div>
-    </NavigatorContainer>
+      <NavigatorUserAvatar
+        onClick={() => user.toggleUserPanel()}
+        src={user.avatarUrl}
+        alt="User Avatar"
+      />
+    </NavigatorWrapper>
   );
 }
 

@@ -1,11 +1,11 @@
-import { Theme, Arco } from "common/themes";
+import themes, { Theme } from "common/themes";
 import { makeAutoObservable } from "mobx";
 import RootStore from "./root-store";
 
 export default class UIStore {
   public rootStore: RootStore;
 
-  public theme: Theme = Arco;
+  public theme: Theme = themes.Natsu;
 
   public language: string = this.getDefaultUILanguage();
 
@@ -15,27 +15,47 @@ export default class UIStore {
 
   constructor(root: RootStore) {
     this.rootStore = root;
+    this.loadTheme();
     makeAutoObservable(this);
   }
 
-  get navigatorColor() {
-    return this.theme.navigatorColor;
+  loadTheme() {
+    const themeName = localStorage.getItem('tfu-ui-theme');
+    if (!themeName || !themes.hasOwnProperty(themeName)) {
+      return;
+    }
+    this.theme = (themes as Record<string, Theme>)[themeName];
   }
 
-  get navigatorHoverColor() {
-    return this.theme.navigatorHoverColor;
-  }
-
-  get navigatorActiveColor() {
-    return this.theme.navigatorActiveColor;
+  setTheme(target: string | Theme) {
+    if (typeof target === 'string') {
+      if (themes.hasOwnProperty(target))
+        this.theme = (themes as Record<string, Theme>)[target];
+        localStorage.setItem('tfu-ui-theme', this.theme.name);
+    } else {
+      this.theme = target;
+      localStorage.setItem('tfu-ui-theme', this.theme.name);
+    }
   }
   
-  get mainColor() {
-    return this.theme.mainColor;
+  get background() {
+    return this.theme.background;
   }
 
-  get borderColor() {
-    return this.theme.borderColor;
+  get navigatorItemHover() {
+    return this.theme.navigator.itemHover;
+  }
+
+  get navigatorItemActive() {
+    return this.theme.navigator.itemActive;
+  }
+
+  get titleFontColor() {
+    return this.theme.title.fontColor;
+  }
+
+  get navigatorItemFontColor() {
+    return this.theme.navigator.fontColor;
   }
 
   public setUILanguage(language: string) {
