@@ -1,4 +1,5 @@
 import { Form, Input, Tabs, Select } from "@arco-design/web-react";
+import { ContentPageContainer } from "components/common/style";
 import styled, { createGlobalStyle } from "styled-components";
 
 export const ConfigPageStyles = createGlobalStyle`
@@ -52,6 +53,9 @@ export const ComponentVersionItem = styled.div`
     }
   }
 
+  ${ContentPageContainer}.dark-mode & {
+    background: linear-gradient(to right, #2a415b, #1a2c41);
+  }
 `;
 
 // ModelSelector
@@ -75,8 +79,11 @@ export const ModelSelectorGroup = styled.div`
 
 export const ModelSelectorTitle = styled.h3`
   font-size: 18px;
-
   font-weight: 300;
+
+  ${ContentPageContainer}.dark-mode & {
+    color: #fff;
+  }
 `;
 
 export const ModelSelectorGrids = styled.div`
@@ -98,6 +105,10 @@ export const ModelSelectorGridItem = styled.div`
   cursor: pointer;
 
   transition: .2s all ease-out;
+
+  ${ContentPageContainer}.dark-mode & {
+    background: #2a415b;
+  }
 
   &:hover {
     background: #d6d6d6;

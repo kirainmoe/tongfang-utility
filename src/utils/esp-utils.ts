@@ -82,3 +82,14 @@ export async function mountEfiSystemPartition(identifier: string, mountPoint: st
     return false;
   }
 }
+
+export async function unmountEfiSystemPartition(identifier: string) {
+  try {
+    await invoke('macos_sudo_exec', {
+      command: `diskutil unmount /dev/${identifier}`,
+    });
+    return true;
+  } catch(err) {
+    return false;
+  }
+}

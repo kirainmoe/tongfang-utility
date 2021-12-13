@@ -58,6 +58,14 @@ export default class UIStore {
     return this.theme.navigator.fontColor;
   }
 
+  get cssVariable() {
+    return this.theme.cssVariable || '';
+  }
+
+  get isDark() {
+    return this.theme.dark || false;
+  }
+
   public setUILanguage(language: string) {
     this.language = language;
     localStorage.setItem('tfu-app-language', language);

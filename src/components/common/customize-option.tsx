@@ -1,7 +1,8 @@
 import { Tooltip } from "antd";
 import cn from "classnames";
-import { darken } from "polished";
+import { darken, lighten } from "polished";
 import styled from "styled-components";
+import { ContentPageContainer } from "./style";
 
 export interface CustomizeOptionProps {
   label: string;
@@ -56,6 +57,14 @@ const CustomizeOptionContainer = styled.div`
   }
   .label-container {
     line-height: 30px;
+  }
+
+  ${ContentPageContainer}.dark-mode & {
+    background: #2a415b;
+
+    &.active {
+      background: ${lighten(0.3)('#2a415b')}
+    }
   }
 `;
 

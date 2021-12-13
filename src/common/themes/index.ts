@@ -2,6 +2,7 @@ import Haru from './haru';
 import Natsu from './natsu';
 import Aki from './aki';
 import Fuyu from './fuyu';
+import Yoru from './yoru';
 
 export interface Theme {
   name: string;
@@ -23,6 +24,7 @@ const themes = {
   Natsu,
   Aki,
   Fuyu,
+  Yoru,
 };
 
 export default themes;

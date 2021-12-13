@@ -1,4 +1,4 @@
-import { darken } from 'polished';
+import { darken, lighten } from 'polished';
 import styled from 'styled-components';
 
 export const FanCLINotFoundInfoContainer = styled.div`
@@ -35,7 +35,6 @@ export const FanAnimationContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-
   svg {
     width: 180px;
     height: 180px;
@@ -48,7 +47,7 @@ export const FanAnimationContainer = styled.div`
   }
 
   &.mode-1 svg {
-    animation: rotateAnimation .2s linear infinite;
+    animation: rotateAnimation 0.2s linear infinite;
   }
 
   @keyframes rotateAnimation {
@@ -79,7 +78,10 @@ export const FanControlModeItemContainer = styled.div<FanControlModeItemContaine
   border-radius: 10px;
   padding: 10px;
 
-  background: ${(props) => props.background};
+  background: ${(props) =>
+    `linear-gradient(to right,  ${lighten(0.05)(props.background)}, ${
+      props.background
+    }, ${darken(0.05)(props.background)})`};
   color: #fff;
 
   height: 120px;
@@ -93,7 +95,8 @@ export const FanControlModeItemContainer = styled.div<FanControlModeItemContaine
   transition: 0.2s all ease-out;
 
   &:hover {
-    background: ${(props) => darken(0.15)(props.background)};
+    /* background: ${(props) => darken(0.15)(props.background)}; */
+    transform: scale(1.05);
   }
 
   .mode-title {
@@ -155,8 +158,12 @@ export const FanManualModeContainer = styled.div`
   .fan-speed-indicator {
     text-align: center;
 
-    .low { color: #b9e7fc; }
-    .fast { color: #00b6f7; }
+    .low {
+      color: #b9e7fc;
+    }
+    .fast {
+      color: #00b6f7;
+    }
 
     .indicator-arrow {
       width: 380px;
@@ -191,7 +198,7 @@ export const FanSpeedLevelItemContainer = styled.div<{
 
   cursor: pointer;
 
-  transition: .25s ease-out;
+  transition: 0.25s ease-out;
   color: #fff;
 
   display: flex;

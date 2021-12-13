@@ -33,3 +33,4 @@ export * from './toolkit';
 export * from './donate-channel';
 export * from './toolkit-icons';
 export * from './fan';
+export * from './log';

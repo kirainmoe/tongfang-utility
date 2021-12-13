@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const AppLogoAndNameContainer = styled.div`
   text-align: center;
+  margin-bottom: 10px;
 
   .app-name {
     margin: 10px 0 0 0;

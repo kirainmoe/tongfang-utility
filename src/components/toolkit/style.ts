@@ -3,37 +3,44 @@ import styled from "styled-components";
 export const ToolkitContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 15px;
-  grid-row-gap: 25px;
+  grid-column-gap: 10px;
+  grid-row-gap: 15px;
+  overflow: hidden;
+  padding: 0 10px;
 `;
 
 export const ToolkitItemContainer = styled.div`
   text-align: center;
-  padding: 20px 15px; 
+  padding: 10px 10px; 
 
   transition: .25s all ease-out;
   cursor: pointer;
 
   .icon {
     svg {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
+      margin-bottom: 10px;
     }
 
     img.heliport-icon {
-      width: 120px;
-      height: 120px;
+      width: 110px;
+      height: 110px;
       margin-top: -15px;
+      margin-bottom: 10px;
     }
   }
 
-  .description {
-    font-size: 12px;
-
+  .title {
     svg {
       width: 30px;
       height: 30px;
     }
+  }
+
+  .description {
+    min-height: 20px;
+    font-size: 12px;
   }
 
   &:hover {

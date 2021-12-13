@@ -59,7 +59,7 @@ export async function checkTongfangDaemonIsInstalled(): Promise<FnDaemonInstallS
 
 export async function installTongfangDaemon() {
   return invoke('macos_sudo_exec', {
-    command: `bash -c \\"$(curl -fsSL ${FN_DAEMON_URL})\\"`,
+    command: `bash -c \\"curl -fsSL ${FN_DAEMON_URL} | bash\\"`,
   });
 }
 

@@ -1,6 +1,7 @@
 import { LeftOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react';
 import { useContext } from 'react';
+import cn from 'classnames';
 import { useHistory } from 'react-router';
 import { RootStoreContext } from 'stores';
 import {
@@ -8,7 +9,6 @@ import {
   ContentPageContainer,
   ContentPageTitle,
 } from './style';
-
 export interface ContentPageProps {
   title?: string | null;
   description?: string | null;
@@ -26,7 +26,7 @@ function ContentPage({
   const { ui } = useContext(RootStoreContext);
 
   return (
-    <ContentPageContainer>
+    <ContentPageContainer className={cn(ui.isDark && 'dark-mode')} dark={ui.isDark}>
       {title && (
         <ContentPageTitle color={ui.titleFontColor}>
           {enableOnBack && (

@@ -1,3 +1,4 @@
+import { ContentPageContainer } from "components/common/style";
 import styled from "styled-components";
 
 export const VersionInfo = styled.div`
@@ -17,4 +18,9 @@ export const UpdateNotes = styled.div`
   background: #f8f8f8;
   margin: 20px 0;
   padding: 20px;
+
+  ${ContentPageContainer}.dark-mode & {
+    background: #121212;
+    color: #fff;
+  }
 `;

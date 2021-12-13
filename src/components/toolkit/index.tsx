@@ -6,6 +6,7 @@ import {
   FailedIcon,
   FnKeyIcon,
   HiDPIIcon,
+  LogIcon,
   PassingIcon,
   SeedProgramIcon,
   SleepIcon,
@@ -14,7 +15,13 @@ import { ToolkitContainer, ToolkitItemContainer } from './style';
 import HeliPortIcon from 'resources/images/heliport.png';
 import { useEffect, useState } from 'react';
 import { FnDaemonInstallStatus } from 'common/constants';
-import { Message, Modal, Spin, Notification } from '@arco-design/web-react';
+import {
+  Message,
+  Modal,
+  Spin,
+  Notification,
+  Popover,
+} from '@arco-design/web-react';
 import {
   checkHiDpiEnabled,
   checkTongfangDaemonIsInstalled,
@@ -27,6 +34,7 @@ import {
   installTongfangDaemon,
 } from 'services/toolkit-services';
 import { openPage } from 'utils/open-directory';
+import { collectSysLog } from 'services/collect-syslog';
 
 export interface ToolkitItemProps {
   icon: React.ReactNode;
@@ -50,32 +58,33 @@ export function ToolkitItem({
   return (
     <ToolkitItemContainer
       className={cn((disabled || status === 'performing') && 'disabled')}
-      onClick={(disabled || status === 'performing') ? () => {} : onClick}
+      onClick={disabled || status === 'performing' ? () => {} : onClick}
     >
-      <div className="icon">{icon}</div>
-      <h3 className="title">{title}</h3>
-      <div className="description">
-        {status === 'performing' ? (
-          <>
-            <Spin />
-            <div className="performing">{t('TOOLKIT_PERFORMING')}</div>
-          </>
-        ) : status === 'success' ? (
-          <>
-            <PassingIcon />
-            <div className="performing">{t('SUCCESS')}</div>
-          </>
-        ) : status === 'failed' ? (
-          <>
-            <FailedIcon />
-            <div className="performing">{t('FAILED')}</div>
-          </>
-        ) : (
-          description
-        )}
-      </div>
+      <Popover content={description}>
+        <div className="icon">{icon}</div>
+        <h3 className="title">
+          {status === 'performing' ? (
+            <>
+              <Spin />
+              <div className="performing">{t('TOOLKIT_PERFORMING')}</div>
+            </>
+          ) : status === 'success' ? (
+            <>
+              <PassingIcon />
+              <div className="performing">{t('SUCCESS')}</div>
+            </>
+          ) : status === 'failed' ? (
+            <>
+              <FailedIcon />
+              <div className="performing">{t('FAILED')}</div>
+            </>
+          ) : (
+            title
+          )}
+        </h3>
 
-      {children}
+        {children}
+      </Popover>
     </ToolkitItemContainer>
   );
 }
@@ -101,6 +110,7 @@ export function ToolkitPage() {
   const [clearNvramStatus, setClearNvramStatus] = useState('none');
   const [fnDaemonInstallStatus, setFnDaemonInstallStatus] = useState('none');
   const [enrollStatus, setEnrollStatus] = useState('none');
+  const [collectSyslogStatus, setCollectSyslogStatus] = useState('none');
 
   useEffect(() => {
     (async () => {
@@ -198,23 +208,54 @@ export function ToolkitPage() {
     }, 0);
   };
 
-  const handleDownloadHeliPort = async() => {
+  const handleDownloadHeliPort = async () => {
     openPage(`https://github.com/OpenIntelWireless/HeliPort/releases/`);
   };
 
-  const handleEnrollDeveloperProgram = async() => {
+  const handleEnrollDeveloperProgram = async () => {
     setEnrollStatus('performing');
     setTimeout(() => {
       enrollDeveloperProgram()
         .then(() => {
           setEnrollStatus('success');
           setTimeout(() => setEnrollStatus('none'), 4000);
-        }).
-        catch(err => {
+        })
+        .catch((err) => {
           Message.error(t(err));
           setEnrollStatus('failed');
         });
     }, 0);
+  };
+
+  const handleCollectSysLog = async () => {
+    Modal.confirm({
+      title: t('TOOLKIT_COLLECT_LOG_PROMPT_TITLE'),
+      content: (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: t('TOOLKIT_COLLECT_LOG_PROMPT_DESCRIPTION'),
+          }}
+        />
+      ),
+      onOk() {
+        setCollectSyslogStatus('performing');
+        collectSysLog()
+          .then((result) => {
+            if (result) {
+              Message.success(
+                t('TOOLKIT_COLLECT_LOG_SUCCESS').replace('$1', result)
+              );
+              setCollectSyslogStatus('success');
+            } else {
+              throw new Error();
+            }
+          })
+          .catch((err) => {
+            Message.error(t('TOOLKIT_COLLECT_LOG_FAILED'));
+            setCollectSyslogStatus('failed');
+          });
+      },
+    });
   };
 
   return (
@@ -248,9 +289,7 @@ export function ToolkitPage() {
         />
 
         <ToolkitItem
-          disabled={
-            fnDaemonStatus === FnDaemonInstallStatus.NO_KEXT_DETECTED
-          }
+          disabled={fnDaemonStatus === FnDaemonInstallStatus.NO_KEXT_DETECTED}
           icon={<FnKeyIcon />}
           title={t('TOOLKIT_INSTALL_FN_DAEMON')}
           description={t('TOOLKIT_INSTALL_FN_DAEMON_DESCRIPTION')}
@@ -281,6 +320,14 @@ export function ToolkitPage() {
           description={t('TOOLKIT_ENROLL_SEED_PROGRAM_DESCRIPTION')}
           status={enrollStatus}
           onClick={handleEnrollDeveloperProgram}
+        />
+
+        <ToolkitItem
+          icon={<LogIcon />}
+          title={t('TOOLKIT_COLLECT_LOG')}
+          description={t('TOOLKIT_COLLECT_LOG_DESCRIPTION')}
+          status={collectSyslogStatus}
+          onClick={handleCollectSysLog}
         />
       </ToolkitContainer>
     </ContentPage>

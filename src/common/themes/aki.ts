@@ -10,6 +10,11 @@ const Aki = {
     itemActive: '#ff9e85',
     fontColor: '#fff',
   },
+  cssVariable: `
+    :root {
+      --primary-5: #ff9d8a;
+    }
+  `,
 };
 
 export default Aki;

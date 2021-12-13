@@ -49,5 +49,6 @@ export const BOE_HIDPI_URL = `https://gitee.com/kirainmoe/static-files/raw/maste
 export const UNIVERSAL_HIDPI_URL = `https://cdn.jsdelivr.net/gh/xzhih/one-key-hidpi/hidpi.sh`;
 export const FN_DAEMON_URL = `https://gitee.com/kirainmoe/static-files/raw/master/enhancer/install_daemon.sh`;
 export const VOLTAGESHIFT_URL = `https://gitee.com/kirainmoe/static-files/raw/master/voltageshift`;
+export const SENTRY_TRACKING_URL = `https://4a42e7a4aa624865b97fff6c3ba0c93f@sentry.kirainmoe.com/2`;
 
 export const FAN_CONFIG_PATH = '/usr/local/etc/fan.config';

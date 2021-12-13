@@ -8,6 +8,8 @@ import { Integrations } from '@sentry/tracing';
 import store, { RootStoreContext } from 'stores';
 import AppStore from 'stores/app-store';
 
+import { SENTRY_TRACKING_URL } from 'common/constants';
+
 import GlobalStyle from './style';
 import TitleBar from 'components/titlebar';
 import UserPanel from 'components/user-panel';
@@ -15,6 +17,7 @@ import Navigator from 'components/navigator';
 import CheckUpdate from 'components/common/check-update';
 
 import routes, { RouteItem, defaultRoute } from './router';
+import { useEffect } from 'react';
 
 function renderRoute(app: AppStore, routes: RouteItem[]) {
   const defaultRouteRedirect = Object.keys(defaultRoute)
@@ -43,11 +46,18 @@ function renderRoute(app: AppStore, routes: RouteItem[]) {
 }
 
 function App() {
-  const { app } = store;
+  const { app, ui } = store;
+
+  useEffect(() => {
+    if (ui.isDark)
+      document.body.setAttribute('arco-theme', 'dark');
+    else
+      document.body.removeAttribute('arco-theme');
+  }, [ui.isDark]);
 
   return (
     <RootStoreContext.Provider value={store}>
-      <GlobalStyle />
+      <GlobalStyle cssVariable={ui.cssVariable} />
       <TitleBar />
       <BrowserRouter>
         <Navigator />
@@ -63,7 +73,7 @@ const Component = observer(App);
 
 /* initialize sentry for error-tracing */
 Sentry.init({
-  dsn: 'https://4a42e7a4aa624865b97fff6c3ba0c93f@sentry.kirainmoe.com/2',
+  dsn: SENTRY_TRACKING_URL,
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
 });

@@ -1,20 +1,27 @@
 import { Button } from "antd";
 import styled from "styled-components";
 
-export const ContentPageContainer = styled.div`
+export const ContentPageContainer = styled.div<{
+  dark: boolean;
+}>`
   width: calc(100vw - 80px);
   height: calc(100vh - 50px);
 
   padding: 20px 30px;
-  background: #fff;
+  background: ${props => props.dark ? '#1a1a1a' : '#fff'};
+  color: ${props => props.dark ? '#fff' : '#000'};
 
   position: absolute;
   top: 50px;
   left: 80px;
 
   user-select: none;
-
   border-radius: 10px 0 0 0;
+
+  ${props => props.dark && `
+    h1, h2, h3 { color: #fff; }
+    .ant-progress-text { color: #fff; }
+  `}
 `;
 
 export interface ContentPageTitleProps {

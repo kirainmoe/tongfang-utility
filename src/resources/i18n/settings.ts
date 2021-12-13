@@ -23,6 +23,7 @@ const settingTranslations = {
   SETTING_THEME_NATSU: ['夏', 'Summer'],
   SETTING_THEME_AKI: ['秋', 'Aki'],
   SETTING_THEME_FUYU: ['冬', 'Winter'],
+  SETTING_THEME_YORU: ['夜', 'Night'],
   SETTING_APPLY: ['应用设置', 'Apply'],
   SETTING_APPLIED: ['设置应用成功！', 'Preference settings applied.'],
 };
