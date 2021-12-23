@@ -3,9 +3,10 @@ import styled from 'styled-components';
 export const UserPanelOuterContainer = styled.div`
   position: fixed;
   width: calc(100vw - 80px);
-  height: 100vh;
-  top: 0;
+  height: calc(100vh - 50px);
+  top: 50px;
   left: 80px;
+  border-radius: 8px 0 0 0;
   z-index: 1000;
   background: rgba(0, 0, 0, .15);
 `;

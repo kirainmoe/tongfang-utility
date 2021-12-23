@@ -1,4 +1,4 @@
-import { Tooltip } from "antd";
+import { Tooltip } from "@arco-design/web-react";
 import { observer } from "mobx-react-lite";
 // import { useContext } from "react";
 // import { RootStoreContext } from "stores";
@@ -18,7 +18,7 @@ function BlockTitle(props: BlockTitleProps) {
       <span>{props.title}</span>
 
       {props.tips && (
-        <Tooltip title={props.tips}>
+        <Tooltip content={props.tips}>
           <Help
             theme="outline"
             size="14"

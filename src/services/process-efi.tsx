@@ -9,7 +9,7 @@ import {
   removeFile,
   writeFile,
 } from '@tauri-apps/api/fs';
-import { Modal } from 'antd';
+import { Modal } from '@arco-design/web-react';
 import { ProcessStages } from 'components/config-page/processing';
 import plist from 'plist';
 import md5 from 'md5';

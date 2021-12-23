@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api";
 import { platform } from "@tauri-apps/api/os";
 import { Command } from "@tauri-apps/api/shell";
-import { message } from "antd";
+import { Message } from "@arco-design/web-react";
 import ensurePathExists from "./ensure-path-exists";
 
 export interface EfiSystemPartition {
@@ -23,7 +23,7 @@ export async function listEfiSystemPartitions() {
 
     disklistCmd.on('error', (err) => {
       console.log(err);
-      message.error(err);
+      Message.error(err);
     });
 
     disklistCmd.on('close', () => resolve(payloadData));

@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-10.15
     steps:
     - uses: actions/checkout@v2
       with:
@@ -32,7 +32,7 @@ jobs:
           ~/.cargo/registry/cache/
           ~/.cargo/git/db/
           src-tauri/target
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        key: ${{ runner.os }}-cargo
       
     - name: Install Yarn
       run: npm install -g yarn      

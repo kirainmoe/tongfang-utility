@@ -1,5 +1,4 @@
-import { Message, Progress } from '@arco-design/web-react';
-import { Button } from 'antd';
+import { Progress, Button, Modal } from '@arco-design/web-react';
 import { MainContentContainer } from 'components/common/style';
 import { observer } from 'mobx-react';
 import { useContext, useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ import processEFI from 'services/process-efi';
 import { RootStoreContext } from 'stores';
 import {
   CenterAlignContainer,
+  HavingTrouble,
   ProcessingContainer,
   StepIndicator,
 } from './style';
@@ -37,6 +37,7 @@ const stepTexts = [
 function Processing() {
   const [progress, setProgress] = useState(0);
   const [stage, setStage] = useState(ProcessStages.DOWNLOAD);
+  const [showTroubleShooting, setShowTroubleShooting] = useState(false);
 
   const { app, config, ui } = useContext(RootStoreContext);
 
@@ -48,7 +49,10 @@ function Processing() {
       setStage,
       setProgress,
     }).catch((err) => {
-      Message.error(err.toString());
+      Modal.error({
+        title: t('PROCESSING_EFI_FAILED'),
+        content: `${t('PROCESSING_PROCESS_ERROR')}: ${err}`,
+      });
     });
   }, [app, config, ui]);
 
@@ -71,10 +75,14 @@ function Processing() {
           status={stage === ProcessStages.ERROR ? 'error' : 'normal'}
           style={{ width: '100%', textAlign: 'center' }}
         />
-        
+
         <StepIndicator>
           {stepTexts[stage].replace(':progress', progress.toString())}...
         </StepIndicator>
+
+        <HavingTrouble href="#" onClick={() => setShowTroubleShooting(true)}>
+          {t('PROCESSING_DOWNLOAD_PROBLEMS')}
+        </HavingTrouble>
 
         {stage === ProcessStages.ERROR && (
           <CenterAlignContainer>
@@ -88,6 +96,19 @@ function Processing() {
           </CenterAlignContainer>
         )}
       </ProcessingContainer>
+
+      <Modal
+        title={t('PROCESSING_DOWNLOAD_PROBLEMS')}
+        visible={showTroubleShooting}
+        onOk={() => setShowTroubleShooting(false)}
+        hideCancel={true}
+      >
+        <div dangerouslySetInnerHTML={{
+          __html: t('PROCESSING_DOWNLOAD_PROBLEMS_DESCRIPTION')
+            .replace(`$server`, app.downloadMirror)
+            .replace('$downloadUrl', config.downloadSourceUrl!),
+        }} />
+      </Modal>
     </MainContentContainer>
   );
 }

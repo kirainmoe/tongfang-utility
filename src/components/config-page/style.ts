@@ -196,6 +196,11 @@ export const StepIndicator = styled.h2`
   text-align: center;
 `;
 
+export const HavingTrouble = styled.a`
+  width: 100%;
+  text-align: center;
+`;
+
 // Done
 export const DoneContainer = styled.div`
   margin: 50px 20px;

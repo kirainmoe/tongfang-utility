@@ -9,6 +9,7 @@ import { EfiSystemPartition, listEfiSystemPartitions, mountEfiSystemPartition } 
 import { fileExists } from "utils/file-exists";
 import pathJoin from "utils/path-join";
 import { ESPItem } from "./style";
+import { execute } from "utils/execute";
 
 export interface ESPModalProps {
   downloadPath: string;
@@ -70,16 +71,26 @@ function ESPModal({ downloadPath, visible, setVisible }: ESPModalProps) {
 
       try {
         const hasBackup = await fileExists(backupPath);
-        console.log(backupPath);
         if (hasBackup) {
+          console.log('[log] backup of older version was found.');
           await removeDir(backupPath, { recursive: true });
-        }  
-      } catch(err) {}
+          await fileExists(backupPath);
+        } 
+      } catch(err) {
+        // use shell command as alternative
+        await execute('sh', ['-c', `rm -r ${backupPath}`]);
+      }
 
       console.log('[log] old backup removed.');
-      const hasOC = await fileExists(ocPath);
-      if (hasOC) {
-        await renameFile(ocPath, backupPath);
+      try {
+        const hasOC = await fileExists(ocPath);
+        if (hasOC) {
+          console.log(await fileExists(backupPath));
+          console.log('[log] backup current version...');
+          await renameFile(ocPath, backupPath);
+        }
+      } catch(err) {
+        await execute('sh', ['-c', `mv ${ocPath} ${backupPath}`]);
       }
       
       console.log(pathJoin(downloadPath, 'Tongfang_EFI', 'OC'), ocPath);
@@ -91,10 +102,14 @@ function ESPModal({ downloadPath, visible, setVisible }: ESPModalProps) {
 
       console.log('[log] copy OpenCore directory OK.');
 
-
       Message.success(t('DONE_REPLACE_ESP_SUCCESS'));
       setVisible(false);
     } catch (err) {
+      Modal.error({
+        title: t('FAILED'),
+        content: t('DONE_REPLACE_ESP_FAILED'),
+      });
+
       console.error(err);
     }
   };

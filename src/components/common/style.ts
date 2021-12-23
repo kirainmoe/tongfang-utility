@@ -36,6 +36,7 @@ export const ContentPageTitle = styled.h1<ContentPageTitleProps>`
   position: absolute;
   top: -42.5px;
   color: ${props => props.color};
+  z-index: 2000;
 `;
 
 export const ContentDescription = styled.p`

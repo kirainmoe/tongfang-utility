@@ -1,4 +1,4 @@
-import { Tooltip } from "antd";
+import { Tooltip } from "@arco-design/web-react";
 import cn from "classnames";
 import { darken, lighten } from "polished";
 import styled from "styled-components";
@@ -75,7 +75,7 @@ function CustomizeOption({ label, description, icon, active, onChange }: Customi
       <div className="label-container">{label}</div>
     </CustomizeOptionContainer>
   );
-  return description ? <Tooltip title={description}>{main}</Tooltip> : main;
+  return description ? <Tooltip content={description}>{main}</Tooltip> : main;
 }
 
 export default CustomizeOption;

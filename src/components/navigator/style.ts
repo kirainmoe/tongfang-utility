@@ -20,6 +20,7 @@ export const NavigatorContainer = styled.div<NavigatorContainerProps>`
   z-index: 150;
 
   margin-top: 10px;
+  user-select: none;
 
   /* background: linear-gradient(to bottom, #e5eaf0, #e5e5e9, #ece3e5, #e9e3e6, #e4e9ed); */
 

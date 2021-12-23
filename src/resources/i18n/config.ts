@@ -172,7 +172,27 @@ const configPageTranslation = {
   PROCESSING_PROCESS_CONFIG: ['正在处理引导配置文件', 'Processing Bootloader Config'],
   PROCESSING_PARSE_IMAGE: ['正在转换引导背景格式', 'Transforming Format for Background Image'],
   PROCESSING_CLEAN_UP: ['正在清理临时文件', 'Cleaning Up'],
-  PROCESSING_PROCESS_ERROR: ['生成 EFI 文件失败，发生未知错误', 'Failed to generate config, unknown error occureed'],
+  PROCESSING_EFI_FAILED: ['生成 EFI 文件失败', 'Critical Failure'],
+  PROCESSING_PROCESS_ERROR: ['生成 EFI 文件失败，发生未知错误。请尝试检查选项、重新下载无线与蓝牙驱动、重新生成，如果问题依旧，请与开发者联系。错误细节', 'Failed to generate config, unknown error occureed. Detail'],
+  PROCESSING_DOWNLOAD_PROBLEMS: ['下载遇到问题？', 'Having trouble downloading?'],
+  PROCESSING_DOWNLOAD_PROBLEMS_DESCRIPTION: [
+    `
+      <p>尝试以下方法解决下载问题：</p>
+        <li>若下载速度过慢，或进度长时间为 0%，尝试<a>在设置中更换镜像服务器</a> (当前镜像服务器: $server)。</li>
+        <li>若更换镜像服务器后进度条仍为 0%，尝试<a>在设置中设置其它下载路径</a>。</li>
+        <li>
+        若上述方法均无法正常下载，请自行下载 EFI 压缩包后，放置到 <a>&lt;配置文件下载位置&gt;/Tongfang_EFI/EFI.zip</a>，重启 Utility 并选择本地版本生成 EFI。
+        </li>
+      <p>复制以下地址使用浏览器或下载工具下载: <br> <a>$downloadUrl</a></p>
+    `,
+    `
+      <p>Try:</p>
+      <li>If EFI is downloaded with a very low speed, select another mirror server in <a>Preference</a> (Current mirror server: $server).</li>
+      <li>If the download progress still stick at 0% after change the mirror server, specify another download path in <a>Preference</a>.</li>
+      <li>If none of them solve the problem, you may need to download the EFI archive manually (from GitHub kirainmoe/tongfang-macos repository), and put the archive in <a>&lt;config download path&gt;/Tongfang_EFI/EFI.zip</a>. After that restart Tongfang Utility and generate EFI from local.</li>
+      <p>Copy the following URL to download manually: <br> <a>$downloadUrl</a></p>
+    `
+  ],
 
   DONE_SUCCESS: ['成功', 'Success'],
   DONE_SUCCESS_TIPS: [
@@ -190,6 +210,10 @@ const configPageTranslation = {
   DONE_REPLACE_ESP_SUCCESS: [
     '复制 EFI 到分区成功，上一个版本的 EFI 文件已备份到 EFI/OC_Backup 下，如果更新 EFI 之后无法引导 macOS，请进入其它操作系统还原 EFI 。',
     'Successfully copied EFI to target ESP. Previous version of EFI has been moved to EFI/OC_Backup.',
+  ],
+  DONE_REPLACE_ESP_FAILED: [
+    '自动替换 EFI 到 ESP 失败，请重试或手动替换。',
+    'Failed to copy EFI to target ESP. Please try again or copy it manually.',
   ],
   DONE_BACK_TO_HOME: ['返回首页', 'Done'],
 };
