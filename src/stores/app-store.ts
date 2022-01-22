@@ -17,7 +17,7 @@ export default class AppStore {
 
   platform: string | null = null;
 
-  downloadMirror: DownloadServer = DownloadServer.RINCO;
+  downloadMirror: DownloadServer = DownloadServer.EINE;
 
   supportFanControl: boolean = false;
 
@@ -63,7 +63,7 @@ export default class AppStore {
   }
 
   getMirror() {
-    this.downloadMirror = (localStorage.getItem('tfu-app-mirror') || DownloadServer.RINCO) as DownloadServer;
+    this.downloadMirror = (localStorage.getItem('tfu-app-mirror') || DownloadServer.EINE) as DownloadServer;
   }
 
   getMirroredUrl(uri: string) {
