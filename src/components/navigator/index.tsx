@@ -7,11 +7,12 @@ import { RootStoreContext } from 'stores';
 import {
   NavigatorContainer,
   NavigatorLogo,
-  NavigatorUserAvatar,
   NavigatorWrapper,
 } from './style';
 
+import NavigatorUserAvatar from './avatar';
 import NavigatorButton from './navigator-button';
+import UpdateTips from './update-tips';
 
 import t from 'resources/i18n';
 
@@ -29,8 +30,9 @@ import {
 import AppLogo from 'resources/images/TongfangUtility.png';
 import { Message } from '@arco-design/web-react';
 
+
 function Navigator() {
-  const { app, ui, user } = useContext(RootStoreContext);
+  const { app, ui, update } = useContext(RootStoreContext);
   const [clickTime, setClickTime] = useState(0);
 
   useEffect(() => {
@@ -118,11 +120,9 @@ function Navigator() {
         </div>
       </NavigatorContainer>
 
-      <NavigatorUserAvatar
-        onClick={() => user.toggleUserPanel()}
-        src={user.avatarUrl}
-        alt="User Avatar"
-      />
+      <NavigatorUserAvatar />
+
+      {update.requireUpdate && <UpdateTips />}
     </NavigatorWrapper>
   );
 }

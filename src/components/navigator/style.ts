@@ -107,24 +107,70 @@ export const NavigatorLogo = styled.img`
   margin-bottom: 20px;
 `;
 
-export const NavigatorUserAvatar = styled.img`
-  box-sizing: content-box;
-
-  border: 2px solid transparent;
+export const NavigatorUserAvatarContainer = styled.div`
   width: 30px;
   height: 30px;
-  
+
+
   position: absolute;
   right: 10px;
   top: 7.5px;
-  
-  border-radius: 50%;
+
   cursor: pointer;
 
   transition: .1s all ease-out;
   z-index: 300;
+  outline: 0;
 
-  &:hover {
-    border: 2px solid #3c83dc;
+  .user-avatar-img img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
   }
+`;
+
+export const AvatarFrame = styled.img`
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 50px;
+  height: 50px;
+`;
+
+export const UpdateTipsContainer = styled.div`
+  position: absolute;
+  top: 12.5px;
+  right: 60px;
+  z-index: 2000;
+
+  cursor: pointer;
+
+  svg {
+    background: #fff;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+  }
+`;
+
+export const UpdateTipsContentContainer = styled.div`
+  width: 350px;
+  .title {
+    font-weight: bold;
+    padding: 15px 20px;
+  }
+
+  .content {
+    padding: 15px 20px;
+  }
+
+  .action {
+    padding: 15px 0px;
+  }
+`;
+
+export const SeparateLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #eee;
 `;

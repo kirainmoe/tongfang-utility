@@ -7,6 +7,8 @@ import t from 'resources/i18n';
 import { RootStoreContext } from 'stores';
 import { open } from '@tauri-apps/api/dialog';
 import {
+  AvatarFrame,
+  AvatarImage,
   UserInfoContainer,
   UserPanelContainer,
   UserPanelOuterContainer,
@@ -14,7 +16,7 @@ import {
 import { readBinaryFile } from '../../../node_modules/@tauri-apps/api/fs';
 
 export function UserPanel() {
-  const { user } = useContext(RootStoreContext);
+  const { user, ui } = useContext(RootStoreContext);
   const [nameEditable, setNameEditable] = useState(false);
   const [nicknameVal, setNicknameVal] = useState(t(user.nickname));
   const outerContainerRef = createRef<HTMLDivElement>();
@@ -40,10 +42,12 @@ export function UserPanel() {
 
   const handleChangeAvatar = async () => {
     const newAvatar = await open({
-      filters: [{
-        extensions: ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'webp',],
-        name: 'Image File',
-      }],
+      filters: [
+        {
+          extensions: ['jpg', 'jpeg', 'bmp', 'gif', 'png', 'webp'],
+          name: 'Image File',
+        },
+      ],
       multiple: false,
     });
 
@@ -55,7 +59,9 @@ export function UserPanel() {
     const buffer = new Buffer(file);
     const base64Str = buffer.toString('base64');
     const type = (newAvatar as string).split('.').slice(-1)[0];
-    user.setAvatarUrl(`data:image/${type === 'jpg' ? 'jpeg' : type};base64,${base64Str}`);
+    user.setAvatarUrl(
+      `data:image/${type === 'jpg' ? 'jpeg' : type};base64,${base64Str}`
+    );
   };
 
   return (
@@ -67,8 +73,15 @@ export function UserPanel() {
       }}
     >
       <UserPanelContainer>
-        <Avatar triggerIcon={<IconEdit />} onClick={handleChangeAvatar} size={80}>
-          <img src={user.avatarUrl} alt="Avatar" />
+        <Avatar
+          triggerIcon={<IconEdit />}
+          onClick={handleChangeAvatar}
+          size={80}
+        >
+          <AvatarImage src={user.avatarUrl} alt="Avatar" />
+          {ui.avatarFrame && (
+            <AvatarFrame src={ui.avatarFrame} alt="avatar frame" />
+          )}
         </Avatar>
         <UserInfoContainer>
           <div>

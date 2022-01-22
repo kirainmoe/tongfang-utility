@@ -5,6 +5,7 @@ const Yoru = {
   title: {
     fontColor: '#fff',
   },
+  mainColor: '#29405a',
   navigator: {
     itemHover: '#1b2b3d',
     itemActive: '#1b2b3d',

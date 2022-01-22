@@ -57,7 +57,7 @@ export async function collectSysLog() {
 
     console.log('[log] packaging files...');
     const desktopPath = await desktopDir();
-    const filename = `${desktopPath}/log_${collectTime}.tar.gz`;
+    const filename = `${desktopPath}log_${collectTime}.tar.gz`;
     await execute('sh', ['-c', `tar -zcvf ${filename} ${logPath}`]);
 
     console.log('[log] clean up...');

@@ -9,6 +9,10 @@ const navigatorTranslation = {
   NAVIGATOR_UPDATE: ['更新', 'Update'],
   NAVIGATOR_ENTER_DEVELOPER_MODE: ['调试模式已激活', 'Enter Debug Mode'],
   NAVIGATOR_EXIT_DEVELOPER_MODE: ['调试模式已关闭', 'Leave Debug Mode'],
+  NAVIGATOR_UPDATE_READY: [
+    '$appName $version 已准备就绪',
+    '$appName $version is ready',
+  ],
 };
 
 export default navigatorTranslation;

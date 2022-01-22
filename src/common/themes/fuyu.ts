@@ -5,6 +5,7 @@ export const Fuyu = {
   title: {
     fontColor: '#000',
   },
+  mainColor: '#d5d5d9',
   navigator: {
     itemHover: 'rgba(200, 200, 200, .5)',
     itemActive: 'rgba(255, 255, 255, .3)',

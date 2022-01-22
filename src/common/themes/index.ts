@@ -4,6 +4,12 @@ import Aki from './aki';
 import Fuyu from './fuyu';
 import Yoru from './yoru';
 
+import Ava from './ava';
+import Bella from './bella';
+import Carol from './carol';
+import Diana from './diana';
+import Eileen from './eileen';
+
 export interface Theme {
   name: string;
   nameKey: string;
@@ -25,6 +31,12 @@ const themes = {
   Aki,
   Fuyu,
   Yoru,
+
+  Ava,
+  Bella,
+  Carol,
+  Diana,
+  Eileen,
 };
 
 export default themes;

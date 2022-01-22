@@ -66,6 +66,14 @@ export default class UIStore {
     return this.theme.dark || false;
   }
 
+  get avatarFrame() {
+    return this.theme.avatarFrame || null;
+  }
+
+  get mainColor() {
+    return this.theme.mainColor || 'rgb(64, 128, 255)';
+  }
+
   public setUILanguage(language: string) {
     this.language = language;
     localStorage.setItem('tfu-app-language', language);

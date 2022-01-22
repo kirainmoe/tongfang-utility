@@ -1,4 +1,6 @@
 const globalTranslation = {
+  APP_NAME: ['同方助手', 'Tongfang Utility'],
+  
   NOT_DOWNLOADED: ['未下载', 'Not downloaded'],
   DOWNLOADED: ['已下载', 'Downloaded'],
   USING: ['正在使用', 'Using'],

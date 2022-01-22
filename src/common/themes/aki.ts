@@ -10,6 +10,7 @@ const Aki = {
     itemActive: '#ff9e85',
     fontColor: '#fff',
   },
+  mainColor: '#ff9e85',
   cssVariable: `
     :root {
       --primary-5: #ff9d8a;

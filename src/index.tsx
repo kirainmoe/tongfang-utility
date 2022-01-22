@@ -10,11 +10,10 @@ import AppStore from 'stores/app-store';
 
 import { SENTRY_TRACKING_URL } from 'common/constants';
 
-import GlobalStyle from './style';
+import { GlobalStyle, OverrideStyle } from './style';
 import TitleBar from 'components/titlebar';
 import UserPanel from 'components/user-panel';
 import Navigator from 'components/navigator';
-import CheckUpdate from 'components/common/check-update';
 
 import routes, { RouteItem, defaultRoute } from './router';
 import { useEffect } from 'react';
@@ -46,7 +45,7 @@ function renderRoute(app: AppStore, routes: RouteItem[]) {
 }
 
 function App() {
-  const { app, ui } = store;
+  const { app, ui, update } = store;
 
   useEffect(() => {
     if (ui.isDark)
@@ -55,13 +54,17 @@ function App() {
       document.body.removeAttribute('arco-theme');
   }, [ui.isDark]);
 
+  useEffect(() => {
+    update.checkUpdate();
+  }, [update]);
+
   return (
     <RootStoreContext.Provider value={store}>
       <GlobalStyle cssVariable={ui.cssVariable} />
+      <OverrideStyle mainColor={ui.mainColor} />
       <TitleBar />
       <BrowserRouter>
         <Navigator />
-        <CheckUpdate />
         {renderRoute(app, routes)}
       </BrowserRouter>
       <UserPanel />

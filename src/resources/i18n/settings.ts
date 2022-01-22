@@ -24,6 +24,11 @@ const settingTranslations = {
   SETTING_THEME_AKI: ['秋', 'Aki'],
   SETTING_THEME_FUYU: ['冬', 'Winter'],
   SETTING_THEME_YORU: ['夜', 'Night'],
+  SETTING_THEME_AVA: ['水母', 'Ava'],
+  SETTING_THEME_BELLA: ['北极星', 'Bella'],
+  SETTING_THEME_CAROL: ['骑士', 'Carol'],
+  SETTING_THEME_DIANA: ['糖果', 'Diana'],
+  SETTING_THEME_EILEEN: ['冰淇淋', 'Eileen'],
   SETTING_APPLY: ['应用设置', 'Apply'],
   SETTING_APPLIED: ['设置应用成功！', 'Preference settings applied.'],
 };

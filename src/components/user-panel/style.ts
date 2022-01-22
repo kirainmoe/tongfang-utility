@@ -67,3 +67,19 @@ export const UserInfoContainer = styled.div`
     color: #888;
   }
 `;
+
+export const AvatarImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+`;
+
+export const AvatarFrame = styled.img`
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 300;
+  top: -50px;
+  left: -50px;
+`;

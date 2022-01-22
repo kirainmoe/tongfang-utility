@@ -5,6 +5,7 @@ export const Haru = {
   title: {
     fontColor: '#fff',
   },
+  mainColor: '#009A29',
   navigator: {
     itemHover: 'rgba(200, 200, 200, .5)',
     itemActive: 'rgba(255, 255, 255, .3)',

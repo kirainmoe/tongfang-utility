@@ -1,6 +1,9 @@
 import { Tooltip } from "@arco-design/web-react";
 import cn from "classnames";
+import { observer } from "mobx-react-lite";
 import { darken, lighten } from "polished";
+import { useContext } from "react";
+import { RootStoreContext } from "stores";
 import styled from "styled-components";
 import { ContentPageContainer } from "./style";
 
@@ -12,7 +15,11 @@ export interface CustomizeOptionProps {
   onChange: () => void;
 }
 
-const CustomizeOptionContainer = styled.div`
+export interface CustomizeOptionContainerProps {
+  mainColor: string;
+}
+
+const CustomizeOptionContainer = styled.div<CustomizeOptionContainerProps>`
   border-radius: 30px;
   background: #e5f3fe;
   font-size: 0.75rem;
@@ -25,7 +32,7 @@ const CustomizeOptionContainer = styled.div`
     background: ${darken(0.1, '#e5f3fe')};
   }
   &.active {
-    background: #0060f7;
+    background: ${props => props.mainColor};
     color: #ffffff;
   }
   & > div {
@@ -69,8 +76,9 @@ const CustomizeOptionContainer = styled.div`
 `;
 
 function CustomizeOption({ label, description, icon, active, onChange }: CustomizeOptionProps) {
+  const { ui } = useContext(RootStoreContext);
   const main = (
-    <CustomizeOptionContainer onClick={onChange} className={cn(active && 'active')}>
+    <CustomizeOptionContainer onClick={onChange} className={cn(active && 'active')} mainColor={ui.mainColor}>
       <div className="icon-container">{icon}</div>
       <div className="label-container">{label}</div>
     </CustomizeOptionContainer>
@@ -78,4 +86,4 @@ function CustomizeOption({ label, description, icon, active, onChange }: Customi
   return description ? <Tooltip content={description}>{main}</Tooltip> : main;
 }
 
-export default CustomizeOption;
+export default observer(CustomizeOption);
