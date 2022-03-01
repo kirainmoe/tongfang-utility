@@ -1,14 +1,25 @@
 import { execute } from 'utils/execute';
 
 export async function getWmicInfo() {
-  const stdout = await execute('cmd.exe', ['/c', 'wmic', 'csproduct', 'get', 'UUID']) as string;
-  const parsed = stdout ? stdout.split('\n') : [];
-  if (!parsed.length || parsed.length < 4) {
-    return {
-      uuid: null,
-    };
+  const alternativeCommands = [
+    ['cmd.exe',  ['/c', 'wmic', 'csproduct', 'get', 'UUID']],
+    ['powershell.exe', ['Get-WmiObject -Class "Win32_ComputerSystemProduct" | Select-Object -Property UUID']],
+  ];
+
+  let result: Record<string, null | string> = {
+    uuid: null,
+  };
+
+  for (const command of alternativeCommands) {
+    const [cmd, args] = command;
+    const stdout = await execute(cmd as string, args as string[]) as string;
+    const parsed = stdout ? stdout.trim().split('\n') : [];
+    
+    if (parsed.length) {
+      result.uuid = parsed[parsed.length - 1].trim();
+      break;
+    }
   }
-  return {
-    uuid: stdout.split('\n')[2].trim(),
-  }
+
+  return result;
 }
