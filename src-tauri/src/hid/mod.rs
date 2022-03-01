@@ -24,7 +24,7 @@ static DEFAULT_RAINBOW_COLOR_SERIES: [[u8; 3]; 4] = [
 /// 连接 ITE Device 8291 (0x048D, 0xCE00)
 fn connect_ite_device() -> Result<HidDevice, String> {
   let api = hidapi::HidApi::new()
-    .or(Err(format!("Cannot create HID instance!")))?;
+    .or(Err(format!("RUST_CANNOT_INITIALIZE_HID_INSTANCE")))?;
 
 
   let (vendor_id, product_id): (u16, u16) = (0x048D, 0xCE00);
@@ -38,7 +38,7 @@ fn connect_ite_device() -> Result<HidDevice, String> {
   }
 
   if !has_product {
-    return Err(format!("Cannot find target device."));
+    return Err(format!("RUST_CANNOT_FIND_TARGET_DEVICE"));
   }
 
   let device = api.open(vendor_id, product_id)

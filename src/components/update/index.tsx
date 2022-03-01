@@ -9,6 +9,7 @@ import { RootStoreContext } from 'stores';
 import { emit, listen } from '@tauri-apps/api/event';
 import { UpdateNotes, UpdateTips, VersionInfo } from './style';
 import { relaunch } from '@tauri-apps/api/process';
+import { debounce } from 'lodash-es';
 
 let globalNotificationId = '';
 
@@ -16,19 +17,23 @@ export function UpdatePage() {
   const { update } = useContext(RootStoreContext);
   const [updating, setUpdating] = useState(false);
 
+  const handleUpdateDone = debounce(() => {
+    Modal.success({
+      title: t('UPDATE_FINISHED'),
+      content: t('UPDATE_RESTART_TO_APPLY'),
+      onOk() {
+        relaunch();
+      },
+    });
+  }, 1000);
+
   const handleUpdate = async () => {
     setUpdating(true);
     Notification.remove(globalNotificationId);
 
     await listen('tauri://update-status', function (res) {
       if ((res.payload as any).status === 'DONE') {
-        Modal.success({
-          title: t('UPDATE_FINISHED'),
-          content: t('UPDATE_RESTART_TO_APPLY'),
-          onOk() {
-            relaunch();
-          },
-        });
+        handleUpdateDone();
       }
     });
     await emit('tauri://update-install');

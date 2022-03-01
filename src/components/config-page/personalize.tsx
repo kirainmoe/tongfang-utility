@@ -113,12 +113,16 @@ function Personalize() {
       }
     } else if (app.platform === 'windows') {
       Message.warning(t('PERSONALIZE_ONLY_SMUUID_ON_WINDOWS'));
-      const wmicInfo = await getWmicInfo();
-      if (wmicInfo.uuid) {
-        form.setFieldsValue({
-          smuuid: wmicInfo.uuid,
-        });
-        return false;
+      try {
+        const wmicInfo = await getWmicInfo();
+        if (wmicInfo.uuid) {
+          form.setFieldsValue({
+            smuuid: wmicInfo.uuid,
+          });
+          return false;
+        }
+      } catch(err) {
+        
       }
     }
     return false;

@@ -119,7 +119,7 @@ fn big_endian_to_native(target: u32) -> [u8; 4] {
 #[tauri::command]
 pub fn create_icns(input: &str, output: &str) -> Result<(), String> {
   let image = read(input)
-    .or(Err(format!("read file from {} failed!", input)))?;
+    .or(Err(format!("RUST_READ_FILE_FROM_INPUT_FAILED")))?;
 
   let image1x = resize_png(image.clone(), 1920, 1080, 4)?;
   let image2x = resize_png(image.clone(), 3840, 2160, 4)?;
@@ -128,21 +128,21 @@ pub fn create_icns(input: &str, output: &str) -> Result<(), String> {
   let size2x = image2x.len() as u32;
 
   let mut buffer = File::create(output)
-    .or(Err(format!("failed to create output file {}", output)))?;
+    .or(Err(format!("RUST_CREATE_OUTPUT_FILE_FAILED")))?;
 
   let size = big_endian_to_native(size1x + size2x + 24);
-  buffer.write(b"icns").or(Err("write failed"))?;
-  buffer.write(&size).or(Err("write failed"))?;
+  buffer.write(b"icns").or(Err("RUST_CREATE_OUTPUT_FILE_FAILED"))?;
+  buffer.write(&size).or(Err("RUST_CREATE_OUTPUT_FILE_FAILED"))?;
   
   let size = big_endian_to_native(size1x + 8);
-  buffer.write(b"ic07").or(Err("write failed"))?;
-  buffer.write(&size).or(Err("write failed"))?;
-  buffer.write(&image1x).or(Err("write failed"))?;
+  buffer.write(b"ic07").or(Err("RUST_CREATE_OUTPUT_FILE_FAILED"))?;
+  buffer.write(&size).or(Err("RUST_CREATE_OUTPUT_FILE_FAILED"))?;
+  buffer.write(&image1x).or(Err("RUST_CREATE_OUTPUT_FILE_FAILED"))?;
 
   let size = big_endian_to_native(size2x + 8);
-  buffer.write(b"ic13").or(Err("write failed"))?;
-  buffer.write(&size).or(Err("write failed"))?;
-  buffer.write(&image2x).or(Err("write failed"))?;
+  buffer.write(b"ic13").or(Err("RUST_CREATE_OUTPUT_FILE_FAILED"))?;
+  buffer.write(&size).or(Err("RUST_CREATE_OUTPUT_FILE_FAILED"))?;
+  buffer.write(&image2x).or(Err("RUST_CREATE_OUTPUT_FILE_FAILED"))?;
 
   Ok(())
 }

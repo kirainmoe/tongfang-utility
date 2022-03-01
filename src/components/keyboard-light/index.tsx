@@ -2,6 +2,7 @@ import { Slider, Switch, Message } from '@arco-design/web-react';
 import { invoke } from '@tauri-apps/api/tauri';
 import cn from 'classnames';
 import ContentPage from 'components/common/content-page';
+import { debounce } from 'lodash-es';
 import { useCallback, useEffect, useState } from 'react';
 import t from 'resources/i18n';
 import {
@@ -86,7 +87,10 @@ function KeyboardLight() {
     ]
   );
   const [disabled, setDisabled] = useState(
-    tryParse(localStorage.getItem('tfu-kbl-disabled'), (v: string) => v === 'true') || false
+    tryParse(
+      localStorage.getItem('tfu-kbl-disabled'),
+      (v: string) => v === 'true'
+    ) || false
   );
   const [brightnessIndex, setBrightnessIndex] = useState(
     tryParse(localStorage.getItem('tfu-kbl-brightness-index'), Number) || 2
@@ -94,6 +98,10 @@ function KeyboardLight() {
   const [speedIndex, setSpeedIndex] = useState(
     tryParse(localStorage.getItem('tfu-kbl-speed-index'), Number) || 2
   );
+
+  const handleRustError = debounce((error: string) => {
+    Message.error(t(error));
+  }, 300);
 
   const applyModeChange = useCallback(() => {
     localStorage.setItem('tfu-kbl-current-mode', currentMode);
@@ -108,12 +116,12 @@ function KeyboardLight() {
       return;
     }
 
-    (async() => {
+    (async () => {
       switch (currentMode) {
         case 'KBL_FIXED_COLOR':
           for (let i = 0; i < fixedColorSeries.length; i++) {
             const [r, g, b] = fixedColorSeries[i];
-  
+
             await invoke('set_mono_color', {
               r,
               g,
@@ -121,53 +129,52 @@ function KeyboardLight() {
               block: i + 1,
               brightness: brightness[brightnessIndex],
               save: 1,
-            }).catch((err) => Message.error(err));
+            }).catch(handleRustError);
           }
           break;
-  
+
         case 'KBL_BREATH':
           await invoke('set_breathing', {
             brightness: brightness[brightnessIndex],
             speed: speeds[speedIndex],
             save: 1,
-          }).catch((err) => Message.error(err));
+          }).catch(handleRustError);
           break;
-  
+
         case 'KBL_WAVE':
           await invoke('set_wave', {
             brightness: brightness[brightnessIndex],
             speed: speeds[speedIndex],
             direction: 0,
             save: 1,
-          }).catch((err) => Message.error(err));
+          }).catch(handleRustError);
           break;
-  
+
         case 'KBL_RAINBOW':
           await invoke('set_rainbow', {
             brightness: brightness[brightnessIndex],
             save: 1,
-          }).catch((err) => Message.error(err));
+          }).catch(handleRustError);
           break;
-  
+
         case 'KBL_FLASH':
           await invoke('set_flashing', {
             brightness: brightness[brightnessIndex],
             speed: speeds[speedIndex],
             direction: 0,
             save: 1,
-          }).catch((err) => Message.error(err));
+          }).catch(handleRustError);
           break;
-  
+
         case 'KBL_GRADIENT':
           await invoke('set_gradient', {
             brightness: brightness[brightnessIndex],
             speed: speeds[speedIndex],
             save: 1,
-          }).catch((err) => Message.error(err));
+          }).catch(handleRustError);
           break;
-      }  
+      }
     })();
-
   }, [disabled, currentMode, fixedColorSeries, brightnessIndex, speedIndex]);
 
   const handleToggleKeyboardLight = (v: boolean) => {
@@ -184,7 +191,7 @@ function KeyboardLight() {
 
   return (
     <ContentPage title={t('KBL_TITLE')}>
-      <Keyboard 
+      <Keyboard
         currentMode={currentMode}
         colorSeries={fixedColorSeries}
         speedIndex={speedIndex}

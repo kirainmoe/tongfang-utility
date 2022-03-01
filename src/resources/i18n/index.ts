@@ -13,6 +13,7 @@ import update from './update';
 import toolkit from './toolkit';
 import status from './status';
 import userpanel from './userpanel';
+import rust from './rust';
 
 import store from 'stores';
 
@@ -32,6 +33,7 @@ const translations: { [key: string]: string[]; } = {
   ...status,
   ...userpanel,
   ...global,
+  ...rust,
 };
 
 export default function t(key: string) {
