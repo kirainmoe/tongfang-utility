@@ -17,11 +17,25 @@ export enum DownloadServer {
   AKANE = 'akane',
 }
 
-export const DOWNLOAD_MIRROR_DOMAINS = {
+export const MIRROR_SERVER_DOMAINS = {
   local: 'http://localhost:9000/',
   rinco: 'https://utility-rinco.kirainmoe.com:30000/',
   eine: 'http://106.52.9.48:1901/',
   akane: 'http://utility-akane.kirainmoe.com/',
+};
+
+export const MIRROR_NAMES = [
+  'akane',
+  'rinco',
+  'eine',
+  process.env.NODE_ENV === 'development' ? 'local' : '',
+].filter((x) => x.length > 0) as DownloadServer[];
+
+export const MIRROR_SERVER_NAME = {
+  local: '💻 Local (Dev)',
+  akane: '🍷 Akane (Cloudflare)',
+  eine: '🎩 Eine (Tencent Cloud)',
+  rinco: '🍁 Rinco (RingNet)',
 };
 
 export enum FnDaemonInstallStatus {

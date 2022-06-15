@@ -10,5 +10,7 @@ export default function getOSName(os: OSVersion) {
       return 'macOS 11 Big Sur';
     case OSVersion.Monterey:
       return 'macOS 12 Monterey';
+    case OSVersion.Ventura:
+      return 'macOS 13 Ventura';
   }
 }

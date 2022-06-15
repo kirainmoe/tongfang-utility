@@ -173,7 +173,7 @@ const configPageTranslation = {
   PROCESSING_PARSE_IMAGE: ['正在转换引导背景格式', 'Transforming Format for Background Image'],
   PROCESSING_CLEAN_UP: ['正在清理临时文件', 'Cleaning Up'],
   PROCESSING_EFI_FAILED: ['生成 EFI 文件失败', 'Critical Failure'],
-  PROCESSING_PROCESS_ERROR: ['生成 EFI 文件失败，发生未知错误。请尝试检查选项、重新下载无线与蓝牙驱动、重新生成，如果问题依旧，请与开发者联系。错误细节', 'Failed to generate config, unknown error occureed. Detail'],
+  PROCESSING_PROCESS_ERROR: ['生成 EFI 文件失败，请重新下载无线与蓝牙驱动、重新生成，如果问题依旧，请与开发者联系。错误细节', 'Failed to generate config, unknown error occureed. Detail'],
   PROCESSING_DOWNLOAD_PROBLEMS: ['下载遇到问题？', 'Having trouble downloading?'],
   PROCESSING_DOWNLOAD_PROBLEMS_DESCRIPTION: [
     `
@@ -216,6 +216,35 @@ const configPageTranslation = {
     'Failed to copy EFI to target ESP. Please try again or copy it manually.',
   ],
   DONE_BACK_TO_HOME: ['返回首页', 'Done'],
+
+  CONNECTIVITY_CHECKER_TITLE: ['获取不到 EFI 列表？', 'No release is available?'],
+  CONNECTIVITY_CHECKER: [
+    '网络连通性检查',
+    'Connectivity Checker'
+  ],
+  CONNECTIVITY_CHECKER_NO_EFI_SOLUTION: [
+    '获取不到可用的 EFI 列表？点此查看解决方案...',
+    'No release is available? Solution here...',
+  ],
+  CONNECTIVITY_CHECKER_SWITCH_MIRROR_SERVER: [
+    '切换镜像服务器',
+    'Switch Mirror Server'
+  ],
+  CONNECTIVITY_CHECKER_CURRENT_SERVER: [
+    '当前镜像服务器',
+    'Current Mirror Server'
+  ],
+  CONNECTIVITY_CHECKER_SERVER_CHECKING: ['检测中...', 'Communicating...'],
+  CONNECTIVITY_CHECKER_SERVER_ONLINE: ['在线', 'Online'],
+  CONNECTIVITY_CHECKER_SERVER_OFFLINE: ['离线', 'Offline'],
+  CONNECTIVITY_CHECKER_MIRROR_SWITCHED: [
+    '已将镜像服务器切换到 $1 .',
+    'Mirror server switched to $1.',
+  ],
+  CONNECTIVITY_CHECKER_LOCAL_GENERATE: [
+    '本地生成 EFI',
+    'Generate From Localhost',
+  ],
 };
 
 export default configPageTranslation;

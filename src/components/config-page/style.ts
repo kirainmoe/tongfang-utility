@@ -282,3 +282,51 @@ export const ESPItem = styled.div`
     color: #888;
   }
 `;
+
+export const ConnectivityCheckerTips = styled.div`
+  margin-left: 20px;
+`;
+
+export const SolutionItemTitle = styled.h1`
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+`;
+
+export const SolutionItemContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+export const SolutionItem = styled.div`
+  width: 140px;
+  height: 140px;
+
+  border-radius: 10px;
+  cursor: pointer;
+
+  padding: 10px;
+  margin-right: 10px;
+
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  transition: .25s ease-out;
+
+  &:hover {
+    background: #eee;
+  }
+
+  svg {
+    width: 50px;
+    height: 50px;
+  }
+
+  div p {
+    margin: 0;
+  }
+`;

@@ -66,7 +66,7 @@ function SettingCommon() {
         initialValue={app.downloadMirror}
       >
         <Select>
-          <Option value="rinco">🍁 Rinco (Piave Cloud)</Option>
+          <Option value="rinco">🍁 Rinco (RingNet)</Option>
           <Option value="eine">🎩 Eine (Tencent Cloud)</Option>
           <Option value="akane">🍷 Akane (Cloudflare)</Option>
           {process.env.NODE_ENV === 'development' && (

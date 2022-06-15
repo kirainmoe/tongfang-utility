@@ -14,6 +14,7 @@ import mojaveIcon from 'resources/images/Mojave.jpg';
 import catalinaIcon from 'resources/images/Catalina.jpg';
 import bigsurIcon from 'resources/images/BigSur.jpg';
 import montereyIcon from 'resources/images/Monterey.jpg';
+import venturaIcon from 'resources/images/Ventura.jpg';
 import {
   AppleBlackIcon,
   AppleIcon,
@@ -65,6 +66,12 @@ function Customize() {
           icon={<img src={montereyIcon} alt="Monterey" />}
           active={config.osVersion === OSVersion.Monterey}
           onChange={() => config.setOSVersion(OSVersion.Monterey)}
+        />
+        <CustomizeOption
+          label={getOSName(OSVersion.Ventura)}
+          icon={<img src={venturaIcon} alt="Ventura" />}
+          active={config.osVersion === OSVersion.Ventura}
+          onChange={() => config.setOSVersion(OSVersion.Ventura)}
         />
       </CustomizeGroup>
 

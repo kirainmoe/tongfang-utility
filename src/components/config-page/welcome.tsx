@@ -2,7 +2,7 @@ import BlockTitle from 'components/common/block-title';
 import IconContainer from 'components/common/icon-container';
 import { LinkButton, MainContentContainer } from 'components/common/style';
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import t from 'resources/i18n';
 import { BluetoothIcon, MotherboardIcon, WiFiIcon } from 'resources/icons';
 import { ComponentVersionContainer, ComponentVersionItem } from './style';
@@ -17,6 +17,7 @@ import appConfig from 'common/appconfig';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { getSMBIOSInfo } from 'services/get-smbios-info';
 import { useHistory } from 'react-router';
+import ConnectivityChecker from './connectivity-checker';
 
 const { confirm } = Modal;
 
@@ -30,14 +31,17 @@ function Welcome() {
 
   const { app, user, config } = useContext(RootStoreContext);
 
-  useEffect(() => {
+  const loadEfiReleases = useCallback(() => {
     getEfiReleases(user.isBetaProgram ? 2 : 0).then((payload) => {
       setReleaseList(payload);
       setIsFetching(false);
     });
-
-    getSMBIOSInfo();
   }, [user]);
+
+  useEffect(() => {
+    loadEfiReleases();
+    getSMBIOSInfo();
+  }, [loadEfiReleases]);
 
   const efiReleaseTableColumns = [
     {
@@ -218,7 +222,11 @@ function Welcome() {
         style={{ margin: '20px 10px 0 10px' }}
         pagination={false}
       />
-      <ActionButtons onNext={onNext} nextLoading={nextLoading} />
+      <ActionButtons onNext={onNext} nextLoading={nextLoading}>
+        {!isFetching && releaseList.length === 0 && (
+          <ConnectivityChecker reloadReleases={loadEfiReleases} />
+        )}
+      </ActionButtons>
     </MainContentContainer>
   );
 }

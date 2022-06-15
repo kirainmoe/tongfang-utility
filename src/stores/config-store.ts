@@ -17,6 +17,7 @@ export enum OSVersion {
   Catalina = 'catalina',
   BigSur = 'bigsur',
   Monterey = 'monterey',
+  Ventura = 'ventura',
 }
 
 export enum WirelessAdapterType {
@@ -148,6 +149,9 @@ export default class ConfigStore {
       const { version } = await getMacOSVersion();
       const [bigVersion, minorVersion] = version.split('.');
       switch (bigVersion) {
+        case '13':
+          this.osVersion = OSVersion.Ventura;
+          break;
         case '12':
           this.osVersion = OSVersion.Monterey;
           break;

@@ -1,4 +1,6 @@
+import { Result } from "@arco-design/web-react";
 import { Button } from "antd";
+import { darken } from "polished";
 import styled from "styled-components";
 
 export const ContentPageContainer = styled.div<{
@@ -83,4 +85,30 @@ LinkButton.defaultProps = {
 
 export const RightContentContainer = styled.div`
   text-align: right;
+`;
+
+export const MirrorServerItemContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+export const MirrorServerItem = styled.div`
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  background: #eee;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+
+  transition: .2s all ease-out;
+
+  &:hover {
+    background: ${darken(0.05)('#eee')};
+  }
+`;
+
+export const MirrorCheckResult = styled(Result)`
+  padding: 0;
 `;

@@ -1,6 +1,6 @@
 import { platform } from '@tauri-apps/api/os';
 import { desktopDir, homeDir } from '@tauri-apps/api/path';
-import { DownloadServer, DOWNLOAD_MIRROR_DOMAINS } from 'common/constants';
+import { DownloadServer, MIRROR_SERVER_DOMAINS } from 'common/constants';
 import { makeAutoObservable } from 'mobx';
 import ensurePathExists from 'utils/ensure-path-exists';
 import { getKextsList } from 'utils/get-kext-list';
@@ -67,7 +67,7 @@ export default class AppStore {
   }
 
   getMirroredUrl(uri: string) {
-    return `${DOWNLOAD_MIRROR_DOMAINS[this.downloadMirror]}${uri}`;
+    return `${MIRROR_SERVER_DOMAINS[this.downloadMirror]}${uri}`;
   }
 
   setDownloadPath(path: string) {
