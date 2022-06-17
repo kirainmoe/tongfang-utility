@@ -20,8 +20,8 @@ export enum DownloadServer {
 export const MIRROR_SERVER_DOMAINS = {
   local: 'http://localhost:9000/',
   rinco: 'https://utility-rinco.kirainmoe.com:30000/',
-  eine: 'http://106.52.9.48:1901/',
-  akane: 'http://utility-akane.kirainmoe.com/',
+  eine: 'https://106.52.9.48:1901/',
+  akane: 'https://utility-akane.kirainmoe.com/',
 };
 
 export const MIRROR_NAMES = [

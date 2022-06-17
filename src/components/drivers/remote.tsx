@@ -23,9 +23,14 @@ import {
   DownloadSelectContainer,
   StyledSelect,
   ActionButtonGroup,
+  DownloadProblemTags,
 } from './styles';
+import { LinkButton } from 'components/common/style';
+import { openPage } from 'utils/open-directory';
 
 const { Option } = StyledSelect;
+
+const solutionLarkDocumentUrl = 'https://kirainmoe.feishu.cn/docx/doxcncWkdZXyC6Vtj7ctolfR52e';
 
 interface ProgressUpdatePayload {
   total_size: number;
@@ -307,6 +312,13 @@ function RemoteTab() {
           }
           animation={true}
         />
+
+        <DownloadProblemTags>
+          <LinkButton onClick={() => openPage(solutionLarkDocumentUrl)}>
+            {t('DRIVER_DOWNLOAD_PROBLEM')}
+          </LinkButton>
+        </DownloadProblemTags>
+
         {isDownloading && (
           <>
             <span>

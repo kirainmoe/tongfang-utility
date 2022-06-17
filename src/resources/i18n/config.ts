@@ -31,7 +31,7 @@ const configPageTranslation = {
   WELCOME_EFI_RELEASE_LIST: ['EFI 版本列表', 'EFI Release List'],
   WELCOME_READ_RELEASE_NOTE: ['查看详情..', 'Detail..'],
   WELCOME_MANAGE_VERSION: ['管理版本..', 'Manage..'],
-  WELCOME_ON_WINDOWS: ['未知 (Windows 环境)', 'Unknown (on Windows)'],
+  WELCOME_ON_WINDOWS: ['Windows 环境', 'Windows'],
 
   SELECT_MODEL_FILTER_INPUT: ['搜索机型 / 模具 / 制造商...', 'Search model / barebone / vendor...'],
   SELECT_MODEL_BY_VENDOR: ['按制造商分类', 'Group by vendor'],

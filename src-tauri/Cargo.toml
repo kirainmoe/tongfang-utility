@@ -2,7 +2,7 @@ cargo-features = ["resolver"]
 
 [package]
 name = "tongfang-utility"
-version = "4.1.0"
+version = "4.1.1"
 description = "A Utility built for hackintoshing Tongfang Laptops"
 authors = ["Yume Akiyama"]
 license = ""

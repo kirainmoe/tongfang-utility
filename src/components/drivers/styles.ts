@@ -34,3 +34,9 @@ export const ActionButtonGroup = styled.div`
   bottom: 20px;
   right: 20px;
 `;
+
+export const DownloadProblemTags = styled.div`
+  position: fixed;
+  bottom: 25px;
+  left: 120px;
+`;

@@ -63,7 +63,7 @@ export default class AppStore {
   }
 
   getMirror() {
-    this.downloadMirror = (localStorage.getItem('tfu-app-mirror') || DownloadServer.EINE) as DownloadServer;
+    this.downloadMirror = (localStorage.getItem('tfu-app-mirror') || DownloadServer.RINCO) as DownloadServer;
   }
 
   getMirroredUrl(uri: string) {
