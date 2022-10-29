@@ -18,9 +18,9 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { getSMBIOSInfo } from 'services/get-smbios-info';
 import { useHistory } from 'react-router';
 import ConnectivityChecker from './connectivity-checker';
+import { compareStringVersion } from 'utils/compare-string-version';
 
 const { confirm } = Modal;
-
 
 function Welcome() {
   const [isFetching, setIsFetching] = useState(true);
@@ -64,10 +64,16 @@ function Welcome() {
       dataIndex: 'release_type',
       key: 'release_type',
       render: (releaseType: number) => {
-        const typeString = [t('STABLE'), t('BETA'), t('ALPHA'), t('NIGHTLY'), t('LOCAL_VERSION')][
+        const typeString = [
+          t('STABLE'),
+          t('BETA'),
+          t('ALPHA'),
+          t('NIGHTLY'),
+          t('LOCAL_VERSION'),
+        ][releaseType];
+        const typeColor = ['green', 'arcoblue', 'orange', 'volcano', 'magenta'][
           releaseType
         ];
-        const typeColor = ['green', 'arcoblue', 'orange', 'volcano', 'magenta'][releaseType];
         return <Tag color={typeColor}>{typeString}</Tag>;
       },
     },
@@ -84,7 +90,6 @@ function Welcome() {
       ),
     },
   ];
-  
 
   const onNext = async () => {
     if (!releaseList.length) {
@@ -110,41 +115,116 @@ function Welcome() {
                 .replace(':local_utility_build', appConfig.build.toString())}
             </p>
             <div>
-              <LinkButton>{t('CONFIG_GO_TO_UPGRADE')}</LinkButton>
+              <LinkButton onClick={() => history.push('/update')}>
+                {t('CONFIG_GO_TO_UPGRADE')}
+              </LinkButton>
             </div>
           </>
         ),
       });
       return;
     }
+
+    // check intel wireless driver version
+    if (selected.require_itlwm_driver_version) {
+      const targetVersion = selected.require_itlwm_driver_version;
+      const currentItlwmVersion = app.defaultDriverVersion.wifi;
+      if (currentItlwmVersion !== 'null') {
+        const isSatisfyVersionRequire = compareStringVersion(
+          currentItlwmVersion,
+          targetVersion
+        );
+        if (isSatisfyVersionRequire < 0) {
+          Notification.warning({
+            title: t('CONFIG_INTEL_VERSION_NOT_SATISFIED')!,
+            content: (
+              <>
+                <p>
+                  {t('CONFIG_INTEL_VERSION_NOT_SATISFIED_CONTENT')!
+                    .replace(':efi_version', selected.version)
+                    .replace(':driver_type', 'itlwm')
+                    .replace(':target_version', targetVersion)
+                    .replace(':current_version', currentItlwmVersion)}
+                </p>
+                <div>
+                  <LinkButton onClick={() => history.push('/drivers')}>
+                    {t('CONFIG_GO_TO_UPGRADE')}
+                  </LinkButton>
+                </div>
+              </>
+            ),
+          });
+          return;
+        }
+      }
+    }
+
+    if (selected.require_intel_bluetooth_driver_version) {
+      const targetVersion = selected.require_intel_bluetooth_driver_version;
+      const currentBtVersion = app.defaultDriverVersion.bluetooth;
+      if (currentBtVersion !== 'null') {
+        const isSatisfyVersionRequire = compareStringVersion(
+          currentBtVersion,
+          targetVersion
+        );
+        if (isSatisfyVersionRequire < 0) {
+          Notification.warning({
+            title: t('CONFIG_INTEL_VERSION_NOT_SATISFIED')!,
+            content: (
+              <>
+                <p>
+                  {t('CONFIG_INTEL_VERSION_NOT_SATISFIED_CONTENT')!
+                    .replace(':efi_version', selected.version)
+                    .replace(':driver_type', 'IntelBluetooth')
+                    .replace(':target_version', targetVersion)
+                    .replace(':current_version', currentBtVersion)}
+                </p>
+                <div>
+                  <LinkButton onClick={() => history.push('/drivers')}>
+                    {t('CONFIG_GO_TO_UPGRADE')}
+                  </LinkButton>
+                </div>
+              </>
+            ),
+          });
+          return;
+        }
+      }
+    }
+
     config.setSelected(selected);
 
     setNextLoading(true);
     try {
       await getBuildYAMLInfo(selected.build_yaml_url, selected.build_yaml_hash);
-    } catch(err) {
+    } catch (err) {
       setNextLoading(false);
       return;
     }
 
     // check build.yml hash
-    if (selected.build_yaml_hash && selected.build_yaml_hash !== config.buildYAMLhash) {
-      console.log('Hash differs:', selected.build_yaml_hash, config.buildYAMLhash);
-      const shouldContinueWithRisk = await(
-        new Promise((resolve) => {
-          confirm({
-            title: ` ${t('CONFIG_BUILD_FILE_HASH_NOT_MATCH')}`,
-            icon: <ExclamationCircleOutlined />,
-            content: t('CONFIG_BUILD_FILE_HASH_NOT_MATCH_CONTENT'),
-            onOk() {
-              resolve(true);
-            },
-            onCancel() {
-              resolve(false);
-            },
-          });
-        })
+    if (
+      selected.build_yaml_hash &&
+      selected.build_yaml_hash !== config.buildYAMLhash
+    ) {
+      console.log(
+        'Hash differs:',
+        selected.build_yaml_hash,
+        config.buildYAMLhash
       );
+      const shouldContinueWithRisk = await new Promise((resolve) => {
+        confirm({
+          title: ` ${t('CONFIG_BUILD_FILE_HASH_NOT_MATCH')}`,
+          icon: <ExclamationCircleOutlined />,
+          content: t('CONFIG_BUILD_FILE_HASH_NOT_MATCH_CONTENT'),
+          onOk() {
+            resolve(true);
+          },
+          onCancel() {
+            resolve(false);
+          },
+        });
+      });
       if (!shouldContinueWithRisk) {
         setNextLoading(false);
         return;

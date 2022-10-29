@@ -34,17 +34,17 @@ jobs:
           src-tauri/target
         key: ${{ runner.os }}-cargo
       
-    - name: Install Yarn
-      run: npm install -g yarn      
+    - name: Install pnpm
+      run: npm install -g pnpm
       
     - name: Install Dependencies
-      run: yarn
+      run: pnpm
       
     - name: Build Front-End
-      run: yarn build:vite
+      run: pnpm build
       
     - name: Build 
-      run: yarn tauri build
+      run: pnpm tauri build
       
     - name: Read Utility Version
       run: echo "VERSION=$(cat src-tauri/tauri.conf.json | grep version | head -n1 | awk '{ print substr($2, 2, length($2)-2) }')" >> $GITHUB_ENV

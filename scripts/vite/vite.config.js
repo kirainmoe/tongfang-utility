@@ -1,12 +1,14 @@
 // vite.config.js
 
+import react from '@vitejs/plugin-react';
+
 import path from "path";
 
-import packageJson from "../../package.json";
-
 import { defineConfig } from "vite";
-import reactRefresh from '@vitejs/plugin-react-refresh';
+
 import { injectHtml } from "vite-plugin-html";
+
+import packageJson from "../../package.json";
 
 export default defineConfig({
   base: packageJson.base || './',
@@ -28,17 +30,13 @@ export default defineConfig({
     },
   },
 
-  esbuild: {
-    jsxInject: "import React from 'react';"
-  },
-
   server: {
     host: (packageJson.devServer && packageJson.devServer.host) || '127.0.0.1',
     port: (packageJson.devServer && packageJson.devServer.port) || 3000,
   },
 
   plugins: [
-    reactRefresh(),
+    react(),
     injectHtml({
       data: {
         // to be compatible with Webpack HtmlWebpackPlugin

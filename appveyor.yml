@@ -18,7 +18,7 @@ cache:
   - node_modules
 install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) $env:PLATFORM
-  - npm install -g yarn
+  - npm install -g pnpm
   - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
   - rustup-init -yv --default-toolchain nightly --default-host x86_64-pc-windows-msvc
   - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
@@ -27,10 +27,10 @@ install:
   - rustup toolchain install nightly
 before_build:
   - cd c:\project
-  - yarn install
+  - pnpm install
 build_script:
-  - yarn build:vite
-  - yarn tauri build
+  - pnpm build
+  - pnpm tauri build
 after_build:
   - ps: cd c:\project
   - ps: $version =  (cat .\src-tauri\tauri.conf.json | ConvertFrom-Json).package.version

@@ -27,7 +27,8 @@
 
 ```sh
 # macOS
-brew install nodejs yarn
+brew install nodejs
+npm install -g pnpm
 
 export RUSTUP_DIST_SERVER="https://rsproxy.cn"
 export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
@@ -44,21 +45,21 @@ git clone git@github.com:kirainmoe/tongfang-utility.git
 
 ```sh
 cd tongfang-utility
-yarn install
+pnpm install
 ```
 
 ### 启动开发环境
 
 ```sh
-yarn dev:vite
-yarn tauri dev
+pnpm dev
+pnpm tauri dev
 ```
 
 ### 构建 DMG / 可执行文件
 
 ```sh
-yarn build:vite
-yarn tauri build
+pnpm build
+pnpm tauri build
 ```
 
 ## 许可

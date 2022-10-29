@@ -23,4 +23,6 @@ export interface EFIReleasePayload {
   build_yaml_url: string;
   build_yaml_hash: null | string;
   download_sources: DownloadSource[];
+  require_itlwm_driver_version?: string;
+  require_intel_bluetooth_driver_version?: string;
 }

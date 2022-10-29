@@ -189,7 +189,7 @@ export const ProcessingContainer = styled.div`
 `;
 
 export const StepIndicator = styled.h2`
-  widht: 100%;
+  width: 100%;
   font-weight: 500;
   font-size: 20px;
   margin: 40px 0;
