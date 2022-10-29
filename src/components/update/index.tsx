@@ -10,8 +10,12 @@ import { emit, listen } from '@tauri-apps/api/event';
 import { UpdateNotes, UpdateTips, VersionInfo } from './style';
 import { relaunch } from '@tauri-apps/api/process';
 import { debounce } from 'lodash-es';
+import { LinkButton } from 'components/common/style';
+import { openPage } from 'utils/open-directory';
 
 let globalNotificationId = '';
+const downloadFullLarkDocumentUrl =
+  'https://kirainmoe.feishu.cn/wiki/wikcnEwIS4GV8YPgob4AIDdvyPf';
 
 export function UpdatePage() {
   const { update } = useContext(RootStoreContext);
@@ -100,6 +104,11 @@ export function UpdatePage() {
       <UpdateTips>
         {update.requireUpdate && t('UPDATE_NEW_VERSION_TIPS')}
         {update.isRequestError && t('UPDATE_NETWORK_ERROR')}
+        {(update.requireUpdate || update.isRequestError) && (
+          <LinkButton onClick={() => openPage(downloadFullLarkDocumentUrl)}>
+            {t('UPDATE_DOWNLOAD_COMPLETE_PACKAGE')}
+          </LinkButton>
+        )}
       </UpdateTips>
 
       <UpdateNotes>{update.releaseNote}</UpdateNotes>

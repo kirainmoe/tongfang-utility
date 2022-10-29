@@ -20,6 +20,10 @@ export const updateTranslations = {
   UPDATE_RESTART_TO_APPLY: ['重新启动同方助手以应用更改。', 'Restart Tongfang Utility to apply change.'],
   UPDATE_CANNOT_FETCH_LATEST_VERSION: ['无法获取远程版本', 'Failedd to fetch latest version'],
   UPDATE_NETWORK_ERROR: ['当前网络环境不好或无更新服务器在线，无法获取更新信息。', 'A network error is occurred. Cannot fetch update metadata.'],
+  UPDATE_DOWNLOAD_COMPLETE_PACKAGE: [
+    '无法完成更新？试试下载完整安装包',
+    'Failed to update? Try download a full version.',
+  ],
 };
 
 export default updateTranslations;
