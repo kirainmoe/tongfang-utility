@@ -3104,7 +3104,7 @@ dependencies = [
 
 [[package]]
 name = "tongfang-utility"
-version = "4.1.1"
+version = "4.1.3"
 dependencies = [
  "cc",
  "color-thief",
